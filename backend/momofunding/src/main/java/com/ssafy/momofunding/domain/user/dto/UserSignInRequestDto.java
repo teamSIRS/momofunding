@@ -3,14 +3,14 @@ package com.ssafy.momofunding.domain.user.dto;
 import com.ssafy.momofunding.domain.user.domain.User;
 import lombok.Builder;
 
-public class UserSignUpDto {
+public class UserSignInRequestDto {
     private String email;
     private String password;
 
 
 
     @Builder
-    public UserSignUpDto(String email, String password){
+    public UserSignInRequestDto(String email, String password){
         this.email = email;
         this.password = password;
     }

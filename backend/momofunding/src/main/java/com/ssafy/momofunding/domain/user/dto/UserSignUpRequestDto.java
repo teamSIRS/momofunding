@@ -3,7 +3,7 @@ package com.ssafy.momofunding.domain.user.dto;
 import com.ssafy.momofunding.domain.user.domain.User;
 import lombok.Builder;
 
-public class UserSaveRequestDto {
+public class UserSignUpRequestDto {
 
     private String userId;
     private String email;
@@ -13,7 +13,7 @@ public class UserSaveRequestDto {
 
 
     @Builder
-    public UserSaveRequestDto (String userId, String email, String password, String nickname, String role){
+    public UserSignUpRequestDto(String userId, String email, String password, String nickname, String role){
         this.userId = userId;
         this.email = email;
         this.password = password;
