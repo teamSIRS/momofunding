@@ -40,4 +40,8 @@ public class User {
         this.nickname = nickname;
         this.role = role;
     }
+
+    public User() {
+
+    }
 }
