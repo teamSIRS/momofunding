@@ -11,6 +11,7 @@ public class UserSaveRequestDto {
     private String nickname;
     private String role;
 
+
     @Builder
     public UserSaveRequestDto (String userId, String email, String password, String nickname, String role){
         this.userId = userId;
