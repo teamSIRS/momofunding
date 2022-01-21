@@ -1,7 +1,7 @@
 package com.ssafy.momofunding.domain.live.controller;
 
+import com.ssafy.momofunding.domain.live.dto.LiveResponseDto;
 import com.ssafy.momofunding.domain.live.service.LiveService;
-import com.ssafy.momofunding.domain.user.dto.LiveResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class LiveApiController {
 
         if (sortValue.equals("date")){
             Sort sort = Sort.by(Sort.Direction.DESC, "id");
-            liveService.findBySort(sort);
+            lives = liveService.findBySort(sort);
         }
 
         if (lives.isEmpty())

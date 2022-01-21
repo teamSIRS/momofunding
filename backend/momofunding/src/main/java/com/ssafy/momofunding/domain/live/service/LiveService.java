@@ -19,7 +19,7 @@ public class LiveService {
 
     @Transactional
     public List<LiveResponseDto> findBySort(Sort sort){
-        List<Live> lives = liveRepository.findAll(sort);
+        List<Live> lives = liveRepository.findAllByLiveStateId(1L, sort);
 
         return lives.stream()
                 .map(LiveResponseDto::new)

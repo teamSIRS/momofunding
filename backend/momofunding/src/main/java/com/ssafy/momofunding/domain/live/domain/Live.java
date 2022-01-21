@@ -1,5 +1,8 @@
 package com.ssafy.momofunding.domain.live.domain;
 
+import com.ssafy.momofunding.domain.liveState.domain.LiveState;
+import com.ssafy.momofunding.domain.projectstate.domain.ProjectState;
+import com.ssafy.momofunding.domain.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +36,10 @@ public class Live {
 
     @Column(nullable = false)
     private Timestamp registerDate;
+
+    @ManyToOne(targetEntity = LiveState.class)
+    @JoinColumn(name = "live_state_id", nullable = false)
+    LiveState liveState;
 
     @Builder
     public Live(String title, String content, Integer maxViewer, Integer totalPlayTime, Timestamp startTime, Timestamp registerDate){
