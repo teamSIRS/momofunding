@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 public class ProjectSaveRequestDto {
 
     private Long id;
+    private Long projectStateId;
     private Long projectCategoryId;
     private Long userId;
     private String projectName;
@@ -29,12 +30,12 @@ public class ProjectSaveRequestDto {
     private Timestamp registerDate;
 
     @Builder
-    public ProjectSaveRequestDto(Long id, Long projectCategoryId, Long userId, String projectName,
-                                 int fundingGoal, String mainImageUrl, String subImageUrl,
-                                 String summary, String projectContent, int currentAmount,
-                                 Timestamp startDate, Timestamp expirationDate, int likeCount,
-                                 Timestamp registerDate){
+    public ProjectSaveRequestDto(Long id, Long projectStateId, Long projectCategoryId, Long userId,
+                                 String projectName, int fundingGoal, String mainImageUrl, String subImageUrl,
+                                 String summary, String projectContent, int currentAmount, Timestamp startDate,
+                                 Timestamp expirationDate, int likeCount, Timestamp registerDate){
         this.id = id;
+        this.projectStateId = projectStateId;
         this.projectCategoryId = projectCategoryId;
         this.userId = userId;
         this.projectName = projectName;
@@ -65,25 +66,5 @@ public class ProjectSaveRequestDto {
                 .likeCount(likeCount)
                 .registerDate(registerDate)
                 .build();
-    }
-
-
-    @Override
-    public String toString() {
-        return "ProjectSaveRequestDto{" +
-                "projectCategoryId=" + projectCategoryId +
-                ", userId=" + userId +
-                ", projectName='" + projectName + '\'' +
-                ", fundingGoal=" + fundingGoal +
-                ", mainImageUrl='" + mainImageUrl + '\'' +
-                ", subImageUrl='" + subImageUrl + '\'' +
-                ", summary='" + summary + '\'' +
-                ", projectContent='" + projectContent + '\'' +
-                ", currentAmount=" + currentAmount +
-                ", startDate=" + startDate +
-                ", expirationDate=" + expirationDate +
-                ", likeCount=" + likeCount +
-                ", registerDate=" + registerDate +
-                '}';
     }
 }
