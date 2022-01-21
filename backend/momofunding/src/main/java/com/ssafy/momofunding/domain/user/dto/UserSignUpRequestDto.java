@@ -3,17 +3,16 @@ package com.ssafy.momofunding.domain.user.dto;
 import com.ssafy.momofunding.domain.user.domain.User;
 import lombok.Builder;
 
-public class UserSaveRequestDto {
+public class UserSignUpRequestDto {
 
-    private String userId;
     private String email;
     private String password;
     private String nickname;
     private String role;
 
+
     @Builder
-    public UserSaveRequestDto (String userId, String email, String password, String nickname, String role){
-        this.userId = userId;
+    public UserSignUpRequestDto(String email, String password, String nickname, String role){
         this.email = email;
         this.password = password;
         this.nickname = nickname;
@@ -22,7 +21,6 @@ public class UserSaveRequestDto {
 
     public User toEntity(){
         return User.builder()
-                .userId(userId)
                 .email(email)
                 .password(password)
                 .nickname(nickname)
