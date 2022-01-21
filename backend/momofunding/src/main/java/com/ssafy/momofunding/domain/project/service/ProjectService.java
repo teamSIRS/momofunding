@@ -26,7 +26,8 @@ public class ProjectService {
 
         project.mapUser(userRepository.findById(userId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 유저 번호 입니다:: userId-"+userId)));
-        
+
+        project.mapProjectState(projectStateRepository.getById(1L));
         return projectRepository.save(project).getId();
     }
 
