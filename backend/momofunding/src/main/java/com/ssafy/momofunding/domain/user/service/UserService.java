@@ -17,8 +17,8 @@ public class UserService {
 
     //SignUp
     @Transactional
-    public long saveUserInfo(UserSignUpRequestDto userSignUpRequestDto){
-        return userRepository.save(userSignUpRequestDto.toEntity()).getId();
+    public void saveUserInfo(UserSignUpRequestDto userSignUpRequestDto){
+        userRepository.save(userSignUpRequestDto.toEntity()).getId();
     }
 
 //    @Transactional

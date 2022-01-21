@@ -26,8 +26,8 @@ public class UserApiController {
     //Sign-up
     @PostMapping("/users")
     public ResponseEntity signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto){
-        long userId = userService.saveUserInfo(userSignUpRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(userId);
+        userService.saveUserInfo(userSignUpRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
 //
