@@ -26,9 +26,7 @@ public class UserService {
     //nickname check
     @Transactional
     public UserNicknameExistResponseDto findExistNickname(String nickname){
-        UserNicknameExistResponseDto userNicknameExistResponseDto = new
-                UserNicknameExistResponseDto(userRepository.existsByNickname(nickname));
-
+        UserNicknameExistResponseDto userNicknameExistResponseDto = new UserNicknameExistResponseDto(userRepository.existsByNickname(nickname));
         return userNicknameExistResponseDto;
     }
 
