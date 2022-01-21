@@ -1,11 +1,9 @@
 package com.ssafy.momofunding.domain.project.service;
 
 import com.ssafy.momofunding.domain.project.domain.Project;
-import com.ssafy.momofunding.domain.project.dto.ProjectCreateRequestDto;
-import com.ssafy.momofunding.domain.project.dto.ProjectCreateResponseDto;
-import com.ssafy.momofunding.domain.project.repository.ProjectCategoryRepository;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
-import com.ssafy.momofunding.domain.project.repository.ProjectStateRepository;
+import com.ssafy.momofunding.domain.projectcategory.repository.ProjectCategoryRepository;
+import com.ssafy.momofunding.domain.projectstate.repository.ProjectStateRepository;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,11 +20,10 @@ public class ProjectService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ProjectCreateResponseDto projectCreate(ProjectCreateRequestDto projectCreateRequestDto){
+    public Long projectCreate(Long userId){
         Project project = new Project();
-        project.mapUser(userRepository.getById(projectCreateRequestDto.getUserId()));
+        project.mapUser(userRepository.getById(userId));
 
-        ProjectCreateResponseDto projectCreateResponseDto = new ProjectCreateResponseDto(projectRepository.save(project).getId());
-        return projectCreateResponseDto;
+        return projectRepository.save(project).getId();
     }
 }

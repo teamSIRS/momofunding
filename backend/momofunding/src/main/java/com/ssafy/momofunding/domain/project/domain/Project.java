@@ -1,5 +1,7 @@
 package com.ssafy.momofunding.domain.project.domain;
 
+import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
+import com.ssafy.momofunding.domain.projectstate.domain.ProjectState;
 import com.ssafy.momofunding.domain.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.ssafy.momofunding.domain.project.domain;
+package com.ssafy.momofunding.domain.projectstate.domain;
 
 import lombok.Builder;
 import lombok.Getter;
