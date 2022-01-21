@@ -1,6 +1,7 @@
 package com.ssafy.momofunding.domain.user.service;
 
 import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.domain.user.dto.UserEmailExistResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserNicknameExistResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
@@ -26,8 +27,13 @@ public class UserService {
     //nickname check
     @Transactional
     public UserNicknameExistResponseDto findExistNickname(String nickname){
-        UserNicknameExistResponseDto userNicknameExistResponseDto = new UserNicknameExistResponseDto(userRepository.existsByNickname(nickname));
-        return userNicknameExistResponseDto;
+        return new UserNicknameExistResponseDto(userRepository.existsByNickname(nickname));
+    }
+
+    //email check
+    @Transactional
+    public UserEmailExistResponseDto findExistEmail(String email){
+        return new UserEmailExistResponseDto(userRepository.existsByEmail(email));
     }
 
 
