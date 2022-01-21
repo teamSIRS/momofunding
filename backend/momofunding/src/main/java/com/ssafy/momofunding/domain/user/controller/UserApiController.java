@@ -30,6 +30,15 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.OK).body(userId);
     }
 
+    //닉네임 중복 조회
+    @GetMapping("/users/nickname/{nickname}")
+    public ResponseEntity checkNicknameDuplicate(@PathVariable("nickname") String nickname){
+        boolean checkResult = userService.findExistNickname(nickname);
+        String msg = (checkResult ? "이미 존재하는 닉네임" : "사용가능한 닉네임");
+        return ResponseEntity.status(HttpStatus.OK).body(msg);
+    }
+
+
 //
 //    //회원 정보 조회
 //    @GetMapping("/users/{userId}")
@@ -51,8 +60,7 @@ public class UserApiController {
 ////
 ////
 ////
-////    //닉네임 중복 조회
-////    @GetMapping("/users/nickname/{nickname}")
+
 ////
 ////
 ////    //이메일 존재 여부 조회(아이디 찾기)
