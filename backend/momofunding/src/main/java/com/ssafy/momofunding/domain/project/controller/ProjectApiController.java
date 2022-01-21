@@ -18,9 +18,7 @@ public class ProjectApiController {
     private final ProjectService projectService;
 
     @PostMapping("")
-    public ResponseEntity saveProject(@RequestBody ProjectSaveRequestDto projectSaveRequestDto) {
-        System.out.println(projectSaveRequestDto.toString());
-        System.out.println("사용자 아이디: "+projectSaveRequestDto.getUserId()+" "+ projectSaveRequestDto.getProjectCategoryId());
+    public ResponseEntity<?> saveProject(@RequestBody ProjectSaveRequestDto projectSaveRequestDto) {
         projectService.projectSave(projectSaveRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
