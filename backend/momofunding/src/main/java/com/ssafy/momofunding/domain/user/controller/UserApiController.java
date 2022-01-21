@@ -26,8 +26,8 @@ public class UserApiController {
     //Sign-up
     @PostMapping("/users")
     public ResponseEntity signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto){
-        long userId = userService.saveUserInfo(userSignUpRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(userId);
+        userService.saveUserInfo(userSignUpRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     //닉네임 중복 조회
@@ -37,6 +37,7 @@ public class UserApiController {
         String msg = (checkResult ? "이미 존재하는 닉네임" : "사용가능한 닉네임");
         return ResponseEntity.status(HttpStatus.OK).body(msg);
     }
+
 
 
 //
