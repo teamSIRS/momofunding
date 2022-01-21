@@ -1,15 +1,12 @@
 package com.ssafy.momofunding.domain.user.controller;
 
-import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.domain.user.dto.UserNicknameExistResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.service.UserService;
-import com.sun.org.apache.regexp.internal.RE;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -29,6 +26,14 @@ public class UserApiController {
         userService.saveUserInfo(userSignUpRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+
+    //닉네임 중복 조회
+    @GetMapping("/users/nickname/{nickname}")
+    public ResponseEntity<UserNicknameExistResponseDto> checkNicknameDuplicate(@PathVariable("nickname") String nickname){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.findExistNickname(nickname));
+    }
+
+
 
 //
 //    //회원 정보 조회
@@ -51,8 +56,7 @@ public class UserApiController {
 ////
 ////
 ////
-////    //닉네임 중복 조회
-////    @GetMapping("/users/nickname/{nickname}")
+
 ////
 ////
 ////    //이메일 존재 여부 조회(아이디 찾기)

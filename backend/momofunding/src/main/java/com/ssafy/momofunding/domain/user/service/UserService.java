@@ -1,9 +1,11 @@
 package com.ssafy.momofunding.domain.user.service;
 
 import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.domain.user.dto.UserNicknameExistResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.el.parser.BooleanNode;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,6 +22,15 @@ public class UserService {
     public void saveUserInfo(UserSignUpRequestDto userSignUpRequestDto){
         userRepository.save(userSignUpRequestDto.toEntity()).getId();
     }
+
+    //nickname check
+    @Transactional
+    public UserNicknameExistResponseDto findExistNickname(String nickname){
+        UserNicknameExistResponseDto userNicknameExistResponseDto = new UserNicknameExistResponseDto(userRepository.existsByNickname(nickname));
+        return userNicknameExistResponseDto;
+    }
+
+
 
 //    @Transactional
 //    public Optional<User> getUserInfo(String userId){
