@@ -20,9 +20,11 @@ public class ProjectService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long projectCreate(Long userId){
+    public Long projectCreate(Long userId) {
         Project project = new Project();
-        project.mapUser(userRepository.getById(userId));
+
+        project.mapUser(userRepository.findById(userId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 유저 번호 입니다:: userId-"+userId)));
 
         return projectRepository.save(project).getId();
     }

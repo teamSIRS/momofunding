@@ -20,12 +20,17 @@ public class ProjectApiController {
     private final ProjectService projectService;
 
     @PostMapping("")
-    public ResponseEntity<Map<String, Long>> createProject(@RequestBody Map<String, Long> parameter) {
-        Map<String, Long> responseMap = new HashMap<>();
-        responseMap.put("projectId", projectService.projectCreate(parameter.get("userId")));
+    public ResponseEntity<Map<String, Object>> createProject(@RequestBody Map<String, Long> parameter) {
+        Map<String, Object> responseMap = new HashMap<>();
+
+        try {
+            responseMap.put("projectId", projectService.projectCreate(parameter.get("userId")));
+        } catch (IllegalArgumentException e) {
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
-
 
 
 }

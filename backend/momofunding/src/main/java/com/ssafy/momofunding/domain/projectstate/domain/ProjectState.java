@@ -16,7 +16,7 @@ public class ProjectState {
     @Id
     Long id;
 
-    @Column(nullable = false, length=30)
+    @Column(nullable = false, length=10)
     String content;
 
 
