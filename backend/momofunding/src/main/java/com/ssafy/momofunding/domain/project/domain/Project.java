@@ -79,9 +79,10 @@ public class Project {
     }
 
     @Builder
-    public Project(String projectName, int fundingGoal, String mainImageUrl, String subImageUrl,
+    public Project(Long id, String projectName, int fundingGoal, String mainImageUrl, String subImageUrl,
                    String summary, String projectContent, int currentAmount, Timestamp startDate,
                    Timestamp expirationDate, int likeCount, Timestamp registerDate){
+        this.id = id;
         this.projectName = projectName;
         this.fundingGoal = fundingGoal;
         this.mainImageUrl = mainImageUrl;

@@ -4,7 +4,6 @@ import com.ssafy.momofunding.domain.user.dto.UserEmailExistResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserNicknameExistResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.service.UserService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

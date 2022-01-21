@@ -1,13 +1,11 @@
 package com.ssafy.momofunding.domain.project.controller;
 
+import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
 import com.ssafy.momofunding.domain.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +28,12 @@ public class ProjectApiController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+    }
+
+    @PutMapping("/{projectId}")
+    public ResponseEntity<?> saveProject(@PathVariable Long projectId, @RequestBody ProjectSaveRequestDto projectSaveRequestDto){
+        projectService.projectSave(projectId, projectSaveRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
 

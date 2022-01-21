@@ -1,6 +1,7 @@
 package com.ssafy.momofunding.domain.project.service;
 
 import com.ssafy.momofunding.domain.project.domain.Project;
+import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.projectcategory.repository.ProjectCategoryRepository;
 import com.ssafy.momofunding.domain.projectstate.repository.ProjectStateRepository;
@@ -27,5 +28,18 @@ public class ProjectService {
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 유저 번호 입니다:: userId-"+userId)));
 
         return projectRepository.save(project).getId();
+    }
+
+    @Transactional
+    public void projectSave(Long projectId, ProjectSaveRequestDto projectSaveRequestDto) {
+        projectSaveRequestDto.setId(projectId);
+        Project project = projectSaveRequestDto.toEntity();
+
+        project.mapUser(userRepository.getById(projectSaveRequestDto.getUserId()));
+        if(projectSaveRequestDto.getProjectCategoryId()!=null){
+            project.mapProjectCategory(projectCategoryRepository.getById(projectSaveRequestDto.getProjectCategoryId()));
+        }
+
+        projectRepository.save(project);
     }
 }
