@@ -1,15 +1,12 @@
 package com.ssafy.momofunding.domain.user.controller;
 
-import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.domain.user.dto.UserNicknameExistResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.service.UserService;
-import com.sun.org.apache.regexp.internal.RE;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -32,10 +29,8 @@ public class UserApiController {
 
     //닉네임 중복 조회
     @GetMapping("/users/nickname/{nickname}")
-    public ResponseEntity checkNicknameDuplicate(@PathVariable("nickname") String nickname){
-        boolean checkResult = userService.findExistNickname(nickname);
-        String msg = (checkResult ? "이미 존재하는 닉네임" : "사용가능한 닉네임");
-        return ResponseEntity.status(HttpStatus.OK).body(msg);
+    public ResponseEntity<UserNicknameExistResponseDto> checkNicknameDuplicate(@PathVariable("nickname") String nickname){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.findExistNickname(nickname));
     }
 
 

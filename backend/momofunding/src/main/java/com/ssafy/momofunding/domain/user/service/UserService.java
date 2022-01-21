@@ -1,6 +1,7 @@
 package com.ssafy.momofunding.domain.user.service;
 
 import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.domain.user.dto.UserNicknameExistResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,11 @@ public class UserService {
 
     //nickname check
     @Transactional
-    public boolean findExistNickname(String nickname){
-        return userRepository.existsByNickname(nickname);
+    public UserNicknameExistResponseDto findExistNickname(String nickname){
+        UserNicknameExistResponseDto userNicknameExistResponseDto = new
+                UserNicknameExistResponseDto(userRepository.existsByNickname(nickname));
+
+        return userNicknameExistResponseDto;
     }
 
 
