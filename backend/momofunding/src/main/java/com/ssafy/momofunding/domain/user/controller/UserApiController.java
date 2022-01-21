@@ -1,8 +1,10 @@
 package com.ssafy.momofunding.domain.user.controller;
 
-import com.ssafy.momofunding.domain.user.dto.LiveResponseDto;
+import com.ssafy.momofunding.domain.user.dto.UserEmailExistResponseDto;
+import com.ssafy.momofunding.domain.user.dto.UserNicknameExistResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.service.UserService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +31,16 @@ public class UserApiController {
 
     //닉네임 중복 조회
     @GetMapping("/users/nickname/{nickname}")
-    public ResponseEntity<LiveResponseDto> checkNicknameDuplicate(@PathVariable("nickname") String nickname){
+    public ResponseEntity<UserNicknameExistResponseDto> checkNicknameDuplicate(@PathVariable("nickname") String nickname){
         return ResponseEntity.status(HttpStatus.OK).body(userService.findExistNickname(nickname));
     }
 
+
+    //이메일 중복 조회
+    @GetMapping("/users/email/{email}")
+    public ResponseEntity<UserEmailExistResponseDto> checkEmailDuplicate(@PathVariable("email") String email){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.findExistEmail(email));
+    }
 
 
 //

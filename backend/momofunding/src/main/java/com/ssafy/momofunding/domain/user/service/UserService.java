@@ -1,12 +1,16 @@
 package com.ssafy.momofunding.domain.user.service;
 
-import com.ssafy.momofunding.domain.user.dto.LiveResponseDto;
+import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.domain.user.dto.UserEmailExistResponseDto;
+import com.ssafy.momofunding.domain.user.dto.UserNicknameExistResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.el.parser.BooleanNode;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -22,9 +26,14 @@ public class UserService {
 
     //nickname check
     @Transactional
-    public LiveResponseDto findExistNickname(String nickname){
-        LiveResponseDto userNicknameExistResponseDto = new LiveResponseDto(userRepository.existsByNickname(nickname));
-        return userNicknameExistResponseDto;
+    public UserNicknameExistResponseDto findExistNickname(String nickname){
+        return new UserNicknameExistResponseDto(userRepository.existsByNickname(nickname));
+    }
+
+    //email check
+    @Transactional
+    public UserEmailExistResponseDto findExistEmail(String email){
+        return new UserEmailExistResponseDto(userRepository.existsByEmail(email));
     }
 
 
