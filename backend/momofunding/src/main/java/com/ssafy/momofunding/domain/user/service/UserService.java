@@ -14,8 +14,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public int save(UserSaveRequestDto userSaveRequestDto){
-        return userRepository.save(userSaveRequestDto.toEntity()).getId();
+    public void save(UserSaveRequestDto userSaveRequestDto) {
+        userRepository.save(userSaveRequestDto.toEntity());
     }
 
 }

@@ -13,8 +13,8 @@ public class UserApiController {
     private final UserService userService;
 
     @PostMapping("/api/user")
-    public int save(@RequestBody UserSaveRequestDto userSaveRequestDto){
-        return userService.save(userSaveRequestDto);
+    public void save(@RequestBody UserSaveRequestDto userSaveRequestDto){
+        userService.save(userSaveRequestDto);
     }
 
 

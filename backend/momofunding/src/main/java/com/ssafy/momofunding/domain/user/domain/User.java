@@ -2,17 +2,20 @@ package com.ssafy.momofunding.domain.user.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class User {
 
     @Id
-    int id;
+    Long id;
 
     @Column(nullable = false, length=30)
     String userId;
