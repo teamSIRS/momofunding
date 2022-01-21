@@ -1,9 +1,8 @@
 package com.ssafy.momofunding.domain.project.service;
 
 import com.ssafy.momofunding.domain.project.domain.Project;
-import com.ssafy.momofunding.domain.project.domain.ProjectCategory;
-import com.ssafy.momofunding.domain.project.domain.ProjectState;
-import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectCreateRequestDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectCreateResponseDto;
 import com.ssafy.momofunding.domain.project.repository.ProjectCategoryRepository;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.project.repository.ProjectStateRepository;
@@ -23,13 +22,11 @@ public class ProjectService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void projectSave(ProjectSaveRequestDto projectSaveRequestDto){
-        Project project = projectSaveRequestDto.toEntity();
+    public ProjectCreateResponseDto projectCreate(ProjectCreateRequestDto projectCreateRequestDto){
+        Project project = new Project();
+        project.mapUser(userRepository.getById(projectCreateRequestDto.getUserId()));
 
-        project.mapProjectState((ProjectState)projectStateRepository.getById(Long.valueOf(1)));
-        if(projectSaveRequestDto.getProjectCategoryId() != null) project.mapProjectCategory((ProjectCategory) projectCategoryRepository.getById(projectSaveRequestDto.getProjectCategoryId()));
-        project.mapUser(userRepository.getById(Long.valueOf(projectSaveRequestDto.getUserId())));
-
-        projectRepository.save(project);
+        ProjectCreateResponseDto projectCreateResponseDto = new ProjectCreateResponseDto(projectRepository.save(project).getId());
+        return projectCreateResponseDto;
     }
 }

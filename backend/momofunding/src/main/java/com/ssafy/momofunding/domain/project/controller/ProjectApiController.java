@@ -1,6 +1,7 @@
 package com.ssafy.momofunding.domain.project.controller;
 
-import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectCreateRequestDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectCreateResponseDto;
 import com.ssafy.momofunding.domain.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,10 @@ public class ProjectApiController {
     private final ProjectService projectService;
 
     @PostMapping("")
-    public ResponseEntity<?> saveProject(@RequestBody ProjectSaveRequestDto projectSaveRequestDto) {
-        projectService.projectSave(projectSaveRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+    public ResponseEntity<ProjectCreateResponseDto> saveProject(@RequestBody ProjectCreateRequestDto projectCreateRequestDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(projectService.projectCreate(projectCreateRequestDto));
     }
+
+
 
 }
