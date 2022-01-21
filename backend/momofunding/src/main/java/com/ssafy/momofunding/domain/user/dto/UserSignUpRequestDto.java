@@ -5,7 +5,6 @@ import lombok.Builder;
 
 public class UserSignUpRequestDto {
 
-    private String userId;
     private String email;
     private String password;
     private String nickname;
@@ -13,8 +12,7 @@ public class UserSignUpRequestDto {
 
 
     @Builder
-    public UserSignUpRequestDto(String userId, String email, String password, String nickname, String role){
-        this.userId = userId;
+    public UserSignUpRequestDto(String email, String password, String nickname, String role){
         this.email = email;
         this.password = password;
         this.nickname = nickname;
@@ -23,7 +21,6 @@ public class UserSignUpRequestDto {
 
     public User toEntity(){
         return User.builder()
-                .userId(userId)
                 .email(email)
                 .password(password)
                 .nickname(nickname)
