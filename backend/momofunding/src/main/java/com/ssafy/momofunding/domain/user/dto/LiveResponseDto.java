@@ -2,15 +2,14 @@ package com.ssafy.momofunding.domain.user.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-public class UserNicknameExistResponseDto {
+public class LiveResponseDto {
 
     private Boolean isExist;
 
     @Builder
-    public UserNicknameExistResponseDto(Boolean isNicknameExist){
+    public LiveResponseDto(Boolean isNicknameExist){
         this.isExist = isNicknameExist;
     }
 }
