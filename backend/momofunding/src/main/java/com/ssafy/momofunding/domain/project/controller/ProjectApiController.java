@@ -31,8 +31,15 @@ public class ProjectApiController {
     }
 
     @PutMapping("/{projectId}")
-    public ResponseEntity<?> saveProject(@PathVariable Long projectId, @RequestBody ProjectSaveRequestDto projectSaveRequestDto){
-        projectService.projectSave(projectId, projectSaveRequestDto);
+    public ResponseEntity<Map<String, Object>> saveProject(@PathVariable Long projectId, @RequestBody ProjectSaveRequestDto projectSaveRequestDto){
+        Map<String, Object> responseMap = new HashMap<>();
+
+        try {
+            projectService.projectSave(projectId, projectSaveRequestDto);
+        } catch (IllegalArgumentException e) {
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
