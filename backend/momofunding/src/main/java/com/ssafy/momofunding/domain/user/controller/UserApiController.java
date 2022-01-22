@@ -42,7 +42,6 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
-
     //이메일 중복 조회
     @GetMapping("/users/email/{email}")
     public ResponseEntity<Map<String, Object>> checkEmailDuplicate(@PathVariable("email") String email) {
