@@ -1,5 +1,7 @@
 package com.ssafy.momofunding.domain.user.controller;
 
+import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.domain.user.dto.UserInfoResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -55,13 +57,25 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
-
-//
-//    //회원 정보 조회
-//    @GetMapping("/users/{userId}")
-//    public ResponseEntity getUser(@PathVariable("userId") String userId){
-//        Optional<User> user = userService.getUserInfo(userId);
-//    }
+//    회원 정보 조회
+    @GetMapping("/users/{userId}")
+    public ResponseEntity getUserInfo(@PathVariable("userId") Long userId){
+        try {
+            User user = userService.getUserInfo(userId).orElse(null);
+            if(user == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("There is no user info matching that ID");
+            else {
+                UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto(
+                        user.getEmail(),
+                        user.getPassword(),
+                        user.getNickname(),
+                        user.getRegisterDate()
+                );
+                return ResponseEntity.status(HttpStatus.OK).body(userInfoResponseDto);
+            }
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 ////
 ////    //회원 정보 수정
 //    @PutMapping("/users/{userId}")
