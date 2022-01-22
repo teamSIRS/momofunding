@@ -35,10 +35,13 @@ public class ProjectService {
         projectSaveRequestDto.setId(projectId);
         Project project = projectSaveRequestDto.toEntity();
 
-        project.mapUser(userRepository.getById(projectSaveRequestDto.getUserId()));
-        project.mapProjectState(projectStateRepository.getById(projectSaveRequestDto.getProjectStateId()));
+        project.mapUser(userRepository.findById(projectSaveRequestDto.getUserId())
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 유저 번호 입니다:: userId-"+projectSaveRequestDto.getUserId())));
+        project.mapProjectState(projectStateRepository.findById(projectSaveRequestDto.getProjectStateId())
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 상태 번호 입니다:: projectStateId-"+projectSaveRequestDto.getProjectStateId())));
         if(projectSaveRequestDto.getProjectCategoryId()!=null){
-            project.mapProjectCategory(projectCategoryRepository.getById(projectSaveRequestDto.getProjectCategoryId()));
+            project.mapProjectCategory(projectCategoryRepository.findById(projectSaveRequestDto.getProjectCategoryId())
+                    .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호 입니다:: projectCategoryId-"+projectSaveRequestDto.getProjectCategoryId())));
         }
 
         projectRepository.save(project);
