@@ -50,7 +50,7 @@ public class UserService {
 //    }
 
     @Transactional
-    public Boolean updateUserInfo(UserInfoUpdateRequestDto userInfoUpdateRequestDto, Long userId){
+    public Boolean updateUserInfo(UserInfoUpdateRequestDto userInfoUpdateRequestDto, Long userId) {
         Optional<User> user = userRepository.findById(userId);
 
         return false;
