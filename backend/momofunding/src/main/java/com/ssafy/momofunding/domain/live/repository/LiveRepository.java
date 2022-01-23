@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface LiveRepository extends JpaRepository<Live, Long> {
     List<Live> findAllByLiveStateId(Long LiveStatId, Sort sort);
+    List<Live> findAllByProjectCategoryId(Long projectCategoryId, Sort sort);
 }

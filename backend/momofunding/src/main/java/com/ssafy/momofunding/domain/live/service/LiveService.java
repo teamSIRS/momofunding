@@ -25,4 +25,12 @@ public class LiveService {
                 .map(LiveResponseDto::new)
                 .collect(Collectors.toList());
     }
+    @Transactional
+    public List<LiveResponseDto> findAllByProjectCategoryId(Long projectCategoryId, Sort sort){
+        List<Live> lives = liveRepository.findAllByProjectCategoryId(projectCategoryId, sort);
+
+        return lives.stream()
+                .map(LiveResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }

@@ -26,8 +26,22 @@ public class LiveApiController {
             lives = liveService.findBySort(sort);
         }
 
+
         if (lives.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+
+        return ResponseEntity.status(HttpStatus.OK).body(lives);
+    }
+
+    @GetMapping("/lives/projectCategory/{projectCategoryId}")
+    public ResponseEntity findAllByCategoryId(@PathVariable Long projectCategoryId){
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        List<LiveResponseDto> lives = liveService.findAllByProjectCategoryId(projectCategoryId, sort);
+
+        if (lives.isEmpty())
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+                
 
         return ResponseEntity.status(HttpStatus.OK).body(lives);
     }
