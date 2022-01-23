@@ -1,15 +1,11 @@
-## Issue Category :pencil:
+## Issue topic
 
-<!-- [ ] 사이에 X 넣으면 체크 됨 -->
+- [ ] 예시) 메뉴 컴포넌트 개발
 
-- [ ] FrontEnd
-- [ ] BackEnd
-- [ ] Git
-- [ ] Etc
+## Todos
 
-## 🏗️ TODOS
-
-- [ ] 해결해야 할 일 등록
+- [ ] logo 깨지는 현상 해결
+- [ ] account menu state 적용
 
 ## Description :question:
 
