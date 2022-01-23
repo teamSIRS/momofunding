@@ -1,5 +1,6 @@
 package com.ssafy.momofunding.domain.project.dto;
 
+import com.ssafy.momofunding.domain.creator.dto.CreatorGetDetailResponseDto;
 import com.ssafy.momofunding.domain.project.domain.Project;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,11 +29,14 @@ public class ProjectGetDetailResponseDto {
     private int likeCount;
     private Timestamp registerDate;
 
+    private CreatorGetDetailResponseDto creator;
+
     @Builder
     public ProjectGetDetailResponseDto(Long id, Long projectStateId, Long projectCategoryId, Long userId,
                                        String projectName, int fundingGoal, String mainImageUrl, String subImageUrl,
                                        String summary, String projectContent, int currentAmount, Timestamp startDate,
-                                       Timestamp expirationDate, int likeCount, Timestamp registerDate){
+                                       Timestamp expirationDate, int likeCount, Timestamp registerDate,
+                                       CreatorGetDetailResponseDto creator){
         this.id = id;
         this.projectStateId = projectStateId;
         this.projectCategoryId = projectCategoryId;
@@ -48,9 +52,11 @@ public class ProjectGetDetailResponseDto {
         this.expirationDate = expirationDate;
         this.likeCount = likeCount;
         this.registerDate = registerDate;
+
+        this.creator = creator;
     }
 
-    public ProjectGetDetailResponseDto(Project projectEntity){
+    public ProjectGetDetailResponseDto(Project projectEntity, CreatorGetDetailResponseDto creator){
         this.id = projectEntity.getId();
         this.projectStateId = projectEntity.getProjectState().getId();
         this.projectCategoryId = projectEntity.getProjectCategory().getId();
@@ -66,5 +72,7 @@ public class ProjectGetDetailResponseDto {
         this.expirationDate = projectEntity.getExpirationDate();
         this.likeCount = projectEntity.getLikeCount();
         this.registerDate = projectEntity.getRegisterDate();
+
+        this.creator = creator;
     }
 }
