@@ -1,5 +1,6 @@
 package com.ssafy.momofunding.domain.project.controller;
 
+import com.ssafy.momofunding.domain.project.dto.ProjectGetDetailResponseDto;
 import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
 import com.ssafy.momofunding.domain.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,17 @@ public class ProjectApiController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
+    @GetMapping("/{projectId}")
+    public ResponseEntity<Object> getProjectDetail(@PathVariable Long projectId){
+
+        try{
+            ProjectGetDetailResponseDto projectDetailResponseDto = projectService.getProjectDetail(projectId);
+            return ResponseEntity.status(HttpStatus.OK).body(projectDetailResponseDto);
+        }catch (IllegalArgumentException e){
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+    }
 
 }
