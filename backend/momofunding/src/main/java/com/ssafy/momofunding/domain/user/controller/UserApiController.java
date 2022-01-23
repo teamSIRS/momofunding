@@ -2,12 +2,14 @@ package com.ssafy.momofunding.domain.user.controller;
 
 import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
+import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import com.ssafy.momofunding.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,14 +78,15 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-////
-////
-////
-////    //회원 탈퇴
-////    @DeleteMapping("/users/{userId}")
-////
-////
-////
+    @DeleteMapping("/users/{userId}")
+    public ResponseEntity deleteUser(@PathVariable("userId") Long userId){
+        try {
+            userService.deleteUser(userId);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
 
 ////
 ////
