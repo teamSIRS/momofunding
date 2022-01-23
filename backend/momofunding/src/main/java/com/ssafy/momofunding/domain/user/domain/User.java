@@ -1,5 +1,6 @@
 package com.ssafy.momofunding.domain.user.domain;
 
+import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,5 +49,9 @@ public class User {
         this.role = role;
     }
 
+    public void updateUserInfo(UserInfoUpdateRequestDto userInfoUpdateRequestDto){
+        this.password = userInfoUpdateRequestDto.getPassword();
+        this.nickname = userInfoUpdateRequestDto.getNickname();
+    }
 
 }

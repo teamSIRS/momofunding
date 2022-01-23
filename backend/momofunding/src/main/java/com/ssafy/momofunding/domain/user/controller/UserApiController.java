@@ -68,9 +68,10 @@ public class UserApiController {
     @PutMapping("/users/{userId}")
     public ResponseEntity updateUser(@RequestBody UserInfoUpdateRequestDto userInfoUpdateRequestDto, @PathVariable("userId") Long userId){
         try {
-            userService.updateUserInfo(userInfoUpdateRequestDto,userId);
+            Boolean result = userService.updateUserInfo(userInfoUpdateRequestDto,userId);
+            if(!result) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }catch (Exception e){
-
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
