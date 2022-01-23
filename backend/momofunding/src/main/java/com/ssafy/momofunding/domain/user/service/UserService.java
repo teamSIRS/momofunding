@@ -1,11 +1,15 @@
 package com.ssafy.momofunding.domain.user.service;
 
+import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -44,5 +48,12 @@ public class UserService {
 //        User user = userWrapper.get();
 //
 //    }
+
+    @Transactional
+    public Boolean updateUserInfo(UserInfoUpdateRequestDto userInfoUpdateRequestDto, Long userId){
+        Optional<User> user = userRepository.findById(userId);
+
+        return false;
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.ssafy.momofunding.domain.user.controller;
 
+import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -63,12 +64,16 @@ public class UserApiController {
 //        Optional<User> user = userService.getUserInfo(userId);
 //    }
 ////
-////    //회원 정보 수정
-//    @PutMapping("/users/{userId}")
-//    public ResponseEntity modifyUser(@PathVariable("userId") String userId){
-//
-//
-//    }
+    //회원 정보 수정
+    @PutMapping("/users/{userId}")
+    public ResponseEntity updateUser(@RequestBody UserInfoUpdateRequestDto userInfoUpdateRequestDto, @PathVariable("userId") Long userId){
+        try {
+            userService.updateUserInfo(userInfoUpdateRequestDto,userId);
+        }catch (Exception e){
+
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
 
 ////
 ////
