@@ -1,3 +1,4 @@
+// 프로젝트 리스트안에 하나의 카드(소세지 그림 + 설명)
 import { ProgressBar } from "react-bootstrap";
 import styled from 'styled-components';
 import { useState } from "react";
@@ -24,16 +25,16 @@ const Container = styled.div`
 const LiveOn = styled.div`
     color: white;
     background-color: red;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
-    width: 51px;
-    height: 24px;
+    width: 48px;
+    height: 22px;
     position: absolute;
     text-align: center;
-    line-height: 24px;
+    line-height: 22px;
     border-radius: 7px;
     right: 20px;
-    top: 10px;
+    top: 8px;
 `;
  const TitleDetail = styled.div`
     display: inline-block;
@@ -52,7 +53,7 @@ const LiveOn = styled.div`
  const FundDetail = styled.div`
     display: inline-block;
     margin: 5px;
-
+    
     span{
         font-size: 15px;
     }
@@ -65,7 +66,6 @@ const LiveOn = styled.div`
  `;
 
 
-// 프로젝트 리스트안에 하나의 카드(소세지 그림 + 설명)
 function ProjectCard(props){
     let [live, setLive] = useState(true); //////
     return(
