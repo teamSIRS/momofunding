@@ -4,6 +4,7 @@ import com.ssafy.momofunding.domain.project.dto.ProjectGetDetailResponseDto;
 import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
 import com.ssafy.momofunding.domain.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,12 +37,12 @@ public class ProjectApiController {
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
-            projectService.updateProject(projectId, projectSaveRequestDto);
+            responseMap.put("projectId", projectService.updateProject(projectId, projectSaveRequestDto));
         } catch (IllegalArgumentException e) {
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
     @GetMapping("/{projectId}")
@@ -55,6 +56,20 @@ public class ProjectApiController {
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
+    }
+
+    @DeleteMapping("/{projectId}")
+    public ResponseEntity<Map<String, Object>> deleteProject(@PathVariable Long projectId){
+        Map<String, Object> responseMap = new HashMap<>();
+
+        try {
+            projectService.deleteProject(projectId);
+        } catch (EmptyResultDataAccessException e){
+            responseMap.put("errorMsg", "잘못된 프로젝트 번호입니다:: projectId-"+projectId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
 }
