@@ -44,7 +44,7 @@ public class LiveService {
 
         Long projectCategoryId = liveSaveRequestDto.getProjectCategoryId();
         ProjectCategory projectCategory = projectCategoryRepository.findById(projectCategoryId)
-                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호 입니다. projectId : " + projectCategoryId));
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호 입니다. projectCategoryId : " + projectCategoryId));
 
         LiveState liveState = liveStateRepository.findById(1L).get();
 
