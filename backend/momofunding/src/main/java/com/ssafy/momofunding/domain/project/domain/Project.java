@@ -1,5 +1,7 @@
 package com.ssafy.momofunding.domain.project.domain;
 
+import com.ssafy.momofunding.domain.live.domain.Live;
+import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
 import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
 import com.ssafy.momofunding.domain.projectstate.domain.ProjectState;
 import com.ssafy.momofunding.domain.user.domain.User;
@@ -9,6 +11,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -31,6 +35,9 @@ public class Project {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", nullable = false)
     User user;
+
+    @OneToMany(mappedBy = "project")
+    List<Live> lives = new ArrayList<>();
 
 
     @Column(length=150)
@@ -66,18 +73,6 @@ public class Project {
     @Column
     Timestamp registerDate;
 
-    public void mapProjectState(ProjectState ps){
-        this.projectState = ps;
-    }
-
-    public void mapProjectCategory(ProjectCategory pc){
-        this.projectCategory = pc;
-    }
-
-    public void mapUser(User u){
-        this.user = u;
-    }
-
     @Builder
     public Project(Long id, String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
                    String summary, String projectContent, Integer currentAmount, Timestamp startDate,
@@ -94,5 +89,31 @@ public class Project {
         this.expirationDate = expirationDate;
         this.likeCount = likeCount;
         this.registerDate = registerDate;
+    }
+
+    public void mapProjectState(ProjectState ps){
+        this.projectState = ps;
+    }
+
+    public void mapProjectCategory(ProjectCategory pc){
+        this.projectCategory = pc;
+    }
+
+    public void mapUser(User u){
+        this.user = u;
+    }
+
+    public void updateProject(ProjectSaveRequestDto psr){
+        this.projectName = psr.getProjectName();
+        this.fundingGoal = psr.getFundingGoal();
+        this.mainImageUrl = psr.getMainImageUrl();
+        this.subImageUrl = psr.getSubImageUrl();
+        this.summary = psr.getSummary();
+        this.projectContent = psr.getProjectContent();
+        this.currentAmount = psr.getCurrentAmount();
+        this.startDate = psr.getStartDate();
+        this.expirationDate = psr.getExpirationDate();
+        this.likeCount = psr.getLikeCount();
+        this.registerDate = psr.getRegisterDate();
     }
 }
