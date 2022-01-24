@@ -25,17 +25,18 @@ public class ProjectService {
     private final CreatorRepository creatorRepository;
 
     @Transactional
-    public Long projectCreate(Long userId) {
+    public Long createProject(Long userId) {
         Project project = new Project();
 
         project.mapUser(userRepository.findById(userId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 유저 번호 입니다:: userId-"+userId)));
-        
+
+        project.mapProjectState(projectStateRepository.getById(1L));
         return projectRepository.save(project).getId();
     }
 
     @Transactional
-    public void projectSave(Long projectId, ProjectSaveRequestDto projectSaveRequestDto) {
+    public void updateProject(Long projectId, ProjectSaveRequestDto projectSaveRequestDto) {
         projectSaveRequestDto.setId(projectId);
         Project project = projectSaveRequestDto.toEntity();
 
