@@ -4,6 +4,7 @@ import com.ssafy.momofunding.domain.project.dto.ProjectGetDetailResponseDto;
 import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
 import com.ssafy.momofunding.domain.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -63,8 +64,8 @@ public class ProjectApiController {
 
         try {
             projectService.deleteProject(projectId);
-        } catch (IllegalArgumentException e){
-            responseMap.put("errorMsg", e.getMessage());
+        } catch (EmptyResultDataAccessException e){
+            responseMap.put("errorMsg", "잘못된 프로젝트 번호입니다:: projectId-"+projectId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
 
