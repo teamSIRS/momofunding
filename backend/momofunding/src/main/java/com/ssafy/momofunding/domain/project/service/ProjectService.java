@@ -1,6 +1,7 @@
 package com.ssafy.momofunding.domain.project.service;
 
 import com.ssafy.momofunding.domain.project.domain.Project;
+import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.projectcategory.repository.ProjectCategoryRepository;
 import com.ssafy.momofunding.domain.projectstate.repository.ProjectStateRepository;
@@ -25,7 +26,24 @@ public class ProjectService {
 
         project.mapUser(userRepository.findById(userId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 유저 번호 입니다:: userId-"+userId)));
-
+        
         return projectRepository.save(project).getId();
+    }
+
+    @Transactional
+    public void projectSave(Long projectId, ProjectSaveRequestDto projectSaveRequestDto) {
+        projectSaveRequestDto.setId(projectId);
+        Project project = projectSaveRequestDto.toEntity();
+
+        project.mapUser(userRepository.findById(projectSaveRequestDto.getUserId())
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 유저 번호 입니다:: userId-"+projectSaveRequestDto.getUserId())));
+        project.mapProjectState(projectStateRepository.findById(projectSaveRequestDto.getProjectStateId())
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 상태 번호 입니다:: projectStateId-"+projectSaveRequestDto.getProjectStateId())));
+        if(projectSaveRequestDto.getProjectCategoryId()!=null){
+            project.mapProjectCategory(projectCategoryRepository.findById(projectSaveRequestDto.getProjectCategoryId())
+                    .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호 입니다:: projectCategoryId-"+projectSaveRequestDto.getProjectCategoryId())));
+        }
+
+        projectRepository.save(project);
     }
 }
