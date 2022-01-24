@@ -1,8 +1,6 @@
 package com.ssafy.momofunding.domain.user.controller;
 
-import com.ssafy.momofunding.domain.user.dto.UserInfoResponseDto;
-import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
-import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
+import com.ssafy.momofunding.domain.user.dto.*;
 import com.ssafy.momofunding.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,10 +18,18 @@ public class UserApiController {
     private final UserService userService;
 
     //Sign-in
-//    @PostMapping("/users/sign-in")
-//    public Boolean signIn(String email, String password){
-//        return userService.signIn(email,password);
-//    }
+    @PostMapping("/users/sign-in")
+    public ResponseEntity signIn(@RequestBody UserSignInRequestDto userSignInRequestDto){
+        Map<String, Object> responseMap = new HashMap<>();
+        UserSignInResponseDto userSignInResponseDto;
+        try {
+            userSignInResponseDto = userService.findEmailAndPassword(userSignInRequestDto);
+        }catch (EmptyResultDataAccessException e){
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(userSignInResponseDto);
+    }
 
     //Sign-up
     @PostMapping("/users")
