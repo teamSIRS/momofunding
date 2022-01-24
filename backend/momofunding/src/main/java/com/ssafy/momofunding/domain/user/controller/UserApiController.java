@@ -1,17 +1,15 @@
 package com.ssafy.momofunding.domain.user.controller;
 
-import com.ssafy.momofunding.domain.user.domain.User;
 import com.ssafy.momofunding.domain.user.dto.UserInfoResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
-import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import com.ssafy.momofunding.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,7 +50,7 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
-//    회원 정보 조회
+    //회원 정보 조회
     @GetMapping("/users/{userId}")
     public ResponseEntity getUserInfo(@PathVariable("userId") Long userId){
         UserInfoResponseDto userInfoResponseDto;
@@ -66,7 +64,7 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.OK).body(userInfoResponseDto);
     }
 
-//    //회원 정보 수정
+    //회원 정보 수정
     @PutMapping("/users/{userId}")
     public ResponseEntity updateUser(@PathVariable("userId") Long userId, @RequestBody UserInfoUpdateRequestDto userInfoUpdateRequestDto){
         Map<String, Object> responseMap = new HashMap<>();
@@ -80,24 +78,17 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
+    //회원 삭제
     @DeleteMapping("/users/{userId}")
     public ResponseEntity deleteUser(@PathVariable("userId") Long userId){
+        Map<String, Object> responseMap = new HashMap<>();
         try {
-            userService.deleteUser(userId);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            userService.deleteById(userId);
+        }catch (EmptyResultDataAccessException e){
+            responseMap.put("errorMsg", "해당 Id가 존재하지 않습니다. UserId : " + userId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        responseMap.put("userId", userId);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
-
-////
-////
-////    //이메일 존재 여부 조회(아이디 찾기)
-////    @GetMapping("/users/email/{email}")
-//
-//
-//    //비밀번호 변경
-////    @PutMapping("/users/password/{userId}");
-
-
 }
