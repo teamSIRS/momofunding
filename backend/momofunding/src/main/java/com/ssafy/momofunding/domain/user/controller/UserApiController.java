@@ -66,7 +66,7 @@ public class UserApiController {
 
 //    //회원 정보 수정
     @PutMapping("/users/{userId}")
-    public ResponseEntity modifyUser(@PathVariable("userId") Long userId, @RequestBody UserInfoUpdateRequestDto userInfoUpdateRequestDto){
+    public ResponseEntity updateUser(@PathVariable("userId") Long userId, @RequestBody UserInfoUpdateRequestDto userInfoUpdateRequestDto){
         Map<String, Object> responseMap = new HashMap<>();
         try {
             userService.updateUserInfo(userId, userInfoUpdateRequestDto);
