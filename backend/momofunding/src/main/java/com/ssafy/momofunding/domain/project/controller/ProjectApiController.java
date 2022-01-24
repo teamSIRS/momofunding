@@ -22,7 +22,7 @@ public class ProjectApiController {
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
-            responseMap.put("projectId", projectService.projectCreate(parameter.get("userId")));
+            responseMap.put("projectId", projectService.createProject(parameter.get("userId")));
         } catch (IllegalArgumentException e) {
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
@@ -31,11 +31,11 @@ public class ProjectApiController {
     }
 
     @PutMapping("/{projectId}")
-    public ResponseEntity<Map<String, Object>> saveProject(@PathVariable Long projectId, @RequestBody ProjectSaveRequestDto projectSaveRequestDto){
+    public ResponseEntity<Map<String, Object>> updateProject(@PathVariable Long projectId, @RequestBody ProjectSaveRequestDto projectSaveRequestDto){
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
-            projectService.projectSave(projectId, projectSaveRequestDto);
+            projectService.updateProject(projectId, projectSaveRequestDto);
         } catch (IllegalArgumentException e) {
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
