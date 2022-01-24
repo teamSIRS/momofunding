@@ -36,7 +36,10 @@ public class ProjectService {
     }
 
     @Transactional
-    public void updateProject(Long projectId, ProjectSaveRequestDto projectSaveRequestDto) {
+    public Long updateProject(Long projectId, ProjectSaveRequestDto projectSaveRequestDto) {
+        projectRepository.findById(projectId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
+
         projectSaveRequestDto.setId(projectId);
         Project project = projectSaveRequestDto.toEntity();
 
@@ -49,7 +52,7 @@ public class ProjectService {
                     .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호 입니다:: projectCategoryId-"+projectSaveRequestDto.getProjectCategoryId())));
         }
 
-        projectRepository.save(project);
+        return projectRepository.save(project).getId();
     }
 
     public ProjectGetDetailResponseDto getProjectDetail(Long projectId) {
@@ -57,5 +60,15 @@ public class ProjectService {
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId)),
                 new CreatorGetDetailResponseDto(creatorRepository.findByProjectId(projectId)
                         .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId))));
+    }
+
+    public void deleteProject(Long projectId) {
+        /*
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
+        projectRepository.delete(project);
+
+         */
+        projectRepository.deleteById(projectId);
     }
 }
