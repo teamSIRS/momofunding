@@ -1,5 +1,6 @@
 package com.ssafy.momofunding.domain.user.dto;
 
+import com.ssafy.momofunding.domain.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,5 +23,13 @@ public class UserInfoResponseDto {
         this.nickname = nickname;
         this.registerDate = registerDate;
     }
+
+    public UserInfoResponseDto(User user) {
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.nickname = user.getNickname();
+        this.registerDate = user.getRegisterDate();
+    }
+
 
 }

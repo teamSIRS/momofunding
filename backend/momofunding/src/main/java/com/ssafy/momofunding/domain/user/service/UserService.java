@@ -1,6 +1,7 @@
 package com.ssafy.momofunding.domain.user.service;
 
 import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.domain.user.dto.UserInfoResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +36,9 @@ public class UserService {
 
     //ID로 회원 정보 조회
     @Transactional
-    public Optional<User> getUserInfo(Long userId) {
-        return userRepository.findById(userId);
+    public UserInfoResponseDto getUserInfo(Long userId) {
+        return new UserInfoResponseDto(userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 UserId입니다.")));
     }
 
 

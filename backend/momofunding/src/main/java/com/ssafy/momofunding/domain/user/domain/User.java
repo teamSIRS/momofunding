@@ -38,10 +38,7 @@ public class User {
     @PrePersist
     public void initializer(){
         role = (role == null ? "USER" : role);
-        this.registerDate = Timestamp.valueOf(LocalDateTime.now());
     }
-
-
 
     //@Builder 는 AllArgsConstructor와 같음
     //모든 멤버 필드에 대해서 매개변수를 받는 기본 생성자를 만드는거임

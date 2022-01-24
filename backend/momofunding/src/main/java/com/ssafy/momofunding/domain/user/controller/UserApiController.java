@@ -50,21 +50,15 @@ public class UserApiController {
 //    회원 정보 조회
     @GetMapping("/users/{userId}")
     public ResponseEntity getUserInfo(@PathVariable("userId") Long userId){
+        UserInfoResponseDto userInfoResponseDto;
+        Map<String, Object> responseMap = new HashMap<>();
         try {
-            User user = userService.getUserInfo(userId).orElse(null);
-            if(user == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body("There is no user info matching that ID");
-            else {
-                UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto(
-                        user.getEmail(),
-                        user.getPassword(),
-                        user.getNickname(),
-                        user.getRegisterDate()
-                );
-                return ResponseEntity.status(HttpStatus.OK).body(userInfoResponseDto);
-            }
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            userInfoResponseDto = userService.getUserInfo(userId);
+        }catch (IllegalArgumentException e){
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
+        return ResponseEntity.status(HttpStatus.OK).body(userInfoResponseDto);
     }
 ////
 ////    //회원 정보 수정
