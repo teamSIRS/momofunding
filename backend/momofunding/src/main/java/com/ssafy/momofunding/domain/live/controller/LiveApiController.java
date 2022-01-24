@@ -66,7 +66,6 @@ public class LiveApiController {
         if (lives.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 
-
         return ResponseEntity.status(HttpStatus.OK).body(lives);
     }
 
