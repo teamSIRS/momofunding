@@ -1,6 +1,9 @@
 package com.ssafy.momofunding.domain.project.service;
 
+import com.ssafy.momofunding.domain.creator.dto.CreatorGetDetailResponseDto;
+import com.ssafy.momofunding.domain.creator.repository.CreatorRepository;
 import com.ssafy.momofunding.domain.project.domain.Project;
+import com.ssafy.momofunding.domain.project.dto.ProjectGetDetailResponseDto;
 import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.projectcategory.repository.ProjectCategoryRepository;
@@ -19,6 +22,7 @@ public class ProjectService {
     private final ProjectStateRepository projectStateRepository;
     private final ProjectCategoryRepository projectCategoryRepository;
     private final UserRepository userRepository;
+    private final CreatorRepository creatorRepository;
 
     @Transactional
     public Long createProject(Long userId) {
@@ -46,5 +50,12 @@ public class ProjectService {
         }
 
         projectRepository.save(project);
+    }
+
+    public ProjectGetDetailResponseDto getProjectDetail(Long projectId) {
+        return new ProjectGetDetailResponseDto(projectRepository.findById(projectId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId)),
+                new CreatorGetDetailResponseDto(creatorRepository.findByProjectId(projectId)
+                        .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId))));
     }
 }
