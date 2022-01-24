@@ -1,15 +1,14 @@
 package com.ssafy.momofunding.domain.user.controller;
 
-import com.ssafy.momofunding.domain.user.domain.User;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.service.UserService;
-import com.sun.org.apache.regexp.internal.RE;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RequiredArgsConstructor
@@ -25,10 +24,27 @@ public class UserApiController {
 
     //Sign-up
     @PostMapping("/users")
-    public ResponseEntity signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto){
+    public ResponseEntity signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto) {
         userService.saveUserInfo(userSignUpRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+
+    //닉네임 중복 조회
+    @GetMapping("/users/nickname/{nickname}")
+    public ResponseEntity<Map<String, Object>> checkNicknameDuplicate(@PathVariable("nickname") String nickname) {
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("isExist",userService.findExistNickname(nickname));
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);    
+    }
+
+    //이메일 중복 조회
+    @GetMapping("/users/email/{email}")
+    public ResponseEntity<Map<String, Object>> checkEmailDuplicate(@PathVariable("email") String email) {
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("isExist",userService.findExistEmail(email));
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+    }
+
 
 //
 //    //회원 정보 조회
@@ -43,6 +59,7 @@ public class UserApiController {
 //
 //
 //    }
+
 ////
 ////
 ////
@@ -51,8 +68,7 @@ public class UserApiController {
 ////
 ////
 ////
-////    //닉네임 중복 조회
-////    @GetMapping("/users/nickname/{nickname}")
+
 ////
 ////
 ////    //이메일 존재 여부 조회(아이디 찾기)
