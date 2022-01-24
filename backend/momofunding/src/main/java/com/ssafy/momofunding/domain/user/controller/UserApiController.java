@@ -2,6 +2,7 @@ package com.ssafy.momofunding.domain.user.controller;
 
 import com.ssafy.momofunding.domain.user.domain.User;
 import com.ssafy.momofunding.domain.user.dto.UserInfoResponseDto;
+import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,10 @@ public class UserApiController {
     //Sign-up
     @PostMapping("/users")
     public ResponseEntity signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto) {
-        userService.saveUserInfo(userSignUpRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        Map<String, Object> responseMap = new HashMap<>();
+        Long userId = userService.saveUserInfo(userSignUpRequestDto);
+        responseMap.put("userId",userId);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
     //닉네임 중복 조회
@@ -60,13 +63,20 @@ public class UserApiController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(userInfoResponseDto);
     }
-////
-////    //회원 정보 수정
-//    @PutMapping("/users/{userId}")
-//    public ResponseEntity modifyUser(@PathVariable("userId") String userId){
-//
-//
-//    }
+
+//    //회원 정보 수정
+    @PutMapping("/users/{userId}")
+    public ResponseEntity modifyUser(@PathVariable("userId") Long userId, @RequestBody UserInfoUpdateRequestDto userInfoUpdateRequestDto){
+        Map<String, Object> responseMap = new HashMap<>();
+        try {
+            userService.updateUserInfo(userId, userInfoUpdateRequestDto);
+        }catch (IllegalArgumentException e) {
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+        responseMap.put("userID", userId);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+    }
 
 ////
 ////

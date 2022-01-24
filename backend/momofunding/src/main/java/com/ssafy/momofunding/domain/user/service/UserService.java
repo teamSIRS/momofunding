@@ -2,6 +2,7 @@ package com.ssafy.momofunding.domain.user.service;
 
 import com.ssafy.momofunding.domain.user.domain.User;
 import com.ssafy.momofunding.domain.user.dto.UserInfoResponseDto;
+import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,8 @@ public class UserService {
 
     //SignUp
     @Transactional
-    public void saveUserInfo(UserSignUpRequestDto userSignUpRequestDto) {
-        userRepository.save(userSignUpRequestDto.toEntity());
+    public Long saveUserInfo(UserSignUpRequestDto userSignUpRequestDto) {
+        return userRepository.save(userSignUpRequestDto.toEntity()).getId();
     }
 
     //nickname check
@@ -38,7 +39,15 @@ public class UserService {
     @Transactional
     public UserInfoResponseDto getUserInfo(Long userId) {
         return new UserInfoResponseDto(userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 UserId입니다.")));
+                .orElseThrow(() -> new IllegalArgumentException("해당 Id가 존재하지 않습니다.")));
+    }
+
+
+    //회원정보 수정
+    @Transactional
+    public void updateUserInfo(Long userId, UserInfoUpdateRequestDto userInfoUpdateRequestDto){
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 Id가 존재하지 않습니다. UserId : " + userId ));
+        user.updateUserInfo(userInfoUpdateRequestDto);
     }
 
 
