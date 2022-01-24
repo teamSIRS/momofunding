@@ -1,6 +1,8 @@
 package com.ssafy.momofunding.domain.live.controller;
 
+import com.ssafy.momofunding.domain.live.domain.Live;
 import com.ssafy.momofunding.domain.live.dto.LiveResponseDto;
+import com.ssafy.momofunding.domain.live.dto.LiveSaveRequestDto;
 import com.ssafy.momofunding.domain.live.service.LiveService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -9,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RequiredArgsConstructor
@@ -30,6 +34,21 @@ public class LiveApiController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 
         return ResponseEntity.status(HttpStatus.OK).body(lives);
+    }
+
+    @PostMapping("/lives")
+    public ResponseEntity save(@RequestBody LiveSaveRequestDto liveSaveRequestDto){
+
+        Map<String, Object> responseMap = new HashMap<>();
+        try {
+            Long liveId = liveService.save(liveSaveRequestDto);
+            responseMap.put("liveId", liveId);
+        }catch (IllegalArgumentException e){
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
 
