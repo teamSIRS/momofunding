@@ -197,6 +197,30 @@ function Signup() {
             </CheckBoxForm>
 
             <SignupBtn as="button">회원가입</SignupBtn>
+            <Col style={styles.col} xs={12}>
+              <SeparateLineForm>
+                <SeparateLine></SeparateLine>
+                <SeparateLabel>또는</SeparateLabel>
+                <SeparateLine></SeparateLine>
+              </SeparateLineForm>
+            </Col>
+            <SocialLoginForm>
+              <SocialLoginBtns>
+                <SocialLoginLogo
+                  src="/socialLoginLogo/facebook.png"
+                  alt="fackbook-image"
+                />
+                <SocialLoginLogo
+                  src="/socialLoginLogo/kakao-talk.png"
+                  alt="kakao-talk-image"
+                />
+                <SocialLoginLogo
+                  src="/socialLoginLogo/google.png"
+                  alt="google-image"
+                />
+                <SocialLoginBtns />
+              </SocialLoginBtns>
+            </SocialLoginForm>
           </Container>
         </SignupForm>
       </SignupMainForm>
