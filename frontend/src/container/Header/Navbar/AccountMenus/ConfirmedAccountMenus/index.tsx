@@ -8,7 +8,7 @@ const ConfirmedAccountMenus = ({ setAuth }: AccountMenusProp) => {
   return (
     <Nav>
       <Menu setAuth={setAuth} path="login" name="로그인" />
-      <Menu path="users" name="회원가입" />
+      <Menu path="signup" name="회원가입" />
     </Nav>
   );
 };

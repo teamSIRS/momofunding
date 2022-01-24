@@ -33,8 +33,11 @@ const InputIdAndPw = styled.input`
   border-radius: 5px;
   border-color: transparent;
   margin-bottom: 20px;
-  padding: 0px;
+  padding-left: 10px;
   background-color: #e3e3ef;
+  &:focus {
+    outline: 1px solid #6667ab;
+  }
 `;
 
 const LoginTitle = styled.label`
@@ -118,8 +121,8 @@ function Login() {
 
             <CheckBoxAndLink>
               <CheckBox>
-                <input type="checkbox" />
-                <CheckBoxLabel>아이디 저장</CheckBoxLabel>
+                <input id="check" type="checkbox" />
+                <CheckBoxLabel for="check">아이디 저장</CheckBoxLabel>
               </CheckBox>
               <FindIdOrPw>아이디, 비밀번호 찾기</FindIdOrPw>
             </CheckBoxAndLink>
