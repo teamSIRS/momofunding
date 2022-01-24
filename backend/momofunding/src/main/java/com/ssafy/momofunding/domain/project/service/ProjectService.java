@@ -21,7 +21,7 @@ public class ProjectService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long projectCreate(Long userId) {
+    public Long createProject(Long userId) {
         Project project = new Project();
 
         project.mapUser(userRepository.findById(userId)
@@ -32,7 +32,7 @@ public class ProjectService {
     }
 
     @Transactional
-    public void projectSave(Long projectId, ProjectSaveRequestDto projectSaveRequestDto) {
+    public void updateProject(Long projectId, ProjectSaveRequestDto projectSaveRequestDto) {
         projectSaveRequestDto.setId(projectId);
         Project project = projectSaveRequestDto.toEntity();
 
