@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RequiredArgsConstructor
@@ -26,11 +28,25 @@ public class LiveApiController {
             lives = liveService.findBySort(sort);
         }
 
-
         if (lives.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 
         return ResponseEntity.status(HttpStatus.OK).body(lives);
+    }
+
+    @PostMapping("/lives")
+    public ResponseEntity save(@RequestBody LiveSaveRequestDto liveSaveRequestDto){
+
+        Map<String, Object> responseMap = new HashMap<>();
+        try {
+            Long liveId = liveService.save(liveSaveRequestDto);
+            responseMap.put("liveId", liveId);
+        }catch (IllegalArgumentException e){
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
     @GetMapping("/lives/projectCategory/{projectCategoryId}")
@@ -41,7 +57,7 @@ public class LiveApiController {
 
         if (lives.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-                
+
 
         return ResponseEntity.status(HttpStatus.OK).body(lives);
     }

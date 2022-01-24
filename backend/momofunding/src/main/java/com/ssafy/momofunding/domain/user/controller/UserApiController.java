@@ -1,14 +1,16 @@
 package com.ssafy.momofunding.domain.user.controller;
 
-import com.ssafy.momofunding.domain.user.dto.UserEmailExistResponseDto;
-import com.ssafy.momofunding.domain.user.dto.UserNicknameExistResponseDto;
+import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.domain.user.dto.UserInfoResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.service.UserService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RequiredArgsConstructor
@@ -24,31 +26,40 @@ public class UserApiController {
 
     //Sign-up
     @PostMapping("/users")
-    public ResponseEntity signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto){
+    public ResponseEntity signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto) {
         userService.saveUserInfo(userSignUpRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     //닉네임 중복 조회
     @GetMapping("/users/nickname/{nickname}")
-    public ResponseEntity<UserNicknameExistResponseDto> checkNicknameDuplicate(@PathVariable("nickname") String nickname){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.findExistNickname(nickname));
+    public ResponseEntity<Map<String, Object>> checkNicknameDuplicate(@PathVariable("nickname") String nickname) {
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("isExist",userService.findExistNickname(nickname));
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);    
     }
-
 
     //이메일 중복 조회
     @GetMapping("/users/email/{email}")
-    public ResponseEntity<UserEmailExistResponseDto> checkEmailDuplicate(@PathVariable("email") String email){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.findExistEmail(email));
+    public ResponseEntity<Map<String, Object>> checkEmailDuplicate(@PathVariable("email") String email) {
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("isExist",userService.findExistEmail(email));
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
-
-//
-//    //회원 정보 조회
-//    @GetMapping("/users/{userId}")
-//    public ResponseEntity getUser(@PathVariable("userId") String userId){
-//        Optional<User> user = userService.getUserInfo(userId);
-//    }
+//    회원 정보 조회
+    @GetMapping("/users/{userId}")
+    public ResponseEntity getUserInfo(@PathVariable("userId") Long userId){
+        UserInfoResponseDto userInfoResponseDto;
+        Map<String, Object> responseMap = new HashMap<>();
+        try {
+            userInfoResponseDto = userService.getUserInfo(userId);
+        }catch (IllegalArgumentException e){
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(userInfoResponseDto);
+    }
 ////
 ////    //회원 정보 수정
 //    @PutMapping("/users/{userId}")
@@ -56,6 +67,7 @@ public class UserApiController {
 //
 //
 //    }
+
 ////
 ////
 ////
