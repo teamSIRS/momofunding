@@ -33,14 +33,16 @@ public class UserApiController {
     @GetMapping("/users/nickname/{nickname}")
     public ResponseEntity<Map<String, Object>> checkNicknameDuplicate(@PathVariable("nickname") String nickname) {
         Map<String, Object> responseMap = new HashMap<>();
-        return ResponseEntity.status(HttpStatus.OK).body(responseMap.put("isExist",userService.findExistNickname(nickname)));
+        responseMap.put("isExist",userService.findExistNickname(nickname));
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);    
     }
 
     //이메일 중복 조회
     @GetMapping("/users/email/{email}")
     public ResponseEntity<Map<String, Object>> checkEmailDuplicate(@PathVariable("email") String email) {
         Map<String, Object> responseMap = new HashMap<>();
-        return ResponseEntity.status(HttpStatus.OK).body(responseMap.put("isExist",userService.findExistEmail(email)));
+        responseMap.put("isExist",userService.findExistEmail(email));
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
 
