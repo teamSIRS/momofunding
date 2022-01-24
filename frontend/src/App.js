@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./components/Account/Login/Login";
 
 import Header from "./container/Header";
 import GlobalStyle from "./shared/global";
@@ -22,7 +23,7 @@ function App() {
         ></Route>
         <Route path="lives" element={<h1>Live *</h1>}></Route>
         <Route path="notices" element={<h1>공지사항</h1>}></Route>
-        <Route path=""></Route>
+        <Route path="login" element={<Login />}></Route>
       </Routes>
     </Router>
   );
