@@ -36,12 +36,12 @@ public class ProjectApiController {
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
-            projectService.updateProject(projectId, projectSaveRequestDto);
+            responseMap.put("projectId", projectService.updateProject(projectId, projectSaveRequestDto));
         } catch (IllegalArgumentException e) {
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
     @GetMapping("/{projectId}")
