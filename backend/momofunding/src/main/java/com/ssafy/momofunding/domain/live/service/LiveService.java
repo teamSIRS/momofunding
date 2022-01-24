@@ -3,6 +3,7 @@ package com.ssafy.momofunding.domain.live.service;
 import com.ssafy.momofunding.domain.live.domain.Live;
 import com.ssafy.momofunding.domain.live.dto.LiveResponseDto;
 import com.ssafy.momofunding.domain.live.dto.LiveSaveRequestDto;
+import com.ssafy.momofunding.domain.live.dto.LiveUpdateRequestDto;
 import com.ssafy.momofunding.domain.live.repository.LiveRepository;
 import com.ssafy.momofunding.domain.liveState.domain.LiveState;
 import com.ssafy.momofunding.domain.liveState.repository.LiveStateRepository;
@@ -43,7 +44,6 @@ public class LiveService {
         projectCategoryRepository.findById(projectCategoryId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호입니다. projectCategoryId : " + projectCategoryId));
 
-
         List<Live> lives = liveRepository.findAllByProjectCategoryId(projectCategoryId, sort);
 
         return lives.stream()
@@ -69,5 +69,21 @@ public class LiveService {
         live.mapLiveState(liveState);
 
         return liveRepository.save(live).getId();
+    }
+
+    @Transactional
+    public void update(LiveUpdateRequestDto liveUpdateRequestDto, Long liveId){
+        Live live = liveRepository.findById(liveId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 라이브 번호 입니다. liveId : " + liveId));
+
+        Long liveStateId = liveUpdateRequestDto.getLiveStateId();
+
+        if (liveStateId != null) {
+            LiveState liveState = liveStateRepository.findById(liveStateId)
+                    .orElseThrow(() -> new IllegalArgumentException("잘못된 라이브 상태 번호입니다. liveStateId : " + liveStateId));
+            live.mapLiveState(liveState);
+        }
+
+        live.update(liveUpdateRequestDto);
     }
 }

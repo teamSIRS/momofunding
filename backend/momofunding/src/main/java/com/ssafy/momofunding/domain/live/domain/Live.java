@@ -1,5 +1,6 @@
 package com.ssafy.momofunding.domain.live.domain;
 
+import com.ssafy.momofunding.domain.live.dto.LiveUpdateRequestDto;
 import com.ssafy.momofunding.domain.liveState.domain.LiveState;
 import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
@@ -61,6 +62,13 @@ public class Live {
 
     public void mapProject(Project project){
         this.project = project;
+    }
+
+    public void update(LiveUpdateRequestDto liveUpdateRequestDto) {
+        this.title = liveUpdateRequestDto.getTitle();
+        this.content = liveUpdateRequestDto.getContent();
+        this.maxViewer = liveUpdateRequestDto.getMaxViewer();
+        this.totalPlayTime = liveUpdateRequestDto.getTotalPlayTime();
     }
 
     @Builder
