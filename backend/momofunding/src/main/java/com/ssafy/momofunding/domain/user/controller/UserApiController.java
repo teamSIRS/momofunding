@@ -35,25 +35,15 @@ public class UserApiController {
     @GetMapping("/users/nickname/{nickname}")
     public ResponseEntity<Map<String, Object>> checkNicknameDuplicate(@PathVariable("nickname") String nickname) {
         Map<String, Object> responseMap = new HashMap<>();
-        try {
-            responseMap.put("isExist", userService.findExistNickname(nickname));
-        } catch (Exception e) {
-            responseMap.put("Error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseMap);
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+        responseMap.put("isExist",userService.findExistNickname(nickname));
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);    
     }
 
     //이메일 중복 조회
     @GetMapping("/users/email/{email}")
     public ResponseEntity<Map<String, Object>> checkEmailDuplicate(@PathVariable("email") String email) {
         Map<String, Object> responseMap = new HashMap<>();
-        try {
-            responseMap.put("isExist",userService.findExistEmail(email));
-        }catch (Exception e){
-            responseMap.put("Error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseMap);
-        }
+        responseMap.put("isExist",userService.findExistEmail(email));
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
