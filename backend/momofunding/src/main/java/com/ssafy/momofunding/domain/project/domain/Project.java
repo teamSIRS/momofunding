@@ -37,7 +37,7 @@ public class Project {
     String projectName;
 
     @Column
-    int fundingGoal;
+    Integer fundingGoal;
 
     @Column(length=500)
     String mainImageUrl;
@@ -52,7 +52,7 @@ public class Project {
     String projectContent;
 
     @Column(columnDefinition = "integer default 0")
-    int currentAmount;
+    Integer currentAmount;
 
     @Column
     Timestamp startDate;
@@ -61,7 +61,7 @@ public class Project {
     Timestamp expirationDate;
 
     @Column(columnDefinition = "integer default 0")
-    int likeCount;
+    Integer likeCount;
 
     @Column
     Timestamp registerDate;
@@ -79,9 +79,10 @@ public class Project {
     }
 
     @Builder
-    public Project(String projectName, int fundingGoal, String mainImageUrl, String subImageUrl,
-                   String summary, String projectContent, int currentAmount, Timestamp startDate,
-                   Timestamp expirationDate, int likeCount, Timestamp registerDate){
+    public Project(Long id, String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
+                   String summary, String projectContent, Integer currentAmount, Timestamp startDate,
+                   Timestamp expirationDate, Integer likeCount, Timestamp registerDate){
+        this.id = id;
         this.projectName = projectName;
         this.fundingGoal = fundingGoal;
         this.mainImageUrl = mainImageUrl;

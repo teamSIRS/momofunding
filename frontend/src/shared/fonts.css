@@ -1,0 +1,7 @@
+/* gowun-dodum-regular - korean */
+@font-face {
+  font-family: "Gowun Dodum";
+  font-style: normal;
+  font-weight: 400;
+  src: local(""), url("./gowun-dodum-v5-korean-regular.woff2") format("woff2");
+}
