@@ -2,6 +2,7 @@ package com.ssafy.momofunding.domain.live.service;
 
 import com.ssafy.momofunding.domain.live.domain.Live;
 import com.ssafy.momofunding.domain.live.dto.LiveResponseDto;
+import com.ssafy.momofunding.domain.live.dto.LiveSaveRequestDto;
 import com.ssafy.momofunding.domain.live.repository.LiveRepository;
 import com.ssafy.momofunding.domain.liveState.domain.LiveState;
 import com.ssafy.momofunding.domain.liveState.repository.LiveStateRepository;
@@ -22,14 +23,22 @@ import java.util.stream.Collectors;
 public class LiveService {
 
     private final LiveRepository liveRepository;
-    private final ProjectRepository projectRepository;
     private final ProjectCategoryRepository projectCategoryRepository;
+    private final ProjectRepository projectRepository;
     private final LiveStateRepository liveStateRepository;
 
 
     @Transactional
     public List<LiveResponseDto> findBySort(Sort sort){
         List<Live> lives = liveRepository.findAllByLiveStateId(1L, sort);
+
+        return lives.stream()
+                .map(LiveResponseDto::new)
+                .collect(Collectors.toList());
+    }
+    @Transactional
+    public List<LiveResponseDto> findAllByProjectCategoryId(Long projectCategoryId, Sort sort){
+        List<Live> lives = liveRepository.findAllByProjectCategoryId(projectCategoryId, sort);
 
         return lives.stream()
                 .map(LiveResponseDto::new)
@@ -55,15 +64,4 @@ public class LiveService {
 
         return liveRepository.save(live).getId();
     }
-
-    @Transactional
-    public List<LiveResponseDto> findAllByProjectCategoryId(Long projectCategoryId, Sort sort){
-        List<Live> lives = liveRepository.findAllByProjectCategoryId(projectCategoryId, sort);
-
-        return lives.stream()
-                .map(LiveResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-
 }
