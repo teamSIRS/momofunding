@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// import Header from "./container/Header";
+import Header from "./container/Header";
 import GlobalStyle from "./shared/global";
 
 function App() {
   return (
     <Router>
       <GlobalStyle />
-      {/* <Header /> */}
+      <Header />
       <h1>Hello! This is momo funding</h1>
       <h2>This is router test page</h2>
       <Routes>
