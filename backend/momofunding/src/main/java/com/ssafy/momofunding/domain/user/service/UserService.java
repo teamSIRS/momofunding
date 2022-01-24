@@ -1,10 +1,9 @@
 package com.ssafy.momofunding.domain.user.service;
 
 import com.ssafy.momofunding.domain.user.domain.User;
-import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
+import com.ssafy.momofunding.domain.user.dto.UserInfoResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +34,13 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
+    //ID로 회원 정보 조회
+    @Transactional
+    public UserInfoResponseDto getUserInfo(Long userId) {
+        return new UserInfoResponseDto(userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 UserId입니다.")));
+    }
+
 
 //    @Transactional
 //    public Optional<User> getUserInfo(String userId){
@@ -48,14 +54,5 @@ public class UserService {
 //        User user = userWrapper.get();
 //
 //    }
-
-    @Transactional
-    public Boolean updateUserInfo(UserInfoUpdateRequestDto userInfoUpdateRequestDto, Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
-        if(user == null) return false;
-        user.updateUserInfo(userInfoUpdateRequestDto);
-        userRepository.save(user);
-        return true;
-    }
 
 }
