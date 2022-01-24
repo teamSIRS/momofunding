@@ -4,13 +4,9 @@ import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.mariadb.jdbc.internal.com.send.parameters.TimestampParameter;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter

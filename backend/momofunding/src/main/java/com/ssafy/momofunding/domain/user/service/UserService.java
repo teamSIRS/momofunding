@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -42,26 +41,18 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 Id가 존재하지 않습니다. UserId : " + userId)));
     }
 
-
     //회원정보 수정
     @Transactional
-    public void updateUserInfo(Long userId, UserInfoUpdateRequestDto userInfoUpdateRequestDto){
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 Id가 존재하지 않습니다. UserId : " + userId ));
+    public void updateUserInfo(Long userId, UserInfoUpdateRequestDto userInfoUpdateRequestDto) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 Id가 존재하지 않습니다. UserId : " + userId));
         user.updateUserInfo(userInfoUpdateRequestDto);
     }
 
+    //회원정보 삭제
+    @Transactional
+    public void deleteById(Long userId) {
+        userRepository.deleteById(userId);
+    }
 
-//    @Transactional
-//    public Optional<User> getUserInfo(String userId){
-//        return userRepository.fin
-//    }
-
-
-//    @Transactional
-//    public Boolean checkUserExist(String email, String password){
-//        Optional<User> userWrapper = userRepository.findByEmailAndPassword(email,password);
-//        User user = userWrapper.get();
-//
-//    }
 
 }
