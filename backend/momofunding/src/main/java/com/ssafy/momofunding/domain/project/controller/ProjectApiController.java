@@ -57,4 +57,18 @@ public class ProjectApiController {
         }
     }
 
+    @DeleteMapping("/{projectId}")
+    public ResponseEntity<Map<String, Object>> deleteProject(@PathVariable Long projectId){
+        Map<String, Object> responseMap = new HashMap<>();
+
+        try {
+            projectService.deleteProject(projectId);
+        } catch (IllegalArgumentException e){
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
 }
