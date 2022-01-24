@@ -1,6 +1,5 @@
 package com.ssafy.momofunding.domain.live.controller;
 
-import com.ssafy.momofunding.domain.live.domain.Live;
 import com.ssafy.momofunding.domain.live.dto.LiveResponseDto;
 import com.ssafy.momofunding.domain.live.dto.LiveSaveRequestDto;
 import com.ssafy.momofunding.domain.live.service.LiveService;
@@ -49,6 +48,25 @@ public class LiveApiController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+    }
+
+    @GetMapping("/lives/projectCategory/{projectCategoryId}")
+    public ResponseEntity findAllByCategoryId(@PathVariable Long projectCategoryId){
+        Map<String, Object> responseMap = new HashMap<>();
+        List<LiveResponseDto> lives = new ArrayList<>();
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+
+        try {
+            lives = liveService.findAllByProjectCategoryId(projectCategoryId, sort);
+        } catch(IllegalArgumentException e){
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+
+        if (lives.isEmpty())
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+
+        return ResponseEntity.status(HttpStatus.OK).body(lives);
     }
 
 
