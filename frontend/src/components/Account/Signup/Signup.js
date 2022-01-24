@@ -62,7 +62,10 @@ const CheckBtns = styled.button`
   height: 40px;
   border-radius: 5px;
   border-color: transparent;
-  background-color: #8bdae3;
+  background-color: #b0e0e6;
+  &:hover {
+    background-color: #8bdae3;
+  }
 `;
 
 const CheckBoxForm = styled.div`
@@ -82,6 +85,9 @@ const CheckBoxLabel = styled.label`
 const SignupBtn = styled(SignupInputs)`
   background-color: #6667ab;
   color: white;
+  &:hover {
+    background-color: #3c3d8b;
+  }
 `;
 
 const SeparateLineForm = styled.div`

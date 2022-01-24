@@ -70,6 +70,9 @@ const FindIdOrPw = styled.div`
 const LoginBtn = styled(InputIdAndPw)`
   background-color: #6667ab;
   color: white;
+  &:hover {
+    background-color: #3c3d8b;
+  }
 `;
 
 const SeparateLineForm = styled.div`
