@@ -18,22 +18,22 @@ public class ProjectSaveRequestDto {
     private Long projectCategoryId;
     private Long userId;
     private String projectName;
-    private int fundingGoal;
+    private Integer fundingGoal;
     private String mainImageUrl;
     private String subImageUrl;
     private String summary;
     private String projectContent;
-    private int currentAmount;
+    private Integer currentAmount;
     private Timestamp startDate;
     private Timestamp expirationDate;
-    private int likeCount;
+    private Integer likeCount;
     private Timestamp registerDate;
 
     @Builder
     public ProjectSaveRequestDto(Long id, Long projectStateId, Long projectCategoryId, Long userId,
-                                 String projectName, int fundingGoal, String mainImageUrl, String subImageUrl,
-                                 String summary, String projectContent, int currentAmount, Timestamp startDate,
-                                 Timestamp expirationDate, int likeCount, Timestamp registerDate){
+                                 String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
+                                 String summary, String projectContent, Integer currentAmount, Timestamp startDate,
+                                 Timestamp expirationDate, Integer likeCount, Timestamp registerDate){
         this.id = id;
         this.projectStateId = projectStateId;
         this.projectCategoryId = projectCategoryId;
