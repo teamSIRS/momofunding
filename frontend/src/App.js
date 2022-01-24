@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// import Header from "./container/Header";
+import Header from "./container/Header";
 import GlobalStyle from "./shared/global";
 
 function App() {
