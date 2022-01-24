@@ -11,10 +11,12 @@ import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
 import com.ssafy.momofunding.domain.projectcategory.repository.ProjectCategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +40,10 @@ public class LiveService {
     }
     @Transactional
     public List<LiveResponseDto> findAllByProjectCategoryId(Long projectCategoryId, Sort sort){
+        projectCategoryRepository.findById(projectCategoryId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호입니다. projectCategoryId : " + projectCategoryId));
+
+
         List<Live> lives = liveRepository.findAllByProjectCategoryId(projectCategoryId, sort);
 
         return lives.stream()
