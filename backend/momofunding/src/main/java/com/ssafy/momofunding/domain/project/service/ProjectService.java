@@ -54,6 +54,7 @@ public class ProjectService {
     public ProjectGetDetailResponseDto getProjectDetail(Long projectId) {
         return new ProjectGetDetailResponseDto(projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId)),
-                new CreatorGetDetailResponseDto(creatorRepository.findByProjectId(projectId)));
+                new CreatorGetDetailResponseDto(creatorRepository.findByProjectId(projectId)
+                        .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId))));
     }
 }
