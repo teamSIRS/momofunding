@@ -39,7 +39,7 @@ public class UserService {
     @Transactional
     public UserInfoResponseDto getUserInfo(Long userId) {
         return new UserInfoResponseDto(userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 Id가 존재하지 않습니다.")));
+                .orElseThrow(() -> new IllegalArgumentException("해당 Id가 존재하지 않습니다. UserId : " + userId)));
     }
 
 
