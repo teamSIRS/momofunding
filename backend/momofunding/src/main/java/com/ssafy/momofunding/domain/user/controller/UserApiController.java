@@ -1,5 +1,7 @@
 package com.ssafy.momofunding.domain.user.controller;
 
+import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.domain.user.dto.UserInfoResponseDto;
 import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -45,13 +47,19 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
-
-//
-//    //회원 정보 조회
-//    @GetMapping("/users/{userId}")
-//    public ResponseEntity getUser(@PathVariable("userId") String userId){
-//        Optional<User> user = userService.getUserInfo(userId);
-//    }
+//    회원 정보 조회
+    @GetMapping("/users/{userId}")
+    public ResponseEntity getUserInfo(@PathVariable("userId") Long userId){
+        UserInfoResponseDto userInfoResponseDto;
+        Map<String, Object> responseMap = new HashMap<>();
+        try {
+            userInfoResponseDto = userService.getUserInfo(userId);
+        }catch (IllegalArgumentException e){
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(userInfoResponseDto);
+    }
 ////
 ////    //회원 정보 수정
 //    @PutMapping("/users/{userId}")

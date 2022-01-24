@@ -12,14 +12,14 @@ public class UserSignUpRequestDto {
 
 
     @Builder
-    public UserSignUpRequestDto(String email, String password, String nickname, String role){
+    public UserSignUpRequestDto(String email, String password, String nickname, String role) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.role = role;
     }
 
-    public User toEntity(){
+    public User toEntity() {
         return User.builder()
                 .email(email)
                 .password(password)
