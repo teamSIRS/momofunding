@@ -31,7 +31,7 @@ public class ProjectApiController {
     }
 
     @PutMapping("/{projectId}")
-    public ResponseEntity<Map<String, Object>> saveProject(@PathVariable Long projectId, @RequestBody ProjectSaveRequestDto projectSaveRequestDto){
+    public ResponseEntity<Map<String, Object>> updateProject(@PathVariable Long projectId, @RequestBody ProjectSaveRequestDto projectSaveRequestDto){
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
