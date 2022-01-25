@@ -8,6 +8,7 @@ import com.ssafy.momofunding.domain.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -72,6 +73,9 @@ public class Project {
 
     @Column
     Timestamp registerDate;
+
+    @Formula("current_amount/funding_goal")
+    Double popularity;
 
     @Builder
     public Project(Long id, String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,

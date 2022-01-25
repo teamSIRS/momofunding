@@ -5,15 +5,19 @@ import com.ssafy.momofunding.domain.creator.repository.CreatorRepository;
 import com.ssafy.momofunding.domain.live.domain.Live;
 import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.project.dto.ProjectGetDetailResponseDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectGetListResponseDto;
 import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.projectcategory.repository.ProjectCategoryRepository;
 import com.ssafy.momofunding.domain.projectstate.repository.ProjectStateRepository;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -65,5 +69,13 @@ public class ProjectService {
 
     public void deleteProject(Long projectId) {
         projectRepository.deleteById(projectId);
+    }
+
+    public List<ProjectGetListResponseDto> findBySortDate(){
+        List<Project> projects = projectRepository.findAllByProjectStateIdOrderByStartDateAsc(2L, Sort.by("id").ascending());
+
+        return projects.stream()
+                .map(ProjectGetListResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
