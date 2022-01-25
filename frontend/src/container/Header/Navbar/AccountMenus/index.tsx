@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { StyledMenus } from "../Menus/styles";
-import UnconfirmedAccountMenus from "./UnConfirmedAccountMenus";
+import UnconfirmedAccountMenus from "./UnconfirmedAccountMenus";
 import ConfirmedAccountMenus from "./ConfirmedAccountMenus";
 
 const AccountMenus = () => {

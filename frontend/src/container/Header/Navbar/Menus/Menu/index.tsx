@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 
 export type MenuProps = {
   setAuth?: Dispatch<SetStateAction<boolean>>;
+  onClick?: Dispatch<SetStateAction<boolean>>;
   name?: string;
   path?: string;
 };
