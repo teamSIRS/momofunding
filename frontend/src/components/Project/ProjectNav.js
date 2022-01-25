@@ -1,8 +1,5 @@
 // 카드로 여러개 나열되어 있는 페이지
 import styled from "styled-components";
-import { useState } from "react";
-import ProjectCard from "./ProjectCard";
-import { Col, Container, Row } from "react-bootstrap";
 
 const ListNav = styled.div`
   display: flex;
