@@ -75,7 +75,7 @@ function ProjectList(){
              <Bar />   
 
             <Container>
-                {/* 수만큼 가져오기 */}
+                    {/* 카드 가져오기 */}
                 <Row>
                     <ProjectCard></ProjectCard>
                     <ProjectCard></ProjectCard>
