@@ -78,4 +78,12 @@ public class ProjectService {
                 .map(ProjectGetListResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    public List<ProjectGetListResponseDto> findBySortPopularity() {
+        List<Project> projects = projectRepository.findAllByProjectStateIdOrderByPopularityDesc(2L, Sort.by("id").ascending());
+
+        return projects.stream()
+                .map(ProjectGetListResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }

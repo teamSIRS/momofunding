@@ -81,6 +81,8 @@ public class ProjectApiController {
 
         if(sort.equals("date")){
             projects = projectService.findBySortDate();
+        }else if(sort.equals("popularity")){
+            projects = projectService.findBySortPopularity();
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(projects);
