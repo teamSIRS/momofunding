@@ -1,7 +1,6 @@
 import { Nav } from "react-bootstrap";
 import Menu from "../../Menus/Menu";
 import { AccountMenusProp } from "../UnconfirmedAccountMenus";
-import LoginButton from "../UnconfirmedAccountMenus/LoginButton";
 
 const ConfirmedAccountMenu = ({ setAuth }: AccountMenusProp) => (
   <Nav>

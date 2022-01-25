@@ -80,9 +80,9 @@ public class ProjectApiController {
         List<ProjectGetListResponseDto> projects = new ArrayList<>();
 
         if(sort.equals("date")){
-            projects = projectService.findBySortDate();
+            projects = projectService.getProjectListByDate();
         }else if(sort.equals("popularity")){
-            projects = projectService.findBySortPopularity();
+            projects = projectService.getProjectListByPopularity();
         }
 
         if(projects.isEmpty()) ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -94,14 +94,12 @@ public class ProjectApiController {
         List<ProjectGetListResponseDto> projects = new ArrayList<>();
 
         if(sort.equals("date")){
-            projects = projectService.findBySortCategoryDate(categoryId);
+            projects = projectService.getProjectListByCategoryDate(categoryId);
+        }else if(sort.equals("popularity")){
+            projects = projectService.getProjectListByCategoryPopularity(categoryId);
         }
 
         if(projects.isEmpty()) ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
-
-
-
-
 }

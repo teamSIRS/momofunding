@@ -1,10 +1,15 @@
 import { Button } from "react-bootstrap";
 import styled from "styled-components";
-import { MomoColor, MomoWeakColor } from "../../../shared/global";
+import {
+  MomoColor,
+  MomoStrongColor,
+  MomoWeakColor,
+} from "../../../shared/global";
 
 export const StyledBtn = styled(Button)`
   margin: 10px;
   color: white;
+  background-color: ${MomoStrongColor};
   border-color: white;
   &:hover {
     color: ${MomoColor};
