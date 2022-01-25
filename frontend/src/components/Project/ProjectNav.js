@@ -88,30 +88,6 @@ function ProjectNav() {
         </Search>
       </ListNav>
       <Bar />
-      <Container>
-        {/* 라이브중인 펀딩 */}
-        {/* <ListCenter>
-          <Row>
-            <Col>
-              <ProjcetLiveCard></ProjcetLiveCard>
-            </Col>
-            <Col>
-              <ProjcetLiveCard></ProjcetLiveCard>
-            </Col>
-          </Row>
-        </ListCenter>
-        <ListCenter>
-          <Row>
-            <Col>
-              <ProjcetLiveCard></ProjcetLiveCard>
-            </Col>
-            <Col>
-              <ProjcetLiveCard></ProjcetLiveCard>
-            </Col>
-          </Row>
-        </ListCenter> */}
-
-      </Container>
     </>
   );
 }
