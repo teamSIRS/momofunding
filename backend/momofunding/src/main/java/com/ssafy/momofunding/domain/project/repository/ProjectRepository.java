@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    List<Project> findAllByProjectStateIdOrderByStartDateAsc(Long projectStateId, Sort sort);
+    List<Project> findAllByProjectStateIdOrderByStartDateDesc(Long projectStateId, Sort sort);
     List<Project> findAllByProjectStateIdOrderByPopularityDesc(Long projectStateId, Sort sort);
-    List<Project> findAllByProjectStateIdAndProjectCategoryIdOrderByStartDateAsc(Long projectStateId, Long projectCategoryId, Sort sort);
+    List<Project> findAllByProjectStateIdAndProjectCategoryIdOrderByStartDateDesc(Long projectStateId, Long projectCategoryId, Sort sort);
+    List<Project> findAllByProjectStateIdAndProjectCategoryIdOrderByPopularityDesc(Long projectStateId, Long projectCategoryId, Sort sort);
 
 }
