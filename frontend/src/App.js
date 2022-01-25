@@ -1,6 +1,6 @@
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import ProjectList from "./components/Project/ProjectList";
 import Header from "./container/Header";
 import GlobalStyle from "./shared/global";
 
@@ -25,7 +25,9 @@ function App() {
         <Route path="notices" element={<h1>공지사항</h1>}></Route>
         <Route path=""></Route>
       </Routes>
+        
     </Router>
+    
   );
 }
 
