@@ -85,6 +85,7 @@ public class ProjectApiController {
             projects = projectService.findBySortPopularity();
         }
 
+        if(projects.isEmpty()) ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
 
