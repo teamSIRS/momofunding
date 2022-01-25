@@ -76,7 +76,7 @@ public class ProjectApiController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Object> findBySortProjectList(@RequestParam String sort){
+    public ResponseEntity<Object> getProjectListBySort(@RequestParam String sort){
         List<ProjectGetListResponseDto> projects = new ArrayList<>();
 
         if(sort.equals("date")){
@@ -88,6 +88,19 @@ public class ProjectApiController {
         if(projects.isEmpty()) ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
+
+    @GetMapping("/categories/{categoryId}")
+    public ResponseEntity<Object> getProjectListBySort(@PathVariable Long categoryId, @RequestParam String sort){
+        List<ProjectGetListResponseDto> projects = new ArrayList<>();
+
+        if(sort.equals("date")){
+            projects = projectService.findBySortCategoryDate(categoryId);
+        }
+
+        if(projects.isEmpty()) ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(projects);
+    }
+
 
 
 

@@ -86,4 +86,12 @@ public class ProjectService {
                 .map(ProjectGetListResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    public List<ProjectGetListResponseDto> findBySortCategoryDate(Long categoryId) {
+        List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectCategoryIdOrderByStartDateAsc(2L, categoryId, Sort.by("id").ascending());
+
+        return projects.stream()
+                .map(ProjectGetListResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }
