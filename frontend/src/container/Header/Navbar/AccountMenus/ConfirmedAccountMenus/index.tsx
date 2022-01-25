@@ -1,16 +1,14 @@
-import { Dispatch, SetStateAction } from "react";
 import { Nav } from "react-bootstrap";
 import Menu from "../../Menus/Menu";
-export type AccountMenusProp = {
-  setAuth: Dispatch<SetStateAction<boolean>>;
-};
-const ConfirmedAccountMenus = ({ setAuth }: AccountMenusProp) => {
-  return (
-    <Nav>
-      <Menu setAuth={setAuth} path="signin" name="로그인" />
-      <Menu path="users" name="회원가입" />
-    </Nav>
-  );
-};
+import { AccountMenusProp } from "../UnconfirmedAccountMenus";
+import LoginButton from "../UnconfirmedAccountMenus/LoginButton";
 
-export default ConfirmedAccountMenus;
+const ConfirmedAccountMenu = ({ setAuth }: AccountMenusProp) => (
+  <Nav>
+    <LoginButton />
+    <Menu setAuth={setAuth} path="users" name="로그아웃" />
+    <Menu path="users" name="프로필" />
+  </Nav>
+);
+
+export default ConfirmedAccountMenu;

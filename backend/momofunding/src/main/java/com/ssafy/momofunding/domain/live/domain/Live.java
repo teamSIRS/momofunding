@@ -1,6 +1,9 @@
 package com.ssafy.momofunding.domain.live.domain;
 
+import com.ssafy.momofunding.domain.live.dto.LiveUpdateRequestDto;
 import com.ssafy.momofunding.domain.liveState.domain.LiveState;
+import com.ssafy.momofunding.domain.project.domain.Project;
+import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
 import com.ssafy.momofunding.domain.projectstate.domain.ProjectState;
 import com.ssafy.momofunding.domain.user.domain.User;
 import lombok.Builder;
@@ -40,6 +43,33 @@ public class Live {
     @ManyToOne(targetEntity = LiveState.class)
     @JoinColumn(name = "live_state_id", nullable = false)
     LiveState liveState;
+
+    @ManyToOne(targetEntity = ProjectCategory.class)
+    @JoinColumn(name = "project_category_id", nullable = false)
+    ProjectCategory projectCategory;
+
+    @ManyToOne(targetEntity = Project.class)
+    @JoinColumn(name = "project_id", nullable = false)
+    Project project;
+
+    public void mapLiveState(LiveState liveState){
+        this.liveState = liveState;
+    }
+
+    public void mapProjectCategory(ProjectCategory projectCategory){
+        this.projectCategory = projectCategory;
+    }
+
+    public void mapProject(Project project){
+        this.project = project;
+    }
+
+    public void update(LiveUpdateRequestDto liveUpdateRequestDto) {
+        this.title = liveUpdateRequestDto.getTitle();
+        this.content = liveUpdateRequestDto.getContent();
+        this.maxViewer = liveUpdateRequestDto.getMaxViewer();
+        this.totalPlayTime = liveUpdateRequestDto.getTotalPlayTime();
+    }
 
     @Builder
     public Live(String title, String content, Integer maxViewer, Integer totalPlayTime, Timestamp startTime, Timestamp registerDate){

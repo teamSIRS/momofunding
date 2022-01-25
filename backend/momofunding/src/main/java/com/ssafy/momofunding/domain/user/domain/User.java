@@ -1,5 +1,6 @@
 package com.ssafy.momofunding.domain.user.domain;
 
+import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,21 +33,25 @@ public class User {
     private String role;
 
     @PrePersist
-    public void initializeRole(){
+    public void initializer(){
         role = (role == null ? "USER" : role);
     }
-
 
     //@Builder 는 AllArgsConstructor와 같음
     //모든 멤버 필드에 대해서 매개변수를 받는 기본 생성자를 만드는거임
     //원하는 변수에만 생성되도록 하는데에 builder를 붙이자
     @Builder
-    public User (String email, String password, String nickname, String role){
+    public User (String email, String password, String nickname, String role,Timestamp registerDate){
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.role = role;
+        this.registerDate = registerDate;
     }
 
+    public void updateUserInfo(UserInfoUpdateRequestDto userInfoUpdateRequestDto){
+        this.password = userInfoUpdateRequestDto.getPassword();
+        this.nickname = userInfoUpdateRequestDto.getNickname();
+    }
 
 }

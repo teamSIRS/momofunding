@@ -1,8 +1,9 @@
 package com.ssafy.momofunding.domain.user.controller;
 
-import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
+import com.ssafy.momofunding.domain.user.dto.*;
 import com.ssafy.momofunding.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,16 +18,26 @@ public class UserApiController {
     private final UserService userService;
 
     //Sign-in
-//    @PostMapping("/users/sign-in")
-//    public Boolean signIn(String email, String password){
-//        return userService.signIn(email,password);
-//    }
+    @PostMapping("/users/sign-in")
+    public ResponseEntity signIn(@RequestBody UserSignInRequestDto userSignInRequestDto){
+        Map<String, Object> responseMap = new HashMap<>();
+        UserSignInResponseDto userSignInResponseDto;
+        try {
+            userSignInResponseDto = userService.findEmailAndPassword(userSignInRequestDto);
+        }catch (EmptyResultDataAccessException e){
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(userSignInResponseDto);
+    }
 
     //Sign-up
     @PostMapping("/users")
     public ResponseEntity signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto) {
-        userService.saveUserInfo(userSignUpRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        Map<String, Object> responseMap = new HashMap<>();
+        Long userId = userService.saveUserInfo(userSignUpRequestDto);
+        responseMap.put("userId",userId);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
     //닉네임 중복 조회
@@ -45,38 +56,45 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
+    //회원 정보 조회
+    @GetMapping("/users/{userId}")
+    public ResponseEntity getUserInfo(@PathVariable("userId") Long userId){
+        UserInfoResponseDto userInfoResponseDto;
+        Map<String, Object> responseMap = new HashMap<>();
+        try {
+            userInfoResponseDto = userService.getUserInfo(userId);
+        }catch (IllegalArgumentException e){
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(userInfoResponseDto);
+    }
 
-//
-//    //회원 정보 조회
-//    @GetMapping("/users/{userId}")
-//    public ResponseEntity getUser(@PathVariable("userId") String userId){
-//        Optional<User> user = userService.getUserInfo(userId);
-//    }
-////
-////    //회원 정보 수정
-//    @PutMapping("/users/{userId}")
-//    public ResponseEntity modifyUser(@PathVariable("userId") String userId){
-//
-//
-//    }
+    //회원 정보 수정
+    @PutMapping("/users/{userId}")
+    public ResponseEntity updateUser(@PathVariable("userId") Long userId, @RequestBody UserInfoUpdateRequestDto userInfoUpdateRequestDto){
+        Map<String, Object> responseMap = new HashMap<>();
+        try {
+            userService.updateUserInfo(userId, userInfoUpdateRequestDto);
+        }catch (IllegalArgumentException e) {
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+        responseMap.put("userID", userId);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+    }
 
-////
-////
-////
-////    //회원 탈퇴
-////    @DeleteMapping("/users/{userId}")
-////
-////
-////
-
-////
-////
-////    //이메일 존재 여부 조회(아이디 찾기)
-////    @GetMapping("/users/email/{email}")
-//
-//
-//    //비밀번호 변경
-////    @PutMapping("/users/password/{userId}");
-
-
+    //회원 삭제
+    @DeleteMapping("/users/{userId}")
+    public ResponseEntity deleteUser(@PathVariable("userId") Long userId){
+        Map<String, Object> responseMap = new HashMap<>();
+        try {
+            userService.deleteById(userId);
+        }catch (EmptyResultDataAccessException e){
+            responseMap.put("errorMsg", "해당 Id가 존재하지 않습니다. UserId : " + userId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+        responseMap.put("userId", userId);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+    }
 }
