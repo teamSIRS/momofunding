@@ -81,8 +81,11 @@ public class ProjectApiController {
 
         if(sort.equals("date")){
             projects = projectService.findBySortDate();
+        }else if(sort.equals("popularity")){
+            projects = projectService.findBySortPopularity();
         }
 
+        if(projects.isEmpty()) ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
 
