@@ -3,7 +3,6 @@ import Login from "./components/Account/Login/Login";
 import Signup from "./components/Account/Signup/Signup";
 import LiveBadge from "./components/Home/Badge";
 import Footer from "./container/Footer";
-
 import Header from "./container/Header";
 import GlobalStyle from "./shared/global";
 
@@ -27,8 +26,10 @@ function App() {
         <Route path="login" element={<Login />}></Route>
         <Route path="signup" element={<Signup />}></Route>
       </Routes>
+
       <Footer />
     </Router>
+    
   );
 }
 
