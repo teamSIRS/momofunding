@@ -74,8 +74,8 @@ public class Project {
     @Column
     Timestamp registerDate;
 
-    @Formula("current_amount/funding_goal")
-    Double popularity;
+    @Formula("(current_amount/funding_goal)*100")
+    Integer popularity;
 
     @Builder
     public Project(Long id, String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
