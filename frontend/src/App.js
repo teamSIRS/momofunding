@@ -29,7 +29,6 @@ function App() {
         <ProjectList/>
       <Footer />
     </Router>
-    
   );
 }
 

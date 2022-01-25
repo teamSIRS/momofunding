@@ -71,15 +71,15 @@ public class ProjectService {
         projectRepository.deleteById(projectId);
     }
 
-    public List<ProjectGetListResponseDto> findBySortDate(){
-        List<Project> projects = projectRepository.findAllByProjectStateIdOrderByStartDateAsc(2L, Sort.by("id").ascending());
+    public List<ProjectGetListResponseDto> getProjectListByDate(){
+        List<Project> projects = projectRepository.findAllByProjectStateIdOrderByStartDateDesc(2L, Sort.by("id").ascending());
 
         return projects.stream()
                 .map(ProjectGetListResponseDto::new)
                 .collect(Collectors.toList());
     }
 
-    public List<ProjectGetListResponseDto> findBySortPopularity() {
+    public List<ProjectGetListResponseDto> getProjectListByPopularity() {
         List<Project> projects = projectRepository.findAllByProjectStateIdOrderByPopularityDesc(2L, Sort.by("id").ascending());
 
         return projects.stream()
@@ -87,8 +87,16 @@ public class ProjectService {
                 .collect(Collectors.toList());
     }
 
-    public List<ProjectGetListResponseDto> findBySortCategoryDate(Long categoryId) {
-        List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectCategoryIdOrderByStartDateAsc(2L, categoryId, Sort.by("id").ascending());
+    public List<ProjectGetListResponseDto> getProjectListByCategoryDate(Long categoryId) {
+        List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectCategoryIdOrderByStartDateDesc(2L, categoryId, Sort.by("id").ascending());
+
+        return projects.stream()
+                .map(ProjectGetListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProjectGetListResponseDto> getProjectListByCategoryPopularity(Long categoryId) {
+        List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectCategoryIdOrderByPopularityDesc(2L, categoryId, Sort.by("id").ascending());
 
         return projects.stream()
                 .map(ProjectGetListResponseDto::new)
