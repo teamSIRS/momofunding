@@ -1,6 +1,5 @@
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ProjectList from "./components/Project/ProjectList";
 import Header from "./container/Header";
 import GlobalStyle from "./shared/global";
 
