@@ -17,12 +17,12 @@ public class ProjectGetListResponseDto {
     private Integer fundingGoal;
     private String mainImageUrl;
     private Integer currentAmount;
-    private Double popularity;
+    private Integer popularity;
     private Timestamp expirationDate;
 
     @Builder
     public ProjectGetListResponseDto(Long id, String projectName, Integer fundingGoal, String mainImageUrl,
-                                     Integer currentAmount, Double popularity, Timestamp expirationDate){
+                                     Integer currentAmount, Integer popularity, Timestamp expirationDate){
         this.id = id;
         this.projectName = projectName;
         this.fundingGoal = fundingGoal;

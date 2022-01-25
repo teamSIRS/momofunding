@@ -1,7 +1,7 @@
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Account/Login/Login";
 import Signup from "./components/Account/Signup/Signup";
+import LiveBadge from "./components/Home/Badge";
 import Footer from "./container/Footer";
 
 import Header from "./container/Header";
@@ -12,17 +12,8 @@ function App() {
     <Router>
       <GlobalStyle />
       <Header />
-      <h1>Hello! This is momo funding</h1>
-      <h2>This is router test page</h2>
-      <h2>This is router test page</h2>
-      <h2>This is router test page</h2>
-      <h2>This is router test page</h2>
-      <h2>This is router test page</h2>
-      <h2>This is router test page</h2>
-      <h2>This is router test page</h2>
-      <h2>This is router test page</h2>
       <Routes>
-        <Route index element={<h1>This is home</h1>}></Route>
+        <Route index element={<LiveBadge />}></Route>{" "}
         <Route
           path="projects"
           element={
