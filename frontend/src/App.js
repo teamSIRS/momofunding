@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from "./components/Account/Signup/Signup";
-import LiveBadge from "./components/Home/Badge";
+import Home from "./components/Home";
 import Footer from "./container/Footer";
 import Header from "./container/Header";
 import GlobalStyle from "./shared/global";
@@ -11,7 +11,7 @@ function App() {
       <GlobalStyle />
       <Header />
       <Routes>
-        <Route index element={<LiveBadge />}></Route>{" "}
+        <Route index element={<Home />}></Route>
         <Route
           path="projects"
           element={
