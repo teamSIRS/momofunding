@@ -1,6 +1,7 @@
 package com.ssafy.momofunding.domain.project.controller;
 
 import com.ssafy.momofunding.domain.project.dto.ProjectGetDetailResponseDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectGetListResponseDto;
 import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
 import com.ssafy.momofunding.domain.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -70,6 +73,20 @@ public class ProjectApiController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<Object> findBySortProjectList(@RequestParam String sort){
+        List<ProjectGetListResponseDto> projects = new ArrayList<>();
+
+        if(sort.equals("date")){
+            projects = projectService.findBySortDate();
+        }else if(sort.equals("popularity")){
+            projects = projectService.findBySortPopularity();
+        }
+
+        if(projects.isEmpty()) ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
 
 

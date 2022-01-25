@@ -1,24 +1,23 @@
 import { useState } from "react";
 import { StyledMenus } from "../Menus/styles";
-import ConfirmedAccountMenus from "./ConfirmedAccountMenus";
 import UnconfirmedAccountMenus from "./UnconfirmedAccountMenus";
+import ConfirmedAccountMenus from "./ConfirmedAccountMenus";
 
 const AccountMenus = () => {
   const [auth, setAuth] = useState(false);
   const logIn = () => {
-    setAuth((now) => !now);
+    setAuth(true);
   };
-
   const logOut = () => {
-    setAuth((now) => !now);
+    setAuth(false);
   };
 
   return (
     <StyledMenus>
       {auth ? (
-        <UnconfirmedAccountMenus setAuth={logIn} />
-      ) : (
         <ConfirmedAccountMenus setAuth={logOut} />
+      ) : (
+        <UnconfirmedAccountMenus setAuth={logIn} />
       )}
     </StyledMenus>
   );
