@@ -1,13 +1,7 @@
-import { appendFile } from "fs";
-import { useState, BaseSyntheticEvent } from "react";
 import { Carousel } from "react-bootstrap";
 import HomeBanner from "./HomeBanner";
 
 export const HomeBanners = () => {
-  // const [index, setIndex] = useState(0);
-  // const handleSelect = (selectedIdx: number, e: BaseSyntheticEvent) => {
-  //   setIndex(selectedIdx);
-  // };
   const apis = [
     {
       title: "당신의 바리스타를 구독하세요",

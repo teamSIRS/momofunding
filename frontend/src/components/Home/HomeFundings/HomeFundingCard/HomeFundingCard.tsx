@@ -1,32 +1,40 @@
 import { Card } from "react-bootstrap";
+import { StringLiteralLike } from "typescript";
 import LiveBadge from "../../Badge";
-import { StyledCard, StyledCardImg, StyledLink } from "./styles";
+import {
+  BadgeContainer,
+  StyledCard,
+  StyledCardImg,
+  StyledLink,
+} from "./styles";
 
 export type HomeFundingCardProps = {
   // 임시로 만듦
   progress?: string;
-  large?: boolean;
+  height?: string;
+  width?: string;
   title: string;
   imgSrc: string;
   projectPath: string;
 };
 
 export const HomeFundingCard = ({
-  large = false,
+  height,
+  width,
   title,
   imgSrc,
   projectPath,
   progress,
 }: HomeFundingCardProps) => {
   return (
-    <StyledCard large={large}>
+    <StyledCard height={height} width={width}>
       <StyledLink to={projectPath}>
         <StyledCardImg src={imgSrc}></StyledCardImg>
         <Card.ImgOverlay className="d-flex flex-column justify-content-center align-items-center">
           <Card.Title>이것은 {title}입니다.</Card.Title>
-          <div className="position-absolute top-0 end-0">
+          <BadgeContainer top="8px" right="20px">
             <LiveBadge content={"ON AIR"} color={"green"} />
-          </div>
+          </BadgeContainer>
           <Card.Text>{progress}</Card.Text>
         </Card.ImgOverlay>
       </StyledLink>

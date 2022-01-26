@@ -2,12 +2,12 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const StyledCard = styled(Card)<{ large: boolean }>`
+export const StyledCard = styled(Card)<{ height: string; width: string }>`
   border-radius: 20px;
-  width: 75%;
-  margin: 50px;
+  width: ${({ width }) => width};
+  margin: 10px;
   border: 0px;
-  height: ${(p) => (p.large ? "15rem" : "6rem")};
+  height: ${({ height }) => height};
   overflow: hidden;
   color: white;
 `;
@@ -18,4 +18,17 @@ export const StyledCardImg = styled(Card.Img)`
 
 export const StyledLink = styled(Link)`
   /* color: white; */
+`;
+
+export const BadgeContainer = styled.div<{
+  top?: string;
+  bottom?: string;
+  right?: string;
+  left?: string;
+}>`
+  position: absolute;
+  top: ${({ top }) => top};
+  bottom: ${({ bottom }) => bottom};
+  left: ${({ left }) => left};
+  right: ${({ right }) => right};
 `;
