@@ -7,7 +7,7 @@ export const HomeFundings = () => {
     progress: "1086% 초과 달성!",
     imgSrc:
       "https://tumblbug-pci.imgix.net/932499bdfd401c73ae81db5270ea5a8a834f7a87/361ce6f682af56e5421e0a86d44a6fe37d799ac0/cd2062d2e9aa90d157b3fe7a5bace351c00d8b1f/a6fd36b0-e132-4807-a98f-9faa0c5fae03.png?auto=format%2Ccompress&fit=crop&h=465&lossless=true&w=620&s=af8e4baf5cbe5cfd092d10a7d3396b41",
-    projectPath: "",
+    projectPath: "projects/1",
   };
 
   const apis = [
@@ -15,13 +15,13 @@ export const HomeFundings = () => {
       title: "테스트용 타이틀1",
       imgSrc:
         "https://tumblbug-pci.imgix.net/932499bdfd401c73ae81db5270ea5a8a834f7a87/361ce6f682af56e5421e0a86d44a6fe37d799ac0/cd2062d2e9aa90d157b3fe7a5bace351c00d8b1f/a6fd36b0-e132-4807-a98f-9faa0c5fae03.png?auto=format%2Ccompress&fit=crop&h=465&lossless=true&w=620&s=af8e4baf5cbe5cfd092d10a7d3396b41",
-      projectPath: "",
+      projectPath: "projects/2",
     },
     {
       title: "테스트용 타이틀2",
       imgSrc:
         "https://tumblbug-pci.imgix.net/932499bdfd401c73ae81db5270ea5a8a834f7a87/361ce6f682af56e5421e0a86d44a6fe37d799ac0/cd2062d2e9aa90d157b3fe7a5bace351c00d8b1f/a6fd36b0-e132-4807-a98f-9faa0c5fae03.png?auto=format%2Ccompress&fit=crop&h=465&lossless=true&w=620&s=af8e4baf5cbe5cfd092d10a7d3396b41",
-      projectPath: "",
+      projectPath: "projects/3",
     },
   ];
   return (
