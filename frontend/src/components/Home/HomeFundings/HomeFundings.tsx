@@ -26,7 +26,7 @@ export const HomeFundings = () => {
   ];
   return (
     <Container>
-      <h2>인기 라이브 펀딩 목록</h2>
+      <h2>인기 펀딩 목록</h2>
       <Row md={1} lg={2} className="g-4">
         <Col>
           <HomeFundingCard
@@ -34,7 +34,8 @@ export const HomeFundings = () => {
             imgSrc={apiLarge.imgSrc}
             progress={apiLarge.progress}
             projectPath={apiLarge.projectPath}
-            large={true}
+            height={"300px"}
+            width={"400px"}
           ></HomeFundingCard>
         </Col>
         <Col>
@@ -44,6 +45,8 @@ export const HomeFundings = () => {
               title={api.title}
               imgSrc={api.imgSrc}
               projectPath={api.projectPath}
+              height={"140px"}
+              width={"400px"}
             />
           ))}
         </Col>
