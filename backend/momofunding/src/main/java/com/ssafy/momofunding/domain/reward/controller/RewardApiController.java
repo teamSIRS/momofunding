@@ -17,18 +17,20 @@ public class RewardApiController {
 
     private final RewardService rewardService;
 
-    @PostMapping("/projects/{projectId}")
-    public ResponseEntity<Object> createReward(@PathVariable Long projectId, @RequestBody RewardSaveRequestDto rewardSaveRequestDto){
+    @PostMapping("")
+    public ResponseEntity<Object> createReward(@RequestBody RewardSaveRequestDto rewardSaveRequestDto){
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
-            rewardService.createReward(projectId, rewardSaveRequestDto);
+            rewardService.createReward(rewardSaveRequestDto);
         } catch (IllegalArgumentException e){
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+
+    //@GetMapping("")
 
 
 

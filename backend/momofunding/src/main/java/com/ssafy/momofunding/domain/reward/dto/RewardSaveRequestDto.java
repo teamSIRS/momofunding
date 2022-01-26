@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 public class RewardSaveRequestDto {
 
     private Long id;
+    private Long projectId;
     private String name;
     private Integer price;
     private String content;
@@ -25,10 +26,11 @@ public class RewardSaveRequestDto {
     private Timestamp registerDate;
 
     @Builder
-    public RewardSaveRequestDto(Long id, String name, Integer price, String content, String optionDescription,
+    public RewardSaveRequestDto(Long id, Long projectId, String name, Integer price, String content, String optionDescription,
                                 Boolean isDeliver, Integer limitedQuantity, Boolean isSuccess, Timestamp deliverStartDate,
                                 Timestamp registerDate){
         this.id = id;
+        this.projectId = projectId;
         this.name = name;
         this.price = price;
         this.content = content;
