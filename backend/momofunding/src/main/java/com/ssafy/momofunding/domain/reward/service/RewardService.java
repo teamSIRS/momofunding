@@ -39,4 +39,15 @@ public class RewardService {
                 .map(RewardGetListResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    public void updateReward(Long rewardId, RewardSaveRequestDto rewardSaveRequestDto){
+        projectRepository.findById(rewardSaveRequestDto.getProjectId())
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+rewardSaveRequestDto.getProjectId()));
+
+        Reward reward = rewardRepository.findById(rewardId)
+                        .orElseThrow(()-> new IllegalArgumentException("잘못된 리워드 번호입니다:: rewardId-"+rewardId));
+
+        reward.updateReward(rewardSaveRequestDto);
+        rewardRepository.save(reward);
+    }
 }
