@@ -7,6 +7,10 @@ import Header from "./container/Header";
 import GlobalStyle from "./shared/global";
 import ProjectLiveList from "./components/Project/ProjectLiveList";
 import ProjectEntrance from "./components/Project/ProjectEntrance";
+import FindId from "./components/Account/FindAccount/FindId";
+import FindPw from "./components/Account/FindAccount/FindPw";
+import ChangePw from "./components/Account/FindAccount/ChangePw";
+import FindAccount from "./components/Account/FindAccount/FindAccount";
 
 function App() {
   return (
@@ -29,6 +33,9 @@ function App() {
         ></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
+        {/* ============================================ */}
+        <Route path="/findAccount/*" element={<FindAccount />}></Route>
+        <Route path="/changepw" element={<ChangePw />}></Route>
       </Routes>
 
       <Footer />
