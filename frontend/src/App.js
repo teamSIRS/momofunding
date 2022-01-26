@@ -6,6 +6,7 @@ import Footer from "./container/Footer";
 import Header from "./container/Header";
 import GlobalStyle from "./shared/global";
 import ProjectLiveList from "./components/Project/ProjectLiveList";
+import ProjectEntrance from "./components/Project/ProjectEntrance";
 
 function App() {
   return (
@@ -14,16 +15,20 @@ function App() {
       <Header />
       <Routes>
         <Route index element={<Home />}></Route>
+        <Route path="/projects" element={<ProjectList />}></Route>
+        <Route path="/lives" element={<ProjectLiveList />}></Route>
+        <Route path="/notices" element={<h1>공지사항</h1>}></Route>
+
         <Route
-          path="/projects"
-          element={<ProjectList />}></Route>
-        <Route path="/lives" element={<ProjectLiveList/>}></Route>
-        <Route path="/notices" element={
-          <>
-            <h1>공지사항</h1>
-          </>
-        }></Route>
+          path="/notices"
+          element={
+            <>
+              <h1>공지사항</h1>
+            </>
+          }
+        ></Route>
         <Route path="/signup" element={<Signup />}></Route>
+        <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
       </Routes>
 
       <Footer />
