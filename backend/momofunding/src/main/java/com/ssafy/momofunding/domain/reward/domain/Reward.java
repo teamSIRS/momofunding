@@ -1,6 +1,7 @@
 package com.ssafy.momofunding.domain.reward.domain;
 
 import com.ssafy.momofunding.domain.project.domain.Project;
+import com.ssafy.momofunding.domain.reward.dto.RewardSaveRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -70,6 +71,16 @@ public class Reward {
 
     public void mapProject(Project p){
         this.project = p;
+    }
+
+    public void updateReward(RewardSaveRequestDto rsr){
+        this.name = rsr.getName();
+        this.price = rsr.getPrice();
+        this.content = rsr.getContent();
+        this.optionDescription = rsr.getOptionDescription();
+        this.isDeliver = rsr.getIsDeliver();
+        this.limitedQuantity = rsr.getLimitedQuantity();
+        this.deliverStartDate = rsr.getDeliverStartDate();
     }
 
 }
