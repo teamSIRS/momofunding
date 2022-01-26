@@ -41,9 +41,8 @@ public class RewardService {
     }
 
     public void updateReward(Long rewardId, RewardSaveRequestDto rewardSaveRequestDto){
-        Long projectId = rewardSaveRequestDto.getProjectId();
-        projectRepository.findById(projectId)
-                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
+        projectRepository.findById(rewardSaveRequestDto.getProjectId())
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+rewardSaveRequestDto.getProjectId()));
 
         Reward reward = rewardRepository.findById(rewardId)
                         .orElseThrow(()-> new IllegalArgumentException("잘못된 리워드 번호입니다:: rewardId-"+rewardId));
