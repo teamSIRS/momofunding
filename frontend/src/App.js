@@ -18,10 +18,19 @@ function App() {
         <Route path="/projects" element={<ProjectList />}></Route>
         <Route path="/lives" element={<ProjectLiveList />}></Route>
         <Route path="/notices" element={<h1>공지사항</h1>}></Route>
+
+        <Route
+          path="/notices"
+          element={
+            <>
+              <h1>공지사항</h1>
+            </>
+          }
+        ></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
       </Routes>
-      {/* <ProjectCard/> */}
+
       <Footer />
     </Router>
   );
