@@ -1,18 +1,5 @@
 import styled from 'styled-components';
-import { MomoColor } from '../../../shared/global';
-import { Info } from '../../Account/FindAccount/styles';
-
-const InfoCard = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 347px;
-    height: 307px;
-    border-radius: 20px;
-    box-shadow: 4px 4px 20px 0px ${MomoColor};
-    margin: 20px;
-`;
+import { InfoCard, CardTitle } from './styles';
 
 const CreatorPic = styled.div`
     width:120px;
@@ -41,9 +28,10 @@ const Contact = styled(CreatorName)`
     font-size: 18px; 
 `;
 
-function Cards(){
+function CreatorCard(){
     return(
         <>
+            <CardTitle>창작자 정보</CardTitle>
             <InfoCard>
                 <CreatorPic/>
                 <CreatorInfo>
@@ -53,9 +41,7 @@ function Cards(){
                 </CreatorInfo>
             </InfoCard>
         </>
-
     );
-
 };
 
-export default Cards;
+export default CreatorCard;
