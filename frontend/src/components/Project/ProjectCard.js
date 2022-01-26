@@ -2,25 +2,26 @@
 import { ProgressBar } from "react-bootstrap";
 import styled from "styled-components";
 import { useState } from "react";
+import LiveBadge from "../Home/Badge";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
-  width: 20em;
-  margin-top: 30px;
+  width: 295px;
+  margin: 20px;
+`;
 
-  div#thumbnail {
-    width: 270px;
+const Thumnail = styled.div`
+    width: 295px;
     height: 170px;
     margin: auto;
     background-size: cover;
     background-position: center;
-    background-image: url("https://dimg.donga.com/a/600/0/90/5/wps/NEWS/IMAGE/2019/04/20/95140278.1.jpg"); //////////
+    background-image: url("https://media.istockphoto.com/photos/orange-bicycle-next-to-a-field-of-hyacinths-dutch-spring-landscape-picture-id1199838576"); //////////
     /* background-image: ${(props) => props.img}; */
     border-radius: 15px;
-  }
 `;
 
 const LiveOn = styled.div`
@@ -37,9 +38,10 @@ const LiveOn = styled.div`
   right: 20px;
   top: 8px;
 `;
+
 const TitleDetail = styled.div`
   display: inline-block;
-  margin: 10px 5px 5px 5px;
+  margin: 10px 0 5px 0;
   h5 {
     display: inline;
     font-weight: bold;
@@ -70,10 +72,13 @@ function ProjectCard(props) {
   let [live, setLive] = useState(true); //////
   return (
     <Container>
-      {live ? ( //{props.live}
-        <LiveOn>Live</LiveOn>
-      ) : null}
-      <div id="thumbnail"></div>
+        <div className="position-absolute top-0 end-0">
+            {live ? ( //{props.live}
+                // <LiveOn>Live</LiveOn>
+                <LiveBadge content={"Live"} color={"red"}/>
+            ) : null}
+        </div>
+      <Thumnail />
       <TitleDetail>
         <h5>프로젝트 제목</h5>
         <span>창작자</span>
