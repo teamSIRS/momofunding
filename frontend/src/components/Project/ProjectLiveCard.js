@@ -42,7 +42,7 @@ const CreatorPic = styled.div`
     background-image: url('https://pbs.twimg.com/profile_images/813380182291529728/mKDilml6_400x400.jpg');
     background-size: cover;
     background-position: center;
-    border-radius: 50px;
+    border-radius: 50%;
 `;
 
 const CreatorName = styled.p`
