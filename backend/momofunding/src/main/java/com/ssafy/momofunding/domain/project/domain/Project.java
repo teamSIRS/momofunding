@@ -4,6 +4,7 @@ import com.ssafy.momofunding.domain.live.domain.Live;
 import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
 import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
 import com.ssafy.momofunding.domain.projectstate.domain.ProjectState;
+import com.ssafy.momofunding.domain.reward.domain.Reward;
 import com.ssafy.momofunding.domain.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,6 +40,9 @@ public class Project {
 
     @OneToMany(mappedBy = "project")
     List<Live> lives = new ArrayList<>();
+
+    @OneToMany(mappedBy = "project")
+    List<Reward> rewards = new ArrayList<>();
 
 
     @Column(length=150)
