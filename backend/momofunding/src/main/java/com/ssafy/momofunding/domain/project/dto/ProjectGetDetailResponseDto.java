@@ -1,6 +1,5 @@
 package com.ssafy.momofunding.domain.project.dto;
 
-import com.ssafy.momofunding.domain.creator.dto.CreatorGetDetailResponseDto;
 import com.ssafy.momofunding.domain.project.domain.Project;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,14 +28,11 @@ public class ProjectGetDetailResponseDto {
     private Integer likeCount;
     private Timestamp registerDate;
 
-    private CreatorGetDetailResponseDto creator;
-
     @Builder
     public ProjectGetDetailResponseDto(Long id, Long projectStateId, Long projectCategoryId, Long userId,
                                        String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
                                        String summary, String projectContent, Integer currentAmount, Timestamp startDate,
-                                       Timestamp expirationDate, Integer likeCount, Timestamp registerDate,
-                                       CreatorGetDetailResponseDto creator){
+                                       Timestamp expirationDate, Integer likeCount, Timestamp registerDate){
         this.id = id;
         this.projectStateId = projectStateId;
         this.projectCategoryId = projectCategoryId;
@@ -53,10 +49,9 @@ public class ProjectGetDetailResponseDto {
         this.likeCount = likeCount;
         this.registerDate = registerDate;
 
-        this.creator = creator;
     }
 
-    public ProjectGetDetailResponseDto(Project projectEntity, CreatorGetDetailResponseDto creator){
+    public ProjectGetDetailResponseDto(Project projectEntity){
         this.id = projectEntity.getId();
         this.projectStateId = projectEntity.getProjectState().getId();
         this.projectCategoryId = projectEntity.getProjectCategory().getId();
@@ -72,7 +67,5 @@ public class ProjectGetDetailResponseDto {
         this.expirationDate = projectEntity.getExpirationDate();
         this.likeCount = projectEntity.getLikeCount();
         this.registerDate = projectEntity.getRegisterDate();
-
-        this.creator = creator;
     }
 }
