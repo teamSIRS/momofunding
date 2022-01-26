@@ -9,6 +9,11 @@ const OpenButton = () => {
           프로젝트 열기
         </StyledBtn>
       </Link>
+      <Link to="/projects/entrance">
+        <StyledBtn variant="outline-primary" size="sm">
+          프로젝트 시작 임시버튼
+        </StyledBtn>
+      </Link>
     </div>
   );
 };
