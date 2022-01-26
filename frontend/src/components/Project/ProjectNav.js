@@ -1,5 +1,6 @@
 // 카드로 여러개 나열되어 있는 페이지
 import styled from "styled-components";
+import HomeBanners from "../Home/HomeBanners";
 
 const ListNav = styled.div`
   display: flex;
@@ -46,6 +47,7 @@ const Bar = styled.hr`
 function ProjectNav() {
   return (
     <>
+      <HomeBanners />
       <ListNav>
         <Category>
           <span id="category">카테고리</span>
