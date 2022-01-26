@@ -16,6 +16,8 @@ export const StyledSpan = styled.span`
         return `background-color: ${"#44CBB3"}`;
       case "momo":
         return `background-color: ${"#6667AB"}`;
+      default:
+        return `background-color: ${color}`;
     }
   }};
 `;
