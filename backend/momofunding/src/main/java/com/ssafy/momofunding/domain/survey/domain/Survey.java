@@ -1,7 +1,6 @@
 package com.ssafy.momofunding.domain.survey.domain;
 
 import com.ssafy.momofunding.domain.project.domain.Project;
-import com.ssafy.momofunding.domain.survey.dto.SurveySaveRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

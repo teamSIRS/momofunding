@@ -1,9 +1,7 @@
 package com.ssafy.momofunding.domain.survey.service;
 
-import com.ssafy.momofunding.domain.liveState.domain.LiveState;
 import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
-import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
 import com.ssafy.momofunding.domain.survey.domain.Survey;
 import com.ssafy.momofunding.domain.survey.dto.SurveySaveRequestDto;
 import com.ssafy.momofunding.domain.survey.repository.SurveyRepository;
