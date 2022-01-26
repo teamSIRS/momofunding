@@ -6,7 +6,10 @@ import {
   MomoWeakColor,
 } from "../../../shared/global";
 
-export const StyledBtn = styled(Button)`
+export const StyledBtn = styled(Button)<{
+  color?: string;
+  hoverColor?: string;
+}>`
   margin: 10px;
   color: white;
   background-color: ${MomoStrongColor};
