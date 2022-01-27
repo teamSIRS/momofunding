@@ -55,9 +55,7 @@ public class ProjectApiController {
             ProjectDetailResponseDto projectDetailResponseDto = projectService.findProjectById(projectId);
             return ResponseEntity.status(HttpStatus.OK).body(projectDetailResponseDto);
         }catch (IllegalArgumentException e){
-            Map<String, Object> responseMap = new HashMap<>();
-            responseMap.put("errorMsg", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
     }
 
