@@ -4,6 +4,7 @@ import com.ssafy.momofunding.domain.survey.dto.SurveyResponseDto;
 import com.ssafy.momofunding.domain.survey.dto.SurveySaveRequestDto;
 import com.ssafy.momofunding.domain.survey.dto.SurveyUpdateRequestDto;
 import com.ssafy.momofunding.domain.survey.service.SurveyService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-
+@Tag(name = "Survey API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/surveys")
