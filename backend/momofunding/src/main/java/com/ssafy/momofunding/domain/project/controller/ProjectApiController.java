@@ -2,7 +2,7 @@ package com.ssafy.momofunding.domain.project.controller;
 
 import com.ssafy.momofunding.domain.project.dto.ProjectGetDetailResponseDto;
 import com.ssafy.momofunding.domain.project.dto.ProjectGetListResponseDto;
-import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectUpdateRequestDto;
 import com.ssafy.momofunding.domain.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -36,7 +36,7 @@ public class ProjectApiController {
     }
 
     @PutMapping("/{projectId}")
-    public ResponseEntity<Map<String, Object>> updateProject(@PathVariable Long projectId, @RequestBody ProjectSaveRequestDto projectSaveRequestDto){
+    public ResponseEntity<Map<String, Object>> updateProject(@PathVariable Long projectId, @RequestBody ProjectUpdateRequestDto projectSaveRequestDto){
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
@@ -63,11 +63,10 @@ public class ProjectApiController {
 
     @DeleteMapping("/{projectId}")
     public ResponseEntity<Map<String, Object>> deleteProject(@PathVariable Long projectId){
-        Map<String, Object> responseMap = new HashMap<>();
-
         try {
             projectService.deleteProject(projectId);
         } catch (EmptyResultDataAccessException e){
+            Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", "잘못된 프로젝트 번호입니다:: projectId-"+projectId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }

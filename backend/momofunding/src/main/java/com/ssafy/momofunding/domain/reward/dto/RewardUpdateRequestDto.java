@@ -11,9 +11,9 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Setter
 @Getter
-public class RewardSaveRequestDto {
+public class RewardUpdateRequestDto {
 
-    private Long projectId;
+    private Long id;
     private String name;
     private Integer price;
     private String content;
@@ -21,12 +21,11 @@ public class RewardSaveRequestDto {
     private Boolean isDeliver;
     private Integer limitedQuantity;
     private Timestamp deliverStartDate;
-    private Timestamp registerDate;
 
     @Builder
-    public RewardSaveRequestDto(Long projectId, String name, Integer price, String content, String optionDescription,
-                                Boolean isDeliver, Integer limitedQuantity, Timestamp deliverStartDate, Timestamp registerDate){
-        this.projectId = projectId;
+    public RewardUpdateRequestDto(Long id, String name, Integer price, String content, String optionDescription,
+                                  Boolean isDeliver, Integer limitedQuantity, Timestamp deliverStartDate){
+        this.id = id;
         this.name = name;
         this.price = price;
         this.content = content;
@@ -34,11 +33,11 @@ public class RewardSaveRequestDto {
         this.isDeliver = isDeliver;
         this.limitedQuantity = limitedQuantity;
         this.deliverStartDate = deliverStartDate;
-        this.registerDate = registerDate;
     }
 
     public Reward toEntity(){
         return Reward.builder()
+                .id(id)
                 .name(name)
                 .price(price)
                 .content(content)
@@ -46,7 +45,6 @@ public class RewardSaveRequestDto {
                 .isDeliver(isDeliver)
                 .limitedQuantity(limitedQuantity)
                 .deliverStartDate(deliverStartDate)
-                .registerDate(registerDate)
                 .build();
     }
 
