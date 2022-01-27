@@ -4,12 +4,14 @@ import com.ssafy.momofunding.domain.reward.domain.Reward;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 
 @NoArgsConstructor
+@Setter
 @Getter
-public class RewardGetListResponseDto {
+public class RewardUpdateRequestDto {
 
     private Long id;
     private String name;
@@ -21,8 +23,8 @@ public class RewardGetListResponseDto {
     private Timestamp deliverStartDate;
 
     @Builder
-    public RewardGetListResponseDto(Long id, String name, Integer price, String content, String optionDescription,
-                                    Boolean isDeliver, Integer limitedQuantity, Timestamp deliverStartDate){
+    public RewardUpdateRequestDto(Long id, String name, Integer price, String content, String optionDescription,
+                                  Boolean isDeliver, Integer limitedQuantity, Timestamp deliverStartDate){
         this.id = id;
         this.name = name;
         this.price = price;
@@ -33,14 +35,17 @@ public class RewardGetListResponseDto {
         this.deliverStartDate = deliverStartDate;
     }
 
-    public RewardGetListResponseDto(Reward reward){
-        this.id = reward.getId();
-        this.name = reward.getName();
-        this.price = reward.getPrice();
-        this.content = reward.getContent();
-        this.optionDescription = reward.getOptionDescription();
-        this.isDeliver = reward.getIsDeliver();
-        this.limitedQuantity = reward.getLimitedQuantity();
-        this.deliverStartDate = reward.getDeliverStartDate();
+    public Reward toEntity(){
+        return Reward.builder()
+                .id(id)
+                .name(name)
+                .price(price)
+                .content(content)
+                .optionDescription(optionDescription)
+                .isDeliver(isDeliver)
+                .limitedQuantity(limitedQuantity)
+                .deliverStartDate(deliverStartDate)
+                .build();
     }
+
 }

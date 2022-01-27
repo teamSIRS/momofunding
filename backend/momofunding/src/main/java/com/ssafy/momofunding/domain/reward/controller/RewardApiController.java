@@ -1,7 +1,8 @@
 package com.ssafy.momofunding.domain.reward.controller;
 
-import com.ssafy.momofunding.domain.reward.dto.RewardGetListResponseDto;
+import com.ssafy.momofunding.domain.reward.dto.RewardResponseDto;
 import com.ssafy.momofunding.domain.reward.dto.RewardSaveRequestDto;
+import com.ssafy.momofunding.domain.reward.dto.RewardUpdateRequestDto;
 import com.ssafy.momofunding.domain.reward.service.RewardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,12 +22,11 @@ public class RewardApiController {
     private final RewardService rewardService;
 
     @PostMapping("")
-    public ResponseEntity<Object> createReward(@RequestBody RewardSaveRequestDto rewardSaveRequestDto){
-        Map<String, Object> responseMap = new HashMap<>();
-
+    public ResponseEntity<Object> saveReward(@RequestBody RewardSaveRequestDto rewardSaveRequestDto){
         try {
-            rewardService.createReward(rewardSaveRequestDto);
+            rewardService.saveReward(rewardSaveRequestDto);
         } catch (IllegalArgumentException e){
+            Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
@@ -34,10 +34,10 @@ public class RewardApiController {
     }
 
     @GetMapping("/projects/{projectId}")
-    public ResponseEntity<Object> getRewardListByProject(@PathVariable Long projectId){
-        List<RewardGetListResponseDto> rewards;
+    public ResponseEntity<Object> findRewardListByProject(@PathVariable Long projectId){
+        List<RewardResponseDto> rewards;
         try {
-            rewards = rewardService.getRewardListByProject(projectId);
+            rewards = rewardService.findRewardListByProject(projectId);
         } catch(IllegalArgumentException e){
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", e.getMessage());
@@ -48,13 +48,12 @@ public class RewardApiController {
         return ResponseEntity.status(HttpStatus.OK).body(rewards);
     }
 
-    @PutMapping("/{rewardId}/projects/{projectId}")
-    public ResponseEntity<Object> updateReward(@PathVariable Long rewardId, @RequestBody RewardSaveRequestDto rewardSaveRequestDto){
-        Map<String, Object> responseMap = new HashMap<>();
-
+    @PutMapping("/{rewardId}")
+    public ResponseEntity<Object> updateReward(@PathVariable Long rewardId, @RequestBody RewardUpdateRequestDto rewardUpdateRequestDto){
         try {
-            rewardService.updateReward(rewardId, rewardSaveRequestDto);
+            rewardService.updateReward(rewardId, rewardUpdateRequestDto);
         } catch (IllegalArgumentException e){
+            Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
@@ -63,11 +62,10 @@ public class RewardApiController {
 
     @DeleteMapping("/{rewardId}")
     public ResponseEntity<Object> deleteReward(@PathVariable Long rewardId){
-        Map<String, Object> responseMap = new HashMap<>();
-
         try {
             rewardService.deleteReward(rewardId);
         } catch (EmptyResultDataAccessException e){
+            Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", "잘못된 리워드 번호입니다:: rewardId-"+rewardId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
