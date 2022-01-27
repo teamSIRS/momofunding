@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -54,7 +51,7 @@ public class ProjectApiController {
         try{
             ProjectDetailResponseDto projectDetailResponseDto = projectService.findProjectById(projectId);
             return ResponseEntity.status(HttpStatus.OK).body(projectDetailResponseDto);
-        }catch (IllegalArgumentException e){
+        }catch (NoSuchElementException e){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
     }
