@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { MomoColor } from "../../../../shared/global";
 
 export const Text = styled.div`
-  margin-left: 30px;
+  margin-left: 60px;
 `;
 
 export const InfoCard = styled.div`

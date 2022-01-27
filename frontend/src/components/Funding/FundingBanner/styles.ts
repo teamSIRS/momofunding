@@ -8,7 +8,7 @@ export const BannerWrapper = styled(BannerBox)`
   overflow: hidden;
   min-width: 993px;
   width: 100%;
-  height: 375px;
+  height: 400px;
 `;
 
 export const BannerCover = styled(BannerBox)`

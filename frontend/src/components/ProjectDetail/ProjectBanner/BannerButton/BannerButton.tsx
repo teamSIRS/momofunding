@@ -17,22 +17,22 @@ export const Btn = styled(Button)`
 `;
 
 export const GotoLiveBtn = styled(Btn)`
-  background-color: tomato;
+  background-color: tomato !important;
 `;
 
 export const NotLiveBtn = styled(Btn)`
-  background-color: #c4c4c4;
+  background-color: #c4c4c4 !important;
 `;
 
 const ShareBtn = styled(Btn)`
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  background-color: white;
-  border: 5px solid ${MomoColor};
-  border-radius: 50px;
-  padding: 10px;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 60px !important;
+  height: 60px !important;
+  background-color: white !important;
+  border: 5px solid ${MomoColor} !important;
+  border-radius: 50px !important;
+  padding: 10px !important;
 
   img {
     display: block;
