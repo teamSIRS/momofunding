@@ -7,6 +7,6 @@ export const StyledImg = styled.img`
 
 export const BannerBox = styled.div`
   color: black;
-  height: 350px;
+  height: 400px;
   overflow: hidden;
 `;

@@ -1,4 +1,4 @@
 import NavBar from "./Navbar";
-const Header = () => <NavBar sticky="top" expand={true} />;
+const Header = () => <NavBar sticky="top" />;
 
 export default Header;
