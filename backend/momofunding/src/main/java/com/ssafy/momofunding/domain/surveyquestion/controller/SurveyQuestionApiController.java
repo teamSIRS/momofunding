@@ -14,10 +14,11 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/survey-questions")
 public class SurveyQuestionApiController {
     private final SurveyQuestionService surveyQuestionService;
 
-    @PostMapping("/survey-questions")
+    @PostMapping("")
     public ResponseEntity save(@RequestBody SurveyQuestionSaveRequestDto surveyQuestionSaveRequestDto) {
 
         Map<String, Object> responseMap = new HashMap<>();
@@ -32,7 +33,7 @@ public class SurveyQuestionApiController {
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
-    @PutMapping("survey-questions/{surveyQuestionId}")
+    @PutMapping("/{surveyQuestionId}")
     public ResponseEntity updateSurveyQuestion(@PathVariable Long surveyQuestionId, @RequestBody SurveyQuestionUpdateRequestDto updateRequestDto) {
         Map<String, Object> responseMap = new HashMap<>();
 

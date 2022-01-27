@@ -13,10 +13,11 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/surveys")
 public class SurveyApiController {
     private final SurveyService surveyService;
 
-    @PostMapping("/surveys")
+    @PostMapping("")
     public ResponseEntity save(@RequestBody SurveySaveRequestDto surveySaveRequestDto) {
 
         Map<String, Object> responseMap = new HashMap<>();
