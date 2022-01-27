@@ -20,7 +20,7 @@ public class Reward {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ManyToOne(targetEntity = Project.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Project.class)
     @JoinColumn(name = "project_id", nullable = false)
     Project project;
 
