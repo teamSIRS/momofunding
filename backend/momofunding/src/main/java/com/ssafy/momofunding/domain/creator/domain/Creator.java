@@ -1,5 +1,6 @@
 package com.ssafy.momofunding.domain.creator.domain;
 
+import com.ssafy.momofunding.domain.creator.dto.CreatorUpdateRequestDto;
 import com.ssafy.momofunding.domain.project.domain.Project;
 import lombok.Builder;
 import lombok.Getter;
@@ -53,5 +54,14 @@ public class Creator {
         this.email = email;
         this.tel = tel;
         this.account = account;
+    }
+
+    public void updateCreator(CreatorUpdateRequestDto cur){
+        this.creatorName = cur.getCreatorName();
+        this.creatorImageUrl = cur.getCreatorImageUrl();
+        this.creatorContent = cur.getCreatorContent();
+        this.email = cur.getEmail();
+        this.tel = cur.getTel();
+        this.account = cur.getAccount();
     }
 }
