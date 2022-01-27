@@ -1,4 +1,4 @@
-import { Container, Col, Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import FundingBanner from "./FundingBanner";
 import FundingContent from "./FundingContent";
 import FundingSidebar from "./FundingSidebar";
