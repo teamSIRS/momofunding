@@ -4,8 +4,6 @@ import com.ssafy.momofunding.domain.live.dto.LiveUpdateRequestDto;
 import com.ssafy.momofunding.domain.liveState.domain.LiveState;
 import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
-import com.ssafy.momofunding.domain.projectstate.domain.ProjectState;
-import com.ssafy.momofunding.domain.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
