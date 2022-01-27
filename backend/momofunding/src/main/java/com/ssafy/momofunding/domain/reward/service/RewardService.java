@@ -50,4 +50,8 @@ public class RewardService {
         reward.updateReward(rewardSaveRequestDto);
         rewardRepository.save(reward);
     }
+
+    public void deleteReward(Long rewardId) {
+        rewardRepository.deleteById(rewardId);
+    }
 }
