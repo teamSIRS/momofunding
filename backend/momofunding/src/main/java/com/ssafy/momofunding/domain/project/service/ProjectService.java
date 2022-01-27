@@ -1,5 +1,7 @@
 package com.ssafy.momofunding.domain.project.service;
 
+import com.ssafy.momofunding.domain.creator.domain.Creator;
+import com.ssafy.momofunding.domain.creator.repository.CreatorRepository;
 import com.ssafy.momofunding.domain.live.domain.Live;
 import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.project.dto.ProjectDetailResponseDto;
@@ -25,16 +27,21 @@ public class ProjectService {
     private final ProjectStateRepository projectStateRepository;
     private final ProjectCategoryRepository projectCategoryRepository;
     private final UserRepository userRepository;
+    private final CreatorRepository creatorRepository;
 
     @Transactional
     public Long createProject(Long userId) {
         Project project = new Project();
-
         project.mapUser(userRepository.findById(userId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 유저 번호 입니다:: userId-"+userId)));
-
         project.mapProjectState(projectStateRepository.getById(1L));
-        return projectRepository.save(project).getId();
+        Long projectId = projectRepository.save(project).getId();
+
+        Creator creator = new Creator();
+        creator.mapProject(project);
+        creatorRepository.save(creator);
+
+        return projectId;
     }
 
     @Transactional

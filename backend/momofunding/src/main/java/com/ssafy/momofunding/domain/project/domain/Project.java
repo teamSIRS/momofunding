@@ -38,6 +38,7 @@ public class Project {
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
+
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     List<Live> lives = new ArrayList<>();
 
