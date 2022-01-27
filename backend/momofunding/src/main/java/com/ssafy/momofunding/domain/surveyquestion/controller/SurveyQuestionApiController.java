@@ -4,6 +4,7 @@ import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionSaveRequest
 import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionUpdateRequestDto;
 import com.ssafy.momofunding.domain.surveyquestion.service.SurveyQuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,20 @@ public class SurveyQuestionApiController {
             surveyQuestionService.updateSurveyQuestion(updateRequestDto, surveyQuestionId);
         } catch (IllegalArgumentException e) {
             responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @DeleteMapping("/{surveyQuestionId}")
+    public ResponseEntity deleteSurveyQuestion(@PathVariable Long surveyQuestionId) {
+        Map<String, Object> responseMap = new HashMap<>();
+
+        try {
+            surveyQuestionService.deleteSurveyQuestion(surveyQuestionId);
+        } catch (EmptyResultDataAccessException e) {
+            responseMap.put("errorMsg", "아이디에 해당하는 질문이 없습니다. surveyQuestionId : " + surveyQuestionId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
 
