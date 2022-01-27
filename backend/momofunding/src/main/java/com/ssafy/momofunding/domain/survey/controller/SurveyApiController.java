@@ -1,6 +1,7 @@
 package com.ssafy.momofunding.domain.survey.controller;
 
 import com.ssafy.momofunding.domain.survey.dto.SurveySaveRequestDto;
+import com.ssafy.momofunding.domain.survey.dto.SurveyUpdateRequestDto;
 import com.ssafy.momofunding.domain.survey.service.SurveyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,20 @@ public class SurveyApiController {
         try {
             Long surveyId = surveyService.save(surveySaveRequestDto);
             responseMap.put("surveyId", surveyId);
+        } catch (IllegalArgumentException e) {
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+    }
+
+    @PutMapping("{surveyId}")
+    public ResponseEntity updateSurvey(@RequestBody SurveyUpdateRequestDto surveyUpdateRequestDto, @PathVariable Long surveyId) {
+
+        Map<String, Object> responseMap = new HashMap<>();
+        try {
+            surveyService.updateSurvey(surveyUpdateRequestDto, surveyId);
         } catch (IllegalArgumentException e) {
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
