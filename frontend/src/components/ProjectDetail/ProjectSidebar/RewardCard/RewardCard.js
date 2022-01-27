@@ -65,7 +65,6 @@ const FundBtn = styled.button`
     height: 62px;
     border-radius: 15px;
     font-size: 18px;
-    /* margin-left: 8px; */
 `;
 
 const CountUp = styled.div`

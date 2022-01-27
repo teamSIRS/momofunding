@@ -7,7 +7,7 @@ export default[
         price: "78,000원",
         reward:['골드라벨 샴페인X1', '오프너X1'],
         people: 530,
-        date: "21.02.04",
+        date: "21.02.14",
         choice: false,
     },
     {

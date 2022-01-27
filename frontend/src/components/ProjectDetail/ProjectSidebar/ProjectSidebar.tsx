@@ -23,16 +23,3 @@ function ProjectSidebar(){
 }
 
 export default ProjectSidebar;
-
-// 죄송해요 제가 편한대로 해버림....^^;;ㅎㅎ
-// export const ProjectSidebar = () => (
-//   <Sidebar>
-//     <CreatorCard />
-//     <FundingCard />
-
-//     <RewardCard />
-//     <RewardCardSelected />
-//     <RewardCard />
-//     <RewardCard />
-//   </Sidebar>
-// );
