@@ -13,7 +13,6 @@ import java.sql.Timestamp;
 @Getter
 public class RewardSaveRequestDto {
 
-    private Long id;
     private Long projectId;
     private String name;
     private Integer price;
@@ -21,15 +20,12 @@ public class RewardSaveRequestDto {
     private String optionDescription;
     private Boolean isDeliver;
     private Integer limitedQuantity;
-    private Boolean isSuccess;
     private Timestamp deliverStartDate;
     private Timestamp registerDate;
 
     @Builder
-    public RewardSaveRequestDto(Long id, Long projectId, String name, Integer price, String content, String optionDescription,
-                                Boolean isDeliver, Integer limitedQuantity, Boolean isSuccess, Timestamp deliverStartDate,
-                                Timestamp registerDate){
-        this.id = id;
+    public RewardSaveRequestDto(Long projectId, String name, Integer price, String content, String optionDescription,
+                                Boolean isDeliver, Integer limitedQuantity, Timestamp deliverStartDate, Timestamp registerDate){
         this.projectId = projectId;
         this.name = name;
         this.price = price;
@@ -37,21 +33,18 @@ public class RewardSaveRequestDto {
         this.optionDescription = optionDescription;
         this.isDeliver = isDeliver;
         this.limitedQuantity = limitedQuantity;
-        this.isSuccess = isSuccess;
         this.deliverStartDate = deliverStartDate;
         this.registerDate = registerDate;
     }
 
     public Reward toEntity(){
         return Reward.builder()
-                .id(id)
                 .name(name)
                 .price(price)
                 .content(content)
                 .optionDescription(optionDescription)
                 .isDeliver(isDeliver)
                 .limitedQuantity(limitedQuantity)
-                .isSuccess(isSuccess)
                 .deliverStartDate(deliverStartDate)
                 .registerDate(registerDate)
                 .build();

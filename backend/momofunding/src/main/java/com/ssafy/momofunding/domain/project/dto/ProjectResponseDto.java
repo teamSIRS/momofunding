@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Setter
 @Getter
-public class ProjectGetListResponseDto {
+public class ProjectResponseDto {
     private Long id;
     private String projectName;
     private Integer fundingGoal;
@@ -21,8 +21,8 @@ public class ProjectGetListResponseDto {
     private Timestamp expirationDate;
 
     @Builder
-    public ProjectGetListResponseDto(Long id, String projectName, Integer fundingGoal, String mainImageUrl,
-                                     Integer currentAmount, Integer popularity, Timestamp expirationDate){
+    public ProjectResponseDto(Long id, String projectName, Integer fundingGoal, String mainImageUrl,
+                              Integer currentAmount, Integer popularity, Timestamp expirationDate){
         this.id = id;
         this.projectName = projectName;
         this.fundingGoal = fundingGoal;
@@ -32,7 +32,7 @@ public class ProjectGetListResponseDto {
         this.expirationDate = expirationDate;
     }
 
-    public ProjectGetListResponseDto(Project projectEntity){
+    public ProjectResponseDto(Project projectEntity){
         this.id = projectEntity.getId();
         this.projectName = projectEntity.getProjectName();
         this.fundingGoal = projectEntity.getFundingGoal();

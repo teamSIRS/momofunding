@@ -1,7 +1,7 @@
 package com.ssafy.momofunding.domain.project.domain;
 
 import com.ssafy.momofunding.domain.live.domain.Live;
-import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectUpdateRequestDto;
 import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
 import com.ssafy.momofunding.domain.projectstate.domain.ProjectState;
 import com.ssafy.momofunding.domain.reward.domain.Reward;
@@ -38,10 +38,10 @@ public class Project {
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     List<Live> lives = new ArrayList<>();
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     List<Reward> rewards = new ArrayList<>();
 
 
@@ -111,7 +111,7 @@ public class Project {
         this.user = u;
     }
 
-    public void updateProject(ProjectSaveRequestDto psr){
+    public void updateProject(ProjectUpdateRequestDto psr){
         this.projectName = psr.getProjectName();
         this.fundingGoal = psr.getFundingGoal();
         this.mainImageUrl = psr.getMainImageUrl();

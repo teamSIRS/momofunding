@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Setter
 @Getter
-public class ProjectSaveRequestDto {
+public class ProjectUpdateRequestDto {
 
     private Long id;
     private Long projectStateId;
@@ -30,10 +30,10 @@ public class ProjectSaveRequestDto {
     private Timestamp registerDate;
 
     @Builder
-    public ProjectSaveRequestDto(Long id, Long projectStateId, Long projectCategoryId, Long userId,
-                                 String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
-                                 String summary, String projectContent, Integer currentAmount, Timestamp startDate,
-                                 Timestamp expirationDate, Integer likeCount, Timestamp registerDate){
+    public ProjectUpdateRequestDto(Long id, Long projectStateId, Long projectCategoryId, Long userId,
+                                   String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
+                                   String summary, String projectContent, Integer currentAmount, Timestamp startDate,
+                                   Timestamp expirationDate, Integer likeCount, Timestamp registerDate){
         this.id = id;
         this.projectStateId = projectStateId;
         this.projectCategoryId = projectCategoryId;

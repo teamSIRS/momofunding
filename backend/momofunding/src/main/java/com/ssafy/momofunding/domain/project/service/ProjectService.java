@@ -1,11 +1,10 @@
 package com.ssafy.momofunding.domain.project.service;
 
-import com.ssafy.momofunding.domain.creator.repository.CreatorRepository;
 import com.ssafy.momofunding.domain.live.domain.Live;
 import com.ssafy.momofunding.domain.project.domain.Project;
-import com.ssafy.momofunding.domain.project.dto.ProjectGetDetailResponseDto;
-import com.ssafy.momofunding.domain.project.dto.ProjectGetListResponseDto;
-import com.ssafy.momofunding.domain.project.dto.ProjectSaveRequestDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectDetailResponseDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectResponseDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectUpdateRequestDto;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.projectcategory.repository.ProjectCategoryRepository;
 import com.ssafy.momofunding.domain.projectstate.repository.ProjectStateRepository;
@@ -26,7 +25,6 @@ public class ProjectService {
     private final ProjectStateRepository projectStateRepository;
     private final ProjectCategoryRepository projectCategoryRepository;
     private final UserRepository userRepository;
-    private final CreatorRepository creatorRepository;
 
     @Transactional
     public Long createProject(Long userId) {
@@ -40,7 +38,7 @@ public class ProjectService {
     }
 
     @Transactional
-    public Long updateProject(Long projectId, ProjectSaveRequestDto projectSaveRequestDto) {
+    public Long updateProject(Long projectId, ProjectUpdateRequestDto projectSaveRequestDto) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
 
@@ -59,44 +57,50 @@ public class ProjectService {
         return projectId;
     }
 
-    public ProjectGetDetailResponseDto getProjectDetail(Long projectId) {
-        return new ProjectGetDetailResponseDto(projectRepository.findById(projectId)
+    @Transactional
+    public ProjectDetailResponseDto findProjectById(Long projectId) {
+        return new ProjectDetailResponseDto(projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId)));
     }
 
+    @Transactional
     public void deleteProject(Long projectId) {
         projectRepository.deleteById(projectId);
     }
 
-    public List<ProjectGetListResponseDto> getProjectListByDate(){
+    @Transactional
+    public List<ProjectResponseDto> findProjectsByDate(){
         List<Project> projects = projectRepository.findAllByProjectStateIdOrderByStartDateDesc(2L, Sort.by("id").ascending());
 
         return projects.stream()
-                .map(ProjectGetListResponseDto::new)
+                .map(ProjectResponseDto::new)
                 .collect(Collectors.toList());
     }
 
-    public List<ProjectGetListResponseDto> getProjectListByPopularity() {
+    @Transactional
+    public List<ProjectResponseDto> findProjectsByPopularity() {
         List<Project> projects = projectRepository.findAllByProjectStateIdOrderByPopularityDesc(2L, Sort.by("id").ascending());
 
         return projects.stream()
-                .map(ProjectGetListResponseDto::new)
+                .map(ProjectResponseDto::new)
                 .collect(Collectors.toList());
     }
 
-    public List<ProjectGetListResponseDto> getProjectListByCategoryDate(Long categoryId) {
+    @Transactional
+    public List<ProjectResponseDto> findProjectsByCategoryDate(Long categoryId) {
         List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectCategoryIdOrderByStartDateDesc(2L, categoryId, Sort.by("id").ascending());
 
         return projects.stream()
-                .map(ProjectGetListResponseDto::new)
+                .map(ProjectResponseDto::new)
                 .collect(Collectors.toList());
     }
 
-    public List<ProjectGetListResponseDto> getProjectListByCategoryPopularity(Long categoryId) {
+    @Transactional
+    public List<ProjectResponseDto> findProjectsByCategoryPopularity(Long categoryId) {
         List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectCategoryIdOrderByPopularityDesc(2L, categoryId, Sort.by("id").ascending());
 
         return projects.stream()
-                .map(ProjectGetListResponseDto::new)
+                .map(ProjectResponseDto::new)
                 .collect(Collectors.toList());
     }
 }
