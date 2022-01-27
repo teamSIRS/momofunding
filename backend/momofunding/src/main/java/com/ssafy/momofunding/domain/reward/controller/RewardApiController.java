@@ -4,6 +4,7 @@ import com.ssafy.momofunding.domain.reward.dto.RewardGetListResponseDto;
 import com.ssafy.momofunding.domain.reward.dto.RewardSaveRequestDto;
 import com.ssafy.momofunding.domain.reward.service.RewardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,6 +61,17 @@ public class RewardApiController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
+    @DeleteMapping("/{rewardId}")
+    public ResponseEntity<Object> deleteReward(@PathVariable Long rewardId){
+        Map<String, Object> responseMap = new HashMap<>();
 
+        try {
+            rewardService.deleteReward(rewardId);
+        } catch (EmptyResultDataAccessException e){
+            responseMap.put("errorMsg", "잘못된 리워드 번호입니다:: rewardId-"+rewardId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
 
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
 }
