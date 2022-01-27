@@ -1,5 +1,8 @@
 package com.ssafy.momofunding.domain.surveyquestion.controller;
 
+import com.ssafy.momofunding.domain.survey.dto.SurveyResponseDto;
+import com.ssafy.momofunding.domain.surveyquestion.domain.SurveyQuestion;
+import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionResponseDto;
 import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionSaveRequestDto;
 import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionUpdateRequestDto;
 import com.ssafy.momofunding.domain.surveyquestion.service.SurveyQuestionService;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 
 @RequiredArgsConstructor
@@ -32,6 +36,20 @@ public class SurveyQuestionApiController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+    }
+
+    @GetMapping("/{surveyQuestionId}")
+    public ResponseEntity findSurveyQuestionById(@PathVariable Long surveyQuestionId) {
+
+        SurveyQuestionResponseDto surveyQuestionResponseDto;
+
+        try {
+            surveyQuestionResponseDto = surveyQuestionService.findSurveyQuestionById(surveyQuestionId);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(surveyQuestionResponseDto);
     }
 
     @PutMapping("/{surveyQuestionId}")

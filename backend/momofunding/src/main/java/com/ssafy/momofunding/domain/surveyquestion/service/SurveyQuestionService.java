@@ -3,8 +3,10 @@ package com.ssafy.momofunding.domain.surveyquestion.service;
 import com.ssafy.momofunding.domain.questiontype.domain.QuestionType;
 import com.ssafy.momofunding.domain.questiontype.repository.QuestionTypeRepository;
 import com.ssafy.momofunding.domain.survey.domain.Survey;
+import com.ssafy.momofunding.domain.survey.dto.SurveyResponseDto;
 import com.ssafy.momofunding.domain.survey.repository.SurveyRepository;
 import com.ssafy.momofunding.domain.surveyquestion.domain.SurveyQuestion;
+import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionResponseDto;
 import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionSaveRequestDto;
 import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionUpdateRequestDto;
 import com.ssafy.momofunding.domain.surveyquestion.repository.SurveyQuestionRepository;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
@@ -37,6 +40,14 @@ public class SurveyQuestionService {
         surveyQuestion.mapQuestionType(questionType);
 
         return surveyQuestionRepository.save(surveyQuestion).getId();
+    }
+
+    @Transactional
+    public SurveyQuestionResponseDto findSurveyQuestionById(Long surveyQuestionId) {
+        SurveyQuestion surveyQuestion = surveyQuestionRepository.findById(surveyQuestionId)
+                .orElseThrow(()-> new NoSuchElementException());
+
+        return new SurveyQuestionResponseDto(surveyQuestion);
     }
 
     @Transactional
