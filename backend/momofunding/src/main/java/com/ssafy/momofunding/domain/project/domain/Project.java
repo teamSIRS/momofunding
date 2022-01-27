@@ -26,22 +26,22 @@ public class Project {
     Long id;
 
 
-    @ManyToOne(targetEntity = ProjectState.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = ProjectState.class)
     @JoinColumn(name = "project_state_id")
     ProjectState projectState;
 
-    @ManyToOne(targetEntity = ProjectCategory.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = ProjectCategory.class)
     @JoinColumn(name = "project_category_id")
     ProjectCategory projectCategory;
 
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     List<Live> lives = new ArrayList<>();
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     List<Reward> rewards = new ArrayList<>();
 
 
