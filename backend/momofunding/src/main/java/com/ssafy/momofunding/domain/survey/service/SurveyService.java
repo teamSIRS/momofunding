@@ -14,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -41,6 +43,18 @@ public class SurveyService {
                 .orElseThrow(()-> new NoSuchElementException());
 
         return new SurveyResponseDto(survey);
+    }
+
+    @Transactional
+    public List<SurveyResponseDto> findSurveys() {
+        List<Survey> surveys = surveyRepository.findAll();
+        if (surveys.isEmpty()){
+            throw new NoSuchElementException();
+        }
+
+        return surveys.stream()
+                .map(SurveyResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     @Transactional
