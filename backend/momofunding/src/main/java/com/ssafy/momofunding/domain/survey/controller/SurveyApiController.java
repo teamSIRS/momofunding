@@ -23,7 +23,7 @@ public class SurveyApiController {
 
         Map<String, Object> responseMap = new HashMap<>();
         try {
-            Long surveyId = surveyService.save(surveySaveRequestDto);
+            Long surveyId = surveyService.saveSurvey(surveySaveRequestDto);
             responseMap.put("surveyId", surveyId);
         } catch (IllegalArgumentException e) {
             responseMap.put("errorMsg", e.getMessage());

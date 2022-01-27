@@ -22,7 +22,7 @@ public class SurveyService {
     private final ProjectRepository projectRepository;
 
     @Transactional
-    public Long save(SurveySaveRequestDto surveySaveRequestDto){
+    public Long saveSurvey(SurveySaveRequestDto surveySaveRequestDto){
         Long projectId = surveySaveRequestDto.getProjectId();
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호 입니다. projectId : " + projectId));
