@@ -1,12 +1,15 @@
 package com.ssafy.momofunding.domain.survey.domain;
 
 import com.ssafy.momofunding.domain.project.domain.Project;
+import com.ssafy.momofunding.domain.questionselect.domain.QuestionSelect;
+import com.ssafy.momofunding.domain.surveyquestion.domain.SurveyQuestion;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
@@ -32,6 +35,9 @@ public class Survey {
     @ManyToOne(targetEntity = Project.class)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
+
+    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<SurveyQuestion> surveyQuestions;
 
     public void mapProject(Project project){
         this.project = project;

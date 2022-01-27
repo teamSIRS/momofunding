@@ -3,12 +3,8 @@ package com.ssafy.momofunding.domain.questionselect.service;
 import com.ssafy.momofunding.domain.questionselect.domain.QuestionSelect;
 import com.ssafy.momofunding.domain.questionselect.dto.QuestionSelectSaveRequestDto;
 import com.ssafy.momofunding.domain.questionselect.repository.QuestionSelectRepository;
-import com.ssafy.momofunding.domain.questiontype.domain.QuestionType;
-import com.ssafy.momofunding.domain.questiontype.repository.QuestionTypeRepository;
-import com.ssafy.momofunding.domain.survey.domain.Survey;
-import com.ssafy.momofunding.domain.survey.repository.SurveyRepository;
-import com.ssafy.momofunding.domain.surveyqestion.domain.SurveyQuestion;
-import com.ssafy.momofunding.domain.surveyqestion.repository.SurveyQuestionRepository;
+import com.ssafy.momofunding.domain.surveyquestion.domain.SurveyQuestion;
+import com.ssafy.momofunding.domain.surveyquestion.repository.SurveyQuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -18,11 +18,12 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/lives")
 public class LiveApiController {
     private final LiveService liveService;
 
-    @GetMapping("/lives")
-    public ResponseEntity findBySort(@RequestParam String sortValue) {
+    @GetMapping("")
+    public ResponseEntity findLiveBySort(@RequestParam String sortValue) {
         List<LiveResponseDto> lives = new ArrayList<>();
 
         if (sortValue.equals("date")) {
@@ -36,8 +37,8 @@ public class LiveApiController {
         return ResponseEntity.status(HttpStatus.OK).body(lives);
     }
 
-    @PostMapping("/lives")
-    public ResponseEntity save(@RequestBody LiveSaveRequestDto liveSaveRequestDto) {
+    @PostMapping("")
+    public ResponseEntity saveLive(@RequestBody LiveSaveRequestDto liveSaveRequestDto) {
 
         Map<String, Object> responseMap = new HashMap<>();
         try {
@@ -51,8 +52,8 @@ public class LiveApiController {
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
-    @GetMapping("/lives/projectCategory/{projectCategoryId}")
-    public ResponseEntity findAllByCategoryId(@PathVariable Long projectCategoryId) {
+    @GetMapping("/projectCategory/{projectCategoryId}")
+    public ResponseEntity findLivesByCategoryId(@PathVariable Long projectCategoryId) {
         Map<String, Object> responseMap = new HashMap<>();
         List<LiveResponseDto> lives = new ArrayList<>();
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
@@ -70,8 +71,8 @@ public class LiveApiController {
         return ResponseEntity.status(HttpStatus.OK).body(lives);
     }
 
-    @PutMapping("/lives/{liveId}")
-    public ResponseEntity update(@RequestBody LiveUpdateRequestDto liveUpdateRequestDto, @PathVariable Long liveId){
+    @PutMapping("/{liveId}")
+    public ResponseEntity updateLive(@RequestBody LiveUpdateRequestDto liveUpdateRequestDto, @PathVariable Long liveId){
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
