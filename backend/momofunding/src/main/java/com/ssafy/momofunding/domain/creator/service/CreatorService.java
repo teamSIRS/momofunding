@@ -23,6 +23,7 @@ public class CreatorService {
         creator.updateCreator(creatorUpdateRequestDto);
     }
 
+    @Transactional
     public CreatorDetailResponseDto findCreatorByProjectId(Long projectId) {
         Creator creator = creatorRepository.findByProjectId(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
