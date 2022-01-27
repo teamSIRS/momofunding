@@ -1,6 +1,6 @@
 package com.ssafy.momofunding.domain.reward.controller;
 
-import com.ssafy.momofunding.domain.reward.dto.RewardGetListResponseDto;
+import com.ssafy.momofunding.domain.reward.dto.RewardResponseDto;
 import com.ssafy.momofunding.domain.reward.dto.RewardSaveRequestDto;
 import com.ssafy.momofunding.domain.reward.dto.RewardUpdateRequestDto;
 import com.ssafy.momofunding.domain.reward.service.RewardService;
@@ -34,10 +34,10 @@ public class RewardApiController {
     }
 
     @GetMapping("/projects/{projectId}")
-    public ResponseEntity<Object> getRewardListByProject(@PathVariable Long projectId){
-        List<RewardGetListResponseDto> rewards;
+    public ResponseEntity<Object> findRewardListByProject(@PathVariable Long projectId){
+        List<RewardResponseDto> rewards;
         try {
-            rewards = rewardService.getRewardListByProject(projectId);
+            rewards = rewardService.findRewardListByProject(projectId);
         } catch(IllegalArgumentException e){
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", e.getMessage());

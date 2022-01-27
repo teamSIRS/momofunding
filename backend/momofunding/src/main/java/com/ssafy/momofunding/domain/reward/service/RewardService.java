@@ -3,7 +3,7 @@ package com.ssafy.momofunding.domain.reward.service;
 import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.reward.domain.Reward;
-import com.ssafy.momofunding.domain.reward.dto.RewardGetListResponseDto;
+import com.ssafy.momofunding.domain.reward.dto.RewardResponseDto;
 import com.ssafy.momofunding.domain.reward.dto.RewardSaveRequestDto;
 import com.ssafy.momofunding.domain.reward.dto.RewardUpdateRequestDto;
 import com.ssafy.momofunding.domain.reward.repository.RewardRepository;
@@ -33,14 +33,14 @@ public class RewardService {
     }
 
     @Transactional
-    public List<RewardGetListResponseDto> getRewardListByProject(Long projectId) {
+    public List<RewardResponseDto> findRewardListByProject(Long projectId) {
         projectRepository.findById(projectId)
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-" + projectId));
 
         List<Reward> rewards = rewardRepository.findAllByProjectId(projectId);
 
         return rewards.stream()
-                .map(RewardGetListResponseDto::new)
+                .map(RewardResponseDto::new)
                 .collect(Collectors.toList());
     }
 

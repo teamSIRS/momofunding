@@ -1,7 +1,7 @@
 package com.ssafy.momofunding.domain.project.controller;
 
-import com.ssafy.momofunding.domain.project.dto.ProjectGetDetailResponseDto;
-import com.ssafy.momofunding.domain.project.dto.ProjectGetListResponseDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectDetailResponseDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectResponseDto;
 import com.ssafy.momofunding.domain.project.dto.ProjectUpdateRequestDto;
 import com.ssafy.momofunding.domain.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -49,10 +49,10 @@ public class ProjectApiController {
     }
 
     @GetMapping("/{projectId}")
-    public ResponseEntity<Object> getProjectDetail(@PathVariable Long projectId){
+    public ResponseEntity<Object> findProject(@PathVariable Long projectId){
 
         try{
-            ProjectGetDetailResponseDto projectDetailResponseDto = projectService.getProjectDetail(projectId);
+            ProjectDetailResponseDto projectDetailResponseDto = projectService.findProjectDetail(projectId);
             return ResponseEntity.status(HttpStatus.OK).body(projectDetailResponseDto);
         }catch (IllegalArgumentException e){
             Map<String, Object> responseMap = new HashMap<>();
@@ -75,13 +75,13 @@ public class ProjectApiController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Object> getProjectListBySort(@RequestParam String sort){
-        List<ProjectGetListResponseDto> projects = new ArrayList<>();
+    public ResponseEntity<Object> findProjectsBySort(@RequestParam String sort){
+        List<ProjectResponseDto> projects = new ArrayList<>();
 
         if(sort.equals("date")){
-            projects = projectService.getProjectListByDate();
+            projects = projectService.findProjectsByDate();
         }else if(sort.equals("popularity")){
-            projects = projectService.getProjectListByPopularity();
+            projects = projectService.findProjectsByPopularity();
         }
 
         if(projects.isEmpty()) ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -89,13 +89,13 @@ public class ProjectApiController {
     }
 
     @GetMapping("/categories/{categoryId}")
-    public ResponseEntity<Object> getProjectListBySort(@PathVariable Long categoryId, @RequestParam String sort){
-        List<ProjectGetListResponseDto> projects = new ArrayList<>();
+    public ResponseEntity<Object> getProjectsBySort(@PathVariable Long categoryId, @RequestParam String sort){
+        List<ProjectResponseDto> projects = new ArrayList<>();
 
         if(sort.equals("date")){
-            projects = projectService.getProjectListByCategoryDate(categoryId);
+            projects = projectService.findProjectsByCategoryDate(categoryId);
         }else if(sort.equals("popularity")){
-            projects = projectService.getProjectListByCategoryPopularity(categoryId);
+            projects = projectService.findProjectsByCategoryPopularity(categoryId);
         }
 
         if(projects.isEmpty()) ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);

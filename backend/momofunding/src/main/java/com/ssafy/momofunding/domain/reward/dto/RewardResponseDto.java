@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 
 @NoArgsConstructor
 @Getter
-public class RewardGetListResponseDto {
+public class RewardResponseDto {
 
     private Long id;
     private String name;
@@ -21,8 +21,8 @@ public class RewardGetListResponseDto {
     private Timestamp deliverStartDate;
 
     @Builder
-    public RewardGetListResponseDto(Long id, String name, Integer price, String content, String optionDescription,
-                                    Boolean isDeliver, Integer limitedQuantity, Timestamp deliverStartDate){
+    public RewardResponseDto(Long id, String name, Integer price, String content, String optionDescription,
+                             Boolean isDeliver, Integer limitedQuantity, Timestamp deliverStartDate){
         this.id = id;
         this.name = name;
         this.price = price;
@@ -33,7 +33,7 @@ public class RewardGetListResponseDto {
         this.deliverStartDate = deliverStartDate;
     }
 
-    public RewardGetListResponseDto(Reward reward){
+    public RewardResponseDto(Reward reward){
         this.id = reward.getId();
         this.name = reward.getName();
         this.price = reward.getPrice();

@@ -2,8 +2,8 @@ package com.ssafy.momofunding.domain.project.service;
 
 import com.ssafy.momofunding.domain.live.domain.Live;
 import com.ssafy.momofunding.domain.project.domain.Project;
-import com.ssafy.momofunding.domain.project.dto.ProjectGetDetailResponseDto;
-import com.ssafy.momofunding.domain.project.dto.ProjectGetListResponseDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectDetailResponseDto;
+import com.ssafy.momofunding.domain.project.dto.ProjectResponseDto;
 import com.ssafy.momofunding.domain.project.dto.ProjectUpdateRequestDto;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.projectcategory.repository.ProjectCategoryRepository;
@@ -58,8 +58,8 @@ public class ProjectService {
     }
 
     @Transactional
-    public ProjectGetDetailResponseDto getProjectDetail(Long projectId) {
-        return new ProjectGetDetailResponseDto(projectRepository.findById(projectId)
+    public ProjectDetailResponseDto findProjectDetail(Long projectId) {
+        return new ProjectDetailResponseDto(projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId)));
     }
 
@@ -69,38 +69,38 @@ public class ProjectService {
     }
 
     @Transactional
-    public List<ProjectGetListResponseDto> getProjectListByDate(){
+    public List<ProjectResponseDto> findProjectsByDate(){
         List<Project> projects = projectRepository.findAllByProjectStateIdOrderByStartDateDesc(2L, Sort.by("id").ascending());
 
         return projects.stream()
-                .map(ProjectGetListResponseDto::new)
+                .map(ProjectResponseDto::new)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public List<ProjectGetListResponseDto> getProjectListByPopularity() {
+    public List<ProjectResponseDto> findProjectsByPopularity() {
         List<Project> projects = projectRepository.findAllByProjectStateIdOrderByPopularityDesc(2L, Sort.by("id").ascending());
 
         return projects.stream()
-                .map(ProjectGetListResponseDto::new)
+                .map(ProjectResponseDto::new)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public List<ProjectGetListResponseDto> getProjectListByCategoryDate(Long categoryId) {
+    public List<ProjectResponseDto> findProjectsByCategoryDate(Long categoryId) {
         List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectCategoryIdOrderByStartDateDesc(2L, categoryId, Sort.by("id").ascending());
 
         return projects.stream()
-                .map(ProjectGetListResponseDto::new)
+                .map(ProjectResponseDto::new)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public List<ProjectGetListResponseDto> getProjectListByCategoryPopularity(Long categoryId) {
+    public List<ProjectResponseDto> findProjectsByCategoryPopularity(Long categoryId) {
         List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectCategoryIdOrderByPopularityDesc(2L, categoryId, Sort.by("id").ascending());
 
         return projects.stream()
-                .map(ProjectGetListResponseDto::new)
+                .map(ProjectResponseDto::new)
                 .collect(Collectors.toList());
     }
 }
