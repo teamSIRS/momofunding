@@ -4,6 +4,7 @@ import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.questiontype.domain.QuestionType;
 import com.ssafy.momofunding.domain.survey.domain.Survey;
+import com.ssafy.momofunding.domain.survey.dto.SurveyResponseDto;
 import com.ssafy.momofunding.domain.survey.dto.SurveySaveRequestDto;
 import com.ssafy.momofunding.domain.survey.dto.SurveyUpdateRequestDto;
 import com.ssafy.momofunding.domain.survey.repository.SurveyRepository;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
@@ -31,6 +33,14 @@ public class SurveyService {
         survey.mapProject(project);
 
         return surveyRepository.save(survey).getId();
+    }
+
+    @Transactional
+    public SurveyResponseDto findSurveyById(Long surveyId) {
+        Survey survey = surveyRepository.findById(surveyId)
+                .orElseThrow(()-> new NoSuchElementException());
+
+        return new SurveyResponseDto(survey);
     }
 
     @Transactional

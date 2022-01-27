@@ -1,5 +1,6 @@
 package com.ssafy.momofunding.domain.survey.controller;
 
+import com.ssafy.momofunding.domain.survey.dto.SurveyResponseDto;
 import com.ssafy.momofunding.domain.survey.dto.SurveySaveRequestDto;
 import com.ssafy.momofunding.domain.survey.dto.SurveyUpdateRequestDto;
 import com.ssafy.momofunding.domain.survey.service.SurveyService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 
 @RequiredArgsConstructor
@@ -33,7 +35,21 @@ public class SurveyApiController {
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
-    @PutMapping("{surveyId}")
+    @GetMapping("/{surveyId}")
+    public ResponseEntity findSurveyById(@PathVariable Long surveyId) {
+
+        SurveyResponseDto surveyResponseDto;
+
+        try {
+            surveyResponseDto = surveyService.findSurveyById(surveyId);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(surveyResponseDto);
+    }
+
+    @PutMapping("/{surveyId}")
     public ResponseEntity updateSurvey(@RequestBody SurveyUpdateRequestDto surveyUpdateRequestDto, @PathVariable Long surveyId) {
 
         Map<String, Object> responseMap = new HashMap<>();
