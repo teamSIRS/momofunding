@@ -11,7 +11,8 @@ const Menus = () => {
       <Menu path="findPw" name="비찾" />
       <Menu path="changePw" name="비변" /> */}
       <Menu path="findAccount" name="아디비번찾기" />
-      <Menu path="changePw" name="비밀번호 재설정" />
+      <Menu path="changePw" name="비번 재설정" />
+      <Menu path="funding" name="후원" />
     </StyledMenus>
   );
 };
