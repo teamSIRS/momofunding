@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -66,8 +67,9 @@ public class ProjectService {
 
     @Transactional
     public ProjectDetailResponseDto findProjectById(Long projectId) {
-        return new ProjectDetailResponseDto(projectRepository.findById(projectId)
-                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId)));
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(()-> new NoSuchElementException("잘못된 카테고리 번호입니다:: projectId-"+projectId));
+        return new ProjectDetailResponseDto(project);
     }
 
     @Transactional
