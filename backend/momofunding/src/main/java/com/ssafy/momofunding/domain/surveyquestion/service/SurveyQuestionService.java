@@ -45,8 +45,8 @@ public class SurveyQuestionService {
         SurveyQuestion surveyQuestion = surveyQuestionRepository.findById(surveyQuestionId)
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 질문 번호입니다. surveyQuestionId : " + surveyQuestionId));
 
-        QuestionType questionType = questionTypeRepository.findById(surveyQuestionId)
-                        .orElseThrow(() -> new IllegalArgumentException("잘못된 질문 유형입니다. surveyQuestionId : " + surveyQuestionId));
+        QuestionType questionType = questionTypeRepository.findById(updateRequestDto.getQuestionTypeId())
+                        .orElseThrow(() -> new IllegalArgumentException("잘못된 질문 유형입니다. QuestionTypeId : " + updateRequestDto.getQuestionTypeId()));
 
         surveyQuestion.mapQuestionType(questionType);
 
