@@ -1,8 +1,8 @@
-package com.ssafy.momofunding.domain.surveyqestion.controller;
+package com.ssafy.momofunding.domain.surveyquestion.controller;
 
-import com.ssafy.momofunding.domain.surveyqestion.dto.SurveyQuestionSaveRequestDto;
-import com.ssafy.momofunding.domain.surveyqestion.dto.SurveyQuestionUpdateRequestDto;
-import com.ssafy.momofunding.domain.surveyqestion.service.SurveyQuestionService;
+import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionSaveRequestDto;
+import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionUpdateRequestDto;
+import com.ssafy.momofunding.domain.surveyquestion.service.SurveyQuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,7 @@
-package com.ssafy.momofunding.domain.surveyqestion.domain;
+package com.ssafy.momofunding.domain.surveyquestion.domain;
 
 import com.ssafy.momofunding.domain.questiontype.domain.QuestionType;
 import com.ssafy.momofunding.domain.survey.domain.Survey;
-import com.ssafy.momofunding.domain.surveyqestion.dto.SurveyQuestionUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

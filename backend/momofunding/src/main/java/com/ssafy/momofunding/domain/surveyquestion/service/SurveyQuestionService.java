@@ -1,17 +1,13 @@
-package com.ssafy.momofunding.domain.surveyqestion.service;
+package com.ssafy.momofunding.domain.surveyquestion.service;
 
-import com.ssafy.momofunding.domain.live.domain.Live;
-import com.ssafy.momofunding.domain.live.dto.LiveUpdateRequestDto;
-import com.ssafy.momofunding.domain.liveState.domain.LiveState;
-import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.questiontype.domain.QuestionType;
 import com.ssafy.momofunding.domain.questiontype.repository.QuestionTypeRepository;
 import com.ssafy.momofunding.domain.survey.domain.Survey;
 import com.ssafy.momofunding.domain.survey.repository.SurveyRepository;
-import com.ssafy.momofunding.domain.surveyqestion.domain.SurveyQuestion;
-import com.ssafy.momofunding.domain.surveyqestion.dto.SurveyQuestionSaveRequestDto;
-import com.ssafy.momofunding.domain.surveyqestion.dto.SurveyQuestionUpdateRequestDto;
-import com.ssafy.momofunding.domain.surveyqestion.repository.SurveyQuestionRepository;
+import com.ssafy.momofunding.domain.surveyquestion.domain.SurveyQuestion;
+import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionSaveRequestDto;
+import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionUpdateRequestDto;
+import com.ssafy.momofunding.domain.surveyquestion.repository.SurveyQuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

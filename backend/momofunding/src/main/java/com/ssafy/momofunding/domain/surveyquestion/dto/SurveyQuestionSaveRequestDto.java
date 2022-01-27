@@ -1,10 +1,8 @@
-package com.ssafy.momofunding.domain.surveyqestion.dto;
+package com.ssafy.momofunding.domain.surveyquestion.dto;
 
-import com.ssafy.momofunding.domain.surveyqestion.domain.SurveyQuestion;
+import com.ssafy.momofunding.domain.surveyquestion.domain.SurveyQuestion;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.sql.Timestamp;
 
 @Getter
 public class SurveyQuestionSaveRequestDto {
