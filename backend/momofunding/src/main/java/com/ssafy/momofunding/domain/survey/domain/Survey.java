@@ -2,6 +2,7 @@ package com.ssafy.momofunding.domain.survey.domain;
 
 import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.questionselect.domain.QuestionSelect;
+import com.ssafy.momofunding.domain.survey.dto.SurveyUpdateRequestDto;
 import com.ssafy.momofunding.domain.surveyquestion.domain.SurveyQuestion;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,6 +42,13 @@ public class Survey {
 
     public void mapProject(Project project){
         this.project = project;
+    }
+
+    public void updateSurvey(SurveyUpdateRequestDto updateRequestDto) {
+        this.content = updateRequestDto.getContent();
+        this.title = updateRequestDto.getTitle();
+        this.startDate = updateRequestDto.getStartDate();
+        this.endDate = updateRequestDto.getEndDate();
     }
 
     @Builder
