@@ -48,7 +48,7 @@ public class RewardApiController {
         return ResponseEntity.status(HttpStatus.OK).body(rewards);
     }
 
-    @PutMapping("/{rewardId}")
+    @PutMapping("/{rewardId}/projects/{projectId}")
     public ResponseEntity<Object> updateReward(@PathVariable Long rewardId, @RequestBody RewardSaveRequestDto rewardSaveRequestDto){
         Map<String, Object> responseMap = new HashMap<>();
 

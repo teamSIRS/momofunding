@@ -2,6 +2,7 @@ package com.ssafy.momofunding.domain.surveyqestion.domain;
 
 import com.ssafy.momofunding.domain.questiontype.domain.QuestionType;
 import com.ssafy.momofunding.domain.survey.domain.Survey;
+import com.ssafy.momofunding.domain.surveyqestion.dto.SurveyQuestionUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,10 @@ public class SurveyQuestion {
 
     @Builder
     public SurveyQuestion(String title){
+        this.title = title;
+    }
+
+    public void updateTitle(String title) {
         this.title = title;
     }
 
