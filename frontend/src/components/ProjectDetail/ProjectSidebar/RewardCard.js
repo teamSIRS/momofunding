@@ -4,13 +4,14 @@ import { InfoCard, Text } from "./styles";
 
 const Card = styled(InfoCard)`
     height: auto;
-    padding: 20px 0;
+    padding: 30px 0;
     align-items: flex-start;
     justify-content: space-evenly;
 `;
 
 const RewardTitle = styled.p`
     font-size:24px;
+    font-weight: bold;
     margin: 3px;
     color: ${MomoColor};
 `;

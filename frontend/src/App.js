@@ -7,6 +7,10 @@ import Header from "./container/Header";
 import GlobalStyle from "./shared/global";
 import ProjectLiveList from "./components/Project/ProjectLiveList";
 import ProjectEntrance from "./components/Project/ProjectEntrance";
+import RewardCard from "./components/ProjectDetail/ProjectSidebar/RewardCard";
+import CreatorCard from "./components/ProjectDetail/ProjectSidebar/CreatorCard";
+import FundingCard from "./components/ProjectDetail/ProjectSidebar/FundingCard";
+import RewardCardSelected from "./components/ProjectDetail/ProjectSidebar/RewardCardSelected";
 
 function App() {
   return (
@@ -31,6 +35,8 @@ function App() {
         <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
       </Routes>
 
+          <RewardCard/>
+          <RewardCardSelected/>
       <Footer />
     </Router>
   );
