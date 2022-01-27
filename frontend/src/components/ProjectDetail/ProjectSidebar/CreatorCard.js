@@ -31,7 +31,6 @@ const Contact = styled(CreatorName)`
 function CreatorCard(){
     return(
         <>
-            <CardTitle>창작자 정보</CardTitle>
             <InfoCard>
                 <CreatorPic/>
                 <CreatorInfo>

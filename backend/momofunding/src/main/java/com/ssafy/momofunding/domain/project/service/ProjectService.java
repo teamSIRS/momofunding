@@ -1,6 +1,5 @@
 package com.ssafy.momofunding.domain.project.service;
 
-import com.ssafy.momofunding.domain.creator.dto.CreatorGetDetailResponseDto;
 import com.ssafy.momofunding.domain.creator.repository.CreatorRepository;
 import com.ssafy.momofunding.domain.live.domain.Live;
 import com.ssafy.momofunding.domain.project.domain.Project;
@@ -62,9 +61,7 @@ public class ProjectService {
 
     public ProjectGetDetailResponseDto getProjectDetail(Long projectId) {
         return new ProjectGetDetailResponseDto(projectRepository.findById(projectId)
-                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId)),
-                new CreatorGetDetailResponseDto(creatorRepository.findByProjectId(projectId)
-                        .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId))));
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId)));
     }
 
     public void deleteProject(Long projectId) {
