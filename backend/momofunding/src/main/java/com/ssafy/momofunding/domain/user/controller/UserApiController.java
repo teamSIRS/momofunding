@@ -14,11 +14,12 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/users")
 public class UserApiController {
     private final UserService userService;
 
     //Sign-in
-    @PostMapping("/users/sign-in")
+    @PostMapping("/sign-in")
     public ResponseEntity signIn(@RequestBody UserSignInRequestDto userSignInRequestDto){
         Map<String, Object> responseMap = new HashMap<>();
         UserSignInResponseDto userSignInResponseDto;
@@ -32,7 +33,7 @@ public class UserApiController {
     }
 
     //Sign-up
-    @PostMapping("/users")
+    @PostMapping("")
     public ResponseEntity signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto) {
         Map<String, Object> responseMap = new HashMap<>();
         Long userId = userService.saveUserInfo(userSignUpRequestDto);
@@ -41,28 +42,28 @@ public class UserApiController {
     }
 
     //닉네임 중복 조회
-    @GetMapping("/users/nickname/{nickname}")
-    public ResponseEntity<Map<String, Object>> checkNicknameDuplicate(@PathVariable("nickname") String nickname) {
+    @GetMapping("/nickname/{nickname}")
+    public ResponseEntity<Map<String, Object>> isExistNickname(@PathVariable("nickname") String nickname) {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("isExist",userService.findExistNickname(nickname));
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);    
     }
 
     //이메일 중복 조회
-    @GetMapping("/users/email/{email}")
-    public ResponseEntity<Map<String, Object>> checkEmailDuplicate(@PathVariable("email") String email) {
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Map<String, Object>> isExistEmail(@PathVariable("email") String email) {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("isExist",userService.findExistEmail(email));
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
     //회원 정보 조회
-    @GetMapping("/users/{userId}")
-    public ResponseEntity getUserInfo(@PathVariable("userId") Long userId){
+    @GetMapping("/{userId}")
+    public ResponseEntity findUserInfoById(@PathVariable("userId") Long userId){
         UserInfoResponseDto userInfoResponseDto;
         Map<String, Object> responseMap = new HashMap<>();
         try {
-            userInfoResponseDto = userService.getUserInfo(userId);
+            userInfoResponseDto = userService.findUserInfoById(userId);
         }catch (IllegalArgumentException e){
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
@@ -71,7 +72,7 @@ public class UserApiController {
     }
 
     //회원 정보 수정
-    @PutMapping("/users/{userId}")
+    @PutMapping("/{userId}")
     public ResponseEntity updateUser(@PathVariable("userId") Long userId, @RequestBody UserInfoUpdateRequestDto userInfoUpdateRequestDto){
         Map<String, Object> responseMap = new HashMap<>();
         try {
@@ -85,7 +86,7 @@ public class UserApiController {
     }
 
     //회원 삭제
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("/{userId}")
     public ResponseEntity deleteUser(@PathVariable("userId") Long userId){
         Map<String, Object> responseMap = new HashMap<>();
         try {
