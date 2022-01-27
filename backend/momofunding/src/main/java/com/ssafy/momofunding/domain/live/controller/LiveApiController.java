@@ -23,7 +23,7 @@ public class LiveApiController {
     private final LiveService liveService;
 
     @GetMapping("")
-    public ResponseEntity findBySort(@RequestParam String sortValue) {
+    public ResponseEntity findLiveBySort(@RequestParam String sortValue) {
         List<LiveResponseDto> lives = new ArrayList<>();
 
         if (sortValue.equals("date")) {
@@ -38,7 +38,7 @@ public class LiveApiController {
     }
 
     @PostMapping("")
-    public ResponseEntity save(@RequestBody LiveSaveRequestDto liveSaveRequestDto) {
+    public ResponseEntity saveLive(@RequestBody LiveSaveRequestDto liveSaveRequestDto) {
 
         Map<String, Object> responseMap = new HashMap<>();
         try {
@@ -53,7 +53,7 @@ public class LiveApiController {
     }
 
     @GetMapping("/projectCategory/{projectCategoryId}")
-    public ResponseEntity findAllByCategoryId(@PathVariable Long projectCategoryId) {
+    public ResponseEntity findLivesByCategoryId(@PathVariable Long projectCategoryId) {
         Map<String, Object> responseMap = new HashMap<>();
         List<LiveResponseDto> lives = new ArrayList<>();
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
@@ -72,7 +72,7 @@ public class LiveApiController {
     }
 
     @PutMapping("/{liveId}")
-    public ResponseEntity update(@RequestBody LiveUpdateRequestDto liveUpdateRequestDto, @PathVariable Long liveId){
+    public ResponseEntity updateLive(@RequestBody LiveUpdateRequestDto liveUpdateRequestDto, @PathVariable Long liveId){
         Map<String, Object> responseMap = new HashMap<>();
 
         try {

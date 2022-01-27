@@ -18,7 +18,7 @@ public class SurveyApiController {
     private final SurveyService surveyService;
 
     @PostMapping("")
-    public ResponseEntity save(@RequestBody SurveySaveRequestDto surveySaveRequestDto) {
+    public ResponseEntity saveSurvey(@RequestBody SurveySaveRequestDto surveySaveRequestDto) {
 
         Map<String, Object> responseMap = new HashMap<>();
         try {

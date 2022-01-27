@@ -21,7 +21,7 @@ public class QuestionSelectApiController {
     private final QuestionSelectService questionSelectService;
 
     @PostMapping("")
-    public ResponseEntity save(@RequestBody QuestionSelectSaveRequestDto questionSelectSaveRequestDto) {
+    public ResponseEntity saveQuestionSelect(@RequestBody QuestionSelectSaveRequestDto questionSelectSaveRequestDto) {
 
         Map<String, Object> responseMap = new HashMap<>();
         try {
