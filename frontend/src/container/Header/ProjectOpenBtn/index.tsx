@@ -11,7 +11,7 @@ const OpenButton = () => {
       </Link>
       <Link to="/projects/entrance">
         <StyledBtn variant="outline-primary" size="sm">
-          프로젝트 시작 임시버튼
+          플젝 임시버튼
         </StyledBtn>
       </Link>
     </div>
