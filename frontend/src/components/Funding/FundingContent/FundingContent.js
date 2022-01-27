@@ -108,7 +108,7 @@ export const FundingContent = () => (
       <FundingContentPayBox>
         <FundingContentPayTitle>결제 정보</FundingContentPayTitle>
         <FundingContentPayInputBox>
-          <FundingContentPayInput type="checkbox" name="kakao" value="kakao" />
+          <FundingContentPayInput type="radio" name="kakao" value="kakao" />
           <FundingContentPayImg
             src="/socialLoginLogo/kakao-talk.png"
             alt="kakao"
@@ -116,13 +116,13 @@ export const FundingContent = () => (
           <FundingContentPayLabel>카카오페이로 후원</FundingContentPayLabel>
         </FundingContentPayInputBox>
         <FundingContentPayInputBox>
-          <FundingContentPayInput type="checkbox" name="naver" value="naver" />
+          <FundingContentPayInput type="radio" name="naver" value="naver" />
           <FundingContentPayImg src="/socialLoginLogo/naver.png" alt="naver" />
           <FundingContentPayLabel>네이버페이로 후원</FundingContentPayLabel>
         </FundingContentPayInputBox>
         <FundingContentPayInputBox>
           <FundingContentPayInput
-            type="checkbox"
+            type="radio"
             name="credit"
             value="credit"
           />

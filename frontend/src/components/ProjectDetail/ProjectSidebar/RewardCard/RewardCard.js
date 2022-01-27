@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { MomoColor } from "../../../../shared/global";
+import { MomoColor, MomoStrongColor } from "../../../../shared/global";
 import { InfoCard, Text } from "../CreatorCard/styles";
 import { useState } from 'react';
 
@@ -65,6 +65,9 @@ const FundBtn = styled.button`
     height: 62px;
     border-radius: 15px;
     font-size: 18px;
+    :hover{
+      background-color: ${MomoStrongColor};
+    }
 `;
 
 const CountUp = styled.div`

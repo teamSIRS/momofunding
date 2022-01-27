@@ -4,8 +4,7 @@ import { InfoCard, Text } from './CreatorCard/styles';
 
 const Card = styled(InfoCard)`
     height: 440px;
-    /* align-items: center; */
-    /* justify-content: center; */
+    margin: 30px 10px;
 `;
 
 const Top = styled.div`
