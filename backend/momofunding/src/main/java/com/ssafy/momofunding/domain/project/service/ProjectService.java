@@ -58,7 +58,7 @@ public class ProjectService {
     }
 
     @Transactional
-    public ProjectDetailResponseDto findProjectDetail(Long projectId) {
+    public ProjectDetailResponseDto findProjectById(Long projectId) {
         return new ProjectDetailResponseDto(projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId)));
     }

@@ -49,10 +49,10 @@ public class ProjectApiController {
     }
 
     @GetMapping("/{projectId}")
-    public ResponseEntity<Object> findProject(@PathVariable Long projectId){
+    public ResponseEntity<Object> findProjectById(@PathVariable Long projectId){
 
         try{
-            ProjectDetailResponseDto projectDetailResponseDto = projectService.findProjectDetail(projectId);
+            ProjectDetailResponseDto projectDetailResponseDto = projectService.findProjectById(projectId);
             return ResponseEntity.status(HttpStatus.OK).body(projectDetailResponseDto);
         }catch (IllegalArgumentException e){
             Map<String, Object> responseMap = new HashMap<>();
