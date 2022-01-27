@@ -11,6 +11,7 @@ import FindId from "./components/Account/FindAccount/FindId";
 import FindPw from "./components/Account/FindAccount/FindPw";
 import ChangePw from "./components/Account/FindAccount/ChangePw";
 import FindAccount from "./components/Account/FindAccount/FindAccount";
+import ProjectDetail from "./components/ProjectDetail";
 
 function App() {
   return (
@@ -33,13 +34,11 @@ function App() {
         ></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
-        {/* ============================================ */}
+        <Route path="projects/:id" element={<ProjectDetail />} />
         <Route path="/findAccount/*" element={<FindAccount />}></Route>
         <Route path="/changepw" element={<ChangePw />}></Route>
       </Routes>
 
-          <RewardCard/>
-          <RewardCardSelected/>
       <Footer />
     </Router>
   );

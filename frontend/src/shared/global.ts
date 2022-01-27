@@ -28,6 +28,9 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 5px;
     color:white;
     background-color: ${MomoColor};
+    &:hover {
+      background-color:${MomoWeakColor}
+    }
   }
 `;
 

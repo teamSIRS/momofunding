@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { MomoColor } from "../../../shared/global";
 
 export const StyledNavbar = styled(Navbar)`
-  padding: 0px;
+  min-width: 1005px;
   color: white;
   background-color: ${MomoColor};
 `;
