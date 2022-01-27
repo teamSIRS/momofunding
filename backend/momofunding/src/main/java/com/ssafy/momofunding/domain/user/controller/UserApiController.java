@@ -59,11 +59,11 @@ public class UserApiController {
 
     //회원 정보 조회
     @GetMapping("/{userId}")
-    public ResponseEntity findUserInfo(@PathVariable("userId") Long userId){
+    public ResponseEntity findUserInfoById(@PathVariable("userId") Long userId){
         UserInfoResponseDto userInfoResponseDto;
         Map<String, Object> responseMap = new HashMap<>();
         try {
-            userInfoResponseDto = userService.findUserInfo(userId);
+            userInfoResponseDto = userService.findUserInfoById(userId);
         }catch (IllegalArgumentException e){
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);

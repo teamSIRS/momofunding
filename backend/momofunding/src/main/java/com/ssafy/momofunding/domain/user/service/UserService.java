@@ -43,7 +43,7 @@ public class UserService {
 
     //ID로 회원 정보 조회
     @Transactional
-    public UserInfoResponseDto findUserInfo(Long userId) {
+    public UserInfoResponseDto findUserInfoById(Long userId) {
         return new UserInfoResponseDto(userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 Id가 존재하지 않습니다. UserId : " + userId)));
     }
