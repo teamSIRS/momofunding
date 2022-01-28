@@ -14,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -44,12 +46,29 @@ public class SurveyService {
     }
 
     @Transactional
+    public List<SurveyResponseDto> findSurveys() {
+        List<Survey> surveys = surveyRepository.findAll();
+        if (surveys.isEmpty()){
+            throw new NoSuchElementException();
+        }
+
+        return surveys.stream()
+                .map(SurveyResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
     public void updateSurvey(SurveyUpdateRequestDto updateRequestDto, Long surveyId){
 
         Survey survey = surveyRepository.findById(surveyId)
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 설문조사 번호입니다. surveyId : " + surveyId));
 
         survey.updateSurvey(updateRequestDto);
+    }
+
+    @Transactional
+    public void deleteSurvey(Long surveyId){
+        surveyRepository.deleteById(surveyId);
     }
 
 }
