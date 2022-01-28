@@ -1,4 +1,4 @@
-import { InputGroup } from "react-bootstrap";
+import { Button, InputGroup } from "react-bootstrap";
 import styled from "styled-components";
 import { MomoWeakColor } from "../../../../../../shared/global";
 
@@ -20,6 +20,7 @@ export const TextAreaWrapper = styled.div`
   font-weight: 400;
   font-size: 15px;
   line-height: 24px;
+  padding-bottom: 35px;
 `;
 
 export const TextArea = styled.textarea`
@@ -32,3 +33,9 @@ export const TextArea = styled.textarea`
 `;
 
 export const InputStyle = styled(InputGroup);
+
+export const SubmitBtn = styled(Button)`
+  float: right;
+  right: 0px;
+  width: auto;
+`;
