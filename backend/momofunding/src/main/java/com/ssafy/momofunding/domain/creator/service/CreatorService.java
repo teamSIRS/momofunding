@@ -16,9 +16,9 @@ public class CreatorService {
     private final CreatorRepository creatorRepository;
 
     @Transactional
-    public void updateCreator(Long creatorId, CreatorUpdateRequestDto creatorUpdateRequestDto){
-        Creator creator = creatorRepository.findById(creatorId)
-                .orElseThrow(()-> new IllegalArgumentException("잘못된 창작자 번호입니다:: creatorId-"+creatorId));
+    public void updateCreator(Long projectId, CreatorUpdateRequestDto creatorUpdateRequestDto){
+        Creator creator = creatorRepository.findByProjectId(projectId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
 
         creator.updateCreator(creatorUpdateRequestDto);
     }
