@@ -26,7 +26,7 @@ public class CreatorApiController {
             summary = "창작자 저장(수정)",
             description = "projectId로 창작자 정보 저장(수정)"
     )
-    @Parameter(name = "projectId", description = "내용 저장할 창작자의 프로젝트 식별번호", required = true)
+    @Parameter(name = "projectId", description = "저장할 창작자의 프로젝트 식별번호", required = true)
     @PutMapping("/{projectId}")
     public ResponseEntity<Object> updateCreator(@PathVariable Long projectId, @RequestBody CreatorUpdateRequestDto creatorUpdateRequestDto){
         try{
@@ -39,7 +39,13 @@ public class CreatorApiController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-    @GetMapping("/projects/{projectId}")
+    @Operation(
+            summary = "창작자 상세 정보 조회",
+            description = "projectId로 창작자 정보 조회"
+    )
+    @Parameter(name = "projectId", description = "조회할 창작자의 프로젝트 식별번호", required = true)
+    @PutMapping("/{projectId}")
+    @GetMapping("/{projectId}")
     public ResponseEntity<Object> findCreatorByProjectId(@PathVariable Long projectId){
         try {
             CreatorDetailResponseDto creatorDetailResponseDto = creatorService.findCreatorByProjectId(projectId);
