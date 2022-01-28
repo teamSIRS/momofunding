@@ -1,4 +1,3 @@
-import { MomoColor } from "../../../../shared/global";
 import { MomoProgress } from "../BannerProgress/styles";
 import {
   ContribTitle,
