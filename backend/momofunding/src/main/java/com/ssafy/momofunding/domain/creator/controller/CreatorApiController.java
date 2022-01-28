@@ -3,6 +3,8 @@ package com.ssafy.momofunding.domain.creator.controller;
 import com.ssafy.momofunding.domain.creator.dto.CreatorDetailResponseDto;
 import com.ssafy.momofunding.domain.creator.dto.CreatorUpdateRequestDto;
 import com.ssafy.momofunding.domain.creator.service.CreatorService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,10 +22,15 @@ public class CreatorApiController {
 
     private final CreatorService creatorService;
 
-    @PutMapping("/{creatorId}")
-    public ResponseEntity<Object> updateCreator(@PathVariable Long creatorId, @RequestBody CreatorUpdateRequestDto creatorUpdateRequestDto){
+    @Operation(
+            summary = "창작자 저장(수정)",
+            description = "projectId로 창작자 정보 저장(수정)"
+    )
+    @Parameter(name = "projectId", description = "내용 저장할 창작자의 프로젝트 식별번호", required = true)
+    @PutMapping("/{projectId}")
+    public ResponseEntity<Object> updateCreator(@PathVariable Long projectId, @RequestBody CreatorUpdateRequestDto creatorUpdateRequestDto){
         try{
-            creatorService.updateCreator(creatorId, creatorUpdateRequestDto);
+            creatorService.updateCreator(projectId, creatorUpdateRequestDto);
         }catch (IllegalArgumentException e){
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", e.getMessage());
