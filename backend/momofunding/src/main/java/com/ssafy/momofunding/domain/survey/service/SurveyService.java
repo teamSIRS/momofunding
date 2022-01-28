@@ -52,4 +52,9 @@ public class SurveyService {
         survey.updateSurvey(updateRequestDto);
     }
 
+    @Transactional
+    public void deleteSurvey(Long surveyId){
+        surveyRepository.deleteById(surveyId);
+    }
+
 }
