@@ -44,7 +44,6 @@ public class CreatorApiController {
             description = "projectId로 창작자 정보 조회"
     )
     @Parameter(name = "projectId", description = "조회할 창작자의 프로젝트 식별번호", required = true)
-    @PutMapping("/{projectId}")
     @GetMapping("/{projectId}")
     public ResponseEntity<Object> findCreatorByProjectId(@PathVariable Long projectId){
         try {
