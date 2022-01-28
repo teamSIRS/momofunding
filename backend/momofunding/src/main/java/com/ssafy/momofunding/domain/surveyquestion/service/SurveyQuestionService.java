@@ -63,4 +63,9 @@ public class SurveyQuestionService {
 
         surveyQuestion.updateTitle(updateRequestDto.getTitle());
     }
+
+    @Transactional
+    public void deleteSurveyQuestion(Long surveyQuestionId){
+        surveyQuestionRepository.deleteById(surveyQuestionId);
+    }
 }
