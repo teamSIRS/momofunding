@@ -22,6 +22,9 @@ const GlobalStyle = createGlobalStyle`
       color: ${MomoWeakColor}
     }
     color: white;
+    &:active{
+      color: ${MomoStrongColor}
+    }
   }
   button, .btn {
     border: 0px;
