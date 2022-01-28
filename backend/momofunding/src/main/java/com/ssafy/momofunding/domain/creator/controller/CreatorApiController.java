@@ -2,6 +2,7 @@ package com.ssafy.momofunding.domain.creator.controller;
 
 import com.ssafy.momofunding.domain.creator.dto.CreatorUpdateRequestDto;
 import com.ssafy.momofunding.domain.creator.service.CreatorService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+@Tag(name = "Creator API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/creators")

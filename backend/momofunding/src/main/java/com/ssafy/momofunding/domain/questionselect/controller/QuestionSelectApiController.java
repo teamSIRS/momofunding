@@ -2,6 +2,7 @@ package com.ssafy.momofunding.domain.questionselect.controller;
 
 import com.ssafy.momofunding.domain.questionselect.dto.QuestionSelectSaveRequestDto;
 import com.ssafy.momofunding.domain.questionselect.service.QuestionSelectService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Tag(name = "Question Select API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("question-select")

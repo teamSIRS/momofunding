@@ -2,6 +2,9 @@ package com.ssafy.momofunding.domain.user.controller;
 
 import com.ssafy.momofunding.domain.user.dto.*;
 import com.ssafy.momofunding.domain.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -11,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Tag(name = "User API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
@@ -19,6 +22,10 @@ public class UserApiController {
     private final UserService userService;
 
     //Sign-in
+    @Operation(
+            summary = "회원 로그인",
+            description = "회원은 email과 password로 로그인 할 수 있다."
+    )
     @PostMapping("/sign-in")
     public ResponseEntity signIn(@RequestBody UserSignInRequestDto userSignInRequestDto){
         Map<String, Object> responseMap = new HashMap<>();
@@ -33,6 +40,10 @@ public class UserApiController {
     }
 
     //Sign-up
+    @Operation(
+            summary = "회원 가입",
+            description = "회원은 email, password, nickname을 입력해 회원가입 할 수 있다."
+    )
     @PostMapping("")
     public ResponseEntity signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto) {
         Map<String, Object> responseMap = new HashMap<>();
@@ -42,6 +53,11 @@ public class UserApiController {
     }
 
     //닉네임 중복 조회
+    @Operation(
+            summary = "닉네임 중복 확인",
+            description = "이미 동일한 닉네임이 있다면 true, 없다면 false 리턴"
+    )
+    @Parameter(name = "nickname", description = "중복 체크 할 닉네임", required = true)
     @GetMapping("/nickname/{nickname}")
     public ResponseEntity<Map<String, Object>> isExistNickname(@PathVariable("nickname") String nickname) {
         Map<String, Object> responseMap = new HashMap<>();
@@ -50,6 +66,11 @@ public class UserApiController {
     }
 
     //이메일 중복 조회
+    @Operation(
+            summary = "이메일 중복 확인",
+            description = "이미 동일한 이메일이 있다면 true, 없다면 false 리턴"
+    )
+    @Parameter(name = "email", description = "중복 체크 할 이메일", required = true)
     @GetMapping("/email/{email}")
     public ResponseEntity<Map<String, Object>> isExistEmail(@PathVariable("email") String email) {
         Map<String, Object> responseMap = new HashMap<>();
@@ -58,6 +79,11 @@ public class UserApiController {
     }
 
     //회원 정보 조회
+    @Operation(
+            summary = "회원 정보 조회",
+            description = "userId를 통해 회원 정보 조회 email, password, nickname, 가입일자를 리턴"
+    )
+    @Parameter(name = "userId", description = "조회 할 유저의 id", required = true)
     @GetMapping("/{userId}")
     public ResponseEntity findUserInfoById(@PathVariable("userId") Long userId){
         UserInfoResponseDto userInfoResponseDto;
@@ -72,6 +98,11 @@ public class UserApiController {
     }
 
     //회원 정보 수정
+    @Operation(
+            summary = "회원 정보 수정",
+            description = "userId와 RequestBody로 회원정보 수정"
+    )
+    @Parameter(name = "userId", description = "수정 할 유저의 id", required = true)
     @PutMapping("/{userId}")
     public ResponseEntity updateUser(@PathVariable("userId") Long userId, @RequestBody UserInfoUpdateRequestDto userInfoUpdateRequestDto){
         Map<String, Object> responseMap = new HashMap<>();
@@ -86,6 +117,11 @@ public class UserApiController {
     }
 
     //회원 삭제
+    @Operation(
+            summary = "회원 정보 삭제",
+            description = "userId로 회원 삭제"
+    )
+    @Parameter(name = "userId", description = "삭제 할 유저의 id", required = true)
     @DeleteMapping("/{userId}")
     public ResponseEntity deleteUser(@PathVariable("userId") Long userId){
         Map<String, Object> responseMap = new HashMap<>();

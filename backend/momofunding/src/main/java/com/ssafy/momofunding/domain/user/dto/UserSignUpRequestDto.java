@@ -2,7 +2,11 @@ package com.ssafy.momofunding.domain.user.dto;
 
 import com.ssafy.momofunding.domain.user.domain.User;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
 public class UserSignUpRequestDto {
 
     private String email;

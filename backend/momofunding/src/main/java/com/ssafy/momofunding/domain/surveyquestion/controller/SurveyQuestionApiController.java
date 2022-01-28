@@ -6,6 +6,7 @@ import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionResponseDto
 import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionSaveRequestDto;
 import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionUpdateRequestDto;
 import com.ssafy.momofunding.domain.surveyquestion.service.SurveyQuestionService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-
+@Tag(name = "Survey Question API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/survey-questions")

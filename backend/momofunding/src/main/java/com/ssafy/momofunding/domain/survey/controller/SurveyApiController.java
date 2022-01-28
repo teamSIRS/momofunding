@@ -4,6 +4,10 @@ import com.ssafy.momofunding.domain.survey.dto.SurveyResponseDto;
 import com.ssafy.momofunding.domain.survey.dto.SurveySaveRequestDto;
 import com.ssafy.momofunding.domain.survey.dto.SurveyUpdateRequestDto;
 import com.ssafy.momofunding.domain.survey.service.SurveyService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -15,13 +19,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-
+@Tag(name = "Survey API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/surveys")
 public class SurveyApiController {
     private final SurveyService surveyService;
 
+
+    @Operation(
+            summary = "설문조사 저장",
+            description = "설문조사 간략한 정보를 저장하고 설문조사의 Id를 리턴"
+    )
     @PostMapping("")
     public ResponseEntity saveSurvey(@RequestBody SurveySaveRequestDto surveySaveRequestDto) {
 
