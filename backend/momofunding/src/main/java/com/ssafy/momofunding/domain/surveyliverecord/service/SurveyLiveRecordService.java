@@ -32,7 +32,7 @@ public class SurveyLiveRecordService {
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 설문조사 번호 입니다. surveyId : " + surveyId));
 
         Live live = liveRepository.findById(liveId)
-                .orElseThrow(()-> new IllegalArgumentException("잘못된 질문 타입 번호 입니다. liveId : " + liveId));
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 라이브 번호 입니다. liveId : " + liveId));
 
         SurveyLiveRecord SurveyLiveRecord = new SurveyLiveRecord();
         SurveyLiveRecord.mapSurvey(survey);
