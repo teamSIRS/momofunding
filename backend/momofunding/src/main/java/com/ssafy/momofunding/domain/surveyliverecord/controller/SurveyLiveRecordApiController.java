@@ -2,6 +2,8 @@ package com.ssafy.momofunding.domain.surveyliverecord.controller;
 
 import com.ssafy.momofunding.domain.surveyliverecord.dto.SurveyLiveRecordSaveRequestDto;
 import com.ssafy.momofunding.domain.surveyliverecord.service.SurveyLiveRecordService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,6 +22,10 @@ import java.util.NoSuchElementException;
 public class SurveyLiveRecordApiController {
     private final SurveyLiveRecordService SurveyLiveRecordService;
 
+    @Operation(
+            summary = "라이브-설문조사 기록 저장",
+            description = "라이브Id, 설문조사Id를 받아 기록 저장"
+    )
     @PostMapping("")
     public ResponseEntity saveSurveyLiveRecord(@RequestBody SurveyLiveRecordSaveRequestDto saveRequestDto) {
 
