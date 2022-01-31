@@ -26,8 +26,8 @@ public class LiveApiController {
     private final LiveService liveService;
 
     @Operation(
-            summary = "정렬 별 라이브 다중 조회",
-            description = "최신 순, 시청자 순(추가 예정)에 따른 라이브 리스트를 리턴"
+            summary = "정렬 별 진행중인 라이브 다중 조회",
+            description = "최신 순, 시청자 순(추가 예정)에 따른 진행중인 라이브 리스트를 조회 (진행중이 아니면 조회되지 않음)"
     )
     @Parameter(name = "sortValue", description = "정렬 방식", required = true)
     @GetMapping("")
@@ -66,7 +66,7 @@ public class LiveApiController {
 
     @Operation(
             summary = "카테고리 별 라이브 다중 조회",
-            description = "카테고리 종류에 따른 라이브 리스트를 리턴"
+            description = "카테고리 ID에 해당하는 라이브 리스트를 리턴"
     )
     @Parameter(name = "projectCategoryId", description = "카테고리 Id", required = true)
     @GetMapping("/projectCategory/{projectCategoryId}")

@@ -78,7 +78,7 @@ const styles = {
 function ProjectManagement() {
   const profileMatch = useMatch("/projects/management/profile");
   const introMatch = useMatch("/projects/management/intro");
-  const storyMatch = useMatch("/projects/management/story");
+  const storyMatch = useMatch("/projects/management/storyInfo");
   const rewardMatch = useMatch("/projects/management/reward");
   return (
     <div>
@@ -104,7 +104,7 @@ function ProjectManagement() {
                   </CustomLink>
                 </ProjectManagementSidebarMenu>
                 <ProjectManagementSidebarMenu isActive={storyMatch !== null}>
-                  <CustomLink to={`/projects/management/story`}>
+                  <CustomLink to={`/projects/management/storyInfo`}>
                     프로젝트 스토리
                   </CustomLink>
                 </ProjectManagementSidebarMenu>
@@ -130,7 +130,7 @@ function ProjectManagement() {
                 element={<ProjectManagementContentIntro />}
               ></Route>
               <Route
-                path="/story"
+                path="/storyInfo"
                 element={<ProjectManagementContentStory />}
               ></Route>
               <Route

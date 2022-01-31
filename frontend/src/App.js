@@ -15,6 +15,9 @@ import ProfileMember from "./components/Profile/ProfileMember/ProfileMember";
 import ProjectManagement from "./components/ProjectManagement/ProjectManagement";
 import Notice from "./components/Notice/Notice";
 
+import ProjectStory from "./components/ProjectDetail/ProjectContent/ProjectStory";
+import ProjectCommunity from "./components/ProjectDetail/ProjectContent/ProjectCommunity";
+
 function App() {
   return (
     <Router>
@@ -27,7 +30,12 @@ function App() {
         <Route path="/notices" element={<Notice />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
-        <Route path="projects/:id" element={<ProjectDetail />} />
+        <Route path="projects/:id" element={<ProjectDetail />}>
+          <Route index element={<ProjectCommunity />} />
+          <Route path="story" element={<ProjectStory />} />
+          <Route path="notices" element={<h1>공지사항</h1>} />
+          <Route path="community" element={<ProjectCommunity />} />
+        </Route>
         <Route path="/findAccount/*" element={<FindAccount />}></Route>
         <Route path="/changepw" element={<ChangePw />}></Route>
         <Route path="/funding" element={<Funding />}></Route>

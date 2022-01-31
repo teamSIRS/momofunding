@@ -1,20 +1,18 @@
 import ProjectBanner from "./ProjectBanner";
 import ProjectContent from "./ProjectContent";
 import ProjectSidebar from "./ProjectSidebar";
-import { Container, Body, Content, Side } from "./styles";
+import { Container, Row } from "react-bootstrap";
 
 export const ProjectDetail = () => {
   return (
-    <Container>
+    <div>
       <ProjectBanner />
-      <Body>
-        <Content>
+      <Container>
+        <Row>
           <ProjectContent />
-        </Content>
-        <Side>
           <ProjectSidebar />
-        </Side>
-      </Body>
-    </Container>
+        </Row>
+      </Container>
+    </div>
   );
 };
