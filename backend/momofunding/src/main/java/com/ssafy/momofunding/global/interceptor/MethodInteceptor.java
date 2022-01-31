@@ -3,17 +3,15 @@ package com.ssafy.momofunding.global.interceptor;
 import com.ssafy.momofunding.global.exception.UnAuthorizedException;
 import com.ssafy.momofunding.global.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
-public class JwtInterceptor implements HandlerInterceptor {
+public class MethodInteceptor implements HandlerInterceptor {
     private static final String HEADER_AUTH = "auth-token";
 
     @Autowired
@@ -21,10 +19,10 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws UnAuthorizedException {
-        if(!HttpMethod.GET.matches(request.getMethod()))
+        if(HttpMethod.GET.matches(request.getMethod()))
             return true;
-        final String token = request.getHeader(HEADER_AUTH);
 
+        final String token = request.getHeader(HEADER_AUTH);
         if(token != null && jwtService.isUsable(token)){
             return true;
         }else{

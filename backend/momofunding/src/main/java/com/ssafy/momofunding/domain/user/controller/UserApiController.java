@@ -2,6 +2,7 @@ package com.ssafy.momofunding.domain.user.controller;
 
 import com.ssafy.momofunding.domain.user.dto.*;
 import com.ssafy.momofunding.domain.user.service.UserService;
+import com.ssafy.momofunding.global.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,6 +22,8 @@ import java.util.Map;
 public class UserApiController {
     private final UserService userService;
 
+    private final JwtService jwtService;
+
     //Sign-in
     @Operation(
             summary = "회원 로그인",
@@ -29,14 +32,20 @@ public class UserApiController {
     @PostMapping("/sign-in")
     public ResponseEntity signIn(@RequestBody UserSignInRequestDto userSignInRequestDto){
         Map<String, Object> responseMap = new HashMap<>();
-        UserSignInResponseDto userSignInResponseDto;
         try {
-            userSignInResponseDto = userService.findEmailAndPassword(userSignInRequestDto);
+            Long userId = userService.findEmailAndPassword(userSignInRequestDto);
+
+            String token = jwtService.create("userId", userId, "access-token");
+
+            responseMap.put("access-token", token);
+            responseMap.put("userId", userId);
+            responseMap.put("message", "success");
         }catch (EmptyResultDataAccessException e){
             responseMap.put("errorMsg", e.getMessage());
+            responseMap.put("message", "fail");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(userSignInResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
     //Sign-up

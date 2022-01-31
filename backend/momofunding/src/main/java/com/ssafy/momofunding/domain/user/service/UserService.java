@@ -15,12 +15,12 @@ public class UserService {
 
     //SignIn
     @Transactional
-    public UserSignInResponseDto findEmailAndPassword(UserSignInRequestDto userSignInRequestDto) {
+    public Long findEmailAndPassword(UserSignInRequestDto userSignInRequestDto) {
         Long userId = userRepository
                 .findByEmailAndPassword(userSignInRequestDto.getEmail(), userSignInRequestDto.getPassword())
                 .orElseThrow(() -> new EmptyResultDataAccessException("해당 ID: " + userSignInRequestDto.getEmail() +
                         " / PASSWORD: " + userSignInRequestDto.getPassword() + "와 일치하는 회원이 없습니다.", 1)).getId();
-        return new UserSignInResponseDto(userId);
+        return userId;
     }
 
     //SignUp

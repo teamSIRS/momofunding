@@ -26,7 +26,6 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-
     @ManyToOne(targetEntity = ProjectState.class)
     @JoinColumn(name = "project_state_id")
     ProjectState projectState;
