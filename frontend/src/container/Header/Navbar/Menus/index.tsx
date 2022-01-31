@@ -14,6 +14,7 @@ const Menus = () => {
       <Menu path="changePw" name="비재설" />
       <Menu path="funding" name="후원" />
       <Menu path="profile/member" name="회원수정" />
+      <Menu path="projects/management" name="플젝관리" />
     </StyledMenus>
   );
 };

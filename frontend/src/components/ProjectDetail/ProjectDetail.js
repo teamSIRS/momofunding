@@ -1,4 +1,3 @@
-// import { Container, Col, Row } from "react-bootstrap";
 import ProjectBanner from "./ProjectBanner";
 import ProjectContent from "./ProjectContent";
 import ProjectSidebar from "./ProjectSidebar";
@@ -7,13 +6,13 @@ import { Container, Body, Content, Side } from "./styles";
 export const ProjectDetail = () => {
   return (
     <Container>
-      <ProjectBanner/>
+      <ProjectBanner />
       <Body>
         <Content>
-          <ProjectContent/>
+          <ProjectContent />
         </Content>
         <Side>
-          <ProjectSidebar/>
+          <ProjectSidebar />
         </Side>
       </Body>
     </Container>

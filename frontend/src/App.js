@@ -12,6 +12,8 @@ import FindAccount from "./components/Account/FindAccount/FindAccount";
 import ProjectDetail from "./components/ProjectDetail";
 import Funding from "./components/Funding";
 import ProfileMember from "./components/Profile/ProfileMember/ProfileMember";
+import ProjectManagement from "./components/ProjectManagement/ProjectManagement";
+import Notice from "./components/Notice/Notice";
 
 function App() {
   return (
@@ -22,16 +24,7 @@ function App() {
         <Route index element={<Home />}></Route>
         <Route path="/projects" element={<ProjectList />}></Route>
         <Route path="/lives" element={<ProjectLiveList />}></Route>
-        <Route path="/notices" element={<h1>공지사항</h1>}></Route>
-
-        <Route
-          path="/notices"
-          element={
-            <>
-              <h1>공지사항</h1>
-            </>
-          }
-        ></Route>
+        <Route path="/notices" element={<Notice />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
         <Route path="projects/:id" element={<ProjectDetail />} />
@@ -39,6 +32,10 @@ function App() {
         <Route path="/changepw" element={<ChangePw />}></Route>
         <Route path="/funding" element={<Funding />}></Route>
         <Route path="/profile/member" element={<ProfileMember />}></Route>
+        <Route
+          path="/projects/management/*"
+          element={<ProjectManagement />}
+        ></Route>
       </Routes>
 
       <Footer />
