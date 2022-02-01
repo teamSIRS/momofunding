@@ -5,14 +5,23 @@ import NoticeList from "./NoticeList/NoticeList";
 const NoticeMain = styled.div`
   background-color: whitesmoke;
   width: 100%;
-  height: 1200px;
-  padding: 50px 0px;
+  height: 780px;
+  padding: 60px 0px;
+  position: relative;
 `;
 
 const NoticeMainTitle = styled.div`
   margin: 50px;
   font-size: 30px;
   font-weight: bold;
+`;
+
+const NoticeMainBtn = styled.div`
+  margin: 10px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 5px 10px;
 `;
 
 const styles = {
@@ -34,6 +43,7 @@ function Notice() {
         <Row style={styles.row}>
           <Col sm={12} style={styles.col}>
             <NoticeMain>
+              <NoticeMainBtn as={"button"}>글 작성</NoticeMainBtn>
               <NoticeList />
             </NoticeMain>
           </Col>
