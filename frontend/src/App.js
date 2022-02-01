@@ -17,6 +17,8 @@ import Notice from "./components/Notice/Notice";
 
 import ProjectStory from "./components/ProjectDetail/ProjectContent/ProjectStory";
 import ProjectCommunity from "./components/ProjectDetail/ProjectContent/ProjectCommunity";
+import CreateNotice from "./components/Notice/CreateNotice/CreateNotice";
+import NoticeDetail from "./components/Notice/NoticeDetail/NoticeDetail";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
         <Route path="/projects" element={<ProjectList />}></Route>
         <Route path="/lives" element={<ProjectLiveList />}></Route>
         <Route path="/notices" element={<Notice />}></Route>
+        <Route path="/notices/create" element={<CreateNotice />}></Route>
+        <Route path="/notices/detail" element={<NoticeDetail />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
         <Route path="projects/:id" element={<ProjectDetail />}>
