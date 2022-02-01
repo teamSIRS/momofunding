@@ -1,4 +1,3 @@
-// import { Container, Col, Row } from "react-bootstrap";
 import ProjectBanner from "./ProjectBanner";
 import ProjectContent from "./ProjectContent";
 import ProjectSidebar from "./ProjectSidebar";
