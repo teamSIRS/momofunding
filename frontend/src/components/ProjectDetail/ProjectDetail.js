@@ -3,10 +3,11 @@ import ProjectBanner from "./ProjectBanner";
 import ProjectContent from "./ProjectContent";
 import ProjectSidebar from "./ProjectSidebar";
 import { Container, Row } from "react-bootstrap";
+import { ProjectDetailWrapper } from "./styles";
 
 export const ProjectDetail = () => {
   return (
-    <div>
+    <ProjectDetailWrapper>
       <ProjectBanner />
       <Container>
         <Row>
@@ -14,6 +15,6 @@ export const ProjectDetail = () => {
           <ProjectSidebar />
         </Row>
       </Container>
-    </div>
+    </ProjectDetailWrapper>
   );
 };

@@ -11,7 +11,7 @@ export const ProjectContent = () => (
     <ContentNavbar>
       <ContentNavLink to={"story"}>스토리</ContentNavLink>
       <ContentNavLink to={"notices"}>공지사항</ContentNavLink>
-      <ContentNavLink to={"community"}>QnA</ContentNavLink>
+      <ContentNavLink to={"community"}>응원하기</ContentNavLink>
     </ContentNavbar>
     <OutletWrapper>
       <Outlet />
