@@ -12,6 +12,7 @@ import FindAccount from "./components/Account/FindAccount/FindAccount";
 import ProjectDetail from "./components/ProjectDetail";
 import Funding from "./components/Funding";
 import ProfileMember from "./components/Profile/ProfileMember/ProfileMember";
+import ProfileMain from "./components/Profile/ProfileMyPage/ProfileMain";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route path="/changepw" element={<ChangePw />}></Route>
         <Route path="/funding" element={<Funding />}></Route>
         <Route path="/profile/member" element={<ProfileMember />}></Route>
+        <Route path="/profile" element={<ProfileMain/>}></Route>
       </Routes>
 
       <Footer />
