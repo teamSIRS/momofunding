@@ -11,14 +11,17 @@ import ChangePw from "./components/Account/FindAccount/ChangePw";
 import FindAccount from "./components/Account/FindAccount/FindAccount";
 import ProjectDetail from "./components/ProjectDetail";
 import Funding from "./components/Funding";
-import ProfileMember from "./components/Profile/ProfileMember/ProfileMember"''
+import ProfileMember from "./components/Profile/ProfileMember/ProfileMember";
+import ProfileMain from "./components/Profile/ProfileMyPage/ProfileMain";
 import ProjectManagement from "./components/ProjectManagement/ProjectManagement";
 import Notice from "./components/Notice/Notice";
-
 import ProjectStory from "./components/ProjectDetail/ProjectContent/ProjectStory";
 import ProjectCommunity from "./components/ProjectDetail/ProjectContent/ProjectCommunity";
 import CreateNotice from "./components/Notice/CreateNotice/CreateNotice";
 import NoticeDetail from "./components/Notice/NoticeDetail/NoticeDetail";
+import FundProject from "./components/Profile/ProfileMyPage/FundProject";
+import MyProject from "./components/Profile/ProfileMyPage/MyProject";
+import MyProjectDetail from "./components/Profile/ProfileMyPage/MyProjectDetail";
 
 function App() {
   return (
@@ -44,6 +47,14 @@ function App() {
         <Route path="/changepw" element={<ChangePw />}></Route>
         <Route path="/funding" element={<Funding />}></Route>
         <Route path="/profile/member" element={<ProfileMember />}></Route>
+
+        <Route path="/users" element={<ProfileMain/>}>
+          <Route index element={<FundProject/>} />
+          <Route path="fundproject" element={<FundProject/>} />
+          <Route path="myproject" element={<MyProject/>} />
+        </Route>
+
+        <Route path="/myproject" element={<MyProjectDetail/>}></Route>
 
         <Route
           path="/projects/management/*"
