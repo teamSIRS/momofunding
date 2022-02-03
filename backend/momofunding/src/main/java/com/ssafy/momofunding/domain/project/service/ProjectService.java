@@ -141,4 +141,18 @@ public class ProjectService {
                 .map(ProjectResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public boolean isPlayLive(Long projectId) {
+        Project projects = projectRepository.findById(projectId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다. projectId : " + projectId));
+
+        List<Live> lives = projects.getLives();
+        for (Live live: lives){
+            if (live.getLiveState().getId() == 1L)
+                return true;
+        }
+
+        return false;
+    }
 }

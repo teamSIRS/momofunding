@@ -71,7 +71,7 @@ public class UserApiController {
     public ResponseEntity<Map<String, Object>> isExistNickname(@PathVariable("nickname") String nickname) {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("isExist",userService.findExistNickname(nickname));
-        return ResponseEntity.status(HttpStatus.OK).body(responseMap);    
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
     //이메일 중복 조회

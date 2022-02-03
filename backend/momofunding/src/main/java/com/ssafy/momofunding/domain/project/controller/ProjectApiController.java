@@ -138,4 +138,22 @@ public class ProjectApiController {
         if (projects.isEmpty()) ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
+
+    @Operation(
+            summary = "프로젝트가 라이브 재생중인지 확인",
+            description = "프로젝트 ID를 받아 라이브 재생 여부 (true or false) 반환"
+    )
+    @GetMapping("/{projectId}/is-play-live")
+    public ResponseEntity<Object> isPlayLive(@PathVariable Long projectId) {
+
+        Map<String, Object> responseMap = new HashMap<>();
+
+       try{
+           responseMap.put("isPlayLive", projectService.isPlayLive(projectId));
+           return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+       }catch(IllegalArgumentException e){
+           responseMap.put("errorMsg", e.getMessage());
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+       }
+    }
 }
