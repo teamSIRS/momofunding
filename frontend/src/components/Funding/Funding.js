@@ -2,7 +2,7 @@
 import FundingBanner from "./FundingBanner";
 import FundingContent from "./FundingContent";
 import FundingSidebar from "./FundingSidebar";
-import { Container, Body, Content, Side} from "../ProjectDetail/styles"
+import { Container, Body, Content, Side} from "../ProjectDetail/styles";
 
 export const Funding = () => {
   return (

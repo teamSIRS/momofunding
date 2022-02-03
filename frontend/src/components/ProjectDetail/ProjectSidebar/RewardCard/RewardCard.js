@@ -8,6 +8,9 @@ const Card = styled(InfoCard)`
   padding: 20px 0;
   align-items: flex-start;
   justify-content: space-evenly;
+  :hover{
+    margin:23px;
+  }
 `;
 
 const RewardTitle = styled.p`

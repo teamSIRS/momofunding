@@ -1,5 +1,6 @@
 package com.ssafy.momofunding.domain.project.domain;
 
+import com.ssafy.momofunding.domain.creator.domain.Creator;
 import com.ssafy.momofunding.domain.live.domain.Live;
 import com.ssafy.momofunding.domain.project.dto.ProjectUpdateRequestDto;
 import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
@@ -38,6 +39,8 @@ public class Project {
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
+    @OneToOne(mappedBy = "project", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    Creator creator;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     List<Live> lives = new ArrayList<>();

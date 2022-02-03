@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class CreatorGetDetailResponseDto {
+public class CreatorDetailResponseDto {
 
     private Long id;
     private String creatorName;
@@ -20,8 +20,8 @@ public class CreatorGetDetailResponseDto {
     private String account;
 
     @Builder
-    public CreatorGetDetailResponseDto(Long id, String creatorName, String creatorImageUrl, String creatorContent,
-                                       String email, String tel, String account){
+    public CreatorDetailResponseDto(Long id, String creatorName, String creatorImageUrl, String creatorContent,
+                                    String email, String tel, String account){
         this.id = id;
         this.creatorName = creatorName;
         this.creatorImageUrl = creatorImageUrl;
@@ -31,7 +31,7 @@ public class CreatorGetDetailResponseDto {
         this.account = account;
     }
 
-    public CreatorGetDetailResponseDto(Creator creatorEntity) {
+    public CreatorDetailResponseDto(Creator creatorEntity) {
         this.id = creatorEntity.getId();
         this.creatorName = creatorEntity.getCreatorName();
         this.creatorImageUrl = creatorEntity.getCreatorImageUrl();

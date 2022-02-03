@@ -29,7 +29,7 @@ public class SurveyApiController {
 
     @Operation(
             summary = "설문조사 저장",
-            description = "설문조사 간략한 정보를 저장하고 설문조사의 Id를 리턴"
+            description = "설문조사 정보를 저장하고 설문조사의 Id를 리턴"
     )
     @PostMapping("")
     public ResponseEntity saveSurvey(@RequestBody SurveySaveRequestDto surveySaveRequestDto) {
@@ -46,6 +46,11 @@ public class SurveyApiController {
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
+    @Operation(
+            summary = "설문조사 정보 단일 조회",
+            description = "설문조사 Id에 해당하는 설문조사 정보 반환"
+    )
+    @Parameter(name = "surveyId", description = "설문조사 Id", required = true)
     @GetMapping("/{surveyId}")
     public ResponseEntity findSurveyById(@PathVariable Long surveyId) {
 
@@ -60,6 +65,10 @@ public class SurveyApiController {
         return ResponseEntity.status(HttpStatus.OK).body(surveyResponseDto);
     }
 
+    @Operation(
+            summary = "설문조사 정보 리스트 조회",
+            description = "모든 설문조사 정보 리스트 반환"
+    )
     @GetMapping("")
     public ResponseEntity findSurveys() {
 
@@ -74,6 +83,11 @@ public class SurveyApiController {
         return ResponseEntity.status(HttpStatus.OK).body(surveyResponseDtos);
     }
 
+    @Operation(
+            summary = "설문조사 정보 수정",
+            description = "설문조사 Id에 해당하는 설문조사 정보 수정"
+    )
+    @Parameter(name = "surveyId", description = "설문조사 Id", required = true)
     @PutMapping("/{surveyId}")
     public ResponseEntity updateSurvey(@RequestBody SurveyUpdateRequestDto surveyUpdateRequestDto, @PathVariable Long surveyId) {
 
@@ -88,6 +102,11 @@ public class SurveyApiController {
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
+    @Operation(
+            summary = "설문조사 정보 단일 삭제",
+            description = "설문조사 Id에 해당하는 설문조사 정보 삭제"
+    )
+    @Parameter(name = "surveyId", description = "설문조사 Id", required = true)
     @DeleteMapping("/{surveyId}")
     public ResponseEntity deleteSurvey(@PathVariable Long surveyId) {
 

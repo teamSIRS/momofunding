@@ -16,7 +16,7 @@ const FundingContentAddTitle = styled.div`
   text-decoration-color: #6667ab;
   margin-top: 80px;
 `;
-const FundingContentAddInputBox = styled.div`
+const FundingContentAddInputBox = styled.label`
   margin: 30px 0px;
 `;
 const FundingContentAddLabel = styled.div`
@@ -52,6 +52,9 @@ const FundingContentPayInputBox = styled(FundingContentAddInputBox)`
 const FundingContentPayLabel = styled.div`
   font-size: 15px;
   font-weight: bold;
+  :selected{
+    color: red;
+  }
 `;
 const FundingContentPayImg = styled.img`
   width: 30px;
@@ -105,25 +108,29 @@ export const FundingContent = () => (
           ></FundingContentInfoInput>
         </FundingContentInfoInputBox>
       </FundingContentInfoBox>
+
       <FundingContentPayBox>
         <FundingContentPayTitle>결제 정보</FundingContentPayTitle>
+
         <FundingContentPayInputBox>
-          <FundingContentPayInput type="radio" name="kakao" value="kakao" />
+          <FundingContentPayInput type="radio" name="payment" value="kakao" />
           <FundingContentPayImg
             src="/socialLoginLogo/kakao-talk.png"
             alt="kakao"
-          />
+            />
           <FundingContentPayLabel>카카오페이로 후원</FundingContentPayLabel>
         </FundingContentPayInputBox>
+
         <FundingContentPayInputBox>
-          <FundingContentPayInput type="radio" name="naver" value="naver" />
+          <FundingContentPayInput type="radio" name="payment" value="naver" />
           <FundingContentPayImg src="/socialLoginLogo/naver.png" alt="naver" />
           <FundingContentPayLabel>네이버페이로 후원</FundingContentPayLabel>
         </FundingContentPayInputBox>
+
         <FundingContentPayInputBox>
           <FundingContentPayInput
             type="radio"
-            name="credit"
+            name="payment"
             value="credit"
           />
           <FundingContentPayImg
@@ -132,6 +139,7 @@ export const FundingContent = () => (
           />
           <FundingContentPayLabel>신용카드 후원</FundingContentPayLabel>
         </FundingContentPayInputBox>
+
       </FundingContentPayBox>
     </FundingContentBox>
   </Content>
