@@ -2,6 +2,8 @@ package com.ssafy.momofunding.domain.questionselect.controller;
 
 import com.ssafy.momofunding.domain.questionselect.dto.QuestionSelectSaveRequestDto;
 import com.ssafy.momofunding.domain.questionselect.service.QuestionSelectService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,10 @@ import java.util.Map;
 public class QuestionSelectApiController {
     private final QuestionSelectService questionSelectService;
 
+    @Operation(
+            summary = "설문조사 질문 - 객관식 보기 저장",
+            description = "객관식 보기 정보를 받아 개별 저장"
+    )
     @PostMapping("")
     public ResponseEntity saveQuestionSelect(@RequestBody QuestionSelectSaveRequestDto questionSelectSaveRequestDto) {
 
