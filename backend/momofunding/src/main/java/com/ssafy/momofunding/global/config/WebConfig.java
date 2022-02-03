@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
-@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
     private static final List<String> methodPatterns = Arrays.asList("/**");

@@ -13,7 +13,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @Tag(name = "Project API")
@@ -47,12 +49,15 @@ public class ProjectApiController {
     )
     @Parameter(name = "projectId", description = "수정 할 프로젝트의 Id", required = true)
     @PutMapping("/{projectId}")
-    public ResponseEntity<Map<String, Object>> updateProject(@PathVariable Long projectId, @RequestBody ProjectUpdateRequestDto projectSaveRequestDto) {
+    public ResponseEntity<Map<String, Object>> updateProject(@PathVariable Long projectId,
+                                                             @RequestPart("project") ProjectUpdateRequestDto projectSaveRequestDto,
+                                                             @RequestPart("mainImage") MultipartFile mainImg,
+                                                             @RequestPart("subImage") MultipartFile subImg) {
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
-            responseMap.put("projectId", projectService.updateProject(projectId, projectSaveRequestDto));
-        } catch (IllegalArgumentException e) {
+            responseMap.put("projectId", projectService.updateProject(projectId, projectSaveRequestDto, mainImg, subImg));
+        } catch (IllegalArgumentException | IOException e) {
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
