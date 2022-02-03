@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { MomoColor, MomoStrongColor } from "../../../../shared/global";
 import { InfoCard, Text } from "../CreatorCard/styles";
 import { useState } from 'react';
+import { IonIcon } from "@ionic/react";
+import { caretUp, caretDown } from "ionicons/icons";
+
 
 const Card = styled(InfoCard)`
   height: auto;
@@ -11,34 +14,34 @@ const Card = styled(InfoCard)`
   :hover{
     margin:23px;
   }
-`;
+  `;
 
 const RewardTitle = styled.p`
   font-size: 24px;
   font-weight: bold;
   margin: 3px;
   color: ${MomoColor};
-`;
+  `;
 
 const Price = styled.p`
   font-size: 36px;
   margin: 3px;
   color: #424242;
-`;
+  `;
 
 const RewardDetail = styled.p`
   margin: 3px;
   color: #7b7b7b;
-`;
+  `;
 
 const Space = styled.div`
   height: 30px;
-`;
+  `;
 
 // RewardSelected
 const Space1 = styled.div`
     height: 15px;
-`;
+    `;
 
 const Amounts = styled.div`
     display: flex;
@@ -46,7 +49,7 @@ const Amounts = styled.div`
     flex-direction: space-around;
     padding: 10px;
     margin: auto;
-`;
+    `;
 
 const Amount = styled.div`
     width: 164px;
@@ -55,13 +58,13 @@ const Amount = styled.div`
     border: 1px solid ${MomoColor};
     position: relative;
     p{
-        width: 70%;
-        text-align: right;
-        line-height: 61px;
-        font-size: 24px;
-        color: #7B7B7B;
+      width: 70%;
+      text-align: right;
+      line-height: 61px;
+      font-size: 24px;
+      color: #7B7B7B;
     }
-`;
+    `;
 
 const FundBtn = styled.button`
     width: 126px;
@@ -71,19 +74,19 @@ const FundBtn = styled.button`
     :hover{
       background-color: ${MomoStrongColor};
     }
-`;
+    `;
 
-const CountUp = styled.div`
-    width: 20px;
-    height: 20px;
-    background-color: ${MomoColor};
+const CountUp = styled(IonIcon)`
+    width: 30px;
+    height: 30px;
+    color: ${MomoColor};
     position: absolute;
-    top: 7px;
+    top: 4px;
     right: 13px;
 `;
 
 const CountDown = styled(CountUp)`
-    top: 33px;
+    top: 24px;
 `;
 
 const Space2 = styled.div`
@@ -129,8 +132,8 @@ function RewardCard(props) {
             <Space1/>
             <Amount>
                 <p>{amount}</p>
-                <CountUp onClick={countUp}/>    
-                <CountDown onClick={countDown}/>                  
+                <CountUp icon={caretUp} onClick={countUp}/>    
+                <CountDown icon={caretDown} onClick={countDown}/>                  
             </Amount>
             <Space2/>
             <FundBtn onClick={() => {console.log(amount)}}>후원하기</FundBtn>
