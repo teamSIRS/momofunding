@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @Tag(name = "Project API")
@@ -56,7 +57,7 @@ public class ProjectApiController {
 
         try {
             responseMap.put("projectId", projectService.updateProject(projectId, projectSaveRequestDto, mainImg, subImg));
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | IOException e) {
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }

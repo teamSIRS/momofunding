@@ -50,20 +50,33 @@ public class ProjectService {
 
     @Transactional
     public Long updateProject(Long projectId, ProjectUpdateRequestDto projectUpdateRequestDto,
-                              MultipartFile mainImg, MultipartFile subImg) {
+                              MultipartFile mainImg, MultipartFile subImg) throws IOException{
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
 
-        File mainImgFile = new File(projectId+"_main_"+mainImg.getOriginalFilename());
-        File subImgFile = new File(projectId+"_sub_"+subImg.getOriginalFilename());
-        try {
-            mainImg.transferTo(mainImgFile);
-            subImg.transferTo(subImgFile);
+        String mainName = mainImg.getOriginalFilename()+"";
+        String subName = subImg.getOriginalFilename()+"";
 
-            projectUpdateRequestDto.setMainImageUrl("C:\\SSAFY\\Temp\\upload\\"+mainImgFile.getPath());
-            projectUpdateRequestDto.setSubImageUrl("C:\\SSAFY\\Temp\\upload\\"+subImgFile.getPath());
-        } catch (IOException e) {
-            e.printStackTrace();
+        try {
+            if(!mainName.equals("")){
+                File mainImgFile = new File(projectId+"_main"+mainName.substring(mainName.lastIndexOf(".")));
+                mainImg.transferTo(mainImgFile);
+                projectUpdateRequestDto.setMainImageUrl("C:\\SSAFY\\Temp\\upload\\"+mainImgFile.getPath());
+            }else if(project.getMainImageUrl() != null){
+                File file = new File(project.getMainImageUrl());
+                file.delete();
+            }
+
+            if(!subName.equals("")){
+                File subImgFile = new File(projectId+"_sub"+subName.substring(subName.lastIndexOf(".")));
+                subImg.transferTo(subImgFile);
+                projectUpdateRequestDto.setSubImageUrl("C:\\SSAFY\\Temp\\upload\\"+subImgFile.getPath());
+            }else if(project.getSubImageUrl() != null){
+                File file = new File(project.getSubImageUrl());
+                file.delete();
+            }
+        } catch (IOException | NullPointerException e) {
+            throw new IOException("파일 이미지 업로드에 실패하였습니다.");
         }
 
         project.updateProject(projectUpdateRequestDto);
