@@ -41,23 +41,4 @@ public class SurveyAnswerApiController {
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
-//    @Operation(
-//            summary = "설문조사 결과 리스트 조회 ",
-//            description = "설문조사 질문 ID를 받아 결과 리스트 조회 (주관식, 객관식에 따라 Response 다름)"
-//    )
-//    @PostMapping("survey-questions/{surveyQuestionId}")
-//    public ResponseEntity findAnswersBySurveyQuestionId(@PathVariable Long surveyQuestionId) {
-//
-//        Map<String, Object> responseMap = new HashMap<>();
-//        try {
-//            Long surveyAnswerId = surveyAnswerService.saveSurveyAnswer(saveRequestDto);
-//            responseMap.put("surveyAnswerId", surveyAnswerId);
-//        } catch (IllegalArgumentException e) {
-//            responseMap.put("errorMsg", e.getMessage());
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
-//        }
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
-//    }
-
 }
