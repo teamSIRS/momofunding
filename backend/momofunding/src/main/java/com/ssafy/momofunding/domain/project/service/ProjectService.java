@@ -14,8 +14,11 @@ import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -46,22 +49,35 @@ public class ProjectService {
     }
 
     @Transactional
-    public Long updateProject(Long projectId, ProjectUpdateRequestDto projectSaveRequestDto) {
+    public Long updateProject(Long projectId, ProjectUpdateRequestDto projectUpdateRequestDto,
+                              MultipartFile mainImg, MultipartFile subImg) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
 
-        project.updateProject(projectSaveRequestDto);
+        File mainImgFile = new File(projectId+"_main_"+mainImg.getOriginalFilename());
+        File subImgFile = new File(projectId+"_sub_"+subImg.getOriginalFilename());
+        try {
+            mainImg.transferTo(mainImgFile);
+            subImg.transferTo(subImgFile);
+
+            projectUpdateRequestDto.setMainImageUrl("C:\\SSAFY\\Temp\\upload\\"+mainImgFile.getPath());
+            projectUpdateRequestDto.setSubImageUrl("C:\\SSAFY\\Temp\\upload\\"+subImgFile.getPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        project.updateProject(projectUpdateRequestDto);
         
-        Long projectCategoryId = projectSaveRequestDto.getProjectCategoryId();
-        if(projectSaveRequestDto.getProjectCategoryId()!=null){
+        Long projectCategoryId = projectUpdateRequestDto.getProjectCategoryId();
+        if(projectUpdateRequestDto.getProjectCategoryId()!=null) {
             project.mapProjectCategory(projectCategoryRepository.findById(projectCategoryId)
-                    .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호 입니다:: projectCategoryId-"+projectCategoryId)));
-            for(Live live : project.getLives()){
+                    .orElseThrow(() -> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호 입니다:: projectCategoryId-" + projectCategoryId)));
+            for (Live live : project.getLives()) {
                 live.mapProjectCategory(projectCategoryRepository.findById(projectCategoryId)
-                        .orElseThrow(()-> new IllegalArgumentException("잘못된 카테고리 번호 입니다:: projectCategoryId-"+projectCategoryId)));
+                        .orElseThrow(() -> new IllegalArgumentException("잘못된 카테고리 번호 입니다:: projectCategoryId-" + projectCategoryId)));
             }
         }
-        
+
         return projectId;
     }
 
