@@ -5,8 +5,10 @@ import com.ssafy.momofunding.global.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +22,7 @@ public class JwtInterceptor implements HandlerInterceptor {
     private JwtService jwtService;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws UnAuthorizedException {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if(!HttpMethod.GET.matches(request.getMethod()))
             return true;
         final String token = request.getHeader(HEADER_AUTH);
@@ -28,7 +30,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         if(token != null && jwtService.isUsable(token)){
             return true;
         }else{
-            throw new UnAuthorizedException();
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "JWT UNAUTHORIZED");
         }
     }
 }

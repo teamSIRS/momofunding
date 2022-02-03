@@ -8,9 +8,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
@@ -53,7 +55,7 @@ public class JwtService {
 //			} else {
 //            logger.error(e.getMessage());
 //			}
-			throw new UnAuthorizedException();
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "JWT UNAUTHORIZED");
 //			개발환경
         }
     }
@@ -71,7 +73,7 @@ public class JwtService {
 //			} else {
 //            logger.error(e.getMessage());
 //			}
-            throw new UnAuthorizedException();
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "JWT UNAUTHORIZED");
 //			개발환경
 //			Map<String,Object> testMap = new HashMap<>();
 //			testMap.put("userid", userid);
