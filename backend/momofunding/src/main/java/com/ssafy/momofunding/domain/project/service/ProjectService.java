@@ -61,7 +61,7 @@ public class ProjectService {
             if(!mainName.equals("")){
                 File mainImgFile = new File(projectId+"_main"+mainName.substring(mainName.lastIndexOf(".")));
                 mainImg.transferTo(mainImgFile);
-                projectUpdateRequestDto.setMainImageUrl("C:\\SSAFY\\Temp\\upload\\"+mainImgFile.getPath());
+                projectUpdateRequestDto.setMainImageUrl("C:\\SSAFY2\\Temp\\upload\\"+mainImgFile.getPath());
             }else if(project.getMainImageUrl() != null){
                 File file = new File(project.getMainImageUrl());
                 file.delete();
@@ -70,7 +70,7 @@ public class ProjectService {
             if(!subName.equals("")){
                 File subImgFile = new File(projectId+"_sub"+subName.substring(subName.lastIndexOf(".")));
                 subImg.transferTo(subImgFile);
-                projectUpdateRequestDto.setSubImageUrl("C:\\SSAFY\\Temp\\upload\\"+subImgFile.getPath());
+                projectUpdateRequestDto.setSubImageUrl("C:\\SSAFY2\\Temp\\upload\\"+subImgFile.getPath());
             }else if(project.getSubImageUrl() != null){
                 File file = new File(project.getSubImageUrl());
                 file.delete();

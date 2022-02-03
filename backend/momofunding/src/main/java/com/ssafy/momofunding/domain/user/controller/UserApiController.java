@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,8 +68,8 @@ public class UserApiController {
             description = "이미 동일한 닉네임이 있다면 true, 없다면 false 리턴"
     )
     @Parameter(name = "nickname", description = "중복 체크 할 닉네임", required = true)
-    @GetMapping("/nickname/{nickname}")
-    public ResponseEntity<Map<String, Object>> isExistNickname(@PathVariable("nickname") String nickname) {
+    @GetMapping("/nickname/duplicate")
+    public ResponseEntity<Map<String, Object>> isExistNickname(@RequestParam String nickname) {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("isExist",userService.findExistNickname(nickname));
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);    
@@ -80,8 +81,8 @@ public class UserApiController {
             description = "이미 동일한 이메일이 있다면 true, 없다면 false 리턴"
     )
     @Parameter(name = "email", description = "중복 체크 할 이메일", required = true)
-    @GetMapping("/email/{email}")
-    public ResponseEntity<Map<String, Object>> isExistEmail(@PathVariable("email") String email) {
+    @GetMapping("/email/duplicate")
+    public ResponseEntity<Map<String, Object>> isExistEmail(@RequestParam String email) {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("isExist",userService.findExistEmail(email));
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
