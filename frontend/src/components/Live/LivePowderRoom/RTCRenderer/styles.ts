@@ -10,6 +10,8 @@ export const RendererWrapper = styled.div`
   margin: 0;
   overflow: hidden;
   color: whitesmoke;
+  font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+
   position: relative;
   display: flex;
   flex: 1;

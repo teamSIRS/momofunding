@@ -13,7 +13,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @Tag(name = "Project API")
@@ -47,12 +49,15 @@ public class ProjectApiController {
     )
     @Parameter(name = "projectId", description = "수정 할 프로젝트의 Id", required = true)
     @PutMapping("/{projectId}")
-    public ResponseEntity<Map<String, Object>> updateProject(@PathVariable Long projectId, @RequestBody ProjectUpdateRequestDto projectSaveRequestDto) {
+    public ResponseEntity<Map<String, Object>> updateProject(@PathVariable Long projectId,
+                                                             @RequestPart("project") ProjectUpdateRequestDto projectSaveRequestDto,
+                                                             @RequestPart("mainImage") MultipartFile mainImg,
+                                                             @RequestPart("subImage") MultipartFile subImg) {
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
-            responseMap.put("projectId", projectService.updateProject(projectId, projectSaveRequestDto));
-        } catch (IllegalArgumentException e) {
+            responseMap.put("projectId", projectService.updateProject(projectId, projectSaveRequestDto, mainImg, subImg));
+        } catch (IllegalArgumentException | IOException e) {
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
@@ -108,7 +113,7 @@ public class ProjectApiController {
             projects = projectService.findProjectsByPopularity();
         }
 
-        if (projects.isEmpty()) ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        if (projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
 
@@ -124,13 +129,55 @@ public class ProjectApiController {
     public ResponseEntity<Object> getProjectsBySort(@PathVariable Long categoryId, @RequestParam String sort) {
         List<ProjectResponseDto> projects = new ArrayList<>();
 
-        if (sort.equals("date")) {
-            projects = projectService.findProjectsByCategoryDate(categoryId);
-        } else if (sort.equals("popularity")) {
-            projects = projectService.findProjectsByCategoryPopularity(categoryId);
+        try {
+            if (sort.equals("date")) {
+                projects = projectService.findProjectsByCategoryDate(categoryId);
+            } else if (sort.equals("popularity")) {
+                projects = projectService.findProjectsByCategoryPopularity(categoryId);
+            }
+        }catch (IllegalArgumentException e){
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
 
-        if (projects.isEmpty()) ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        if (projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(projects);
+    }
+
+    @Operation(
+            summary = "프로젝트가 라이브 재생중인지 확인",
+            description = "프로젝트 ID를 받아 라이브 재생 여부 (true or false) 반환"
+    )
+    @GetMapping("/{projectId}/is-play-live")
+    public ResponseEntity<Object> isPlayLive(@PathVariable Long projectId) {
+
+        Map<String, Object> responseMap = new HashMap<>();
+
+       try{
+           responseMap.put("isPlayLive", projectService.isPlayLive(projectId));
+           return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+       }catch(IllegalArgumentException e){
+           responseMap.put("errorMsg", e.getMessage());
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+       }
+    }
+
+    @Operation(
+            summary = "회원이 창작한 프로젝트 다중 조회",
+            description = "회원 ID로 회원이 창작한 프로젝트들을 확인할 수 있다."
+    )
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<Object> getProjectsByUser(@PathVariable Long userId) {
+
+        try{
+            List<ProjectResponseDto> projects = projectService.getProjectsByUser(userId);
+            if(projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.OK).body(projects);
+        }catch (IllegalArgumentException e){
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
     }
 }
