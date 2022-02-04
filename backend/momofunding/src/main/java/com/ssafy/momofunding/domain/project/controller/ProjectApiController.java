@@ -113,7 +113,7 @@ public class ProjectApiController {
             projects = projectService.findProjectsByPopularity();
         }
 
-        if (projects.isEmpty()) ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        if (projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
 
@@ -129,13 +129,19 @@ public class ProjectApiController {
     public ResponseEntity<Object> getProjectsBySort(@PathVariable Long categoryId, @RequestParam String sort) {
         List<ProjectResponseDto> projects = new ArrayList<>();
 
-        if (sort.equals("date")) {
-            projects = projectService.findProjectsByCategoryDate(categoryId);
-        } else if (sort.equals("popularity")) {
-            projects = projectService.findProjectsByCategoryPopularity(categoryId);
+        try {
+            if (sort.equals("date")) {
+                projects = projectService.findProjectsByCategoryDate(categoryId);
+            } else if (sort.equals("popularity")) {
+                projects = projectService.findProjectsByCategoryPopularity(categoryId);
+            }
+        }catch (IllegalArgumentException e){
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
 
-        if (projects.isEmpty()) ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        if (projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
 
@@ -155,5 +161,17 @@ public class ProjectApiController {
            responseMap.put("errorMsg", e.getMessage());
            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
        }
+    }
+
+    @Operation(
+            summary = "회원이 창작한 프로젝트 다중 조회",
+            description = "회원 ID로 회원이 창작한 프로젝트들을 확인할 수 있다."
+    )
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<Object> getProjectsByUser(@PathVariable Long userId) {
+        List<ProjectResponseDto> projects = projectService.getProjectsByUser(userId);
+
+        if(projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
 }

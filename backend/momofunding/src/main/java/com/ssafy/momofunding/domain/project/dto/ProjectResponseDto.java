@@ -15,18 +15,18 @@ public class ProjectResponseDto {
     private Long id;
     private String projectName;
     private Integer fundingGoal;
-    private String mainImageUrl;
+    private String subImageUrl;
     private Integer currentAmount;
     private Integer popularity;
     private Timestamp expirationDate;
 
     @Builder
-    public ProjectResponseDto(Long id, String projectName, Integer fundingGoal, String mainImageUrl,
+    public ProjectResponseDto(Long id, String projectName, Integer fundingGoal, String subImageUrl,
                               Integer currentAmount, Integer popularity, Timestamp expirationDate){
         this.id = id;
         this.projectName = projectName;
         this.fundingGoal = fundingGoal;
-        this.mainImageUrl = mainImageUrl;
+        this.subImageUrl = subImageUrl;
         this.currentAmount = currentAmount;
         this.popularity = popularity;
         this.expirationDate = expirationDate;
@@ -36,7 +36,7 @@ public class ProjectResponseDto {
         this.id = projectEntity.getId();
         this.projectName = projectEntity.getProjectName();
         this.fundingGoal = projectEntity.getFundingGoal();
-        this.mainImageUrl = projectEntity.getMainImageUrl();
+        this.subImageUrl = projectEntity.getMainImageUrl();
         this.currentAmount = projectEntity.getCurrentAmount();
         this.popularity = projectEntity.getPopularity();
         this.expirationDate = projectEntity.getExpirationDate();

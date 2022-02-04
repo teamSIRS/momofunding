@@ -12,6 +12,7 @@ import com.ssafy.momofunding.domain.projectcategory.repository.ProjectCategoryRe
 import com.ssafy.momofunding.domain.projectstate.repository.ProjectStateRepository;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +27,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ProjectService {
+
+    @Value("${spring.servlet.multipart.location}")
+    private String imagePath;
 
     private final ProjectRepository projectRepository;
     private final ProjectStateRepository projectStateRepository;
@@ -61,7 +65,7 @@ public class ProjectService {
             if(!mainName.equals("")){
                 File mainImgFile = new File(projectId+"_main"+mainName.substring(mainName.lastIndexOf(".")));
                 mainImg.transferTo(mainImgFile);
-                projectUpdateRequestDto.setMainImageUrl("C:\\SSAFY\\Temp\\upload\\"+mainImgFile.getPath());
+                projectUpdateRequestDto.setMainImageUrl(imagePath+"\\"+mainImgFile.getPath());
             }else if(project.getMainImageUrl() != null){
                 File file = new File(project.getMainImageUrl());
                 file.delete();
@@ -70,7 +74,7 @@ public class ProjectService {
             if(!subName.equals("")){
                 File subImgFile = new File(projectId+"_sub"+subName.substring(subName.lastIndexOf(".")));
                 subImg.transferTo(subImgFile);
-                projectUpdateRequestDto.setSubImageUrl("C:\\SSAFY\\Temp\\upload\\"+subImgFile.getPath());
+                projectUpdateRequestDto.setSubImageUrl(imagePath+"\\"+subImgFile.getPath());
             }else if(project.getSubImageUrl() != null){
                 File file = new File(project.getSubImageUrl());
                 file.delete();
@@ -97,7 +101,7 @@ public class ProjectService {
     @Transactional
     public ProjectDetailResponseDto findProjectById(Long projectId) {
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(()-> new NoSuchElementException("잘못된 카테고리 번호입니다:: projectId-"+projectId));
+                .orElseThrow(()-> new NoSuchElementException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
         return new ProjectDetailResponseDto(project);
     }
 
@@ -126,6 +130,9 @@ public class ProjectService {
 
     @Transactional
     public List<ProjectResponseDto> findProjectsByCategoryDate(Long categoryId) {
+        projectCategoryRepository.findById(categoryId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 카테고리 번호입니다:: projectCategoryId-"+categoryId));
+
         List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectCategoryIdOrderByStartDateDesc(2L, categoryId, Sort.by("id").ascending());
 
         return projects.stream()
@@ -135,6 +142,9 @@ public class ProjectService {
 
     @Transactional
     public List<ProjectResponseDto> findProjectsByCategoryPopularity(Long categoryId) {
+        projectCategoryRepository.findById(categoryId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 카테고리 번호입니다:: projectCategoryId-"+categoryId));
+
         List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectCategoryIdOrderByPopularityDesc(2L, categoryId, Sort.by("id").ascending());
 
         return projects.stream()
@@ -154,5 +164,14 @@ public class ProjectService {
         }
 
         return false;
+    }
+
+    @Transactional
+    public List<ProjectResponseDto> getProjectsByUser(Long userId) {
+        List<Project> projects = projectRepository.findAllByUserId(userId);
+
+        return projects.stream()
+                .map(ProjectResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
