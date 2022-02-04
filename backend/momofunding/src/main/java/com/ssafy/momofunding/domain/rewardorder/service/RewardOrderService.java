@@ -12,6 +12,8 @@ import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @RequiredArgsConstructor
 @Service
 public class RewardOrderService {
@@ -20,7 +22,8 @@ public class RewardOrderService {
     private final RewardRepository rewardRepository;
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
-
+    
+    @Transactional
     public Long saveRewardOrder(RewardOrderSaveRequestDto rewardOrderSaveRequestDto) {
         Long rewardId = rewardOrderSaveRequestDto.getRewardId();
         Reward reward = rewardRepository.findById(rewardId)
