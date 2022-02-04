@@ -1,21 +1,7 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { IonIcon } from '@ionic/react';
 import { removeCircleOutline } from 'ionicons/icons';
-import { Container, SurveyTitle, SurveyResult} from '../Survey/SurveyBasic';
+import { Body, Container, SurveyTitle, SurveyResult, EditIcon } from '../Survey/Survey.styled';
 
-const Body = styled.div`
-    display: flex; 
-    justify-content: center;
-    align-items: center;
-`;
 
-const EditIcon = styled(IonIcon)`
-    font-size: 30px;
-    padding-left: 10px;
-    color: #7c7c7c;
-    float: right;
-`;
 
 function SurveyEdit({survey, onRemove}){
 
@@ -30,4 +16,5 @@ function SurveyEdit({survey, onRemove}){
     );
 
 }
+
 export default SurveyEdit;

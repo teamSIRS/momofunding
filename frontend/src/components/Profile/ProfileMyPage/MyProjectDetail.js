@@ -92,7 +92,6 @@ const LiveBtn = styled(ManageBtn)`
 const MyLink = styled(Link)`
   text-decoration: none;
 `;
-//////////////////////
 
 const MainBox = styled.div`
   /* border: 1px solid yellow; */
@@ -122,11 +121,16 @@ const SurveyBox = styled(LiveBox)`
   width: 50%;
 `;
 
-// const SurveyAdd = styled.span`
-//   padding-left: 10px;
-// `;
+const SurveyTextBox = styled.div`
+  display: flex;
+  margin: 5px 0;
+`;
 
-const SurveyEditText = styled(SurveyAdd)`
+const SurveyAddSpan = styled.span`
+  padding-left: 10px;
+`;
+
+const SurveyEditText = styled(SurveyAddSpan)`
   color: ${MomoColor};
 `;
 
@@ -224,24 +228,26 @@ function MyProjectDetail() {
         <BottomBox>
           <SurveyBox>
             <Title>설문조사 목록</Title>
-            <SurveyAdd>추가</SurveyAdd>
-            {isEdit ? (
-              <SurveyEditText
-                onClick={() => {
-                  setIsEdit(!isEdit);
-                }}
-              >
-                저장
-              </SurveyEditText>
-            ) : (
-              <SurveyEditText
-                onClick={() => {
-                  setIsEdit(!isEdit);
-                }}
-              >
-                편집
-              </SurveyEditText>
-            )}
+            <SurveyTextBox>
+              <SurveyAdd />
+              {isEdit ? (
+                <SurveyEditText
+                  onClick={() => {
+                    setIsEdit(!isEdit);
+                  }}
+                >
+                  저장
+                </SurveyEditText>
+              ) : (
+                <SurveyEditText
+                  onClick={() => {
+                    setIsEdit(!isEdit);
+                  }}
+                >
+                  편집
+                </SurveyEditText>
+              )}
+            </SurveyTextBox>
 
             {isEdit ? (
               <>
