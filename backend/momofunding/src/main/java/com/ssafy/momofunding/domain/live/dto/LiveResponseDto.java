@@ -16,6 +16,7 @@ public class LiveResponseDto {
     private Timestamp startTime;
     private Integer maxViewer;
     private Timestamp registerDate;
+    private String sessionId;
 
     public LiveResponseDto (Live entity){
         this.id = entity.getId();
@@ -25,6 +26,7 @@ public class LiveResponseDto {
         this.startTime = entity.getStartTime();
         this.maxViewer = entity.getViewerCount();
         this.registerDate = entity.getRegisterDate();
+        this.sessionId = entity.getSessionId();
     }
 
     @Builder
@@ -36,5 +38,6 @@ public class LiveResponseDto {
         this.startTime = startTime;
         this.maxViewer = maxViewer;
         this.registerDate = registerDate;
+        this.sessionId = getSessionId();
     }
 }
