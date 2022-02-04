@@ -1,6 +1,11 @@
+import React, { useState }from 'react';
 import styled from 'styled-components';
 import { MomoColor, MomoStrongColor } from '../../../shared/global';
 import { Link } from 'react-router-dom';
+
+import LiveList from './LiveRecord/LiveList';
+import SurveyBasic from './Survey/SurveyBasic';
+import SurveyEdit from './Survey/SurveyEdit';
 
 const Body = styled.div`
     /* border: 1px solid red; */
@@ -12,7 +17,6 @@ const ProjectBox = styled.div`
     /* border: 1px solid orange; */
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items:center;
     width: 25%;
     padding: 20px;
@@ -36,7 +40,6 @@ const ProjectPic = styled.div`
     margin: 10px;
     background-image: url('https://image.hmall.com/static/1/1/80/25/2125801100_0.jpg?RS=600x600&AR=0');
     background-position: center;
-    background-repeat: none;
     background-size: cover;
 `;
 
@@ -99,18 +102,14 @@ const MainBox = styled.div`
 `;
 
 const LiveBox = styled.div`
-    border: 1px solid purple;
-    padding: 10px;
+    /* border: 1px solid purple; */
+    padding: 15px;
+    margin-bottom: 30px;
 `;
 
 const Title = styled.p`
     font-size: 13pt;
     font-weight: bold;
-`;
-
-const LiveList = styled.div`
-    border: 1px solid pink;
-    margin: 10px 0;
 `;
 
 const BottomBox = styled.div`
@@ -120,32 +119,14 @@ const BottomBox = styled.div`
 
 const SurveyBox = styled(LiveBox)`
     width: 50%;
-    padding-right: 20px;
 `;
 
-const SurveyAdd = styled.p`
-
+const SurveyAdd = styled.span`
+    padding-left: 10px;
 `;
 
-const Survey = styled.div`
-    /* border: 1px solid pink;  */
-    display: flex;
-    justify-content: space-between;
-    margin: 15px 0px;
-    padding: 13px 15px 0 15px;
-    border-radius: 8px;
-    box-shadow: 2px 2px 7px 0 silver;
-`;
-
-const SurveyTitle = styled.p`
-    color: #7C7C7C;
-`;
-
-const SurveyResult = styled.p`
+const SurveyEditText = styled(SurveyAdd)`
     color: ${MomoColor};
-    :hover{
-        color: ${MomoStrongColor};
-    }
 `;
 
 
@@ -156,6 +137,7 @@ const SponsorBox = styled(LiveBox)`
 const SponsorList = styled.div`
     /* border: 1px solid blue; */
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
 `;
 
@@ -165,12 +147,15 @@ const Sponsor = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 80px;
+    width: 20%;
+    height: 130px;
+    margin: 5px;
 `;
 
 const SponsorPic = styled.div`
     width: 80px;
     height: 80px;
+    margin: auto 0;
     background-image: url('https://image.newdaily.co.kr/site/data/img/2011/02/10/2011021000033_0.jpg');
     background-position: center;
     background-size: cover;
@@ -179,10 +164,31 @@ const SponsorPic = styled.div`
 
 const SponsorName = styled.p`
     font-size: 15px;
+    margin: auto 0;
 `;
 
 
 function MyProjectDetail(){
+    const [surveys, setSurveys] = useState([
+        {
+            id: 0,
+            title: "선호도 조사",
+        },
+        {
+            id: 1,
+            title: "구매 의사",
+        },
+        {
+            id: 2,
+            title: "추천 의사",
+        },
+        {
+            id: 3,
+            title: "피드백",
+        }
+    ]);
+    const [isEdit, setIsEdit] = useState(false);
+
     return(
         <Body>
             <ProjectBox>
@@ -211,18 +217,24 @@ function MyProjectDetail(){
                     <SurveyBox>
                         <Title>설문조사 목록</Title>
                         <SurveyAdd>추가</SurveyAdd>
-                        <Survey>
-                            <SurveyTitle>제품 인지도 조사</SurveyTitle>
-                            <SurveyResult>결과 보기</SurveyResult>
-                        </Survey>
-                        <Survey>
-                            <SurveyTitle>제품 인지도 조사</SurveyTitle>
-                            <SurveyResult>결과 보기</SurveyResult>
-                        </Survey>
-                        <Survey>
-                            <SurveyTitle>제품 인지도 조사</SurveyTitle>
-                            <SurveyResult>결과 보기</SurveyResult>
-                        </Survey>
+                        <SurveyEditText onClick={()=> {setIsEdit(!isEdit); console.log(isEdit);}}>편집</SurveyEditText>
+                        {/* {
+                            surveys.map((a, i) => {
+                                isEdit === false
+                                ? <SurveyBasic surveys={surveys[i]} i={i} key={i}/>
+                                : <SurveyEdit surveys={surveys[i]} i={i} key={i}/>
+                            })
+                        } */}
+
+                        {/* 상태에 따라 상자 다르게 */}
+                        {/* <SurveyBasic /> */}
+                        {surveys.map((a, i) =>{
+                            return <SurveyBasic surveys={surveys[i]} i={i} key={i}/>
+                        })}
+                        {/* <SurveyEdit /> */}
+                        {surveys.map((a, i) =>{
+                            return <SurveyEdit surveys={surveys[i]} i={i} key={i}/>
+                        })}
                     </SurveyBox>
 
                     <SponsorBox>
@@ -234,8 +246,20 @@ function MyProjectDetail(){
                             </Sponsor>
                             <Sponsor>
                                 <SponsorPic />
-                                <SponsorName>하이브리드샘이솟아리오베이비</SponsorName>
+                                <SponsorName>하이브리드</SponsorName>
                                 {/* 이름이 길어지면!! 문제가 생기,,긴 하는데 이걸 꼭 지금 해결해야 할까요? */}
+                            </Sponsor>
+                            <Sponsor>
+                                <SponsorPic />
+                                <SponsorName>송지호</SponsorName>
+                            </Sponsor>
+                            <Sponsor>
+                                <SponsorPic />
+                                <SponsorName>송지호</SponsorName>
+                            </Sponsor>
+                            <Sponsor>
+                                <SponsorPic />
+                                <SponsorName>송지호</SponsorName>
                             </Sponsor>
                             <Sponsor>
                                 <SponsorPic />
