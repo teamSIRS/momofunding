@@ -127,4 +127,8 @@ public class Project {
         this.likeCount = psr.getLikeCount();
         this.registerDate = psr.getRegisterDate();
     }
+
+    public void addCurrentAmount(Integer amount){
+        this.currentAmount+=amount;
+    }
 }

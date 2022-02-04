@@ -37,6 +37,8 @@ public class RewardOrderService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다::projectId-"+projectId));
 
+        project.addCurrentAmount(rewardOrderSaveRequestDto.getAmount());
+
         RewardOrder rewardOrder = rewardOrderSaveRequestDto.toEntity();
         rewardOrder.mapReward(reward);
         rewardOrder.mapUser(user);
