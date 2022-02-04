@@ -14,10 +14,17 @@ export const bodyStyles = css`
 `;
 
 const GlobalStyle = createGlobalStyle`
+  html {
+    --primaryGradient: linear-gradient(93.12deg, #472a9d, #321b76);
+    --primary: ${MomoColor};
+    --secondaryBoxShadow: 0px 10px 15px rgba(61, 61,139, 30%);
+    --transparentLightGradient: linear-gradient(93.12deg, rgba(221,222,237,20%), rgba(221,222,237,50%));
+  }
   body {
     ${bodyStyles}
   }
   a {
+    text-decoration: none;
     &:hover{
       color: ${MomoWeakColor}
     }

@@ -8,6 +8,9 @@ const ViewersBadge = styled.span`
   display: flex;
   align-items: center;
   padding: 0px 5px;
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
 `;
 
 const Icon = styled(IonIcon)`
