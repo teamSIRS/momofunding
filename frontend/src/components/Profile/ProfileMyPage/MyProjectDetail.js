@@ -1,7 +1,7 @@
 import SurveyAdd from "./SurveyAdd";
 import React, { useState } from "react";
 import styled from "styled-components";
-import { MomoColor, MomoStrongColor } from "../../../shared/global";
+import { MomoColor } from "../../../shared/global";
 import { Link } from "react-router-dom";
 import LiveList from "./LiveRecord/LiveList";
 import SurveyBasic from "./Survey/SurveyBasic";
@@ -188,6 +188,10 @@ function MyProjectDetail() {
   ]);
   const [isEdit, setIsEdit] = useState(false);
 
+  const onRemove = (id) => {
+    setSurveys(surveys.filter((survey) => survey.id !== id));
+  };
+
   return (
     <Body>
       <ProjectBox>
@@ -220,31 +224,42 @@ function MyProjectDetail() {
         <BottomBox>
           <SurveyBox>
             <Title>설문조사 목록</Title>
-            <SurveyAdd />
-            <SurveyEditText
-              onClick={() => {
-                setIsEdit(!isEdit);
-                console.log(isEdit);
-              }}
-            >
-              편집
-            </SurveyEditText>
-            {/* {
-                            surveys.map((a, i) => {
-                                isEdit === false
-                                ? <SurveyBasic surveys={surveys[i]} i={i} key={i}/>
-                                : <SurveyEdit surveys={surveys[i]} i={i} key={i}/>
-                            })
-                        } */}
-            {/* 상태에 따라 상자 다르게 */}
-            {/* <SurveyBasic /> */}
-            {surveys.map((a, i) => {
-              return <SurveyBasic surveys={surveys[i]} i={i} key={i} />;
-            })}
-            {/* <SurveyEdit /> */}
-            {surveys.map((a, i) => {
-              return <SurveyEdit surveys={surveys[i]} i={i} key={i} />;
-            })}
+            <SurveyAdd>추가</SurveyAdd>
+            {isEdit ? (
+              <SurveyEditText
+                onClick={() => {
+                  setIsEdit(!isEdit);
+                }}
+              >
+                저장
+              </SurveyEditText>
+            ) : (
+              <SurveyEditText
+                onClick={() => {
+                  setIsEdit(!isEdit);
+                }}
+              >
+                편집
+              </SurveyEditText>
+            )}
+
+            {isEdit ? (
+              <>
+                {surveys.map((survey) => (
+                  <SurveyEdit
+                    survey={survey}
+                    key={survey.id}
+                    onRemove={onRemove}
+                  />
+                ))}
+              </>
+            ) : (
+              <>
+                {surveys.map((survey) => (
+                  <SurveyBasic survey={survey} key={survey.id} />
+                ))}
+              </>
+            )}
           </SurveyBox>
 
           <SponsorBox>

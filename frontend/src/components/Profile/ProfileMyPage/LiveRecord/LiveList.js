@@ -26,7 +26,7 @@ function LiveList(){
                 <tr>
                     <td>1</td>
                     <td>Mark</td>
-                    <td><Icon icon={downloadOutline} onClick={()=>{console.log('다운로드')}}></Icon></td>
+                    <td><Icon icon={downloadOutline} onClick={()=>{alert('다운로드')}}></Icon></td>
                 </tr>
                 <tr>
                     <td>2</td>
