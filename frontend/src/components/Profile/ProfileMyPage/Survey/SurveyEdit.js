@@ -1,10 +1,7 @@
 import { removeCircleOutline } from 'ionicons/icons';
 import { Body, Container, SurveyTitle, SurveyResult, EditIcon } from '../Survey/Survey.styled';
 
-
-
 function SurveyEdit({survey, onRemove}){
-
     return(
         <Body>
             <Container>
