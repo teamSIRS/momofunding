@@ -122,9 +122,14 @@ const SurveyBox = styled(LiveBox)`
   width: 50%;
 `;
 
-// const SurveyAdd = styled.span`
-//   padding-left: 10px;
-// `;
+const SurveyTextBox = styled.div`
+    display: flex;
+    margin: 5px 0;
+`;
+
+const SurveyAdd = styled.span`
+    padding-left: 10px;
+`;
 
 const SurveyEditText = styled(SurveyAdd)`
   color: ${MomoColor};
@@ -167,139 +172,141 @@ const SponsorName = styled.p`
   margin: auto 0;
 `;
 
-function MyProjectDetail() {
-  const [surveys, setSurveys] = useState([
-    {
-      id: 0,
-      title: "선호도 조사",
-    },
-    {
-      id: 1,
-      title: "구매 의사",
-    },
-    {
-      id: 2,
-      title: "추천 의사",
-    },
-    {
-      id: 3,
-      title: "피드백",
-    },
-  ]);
-  const [isEdit, setIsEdit] = useState(false);
 
-  const onRemove = (id) => {
-    setSurveys(surveys.filter((survey) => survey.id !== id));
-  };
+function MyProjectDetail(){
+    const [surveys, setSurveys] = useState([
+        {
+            id: 0,
+            title: "선호도 조사",
+        },
+        {
+            id: 1,
+            title: "구매 의사",
+        },
+        {
+            id: 2,
+            title: "추천 의사",
+        },
+        {
+            id: 3,
+            title: "피드백",
+        }
+    ]);
+    const [isEdit, setIsEdit] = useState(false);
 
-  return (
-    <Body>
-      <ProjectBox>
-        <Card>
-          <ProjectPic />
-          <TitleBox>
-            <ProjectTitle>보송보송 타올</ProjectTitle>
-            <CreatorName>아이조아</CreatorName>
-          </TitleBox>
-          <ProjectContent>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio,
-            inventore?
-          </ProjectContent>
-        </Card>
+    const onRemove = (id) => {
+        setSurveys(surveys.filter((survey) => survey.id !== id));
+    }
 
-        <BtnBox>
-          <ManageBtn>
-            <MyLink to={`/projects/management`}>프로젝트 관리</MyLink>
-          </ManageBtn>
-          <LiveBtn>라이브 켜기</LiveBtn>
-        </BtnBox>
-      </ProjectBox>
+    return(
+        <Body>
+            <ProjectBox>
+                <Card>
+                    <ProjectPic /> 
+                    <TitleBox>
+                        <ProjectTitle>보송보송 타올</ProjectTitle>
+                        <CreatorName>아이조아</CreatorName>
+                    </TitleBox>
+                    <ProjectContent>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, inventore?</ProjectContent>
+                </Card>
 
-      <MainBox>
-        <LiveBox>
-          <Title>라이브 기록</Title>
-          <LiveList></LiveList>
-        </LiveBox>
+                <BtnBox>
+                    <ManageBtn><MyLink to={`/projects/management`}>프로젝트 관리</MyLink></ManageBtn>
+                    <LiveBtn>라이브 켜기</LiveBtn>
+                </BtnBox>
+            </ProjectBox>
 
-        <BottomBox>
-          <SurveyBox>
-            <Title>설문조사 목록</Title>
-            <SurveyAdd>추가</SurveyAdd>
-            {isEdit ? (
-              <SurveyEditText
-                onClick={() => {
-                  setIsEdit(!isEdit);
-                }}
-              >
-                저장
-              </SurveyEditText>
-            ) : (
-              <SurveyEditText
-                onClick={() => {
-                  setIsEdit(!isEdit);
-                }}
-              >
-                편집
-              </SurveyEditText>
-            )}
+            <MainBox>
+                <LiveBox>
+                    <Title>라이브 기록</Title>
+                    <LiveList></LiveList>
+                </LiveBox>
 
-            {isEdit ? (
-              <>
-                {surveys.map((survey) => (
-                  <SurveyEdit
-                    survey={survey}
-                    key={survey.id}
-                    onRemove={onRemove}
-                  />
-                ))}
-              </>
-            ) : (
-              <>
-                {surveys.map((survey) => (
-                  <SurveyBasic survey={survey} key={survey.id} />
-                ))}
-              </>
-            )}
-          </SurveyBox>
+                <BottomBox>
+                    <SurveyBox>
+                        <Title>설문조사 목록</Title>
+                        <SurveyTextBox>
+                            <SurveyAdd>추가</SurveyAdd>
+                            {
+                                isEdit
+                                ?(
+                                    <SurveyEditText onClick={()=> {setIsEdit(!isEdit);}}>저장</SurveyEditText>
+                                )
+                                :(
+                                    <SurveyEditText onClick={()=> {setIsEdit(!isEdit);}}>편집</SurveyEditText>
+                                )
 
-          <SponsorBox>
-            <Title>참여한 후원자</Title>
-            <SponsorList>
-              <Sponsor>
-                <SponsorPic />
-                <SponsorName>Jiho Song</SponsorName>
-              </Sponsor>
-              <Sponsor>
-                <SponsorPic />
-                <SponsorName>하이브리드</SponsorName>
-                {/* 이름이 길어지면!! 문제가 생기,,긴 하는데 이걸 꼭 지금 해결해야 할까요? */}
-              </Sponsor>
-              <Sponsor>
-                <SponsorPic />
-                <SponsorName>송지호</SponsorName>
-              </Sponsor>
-              <Sponsor>
-                <SponsorPic />
-                <SponsorName>송지호</SponsorName>
-              </Sponsor>
-              <Sponsor>
-                <SponsorPic />
-                <SponsorName>송지호</SponsorName>
-              </Sponsor>
-              <Sponsor>
-                <SponsorPic />
-                <SponsorName>송지호</SponsorName>
-              </Sponsor>
-              <Sponsor>
-                <SponsorPic />
-                <SponsorName>송지호</SponsorName>
-              </Sponsor>
-            </SponsorList>
-          </SponsorBox>
-        </BottomBox>
-      </MainBox>
-    </Body>
-  );
+                            }
+                        </SurveyTextBox>
+
+                        {
+                            isEdit 
+                                ? (
+                                    <>
+                                    {surveys.map((survey) => (
+                                        <SurveyEdit 
+                                            survey={survey}
+                                            key={survey.id}
+                                            onRemove={onRemove}
+                                        />
+                                    ))}
+                                    </>
+                                )
+                                : (
+                                    <>
+                                    {surveys.map((survey) => (
+                                        <SurveyBasic 
+                                            survey={survey}
+                                            key={survey.id}
+                                        />
+                                    ))}
+                                    </>
+                                ) 
+
+                        }
+
+
+
+                    </SurveyBox>
+
+                    <SponsorBox>
+                        <Title>참여한 후원자</Title>
+                        <SponsorList>
+                            <Sponsor>
+                                <SponsorPic />
+                                <SponsorName>Jiho Song</SponsorName>
+                            </Sponsor>
+                            <Sponsor>
+                                <SponsorPic />
+                                <SponsorName>하이브리드</SponsorName>
+                                {/* 이름이 길어지면!! 문제가 생기,,긴 하는데 이걸 꼭 지금 해결해야 할까요? */}
+                            </Sponsor>
+                            <Sponsor>
+                                <SponsorPic />
+                                <SponsorName>송지호</SponsorName>
+                            </Sponsor>
+                            <Sponsor>
+                                <SponsorPic />
+                                <SponsorName>송지호</SponsorName>
+                            </Sponsor>
+                            <Sponsor>
+                                <SponsorPic />
+                                <SponsorName>송지호</SponsorName>
+                            </Sponsor>
+                            <Sponsor>
+                                <SponsorPic />
+                                <SponsorName>송지호</SponsorName>
+                            </Sponsor>
+                            <Sponsor>
+                                <SponsorPic />
+                                <SponsorName>송지호</SponsorName>
+                            </Sponsor>
+                        </SponsorList>
+                    </SponsorBox>
+                </BottomBox>
+            </MainBox>
+        </Body>
+    );
 }
 
 export default MyProjectDetail;

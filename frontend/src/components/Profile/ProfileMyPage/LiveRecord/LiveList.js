@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { Table } from 'react-bootstrap';
 import { IonIcon } from '@ionic/react';
 import { downloadOutline } from 'ionicons/icons';
+import { useState } from 'react';
+import LiveBadge from '../../../Home/Badge';
 
 const MyTable = styled(Table)`
     text-align: center;
@@ -13,6 +15,25 @@ const Icon = styled(IonIcon)`
 `;
 
 function LiveList(){
+    const [lives, setLives] = useState([
+        {
+            id: 0,
+            title: "라이브1" 
+        },
+        {
+            id: 1,
+            title: "라이브2" 
+        },
+        {
+            id: 2,
+            title: "라이브3" 
+        },
+        {
+            id: 3,
+            title: "라이브4" 
+        },
+    ]);
+
     return(
         <MyTable  hover>
             <thead>
@@ -23,21 +44,13 @@ function LiveList(){
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td><Icon icon={downloadOutline} onClick={()=>{alert('다운로드')}}></Icon></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Larry the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                {lives.map((live)=>(
+                    <tr>
+                        <td>{live.id+1}</td>
+                        <td>{live.title}</td>
+                        <td><Icon icon={downloadOutline} onClick={()=>{alert('다운로드')}}></Icon></td>
+                    </tr>
+                ))}
             </tbody>
         </MyTable>
     );
