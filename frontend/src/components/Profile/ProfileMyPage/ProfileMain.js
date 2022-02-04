@@ -92,6 +92,7 @@ const Menu = styled(Link)`
 
 const ProjectBox = styled.div`
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     /* border: 1px solid yellowgreen; */
     height: 92%;

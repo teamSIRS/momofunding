@@ -31,11 +31,21 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	//swagger
-//	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-//	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
-
-	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.3'
+
+	//security
+//	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.6.2'
+
+	//jwt
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+
+//	//validation
+//	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.6.2'
+
+//	//jsonparser
+//	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
 
 }

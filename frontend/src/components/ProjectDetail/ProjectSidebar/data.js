@@ -11,7 +11,7 @@ export default[
         choice: false,
     },
     {
-        id:0,
+        id:1,
         title: "Silver 라벨",
         price: "55,000원",
         reward:['실버라벨 샴페인X1'],
@@ -20,7 +20,7 @@ export default[
         choice: false,
     },
     {
-        id:0,
+        id:2,
         title: "Pink 라벨",
         price: "25,000원",
         reward:['핑크라벨 샴페인X1', '오프너X1', '스티커'],

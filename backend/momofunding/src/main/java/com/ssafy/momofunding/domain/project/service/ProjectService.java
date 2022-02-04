@@ -14,8 +14,11 @@ import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -46,22 +49,48 @@ public class ProjectService {
     }
 
     @Transactional
-    public Long updateProject(Long projectId, ProjectUpdateRequestDto projectSaveRequestDto) {
+    public Long updateProject(Long projectId, ProjectUpdateRequestDto projectUpdateRequestDto,
+                              MultipartFile mainImg, MultipartFile subImg) throws IOException{
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
 
-        project.updateProject(projectSaveRequestDto);
+        String mainName = mainImg.getOriginalFilename()+"";
+        String subName = subImg.getOriginalFilename()+"";
+
+        try {
+            if(!mainName.equals("")){
+                File mainImgFile = new File(projectId+"_main"+mainName.substring(mainName.lastIndexOf(".")));
+                mainImg.transferTo(mainImgFile);
+                projectUpdateRequestDto.setMainImageUrl("C:\\SSAFY\\Temp\\upload\\"+mainImgFile.getPath());
+            }else if(project.getMainImageUrl() != null){
+                File file = new File(project.getMainImageUrl());
+                file.delete();
+            }
+
+            if(!subName.equals("")){
+                File subImgFile = new File(projectId+"_sub"+subName.substring(subName.lastIndexOf(".")));
+                subImg.transferTo(subImgFile);
+                projectUpdateRequestDto.setSubImageUrl("C:\\SSAFY\\Temp\\upload\\"+subImgFile.getPath());
+            }else if(project.getSubImageUrl() != null){
+                File file = new File(project.getSubImageUrl());
+                file.delete();
+            }
+        } catch (IOException | NullPointerException e) {
+            throw new IOException("파일 이미지 업로드에 실패하였습니다.");
+        }
+
+        project.updateProject(projectUpdateRequestDto);
         
-        Long projectCategoryId = projectSaveRequestDto.getProjectCategoryId();
-        if(projectSaveRequestDto.getProjectCategoryId()!=null){
+        Long projectCategoryId = projectUpdateRequestDto.getProjectCategoryId();
+        if(projectUpdateRequestDto.getProjectCategoryId()!=null) {
             project.mapProjectCategory(projectCategoryRepository.findById(projectCategoryId)
-                    .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호 입니다:: projectCategoryId-"+projectCategoryId)));
-            for(Live live : project.getLives()){
+                    .orElseThrow(() -> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호 입니다:: projectCategoryId-" + projectCategoryId)));
+            for (Live live : project.getLives()) {
                 live.mapProjectCategory(projectCategoryRepository.findById(projectCategoryId)
-                        .orElseThrow(()-> new IllegalArgumentException("잘못된 카테고리 번호 입니다:: projectCategoryId-"+projectCategoryId)));
+                        .orElseThrow(() -> new IllegalArgumentException("잘못된 카테고리 번호 입니다:: projectCategoryId-" + projectCategoryId)));
             }
         }
-        
+
         return projectId;
     }
 
@@ -111,5 +140,19 @@ public class ProjectService {
         return projects.stream()
                 .map(ProjectResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public boolean isPlayLive(Long projectId) {
+        Project projects = projectRepository.findById(projectId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다. projectId : " + projectId));
+
+        List<Live> lives = projects.getLives();
+        for (Live live: lives){
+            if (live.getLiveState().getId() == 1L)
+                return true;
+        }
+
+        return false;
     }
 }

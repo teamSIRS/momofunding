@@ -2,11 +2,13 @@ package com.ssafy.momofunding.domain.user.controller;
 
 import com.ssafy.momofunding.domain.user.dto.*;
 import com.ssafy.momofunding.domain.user.service.UserService;
+import com.ssafy.momofunding.global.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,8 @@ import java.util.Map;
 public class UserApiController {
     private final UserService userService;
 
+    private final JwtService jwtService;
+
     //Sign-in
     @Operation(
             summary = "회원 로그인",
@@ -29,14 +33,20 @@ public class UserApiController {
     @PostMapping("/sign-in")
     public ResponseEntity signIn(@RequestBody UserSignInRequestDto userSignInRequestDto){
         Map<String, Object> responseMap = new HashMap<>();
-        UserSignInResponseDto userSignInResponseDto;
         try {
-            userSignInResponseDto = userService.findEmailAndPassword(userSignInRequestDto);
+            Long userId = userService.findEmailAndPassword(userSignInRequestDto);
+
+            String token = jwtService.create("userId", userId, "access-token");
+
+            responseMap.put("access-token", token);
+            responseMap.put("userId", userId);
+            responseMap.put("message", "success");
         }catch (EmptyResultDataAccessException e){
             responseMap.put("errorMsg", e.getMessage());
+            responseMap.put("message", "fail");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(userSignInResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
     //Sign-up
@@ -58,11 +68,11 @@ public class UserApiController {
             description = "이미 동일한 닉네임이 있다면 true, 없다면 false 리턴"
     )
     @Parameter(name = "nickname", description = "중복 체크 할 닉네임", required = true)
-    @GetMapping("/nickname/{nickname}")
-    public ResponseEntity<Map<String, Object>> isExistNickname(@PathVariable("nickname") String nickname) {
+    @GetMapping("/nickname/duplicate")
+    public ResponseEntity<Map<String, Object>> isExistNickname(@RequestParam String nickname) {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("isExist",userService.findExistNickname(nickname));
-        return ResponseEntity.status(HttpStatus.OK).body(responseMap);    
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
     //이메일 중복 조회
@@ -71,8 +81,8 @@ public class UserApiController {
             description = "이미 동일한 이메일이 있다면 true, 없다면 false 리턴"
     )
     @Parameter(name = "email", description = "중복 체크 할 이메일", required = true)
-    @GetMapping("/email/{email}")
-    public ResponseEntity<Map<String, Object>> isExistEmail(@PathVariable("email") String email) {
+    @GetMapping("/email/duplicate")
+    public ResponseEntity<Map<String, Object>> isExistEmail(@RequestParam String email) {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("isExist",userService.findExistEmail(email));
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
