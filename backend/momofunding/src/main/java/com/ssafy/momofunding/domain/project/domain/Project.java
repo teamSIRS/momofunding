@@ -128,7 +128,7 @@ public class Project {
         this.registerDate = psr.getRegisterDate();
     }
 
-    public void updateProjectAmount(Integer amount){
+    public void addCurrentAmount(Integer amount){
         this.currentAmount+=amount;
     }
 }
