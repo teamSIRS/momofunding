@@ -10,6 +10,8 @@ import com.ssafy.momofunding.domain.project.dto.ProjectUpdateRequestDto;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.projectcategory.repository.ProjectCategoryRepository;
 import com.ssafy.momofunding.domain.projectstate.repository.ProjectStateRepository;
+import com.ssafy.momofunding.domain.rewardorder.domain.RewardOrder;
+import com.ssafy.momofunding.domain.rewardorder.repository.RewardOrderRepository;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +38,7 @@ public class ProjectService {
     private final ProjectCategoryRepository projectCategoryRepository;
     private final UserRepository userRepository;
     private final CreatorRepository creatorRepository;
+    private final RewardOrderRepository rewardOrderRepository;
 
     @Transactional
     public Long createProject(Long userId) {
@@ -167,11 +170,31 @@ public class ProjectService {
     }
 
     @Transactional
-    public List<ProjectResponseDto> getProjectsByUser(Long userId) {
+    public List<ProjectResponseDto> getProjectsByUserCreator(Long userId) {
         userRepository.findById(userId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 회원 번호 입니다:: userId-"+userId));
 
         List<Project> projects = projectRepository.findAllByUserId(userId);
+
+        return projects.stream()
+                .map(ProjectResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<ProjectResponseDto> getProjectsByUserOrder(Long userId) {
+        userRepository.findById(userId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 회원 번호 입니다:: userId-"+userId));
+
+        List<RewardOrder> rewardOrders = rewardOrderRepository.findAllByUserId(userId);
+        List<Project> projects = rewardOrders.stream()
+                .map(RewardOrder::getProject)
+                .distinct()
+                .collect(Collectors.toList());
+
+        for(Project p : projects){
+            System.out.println(p.getId());
+        }
 
         return projects.stream()
                 .map(ProjectResponseDto::new)
