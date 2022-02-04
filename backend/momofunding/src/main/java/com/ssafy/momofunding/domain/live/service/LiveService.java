@@ -82,6 +82,6 @@ public class LiveService {
             live.mapLiveState(liveState);
         }
 
-        live.update(liveUpdateRequestDto);
+        live.updateLiveSummary(liveUpdateRequestDto);
     }
 }

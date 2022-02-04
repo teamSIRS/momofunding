@@ -65,7 +65,7 @@ public class Live {
         this.project = project;
     }
 
-    public void update(LiveUpdateRequestDto liveUpdateRequestDto) {
+    public void updateLiveSummary(LiveUpdateRequestDto liveUpdateRequestDto) {
         this.title = liveUpdateRequestDto.getTitle();
         this.content = liveUpdateRequestDto.getContent();
         this.viewerCount = liveUpdateRequestDto.getMaxViewer();
