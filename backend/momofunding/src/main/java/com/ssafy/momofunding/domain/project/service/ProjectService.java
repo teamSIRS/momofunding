@@ -41,7 +41,7 @@ public class ProjectService {
     public Long createProject(Long userId) {
         Project project = new Project();
         project.mapUser(userRepository.findById(userId)
-                .orElseThrow(()-> new IllegalArgumentException("잘못된 유저 번호 입니다:: userId-"+userId)));
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 회원 번호 입니다:: userId-"+userId)));
         project.mapProjectState(projectStateRepository.getById(1L));
         Long projectId = projectRepository.save(project).getId();
 
@@ -168,6 +168,9 @@ public class ProjectService {
 
     @Transactional
     public List<ProjectResponseDto> getProjectsByUser(Long userId) {
+        userRepository.findById(userId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 회원 번호 입니다:: userId-"+userId));
+
         List<Project> projects = projectRepository.findAllByUserId(userId);
 
         return projects.stream()

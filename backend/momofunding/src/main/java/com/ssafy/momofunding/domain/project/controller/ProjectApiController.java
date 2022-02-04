@@ -169,9 +169,15 @@ public class ProjectApiController {
     )
     @GetMapping("/users/{userId}")
     public ResponseEntity<Object> getProjectsByUser(@PathVariable Long userId) {
-        List<ProjectResponseDto> projects = projectService.getProjectsByUser(userId);
 
-        if(projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        return ResponseEntity.status(HttpStatus.OK).body(projects);
+        try{
+            List<ProjectResponseDto> projects = projectService.getProjectsByUser(userId);
+            if(projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.OK).body(projects);
+        }catch (IllegalArgumentException e){
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
     }
 }
