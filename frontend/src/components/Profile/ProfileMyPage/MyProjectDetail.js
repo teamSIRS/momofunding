@@ -189,6 +189,10 @@ function MyProjectDetail(){
     ]);
     const [isEdit, setIsEdit] = useState(false);
 
+    const onRemove = (id) => {
+        setSurveys(surveys.filter((survey) => survey.id !== id));
+    }
+
     return(
         <Body>
             <ProjectBox>
@@ -217,24 +221,45 @@ function MyProjectDetail(){
                     <SurveyBox>
                         <Title>설문조사 목록</Title>
                         <SurveyAdd>추가</SurveyAdd>
-                        <SurveyEditText onClick={()=> {setIsEdit(!isEdit); console.log(isEdit);}}>편집</SurveyEditText>
-                        {/* {
-                            surveys.map((a, i) => {
-                                isEdit === false
-                                ? <SurveyBasic surveys={surveys[i]} i={i} key={i}/>
-                                : <SurveyEdit surveys={surveys[i]} i={i} key={i}/>
-                            })
-                        } */}
+                        {
+                            isEdit
+                            ?(
+                                <SurveyEditText onClick={()=> {setIsEdit(!isEdit);}}>저장</SurveyEditText>
+                            )
+                            :(
+                                <SurveyEditText onClick={()=> {setIsEdit(!isEdit);}}>편집</SurveyEditText>
+                            )
 
-                        {/* 상태에 따라 상자 다르게 */}
-                        {/* <SurveyBasic /> */}
-                        {surveys.map((a, i) =>{
-                            return <SurveyBasic surveys={surveys[i]} i={i} key={i}/>
-                        })}
-                        {/* <SurveyEdit /> */}
-                        {surveys.map((a, i) =>{
-                            return <SurveyEdit surveys={surveys[i]} i={i} key={i}/>
-                        })}
+                        }
+
+                        {
+                            isEdit 
+                                ? (
+                                    <>
+                                    {surveys.map((survey) => (
+                                        <SurveyEdit 
+                                            survey={survey}
+                                            key={survey.id}
+                                            onRemove={onRemove}
+                                        />
+                                    ))}
+                                    </>
+                                )
+                                : (
+                                    <>
+                                    {surveys.map((survey) => (
+                                        <SurveyBasic 
+                                            survey={survey}
+                                            key={survey.id}
+                                        />
+                                    ))}
+                                    </>
+                                ) 
+
+                        }
+
+
+
                     </SurveyBox>
 
                     <SponsorBox>

@@ -22,13 +22,14 @@ export const SurveyResult = styled.p`
     }
 `;
 
-function SurveyBasic(props){
+function SurveyBasic({survey}){
     return(
         <Container>
-            <SurveyTitle>{props.surveys.title}</SurveyTitle>
+            <SurveyTitle>{survey.title}</SurveyTitle>
             <SurveyResult>결과 확인</SurveyResult>
         </Container>
     );
 }
+
 
 export default SurveyBasic;

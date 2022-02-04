@@ -5,31 +5,29 @@ import { removeCircleOutline } from 'ionicons/icons';
 import { Container, SurveyTitle, SurveyResult} from '../Survey/SurveyBasic';
 
 const Body = styled.div`
-    display: flex;
+    display: flex; 
+    justify-content: center;
     align-items: center;
 `;
+
 const EditIcon = styled(IonIcon)`
     font-size: 30px;
     padding-left: 10px;
     color: #7c7c7c;
+    float: right;
 `;
 
-function SurveyEdit(props){
-
-    function removeSurvey(){
-        console.log('삭제');
-
-    }
+function SurveyEdit({survey, onRemove}){
 
     return(
         <Body>
             <Container>
-                <SurveyTitle>{props.surveys.title}</SurveyTitle>
+                <SurveyTitle>{survey.title}</SurveyTitle>
                 <SurveyResult>수정</SurveyResult>
             </Container>
-            <EditIcon icon={removeCircleOutline} onClick={removeSurvey}></EditIcon>
+            <EditIcon icon={removeCircleOutline} onClick={() => onRemove(survey.id)}></EditIcon>
         </Body>
     );
-}
 
+}
 export default SurveyEdit;
