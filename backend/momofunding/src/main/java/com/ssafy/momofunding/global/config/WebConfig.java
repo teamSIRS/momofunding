@@ -17,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
     private static final List<String> addPatterns =
             Arrays.asList("/creator/*", "/surveys/**", "/users/*");
     private static final List<String> excPatterns =
-            Arrays.asList("/users/sign-in", "/users/sign-up");
+            Arrays.asList("/users/sign-ian", "/users/sign-up");
 
     @Autowired
     private JwtInterceptor jwtInterceptor;
@@ -27,12 +27,12 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        //GET이외의 모든 작업에서 jwt인증을 함
+//        GET이외의 모든 작업에서 jwt인증을 함
 //        registry.addInterceptor(methodInteceptor)
 //                .addPathPatterns(methodPatterns)
 //                .excludePathPatterns(excPatterns);
-//
-////        //GET중에서 특정 URI만 jwt인증을 함
+
+//        //GET중에서 특정 URI만 jwt인증을 함
 //        registry.addInterceptor(jwtInterceptor)
 //                .addPathPatterns(addPatterns);
 

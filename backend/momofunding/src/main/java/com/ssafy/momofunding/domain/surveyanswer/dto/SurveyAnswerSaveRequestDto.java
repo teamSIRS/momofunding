@@ -19,7 +19,6 @@ public class SurveyAnswerSaveRequestDto {
         this.surveyQuestionId = surveyQuestionId;
         this.userId = userId;
         this.questionSelectId = questionSelectId;
-
     }
 
     public SurveyAnswer toEntity() {
