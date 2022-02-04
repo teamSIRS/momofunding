@@ -220,7 +220,7 @@ function MyProjectDetail() {
         <BottomBox>
           <SurveyBox>
             <Title>설문조사 목록</Title>
-            <SurveyAdd>추가</SurveyAdd>
+            <SurveyAdd />
             <SurveyEditText
               onClick={() => {
                 setIsEdit(!isEdit);
@@ -236,7 +236,6 @@ function MyProjectDetail() {
                                 : <SurveyEdit surveys={surveys[i]} i={i} key={i}/>
                             })
                         } */}
-
             {/* 상태에 따라 상자 다르게 */}
             {/* <SurveyBasic /> */}
             {surveys.map((a, i) => {

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button, Fade, Modal } from "react-bootstrap";
 import SurveyNum from "./SurveyForm/SurveyNum";
 import SurveyShortAns from "./SurveyForm/SurveyShortAns";
+import SurveySelect from "./SurveyForm/SurveySelect";
 
 const SurveyModalBtn = styled.button`
   background-color: #6667ab;
@@ -29,12 +30,15 @@ const styles = {
 };
 const SurveyAddMain = styled.div``;
 
-const SurveyAddForm = styled.form``;
+const SurveyAddDiv = styled.div``;
 
 const SurveyAddInputBox = styled.div``;
 const SurveyAddInput = styled.input``;
 const SurveyAddInputSelect = styled.select``;
-const SurveyAddLabel = styled.label``;
+const SurveyAddLabel = styled.label`
+  font-size: 20px;
+  margin-right: 20px;
+`;
 
 function SurveyAdd() {
   const [show, setShow] = useState(false);
@@ -42,11 +46,10 @@ function SurveyAdd() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [selectedNum, setSelectedNum] = useState("");
-  const selectList = ["객관식", "주관식"];
+  const [selectedNum, setSelectedNum] = useState("선택하세요");
+  const selectList = ["선택하세요", "객관식", "주관식"];
   const onChange = (event) => {
     setSelectedNum(event.target.value);
-    console.log(selectedNum);
   };
 
   return (
@@ -64,7 +67,7 @@ function SurveyAdd() {
           }}
         >
           <SurveyAddMain>
-            <SurveyAddForm>
+            <SurveyAddDiv>
               <SurveyAddInputBox>
                 <SurveyAddLabel>질문 양식 선택</SurveyAddLabel>
                 <select onChange={onChange} value={selectedNum}>
@@ -74,15 +77,18 @@ function SurveyAdd() {
                     </option>
                   ))}
                 </select>
-                <br />
-                <SurveyAddLabel>질문 내용</SurveyAddLabel>
-                <br />
-                {selectedNum === "객관식" ? <SurveyNum /> : null}
-                {selectedNum === "주관식" ? <SurveyShortAns /> : null}
-                <SurveyAddInput placeholder="질문을 입력하세요."></SurveyAddInput>
+                <hr />
+                <SurveyAddLabel>
+                  질문 내용
+                  {selectedNum === "선택하세요" ? <SurveySelect /> : null}
+                  {selectedNum === "객관식" ? <SurveyNum /> : null}
+                  {selectedNum === "주관식" ? <SurveyShortAns /> : null}
+                </SurveyAddLabel>
               </SurveyAddInputBox>
+              <hr />
+
               <Button>등록</Button>
-            </SurveyAddForm>
+            </SurveyAddDiv>
           </SurveyAddMain>
         </Modal.Body>
       </Modal>
