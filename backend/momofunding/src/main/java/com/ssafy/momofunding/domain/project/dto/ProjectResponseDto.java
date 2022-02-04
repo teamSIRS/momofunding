@@ -36,7 +36,7 @@ public class ProjectResponseDto {
         this.id = projectEntity.getId();
         this.projectName = projectEntity.getProjectName();
         this.fundingGoal = projectEntity.getFundingGoal();
-        this.subImageUrl = projectEntity.getMainImageUrl();
+        this.subImageUrl = projectEntity.getSubImageUrl();
         this.currentAmount = projectEntity.getCurrentAmount();
         this.popularity = projectEntity.getPopularity();
         this.expirationDate = projectEntity.getExpirationDate();
