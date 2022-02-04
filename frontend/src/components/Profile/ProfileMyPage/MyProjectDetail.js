@@ -229,7 +229,7 @@ function MyProjectDetail() {
           <SurveyBox>
             <Title>설문조사 목록</Title>
             <SurveyTextBox>
-              <SurveyAdd />
+              <SurveyAdd>추가</SurveyAdd>
               {isEdit ? (
                 <SurveyEditText
                   onClick={() => {
