@@ -4,6 +4,8 @@ function MyProject(){
     return(
         <>
             <ProjectCard></ProjectCard>
+            <ProjectCard></ProjectCard>
+            <ProjectCard></ProjectCard>
         </>
     );
 }
