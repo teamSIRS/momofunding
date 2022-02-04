@@ -192,10 +192,6 @@ public class ProjectService {
                 .distinct()
                 .collect(Collectors.toList());
 
-        for(Project p : projects){
-            System.out.println(p.getId());
-        }
-
         return projects.stream()
                 .map(ProjectResponseDto::new)
                 .collect(Collectors.toList());
