@@ -27,7 +27,10 @@ public class Live {
     private String content;
 
     @Column
-    private Integer maxViewer;
+    private Integer viewerCount;
+
+    @Column
+    private String sessionId;
 
     @Column
     private Integer totalPlayTime;
@@ -65,15 +68,16 @@ public class Live {
     public void update(LiveUpdateRequestDto liveUpdateRequestDto) {
         this.title = liveUpdateRequestDto.getTitle();
         this.content = liveUpdateRequestDto.getContent();
-        this.maxViewer = liveUpdateRequestDto.getMaxViewer();
+        this.viewerCount = liveUpdateRequestDto.getMaxViewer();
         this.totalPlayTime = liveUpdateRequestDto.getTotalPlayTime();
     }
+    
 
     @Builder
     public Live(String title, String content, Integer maxViewer, Integer totalPlayTime, Timestamp startTime, Timestamp registerDate){
         this.title = title;
         this.content = content;
-        this.maxViewer = maxViewer;
+        this.viewerCount = maxViewer;
         this.totalPlayTime = totalPlayTime;
         this.startTime = startTime;
         this.registerDate = registerDate;

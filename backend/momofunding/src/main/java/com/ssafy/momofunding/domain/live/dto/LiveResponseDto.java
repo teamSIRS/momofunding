@@ -3,7 +3,6 @@ package com.ssafy.momofunding.domain.live.dto;
 import com.ssafy.momofunding.domain.live.domain.Live;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
@@ -24,7 +23,7 @@ public class LiveResponseDto {
         this.content = entity.getContent();
         this.totalPlayTime = entity.getTotalPlayTime();
         this.startTime = entity.getStartTime();
-        this.maxViewer = entity.getMaxViewer();
+        this.maxViewer = entity.getViewerCount();
         this.registerDate = entity.getRegisterDate();
     }
 
