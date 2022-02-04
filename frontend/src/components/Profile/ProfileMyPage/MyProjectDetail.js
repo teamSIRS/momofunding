@@ -121,6 +121,11 @@ const SurveyBox = styled(LiveBox)`
     width: 50%;
 `;
 
+const SurveyTextBox = styled.div`
+    display: flex;
+    margin: 5px 0;
+`;
+
 const SurveyAdd = styled.span`
     padding-left: 10px;
 `;
@@ -220,17 +225,19 @@ function MyProjectDetail(){
                 <BottomBox>
                     <SurveyBox>
                         <Title>설문조사 목록</Title>
-                        <SurveyAdd>추가</SurveyAdd>
-                        {
-                            isEdit
-                            ?(
-                                <SurveyEditText onClick={()=> {setIsEdit(!isEdit);}}>저장</SurveyEditText>
-                            )
-                            :(
-                                <SurveyEditText onClick={()=> {setIsEdit(!isEdit);}}>편집</SurveyEditText>
-                            )
+                        <SurveyTextBox>
+                            <SurveyAdd>추가</SurveyAdd>
+                            {
+                                isEdit
+                                ?(
+                                    <SurveyEditText onClick={()=> {setIsEdit(!isEdit);}}>저장</SurveyEditText>
+                                )
+                                :(
+                                    <SurveyEditText onClick={()=> {setIsEdit(!isEdit);}}>편집</SurveyEditText>
+                                )
 
-                        }
+                            }
+                        </SurveyTextBox>
 
                         {
                             isEdit 
