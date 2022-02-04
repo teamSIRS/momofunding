@@ -1,20 +1,19 @@
 import React, { useState }from 'react';
 import styled from 'styled-components';
-import { MomoColor, MomoStrongColor } from '../../../shared/global';
+import { MomoColor } from '../../../shared/global';
 import { Link } from 'react-router-dom';
 
 import LiveList from './LiveRecord/LiveList';
 import SurveyBasic from './Survey/SurveyBasic';
 import SurveyEdit from './Survey/SurveyEdit';
+import MySponsor from './Sponsor/MySponsor';
 
 const Body = styled.div`
-    /* border: 1px solid red; */
     display: flex;
     padding: 50px;
 `;
 
 const ProjectBox = styled.div`
-    /* border: 1px solid orange; */
     display: flex;
     flex-direction: column;
     align-items:center;
@@ -23,12 +22,10 @@ const ProjectBox = styled.div`
 `;
 
 const Card = styled.div`
-    /* border: 1px solid green; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items:center;
-    /* margin: 20px; */
     padding: 10px;
     border-radius: 15px;
     box-shadow: 2px 2px 10px 0px ${MomoColor};
@@ -44,7 +41,6 @@ const ProjectPic = styled.div`
 `;
 
 const TitleBox = styled.div`
-    /* border: 1px solid navy; */
     display: flex;
     width: 95%;
     justify-content: space-between;
@@ -59,12 +55,10 @@ const ProjectTitle = styled.p`
 const CreatorName = styled.p``;
 
 const ProjectContent = styled.p`
-    /* border: 1px solid blue; */
     width: 95%;
 `;
 
 const BtnBox = styled.div`
-    /* border: 1px solid purple; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -94,7 +88,6 @@ const MyLink = styled(Link)`
 //////////////////////
 
 const MainBox = styled.div`
-    /* border: 1px solid yellow; */
     display: flex;
     flex-direction: column;
     padding: 10px 15px;
@@ -102,7 +95,6 @@ const MainBox = styled.div`
 `;
 
 const LiveBox = styled.div`
-    /* border: 1px solid purple; */
     padding: 15px;
     margin-bottom: 30px;
 `;
@@ -113,7 +105,6 @@ const Title = styled.p`
 `;
 
 const BottomBox = styled.div`
-    /* border: 1px solid gold; */
     display: flex;
 `;
 
@@ -140,36 +131,9 @@ const SponsorBox = styled(LiveBox)`
 `;
 
 const SponsorList = styled.div`
-    /* border: 1px solid blue; */
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-`;
-
-const Sponsor = styled.div`
-    /* border: 1px solid red; */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 20%;
-    height: 130px;
-    margin: 5px;
-`;
-
-const SponsorPic = styled.div`
-    width: 80px;
-    height: 80px;
-    margin: auto 0;
-    background-image: url('https://image.newdaily.co.kr/site/data/img/2011/02/10/2011021000033_0.jpg');
-    background-position: center;
-    background-size: cover;
-    border-radius: 50%;
-`;
-
-const SponsorName = styled.p`
-    font-size: 15px;
-    margin: auto 0;
 `;
 
 
@@ -197,6 +161,39 @@ function MyProjectDetail(){
     const onRemove = (id) => {
         setSurveys(surveys.filter((survey) => survey.id !== id));
     }
+
+    const [sponsors, setSponsors] = useState([
+        {
+            id: 0,
+            pic: 'https://image.newdaily.co.kr/site/data/img/2011/02/10/2011021000033_0.jpg',
+            name: '송지호',
+        },
+        {
+            id: 1,
+            pic: 'https://nitter.domain.glass/pic/media%2FFHxHZMPakAAUwPi.jpg%3Fname%3Dsmall',
+            name: '효달',
+        },
+        {
+            id: 2,
+            pic: 'https://image.newdaily.co.kr/site/data/img/2011/02/10/2011021000033_0.jpg',
+            name: '송지호',
+        },
+        {
+            id: 3,
+            pic: 'https://image.newdaily.co.kr/site/data/img/2011/02/10/2011021000033_0.jpg',
+            name: '송지호',
+        },
+        {
+            id: 4,
+            pic: 'https://image.newdaily.co.kr/site/data/img/2011/02/10/2011021000033_0.jpg',
+            name: '송지호',
+        },
+        {
+            id: 5,
+            pic: 'https://image.newdaily.co.kr/site/data/img/2011/02/10/2011021000033_0.jpg',
+            name: '송지호',
+        },
+    ]);
 
     return(
         <Body>
@@ -264,46 +261,21 @@ function MyProjectDetail(){
                                 ) 
 
                         }
-
-
-
                     </SurveyBox>
 
                     <SponsorBox>
                         <Title>참여한 후원자</Title>
                         <SponsorList>
-                            <Sponsor>
-                                <SponsorPic />
-                                <SponsorName>Jiho Song</SponsorName>
-                            </Sponsor>
-                            <Sponsor>
-                                <SponsorPic />
-                                <SponsorName>하이브리드</SponsorName>
-                                {/* 이름이 길어지면!! 문제가 생기,,긴 하는데 이걸 꼭 지금 해결해야 할까요? */}
-                            </Sponsor>
-                            <Sponsor>
-                                <SponsorPic />
-                                <SponsorName>송지호</SponsorName>
-                            </Sponsor>
-                            <Sponsor>
-                                <SponsorPic />
-                                <SponsorName>송지호</SponsorName>
-                            </Sponsor>
-                            <Sponsor>
-                                <SponsorPic />
-                                <SponsorName>송지호</SponsorName>
-                            </Sponsor>
-                            <Sponsor>
-                                <SponsorPic />
-                                <SponsorName>송지호</SponsorName>
-                            </Sponsor>
-                            <Sponsor>
-                                <SponsorPic />
-                                <SponsorName>송지호</SponsorName>
-                            </Sponsor>
+                            {sponsors.map((sponsor) => (
+                                <MySponsor
+                                    sponsor={sponsor}
+                                    key={sponsor.id}
+                                />
+                            ))}
                         </SponsorList>
                     </SponsorBox>
                 </BottomBox>
+
             </MainBox>
         </Body>
     );
