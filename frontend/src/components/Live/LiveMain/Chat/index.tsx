@@ -20,7 +20,11 @@ import {
   ProjectText,
 } from "./styles";
 
-const Chat = () => {
+type ChatProps = {
+  show: boolean;
+};
+
+const Chat = ({ show }: ChatProps) => {
   const param = useParams()["id"];
   const pjtApi = {
     title: "Apple iPhone 3GS",
@@ -66,8 +70,9 @@ const Chat = () => {
       element.scrollTop = element.scrollHeight;
     });
   }, [messages]);
+
   return (
-    <ChatWrapper>
+    <ChatWrapper hidden={show}>
       <ChatHeader>
         <ChatTop>
           <ChatIcon icon={arrowDownCircleOutline} />
