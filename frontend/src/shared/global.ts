@@ -17,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
   html {
     --primaryGradient: linear-gradient(93.12deg, #472a9d, #321b76);
     --primary: ${MomoColor};
+    --secondaryGradient: linear-gradient(93.12deg, #DDDEED, #6667AB ); 
     --secondaryBoxShadow: 0px 10px 15px rgba(61, 61,139, 30%);
     --transparentLightGradient: linear-gradient(93.12deg, rgba(221,222,237,20%), rgba(221,222,237,50%));
   }
