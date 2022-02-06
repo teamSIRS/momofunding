@@ -20,7 +20,7 @@ import {
   ProjectText,
 } from "./styles";
 
-type ChatProps = {
+export type ChatProps = {
   show: boolean;
 };
 
@@ -72,12 +72,9 @@ const Chat = ({ show }: ChatProps) => {
   }, [messages]);
 
   return (
-    <ChatWrapper hidden={show}>
+    <ChatWrapper className={show ? "hide" : ""}>
       <ChatHeader>
-        <ChatTop>
-          <ChatIcon icon={arrowDownCircleOutline} />
-          실시간 채팅
-        </ChatTop>
+        <ChatTop>실시간 채팅</ChatTop>
         <ProjectLink to={`/projects/${param}`}>
           <ProjectBtn>
             <ImageForBg src="https://image.itmedia.co.jp/mobile/articles/2109/15/si7101-iPhone13S-01.jpg" />
