@@ -3,7 +3,7 @@ import { IonIcon } from "@ionic/react";
 import { peopleOutline } from "ionicons/icons";
 
 const ViewersBadge = styled.span`
-  background: #ff634769;
+  background: tomato;
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -11,6 +11,7 @@ const ViewersBadge = styled.span`
   position: absolute;
   bottom: 25px;
   left: 25px;
+  z-index: 2;
 `;
 
 const Icon = styled(IonIcon)`
