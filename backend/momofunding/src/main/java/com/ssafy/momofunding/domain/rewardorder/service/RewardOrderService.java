@@ -5,6 +5,7 @@ import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.reward.domain.Reward;
 import com.ssafy.momofunding.domain.reward.repository.RewardRepository;
 import com.ssafy.momofunding.domain.rewardorder.domain.RewardOrder;
+import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderResponseDto;
 import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderSaveRequestDto;
 import com.ssafy.momofunding.domain.rewardorder.repository.RewardOrderRepository;
 import com.ssafy.momofunding.domain.user.domain.User;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -45,5 +48,17 @@ public class RewardOrderService {
         rewardOrder.mapProject(project);
 
         return rewardOrderRepository.save(rewardOrder).getId();
+    }
+
+    @Transactional
+    public List<RewardOrderResponseDto> findOrdersByUserId(Long userId) {
+        userRepository.findById(userId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 회원 번호 입니다::userId-"+userId));
+
+        List<RewardOrder> rewardOrders = rewardOrderRepository.findAllByUserId(userId);
+
+        return rewardOrders.stream()
+                .map(RewardOrderResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
