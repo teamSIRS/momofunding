@@ -5,6 +5,7 @@ import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.reward.domain.Reward;
 import com.ssafy.momofunding.domain.reward.repository.RewardRepository;
 import com.ssafy.momofunding.domain.rewardorder.domain.RewardOrder;
+import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderDeliveryResponseDto;
 import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderResponseDto;
 import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderSaveRequestDto;
 import com.ssafy.momofunding.domain.rewardorder.repository.RewardOrderRepository;
@@ -60,5 +61,13 @@ public class RewardOrderService {
         return rewardOrders.stream()
                 .map(RewardOrderResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public RewardOrderDeliveryResponseDto findOrderById(Long rewardOrderId) {
+        RewardOrder rewardOrder = rewardOrderRepository.findById(rewardOrderId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 주문 번호 입니다::rewardOrderId-"+rewardOrderId));
+
+        return new RewardOrderDeliveryResponseDto(rewardOrder);
     }
 }
