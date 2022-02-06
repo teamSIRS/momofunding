@@ -4,6 +4,7 @@ import { LiveBtnRound } from "./Chat/styles";
 
 export const LiveFooter = styled.footer`
   display: flex;
+  background: linear-gradient(rgba(12, 6, 20, 0%), rgba(12, 6, 20, 50%));
   align-items: center;
   justify-content: center;
   position: absolute;
