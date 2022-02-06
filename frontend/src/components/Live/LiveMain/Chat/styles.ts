@@ -22,6 +22,12 @@ export const ChatWrapper = styled.div`
   border-radius: 12px;
   display: flex;
   flex-direction: column;
+  transition: 0.6s ease-in-out;
+
+  &.hide {
+    opacity: 0;
+    transform: translateX(700px);
+  }
 `;
 
 export const ChatBody = styled.div`
