@@ -1,5 +1,6 @@
 package com.ssafy.momofunding.domain.rewardorder.controller;
 
+import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderDeliveryRequestDto;
 import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderDeliveryResponseDto;
 import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderResponseDto;
 import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderSaveRequestDto;
@@ -70,6 +71,24 @@ public class RewardOrderApiController {
         try {
             RewardOrderDeliveryResponseDto rewardOrder = rewardOrderService.findOrderById(rewardOrderId);
             return ResponseEntity.status(HttpStatus.OK).body(rewardOrder);
+        } catch(IllegalArgumentException e){
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+    }
+
+
+    @Operation(
+            summary = "후원 배송 정보 수정",
+            description = "후원 배송 정보를 수정할 수 있다."
+    )
+    @Parameter(name = "rewardOrderId", description = "주문 식별 번호", required = true)
+    @PutMapping("/{rewardOrderId}")
+    public ResponseEntity<Object> updateOrderDeliveryInfo(@PathVariable Long rewardOrderId, @RequestBody RewardOrderDeliveryRequestDto rewardOrderDeliveryRequestDto){
+        try {
+            rewardOrderService.updateOrderDeliveryInfo(rewardOrderId, rewardOrderDeliveryRequestDto);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
         } catch(IllegalArgumentException e){
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", e.getMessage());
