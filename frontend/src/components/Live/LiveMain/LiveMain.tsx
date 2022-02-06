@@ -11,6 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import { MouseEventHandler, useState } from "react";
 import { LiveToggle, LiveController, LiveFooter, ToggleBtn } from "./styles";
+import Survey from "./Surveys";
 
 export const LiveMain = () => {
   const [show, setShow] = useState(true);
@@ -30,6 +31,7 @@ export const LiveMain = () => {
       <RendererWrapper>
         <Viewers viewers={api.viewers}></Viewers>
         <Chat show={show} />
+        <Survey show={!show} />
         <LiveFooter>
           <LiveController>
             <Link to="/">
