@@ -32,12 +32,17 @@ public class CreatorService {
 
         String defaultImg = imagePath+"\\creator\\default.png";
         try{
+            String curImgUrl = creator.getCreatorImageUrl();
             if(!imgName.equals("")){
+                if(!curImgUrl.equals(defaultImg)){
+                    File file = new File(curImgUrl);
+                    file.delete();
+                }
                 File creatorImgFile = new File("\\creator\\"+projectId+"_creator"+imgName.substring(imgName.lastIndexOf(".")));
                 creatorImg.transferTo(creatorImgFile);
                 creatorUpdateRequestDto.setCreatorImageUrl(imagePath+creatorImgFile.getPath());
-            }else if(!creator.getCreatorImageUrl().equals(defaultImg)){
-                File file = new File(creator.getCreatorImageUrl());
+            }else if(!curImgUrl.equals(defaultImg)){
+                File file = new File(curImgUrl);
                 file.delete();
                 creatorUpdateRequestDto.setCreatorImageUrl(defaultImg);
             }else{
