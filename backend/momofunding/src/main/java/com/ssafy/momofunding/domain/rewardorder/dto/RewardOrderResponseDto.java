@@ -17,7 +17,7 @@ public class RewardOrderResponseDto {
     private String optionContent;
     private Integer amount;
 
-    private RewardSimpleResponseDto rewardSimpleResponseDto;
+    private RewardSimpleResponseDto rewardSimple;
 
     @Builder
     public RewardOrderResponseDto(Long id, Integer quantity, String optionContent, Integer amount, Reward reward){
@@ -26,7 +26,7 @@ public class RewardOrderResponseDto {
         this.optionContent = optionContent;
         this.amount = amount;
 
-        this.rewardSimpleResponseDto = new RewardSimpleResponseDto(reward);
+        this.rewardSimple = new RewardSimpleResponseDto(reward);
     }
 
     public RewardOrderResponseDto(RewardOrder rewardOrder){
@@ -35,7 +35,7 @@ public class RewardOrderResponseDto {
         this.optionContent = rewardOrder.getOptionContent();
         this.amount = rewardOrder.getAmount();
 
-        this.rewardSimpleResponseDto = new RewardSimpleResponseDto(rewardOrder.getReward());
+        this.rewardSimple = new RewardSimpleResponseDto(rewardOrder.getReward());
     }
 
 }

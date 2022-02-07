@@ -9,14 +9,13 @@ import lombok.Setter;
 @Setter
 @Getter
 public class RewardSimpleResponseDto {
-    private Long id;
+    private Long rewardId;
     private Long projectId;
     private String name;
 
     public RewardSimpleResponseDto(Reward reward){
-        this.id = reward.getId();
-        if(reward.getProject() != null)
-            this.projectId = reward.getProject().getId();
+        this.rewardId = reward.getId();
+        this.projectId = reward.getProject().getId();
         this.name = reward.getName();
     }
 }
