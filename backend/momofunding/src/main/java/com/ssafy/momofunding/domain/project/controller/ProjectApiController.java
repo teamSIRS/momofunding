@@ -167,11 +167,28 @@ public class ProjectApiController {
             summary = "회원이 창작한 프로젝트 다중 조회",
             description = "회원 ID로 회원이 창작한 프로젝트들을 확인할 수 있다."
     )
-    @GetMapping("/users/{userId}")
-    public ResponseEntity<Object> getProjectsByUser(@PathVariable Long userId) {
+    @GetMapping("/users/{userId}/creators")
+    public ResponseEntity<Object> getProjectsByUserCreator(@PathVariable Long userId) {
+        try{
+            List<ProjectResponseDto> projects = projectService.getProjectsByUserCreator(userId);
+            if(projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.OK).body(projects);
+        }catch (IllegalArgumentException e){
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+    }
+
+    @Operation(
+            summary = "회원이 후원한 프로젝트 다중 조회",
+            description = "회원 ID로 회원이 후원한 프로젝트들을 확인할 수 있다."
+    )
+    @GetMapping("/users/{userId}/orders")
+    public ResponseEntity<Object> getProjectsByUserOrder(@PathVariable Long userId) {
 
         try{
-            List<ProjectResponseDto> projects = projectService.getProjectsByUser(userId);
+            List<ProjectResponseDto> projects = projectService.getProjectsByUserOrder(userId);
             if(projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
             return ResponseEntity.status(HttpStatus.OK).body(projects);
         }catch (IllegalArgumentException e){

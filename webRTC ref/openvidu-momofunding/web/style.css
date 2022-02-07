@@ -1,0 +1,38 @@
+html,
+body {
+  height: 100%;
+  font-family: "Open Sans", sans-serif;
+}
+
+html {
+  display: table;
+  margin: auto;
+}
+
+body {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+#creatorVideo {
+  float: left;
+  margin: 10px;
+  width: 40%;
+}
+
+video {
+  width: 70%;
+  margin: 10px auto 0 auto;
+  display: block;
+}
+
+#chat {
+  width: 200px;
+  clear: both;
+  margin: auto;
+  border: 1px solid black;
+}
+li {
+  text-align: left;
+}

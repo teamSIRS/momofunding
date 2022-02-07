@@ -6,8 +6,8 @@ import {
   MomoStrongColor,
   MomoWeakColor,
 } from "../../../../shared/global";
-import { StyledLink } from "../../../Home/HomeFundings/HomeFundingCard/styles";
 import { TextAreaWrapper } from "../../../ProjectDetail/ProjectContent/ProjectCommunity/PjCommunityQnA/PjCommunityInput/styles";
+import { Switch } from "../../LivePowderRoom/RTCRenderer/styles";
 
 export const ChatWrapper = styled.div`
   min-width: 300px;
@@ -22,13 +22,19 @@ export const ChatWrapper = styled.div`
   border-radius: 12px;
   display: flex;
   flex-direction: column;
+  transition: 0.6s ease-in-out;
+
+  &.hide {
+    opacity: 0;
+    transform: translateX(700px);
+  }
 `;
 
 export const ChatBody = styled.div`
   overflow: scroll;
   width: 100%;
   height: 100%;
-  background: var(--transparentLightGradient);
+  background: transparent;
   color: #ffffffce;
   position: relative;
   border-radius: 6px;
@@ -65,13 +71,17 @@ export const ChatFooter = styled.form`
 export const ChatIcon = styled(IonIcon)`
   font-size: 30px;
   margin: 3px;
+  color: ${MomoWeakColor};
+  &.survey {
+    color: ${MomoStrongColor};
+  }
 `;
 
 export const MessageBox = styled.div`
-  align-self: flex-end;
+  align-self: flex-start;
   padding: 6px 18px;
   border-radius: 24px;
-  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
   background: var(--primary);
   font-size: 15px;
   font-weight: 400;
@@ -80,7 +90,7 @@ export const MessageBox = styled.div`
   box-shadow: var(--secondaryBoxShadow);
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
 `;
 
 export const NickName = styled.span`
@@ -98,7 +108,7 @@ export const ChatTypingArea = styled(TextAreaWrapper)`
   margin-right: 20px;
 `;
 
-export const ChatButton = styled.button`
+export const ChatButton = styled(Switch)`
   border: none;
   background: none;
   display: flex;
@@ -107,22 +117,19 @@ export const ChatButton = styled.button`
   border-radius: 100%;
 `;
 
-export const LiveBtnRound = styled.button`
+export const LiveBtnRound = styled(Switch)`
+  background: var(--primaryGradient);
   display: flex;
   border-radius: 25px;
   justify-content: center;
   align-items: center;
   width: 50px;
   height: 50px;
-  position: absolute;
-  bottom: 20px;
-  right: 25px;
   box-shadow: var(--secondaryBoxShadow);
 `;
 
 export const LiveBtnRoundDanger = styled(LiveBtnRound)`
   background: tomato;
-  left: 45%;
 `;
 
 export const ImageForBg = styled.img`
