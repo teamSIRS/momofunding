@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const ProfileMemberTitle = styled.div`
@@ -117,6 +119,22 @@ const ProfileMemberDeleteBtn = styled.div`
 `;
 
 function ProfileMember() {
+  const baseUrl = "http://localhost:8080";
+  const [nickname, setNickname] = useState("");
+  const [email, setEmail] = useState("");
+  // const { userId } = useParams();
+  // console.log(userId);
+  const userId = 1;
+  const getUsers = async () => {
+    await axios.get(baseUrl + `/users/${userId}`).then((response) => {
+      console.log(response.data.nickname);
+      setNickname(response.data.nickname);
+      setEmail(response.data.email);
+    });
+  };
+  useEffect(() => {
+    getUsers();
+  }, []);
   return (
     <div>
       <ProfileMemberTitle>회원정보 수정 페이지</ProfileMemberTitle>
@@ -136,6 +154,16 @@ function ProfileMember() {
             </ProfileMemberNicknameLabel>
             <ProfileMemberNicknameInput
               as={"input"}
+              value={nickname}
+            ></ProfileMemberNicknameInput>
+          </ProfileMemberNicknameBox>
+          <ProfileMemberNicknameBox>
+            <ProfileMemberNicknameLabel as={"label"}>
+              이메일
+            </ProfileMemberNicknameLabel>
+            <ProfileMemberNicknameInput
+              as={"input"}
+              value={email}
             ></ProfileMemberNicknameInput>
           </ProfileMemberNicknameBox>
           <ProfileMemberIntroduceBox>

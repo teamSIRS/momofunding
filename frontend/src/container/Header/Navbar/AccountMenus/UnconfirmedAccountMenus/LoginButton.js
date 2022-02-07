@@ -1,7 +1,8 @@
 import styled from "styled-components";
-
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
+import axios from "axios";
 
 const LoginBackGround = styled.div`
   display: flex;
@@ -66,6 +67,8 @@ const CheckBoxLabel = styled.label`
 const FindIdOrPw = styled.div`
   display: inline-block;
   margin-left: auto;
+  color: black;
+  background-color: transparent;
   /* color: black;
   text-decoration: none; */
 `;
@@ -132,10 +135,53 @@ const LoginModalBtn = styled.button`
 `;
 
 function LoginButton() {
+  const navigate = useNavigate();
+  const goToFind = () => {
+    navigate("/findAccount/findId");
+    setShow(false);
+  };
+  const baseUrl = "http://localhost:8080";
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  function signin(event) {
+    event.preventDefault();
+
+    const signin = async () => {
+      await axios({
+        url: "/users/sign-in",
+        method: "post",
+        data: {
+          email: email,
+          password: password,
+        },
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data);
+          setEmail("");
+          setPassword("");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    signin();
+  }
+
+  const onEmailChange = (event) => {
+    event.preventDefault();
+    setEmail(event.target.value);
+  };
+
+  const onPasswordChange = (event) => {
+    event.preventDefault();
+    setPassword(event.target.value);
+  };
 
   return (
     <>
@@ -154,49 +200,33 @@ function LoginButton() {
         >
           <LoginBackGround>
             <LoginMainForm>
-              <LoginForm>
+              <LoginForm onSubmit={signin}>
                 <GeneralLoginForm>
                   <LoginTitle>WelCome Back!</LoginTitle>
-                  <InputIdAndPw placeholder="이메일 혹은 아이디" />
-                  <InputIdAndPw placeholder="비밀번호" />
+                  <InputIdAndPw
+                    placeholder="이메일 혹은 아이디"
+                    value={email}
+                    onChange={onEmailChange}
+                  />
+                  <InputIdAndPw
+                    type="password"
+                    placeholder="비밀번호"
+                    value={password}
+                    onChange={onPasswordChange}
+                  />
 
                   <CheckBoxAndLink>
                     <CheckBox>
                       <input id="check" type="checkbox" />
                       <CheckBoxLabel for="check">아이디 저장</CheckBoxLabel>
                     </CheckBox>
-                    <FindIdOrPw>아이디, 비밀번호 찾기</FindIdOrPw>
+                    <FindIdOrPw as="button" onClick={goToFind}>
+                      아이디, 비밀번호 찾기
+                    </FindIdOrPw>
                   </CheckBoxAndLink>
 
                   <LoginBtn as="button">로그인</LoginBtn>
                 </GeneralLoginForm>
-                <SeparateLineForm>
-                  <SeparateLine></SeparateLine> 또는{" "}
-                  <SeparateLine></SeparateLine>
-                </SeparateLineForm>
-                <SocialLoginForm>
-                  <SocialLoginBtns>
-                    <SocialLoginLogo
-                      src="/socialLoginLogo/facebook.png"
-                      alt="fackbook-image"
-                    />
-                    <SocialLoginLogo
-                      src="/socialLoginLogo/kakao-talk.png"
-                      alt="kakao-talk-image"
-                    />
-                    <SocialLoginLogo
-                      src="/socialLoginLogo/google.png"
-                      alt="google-image"
-                    />
-                    <SocialLoginBtns />
-                  </SocialLoginBtns>
-                  <GoToSiginupForm>
-                    <GoToSignupMessage>
-                      아직 회원이 아니신가요?
-                    </GoToSignupMessage>
-                    <GoToSignup>아이디, 비밀번호 찾기</GoToSignup>
-                  </GoToSiginupForm>
-                </SocialLoginForm>
               </LoginForm>
             </LoginMainForm>
           </LoginBackGround>

@@ -12,7 +12,7 @@ const Menus = () => {
       {/* <Menu path="findId" name="아찾" />
       <Menu path="findPw" name="비찾" />
       <Menu path="changePw" name="비변" /> */}
-      <Menu path="findAccount" name="아비찾" />
+      {/* <Menu path="findAccount" name="아비찾" /> */}
       <Menu path="changePw" name="비재설" />
       <Menu path="funding" name="후원" />
       <Menu path="profile/member" name="회원수정" />
