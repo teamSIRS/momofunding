@@ -5,10 +5,11 @@ import com.ssafy.momofunding.global.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ import java.util.Map;
 public class AuthJwtController {
 
     private final JwtService jwtService;
-    private final static String AUTHTOKEN = "auth-token";
+    private final static String AUTHTOKEN = "access-token";
 
     //jwt인증
     @Operation(
@@ -31,10 +32,12 @@ public class AuthJwtController {
     )
     @GetMapping("/jwt")
     public ResponseEntity authJwt(HttpServletRequest request){
-        Map<String, Boolean> responseMap = new HashMap<>();
+        Map<String, Object> responseMap = new HashMap<>();
         final String token = request.getHeader(AUTHTOKEN);
         try {
+            Map<String,Object> claims = jwtService.get(token);
             responseMap.put("isValid", jwtService.isUsable(token));
+            responseMap.put("data", claims.get("email"));
         }catch (Exception e){
             responseMap.put("isValid", false);
             return ResponseEntity.status(HttpStatus.OK).body(responseMap);
