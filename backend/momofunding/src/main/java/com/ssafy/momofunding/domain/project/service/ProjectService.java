@@ -50,6 +50,7 @@ public class ProjectService {
 
         Creator creator = new Creator();
         creator.mapProject(project);
+        creator.updateCreatorImageUrl(imagePath+"\\creator\\default.png");
         creatorRepository.save(creator);
 
         return projectId;
