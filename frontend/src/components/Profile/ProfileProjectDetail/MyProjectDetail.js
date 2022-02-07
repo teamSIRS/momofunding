@@ -1,140 +1,14 @@
 import React, { useState }from 'react';
-import styled from 'styled-components';
-import { MomoColor } from '../../../shared/global';
-import { Link } from 'react-router-dom';
-
+import { Body, ProjectBox, Card, ProjectPic, TitleBox, ProjectTitle, 
+    CreatorName, ProjectContent, BtnBox, ManageBtn, LiveBtn, MyLink,
+    MainBox, LiveBox, Title, BottomBox, SurveyBox, SurveyTextBox, SurveyAdd,
+    SurveyEditText, SponsorBox, SponsorList } from './styles';
 import LiveList from './LiveRecord/LiveList';
 import SurveyBasic from './Survey/SurveyBasic';
 import SurveyEdit from './Survey/SurveyEdit';
 import MySponsor from './Sponsor/MySponsor';
 
-const Body = styled.div`
-    display: flex;
-    padding: 50px;
-`;
 
-const ProjectBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items:center;
-    width: 25%;
-    padding: 20px;
-`;
-
-const Card = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items:center;
-    padding: 10px;
-    border-radius: 15px;
-    box-shadow: 2px 2px 10px 0px ${MomoColor};
-`;
-
-const ProjectPic = styled.div`
-    width: 95%;
-    height: 250px;
-    margin: 10px;
-    background-image: url('https://image.hmall.com/static/1/1/80/25/2125801100_0.jpg?RS=600x600&AR=0');
-    background-position: center;
-    background-size: cover;
-`;
-
-const TitleBox = styled.div`
-    display: flex;
-    width: 95%;
-    justify-content: space-between;
-    border-top: 2px solid black;
-    padding-top: 5px;
-`;
-
-const ProjectTitle = styled.p`
-    font-weight: bold;
-`;
-
-const CreatorName = styled.p``;
-
-const ProjectContent = styled.p`
-    width: 95%;
-`;
-
-const BtnBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items:center;
-    width: 100%;
-    margin: 20px 0;
-`;
-
-const ManageBtn = styled.div`
-    background-color: ${MomoColor};
-    color: white;
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    text-align:center;
-    font-size: 20px;
-    border-radius: 10px;
-`;
-
-const LiveBtn = styled(ManageBtn)`
-    background-color: red;
-`;
-
-const MyLink = styled(Link)`
-    text-decoration: none;
-`;
-//////////////////////
-
-const MainBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    padding: 10px 15px;
-    width: 75%;
-`;
-
-const LiveBox = styled.div`
-    padding: 15px;
-    margin-bottom: 30px;
-`;
-
-const Title = styled.p`
-    font-size: 13pt;
-    font-weight: bold;
-`;
-
-const BottomBox = styled.div`
-    display: flex;
-`;
-
-const SurveyBox = styled(LiveBox)`
-    width: 50%;
-`;
-
-const SurveyTextBox = styled.div`
-    display: flex;
-    margin: 5px 0;
-`;
-
-const SurveyAdd = styled.span`
-    padding-left: 10px;
-`;
-
-const SurveyEditText = styled(SurveyAdd)`
-    color: ${MomoColor};
-`;
-
-
-const SponsorBox = styled(LiveBox)`
-    width: 50%;
-`;
-
-const SponsorList = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-`;
 
 
 function MyProjectDetail(){
