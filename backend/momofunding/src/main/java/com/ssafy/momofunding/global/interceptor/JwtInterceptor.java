@@ -1,13 +1,10 @@
 package com.ssafy.momofunding.global.interceptor;
 
-import com.ssafy.momofunding.global.exception.UnAuthorizedException;
 import com.ssafy.momofunding.global.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.HandlerInterceptor;
 

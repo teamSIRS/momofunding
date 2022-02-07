@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -89,7 +88,7 @@ public class ProjectApiController {
     public ResponseEntity<Map<String, Object>> deleteProject(@PathVariable Long projectId) {
         try {
             projectService.deleteProject(projectId);
-        } catch (EmptyResultDataAccessException e) {
+        } catch (IllegalArgumentException e) {
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", "잘못된 프로젝트 번호입니다:: projectId-" + projectId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
@@ -167,6 +166,7 @@ public class ProjectApiController {
             summary = "회원이 창작한 프로젝트 다중 조회",
             description = "회원 ID로 회원이 창작한 프로젝트들을 확인할 수 있다."
     )
+    @Parameter(name = "userId", description = "회원 식별 번호", required = true)
     @GetMapping("/users/{userId}/creators")
     public ResponseEntity<Object> getProjectsByUserCreator(@PathVariable Long userId) {
         try{
@@ -184,6 +184,7 @@ public class ProjectApiController {
             summary = "회원이 후원한 프로젝트 다중 조회",
             description = "회원 ID로 회원이 후원한 프로젝트들을 확인할 수 있다."
     )
+    @Parameter(name = "userId", description = "회원 식별 번호", required = true)
     @GetMapping("/users/{userId}/orders")
     public ResponseEntity<Object> getProjectsByUserOrder(@PathVariable Long userId) {
 
@@ -202,6 +203,7 @@ public class ProjectApiController {
             summary = "프로젝트 진행 상태 변경 조회",
             description = "프로젝트 진행 상태를 작성중 > 진행 중으로 변경할 수 있다."
     )
+    @Parameter(name = "projectId", description = "프로젝트 식별 번호", required = true)
     @PutMapping("/{projectId}/complete")
     public ResponseEntity<Object> updateProjectState(@PathVariable Long projectId) {
 
@@ -213,5 +215,17 @@ public class ProjectApiController {
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
+    }
+
+    @Operation(
+            summary = "프로젝트 검색 결과 조회",
+            description = "검색어로 프로젝트 이름을 검색하여 결과 목록을 조회할 수 있다."
+    )
+    @Parameter(name = "keyword", description = "검색어", required = true)
+    @GetMapping("/search")
+    public ResponseEntity<Object> findProjectsByKeyword(@RequestParam String keyword) {
+        List<ProjectResponseDto> projects = projectService.findProjectsByKeyword(keyword);
+        if(projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
 }
