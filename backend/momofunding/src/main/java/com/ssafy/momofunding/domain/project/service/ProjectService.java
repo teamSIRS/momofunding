@@ -74,7 +74,7 @@ public class ProjectService {
                 File mainImgFile = new File("\\project\\"+projectId+"_main"+mainName.substring(mainName.lastIndexOf(".")));
                 mainImg.transferTo(mainImgFile);
                 projectUpdateRequestDto.setMainImageUrl(imagePath+mainImgFile.getPath());
-            }else if(project.getMainImageUrl() != null){
+            }else if(projectUpdateRequestDto.getMainImageUrl().equals("")){
                 File file = new File(project.getMainImageUrl());
                 file.delete();
             }
@@ -87,7 +87,7 @@ public class ProjectService {
                 File subImgFile = new File("\\project\\"+projectId+"_sub"+subName.substring(subName.lastIndexOf(".")));
                 subImg.transferTo(subImgFile);
                 projectUpdateRequestDto.setSubImageUrl(imagePath+subImgFile.getPath());
-            }else if(project.getSubImageUrl() != null){
+            }else if(projectUpdateRequestDto.getSubImageUrl().equals("")){
                 File file = new File(project.getSubImageUrl());
                 file.delete();
             }

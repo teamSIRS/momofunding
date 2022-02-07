@@ -41,12 +41,12 @@ public class CreatorService {
                 File creatorImgFile = new File("\\creator\\"+projectId+"_creator"+imgName.substring(imgName.lastIndexOf(".")));
                 creatorImg.transferTo(creatorImgFile);
                 creatorUpdateRequestDto.setCreatorImageUrl(imagePath+creatorImgFile.getPath());
-            }else if(!curImgUrl.equals(defaultImg)){
-                File file = new File(curImgUrl);
-                file.delete();
-                creatorUpdateRequestDto.setCreatorImageUrl(defaultImg);
             }else{
-                creatorUpdateRequestDto.setCreatorImageUrl(defaultImg);
+                if(creatorUpdateRequestDto.getCreatorImageUrl().equals("")){ //에디터에서 이미지를 삭제했을 때
+                    File file = new File(curImgUrl);
+                    file.delete();
+                    creatorUpdateRequestDto.setCreatorImageUrl(defaultImg);
+                }
             }
         } catch (IOException | NullPointerException e){
             throw new IOException("파일 이미지 업로드에 실패하였습니다.");
