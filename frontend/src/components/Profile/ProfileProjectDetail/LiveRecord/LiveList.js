@@ -3,7 +3,6 @@ import { Table } from 'react-bootstrap';
 import { IonIcon } from '@ionic/react';
 import { downloadOutline } from 'ionicons/icons';
 import { useState } from 'react';
-import LiveBadge from '../../../Home/Badge';
 
 const MyTable = styled(Table)`
     text-align: center;
