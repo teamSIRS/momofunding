@@ -1,10 +1,18 @@
 package com.ssafy.momofunding.domain.user.service;
+
 import com.ssafy.momofunding.domain.user.domain.User;
-import com.ssafy.momofunding.domain.user.dto.*;
+import com.ssafy.momofunding.domain.user.dto.UserInfoResponseDto;
+import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
+import com.ssafy.momofunding.domain.user.dto.UserSignInRequestDto;
+import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
@@ -12,6 +20,8 @@ import javax.transaction.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final JavaMailSender mailSender;
+    private static final String FROM_ADDRESS = "momofundingbyteachers@gmail.com";
 
     //SignIn
     @Transactional
@@ -60,4 +70,25 @@ public class UserService {
     public void deleteById(Long userId) {
         userRepository.deleteById(userId);
     }
+
+
+    //회원 비밀번호 수정
+    @Transactional
+    public void updateUserPassword(String email, String password) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("해당 email에 해당하는 유저가 없습니다."));
+        user.updateUserPassword(password);
+    }
+
+    //회원에게 비밀번호 재설정 메일 전송
+    @Transactional
+    public void sendMail(String email, String token) throws MailException {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setFrom(FROM_ADDRESS);
+        message.setSubject("Here is momofunding password reset link!");
+        message.setText("localhost:3000/changePw/" + token);
+        mailSender.send(message);
+    }
+
+
 }

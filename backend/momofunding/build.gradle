@@ -47,6 +47,9 @@ dependencies {
 //	//jsonparser
 //	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
+	//java mail sender
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.6.3'
+
 
 }
 
