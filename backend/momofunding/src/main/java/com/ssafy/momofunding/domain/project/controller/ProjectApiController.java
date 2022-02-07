@@ -197,4 +197,21 @@ public class ProjectApiController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
     }
+
+    @Operation(
+            summary = "회원이 후원한 프로젝트 다중 조회",
+            description = "회원 ID로 회원이 후원한 프로젝트들을 확인할 수 있다."
+    )
+    @PutMapping("/{projectId}/complete")
+    public ResponseEntity<Object> updateProjectState(@PathVariable Long projectId) {
+
+        try{
+            projectService.updateProjectState(projectId);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }catch (IllegalArgumentException e){
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+    }
 }
