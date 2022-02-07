@@ -2,14 +2,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
 import { useState } from "react";
 import axios from "axios";
-import {
-  useForm,
-  formState,
-  setError,
-  setValue,
-  handleSubmit,
-} from "react-hook-form";
-// import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const SignupBackGround = styled.div`
   display: flex;
@@ -183,22 +176,20 @@ function Signup() {
     } else {
       signup(data);
       console.log(data);
-      setValue("userId", "");
+      setValue("email", "");
       setValue("nickname", "");
       setValue("password", "");
       setValue("passwordCheck", "");
-      setValue("email", "");
     }
   };
-  // npm install axios
   function signup(data) {
     const signup = async () => {
       await axios({
         url: "/users",
         method: "post",
         data: {
-          nickname: data.nickname,
           email: data.email,
+          nickname: data.nickname,
           password: data.password,
         },
         baseURL: baseUrl,
@@ -221,23 +212,23 @@ function Signup() {
 
           <Container>
             <SignupInputDiv>
-              <SignupInputsLabel>아이디</SignupInputsLabel>
+              <SignupInputsLabel>이메일[아이디]</SignupInputsLabel>
               <Row style={styles.row}>
                 <Col style={styles.col} xs={10}>
                   <SignupInputs
                     as="input"
-                    {...register("userId", {
-                      required: "아이디는 필수입니다.",
+                    placeholder="example@email.com"
+                    {...register("email", {
+                      required: "이메일은 필수입니다.",
                     })}
                   />
-                  <ErrorMsg>{errors?.userId?.message}</ErrorMsg>
+                  <ErrorMsg>{errors?.email?.message}</ErrorMsg>
                 </Col>
                 <Col style={styles.col} xs={2}>
-                  <CheckBtns>중복확인</CheckBtns>
+                  <CheckBtns>인증하기</CheckBtns>
                 </Col>
               </Row>
             </SignupInputDiv>
-
             <SignupInputDiv>
               <SignupInputsLabel>닉네임</SignupInputsLabel>
               <Row style={styles.row}>
@@ -280,25 +271,6 @@ function Signup() {
                     })}
                   />
                   <ErrorMsg>{errors?.passwordCheck?.message}</ErrorMsg>
-                </Col>
-              </Row>
-            </SignupInputDiv>
-
-            <SignupInputDiv>
-              <SignupInputsLabel>이메일</SignupInputsLabel>
-              <Row style={styles.row}>
-                <Col style={styles.col} xs={10}>
-                  <SignupInputs
-                    as="input"
-                    placeholder="example@email.com"
-                    {...register("email", {
-                      required: "이메일은 필수입니다.",
-                    })}
-                  />
-                  <ErrorMsg>{errors?.email?.message}</ErrorMsg>
-                </Col>
-                <Col style={styles.col} xs={2}>
-                  <CheckBtns>인증하기</CheckBtns>
                 </Col>
               </Row>
             </SignupInputDiv>

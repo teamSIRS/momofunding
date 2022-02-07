@@ -204,7 +204,7 @@ function LoginButton() {
                 <GeneralLoginForm>
                   <LoginTitle>WelCome Back!</LoginTitle>
                   <InputIdAndPw
-                    placeholder="이메일 혹은 아이디"
+                    placeholder="이메일"
                     value={email}
                     onChange={onEmailChange}
                   />
