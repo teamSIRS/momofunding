@@ -227,4 +227,12 @@ public class ProjectService {
 
         project.mapProjectState(projectStateRepository.getById(2L));
     }
+
+    public List<ProjectResponseDto> findProjectsByKeyword(String keyword) {
+        List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectNameLike(2L, "%"+keyword+"%");
+
+        return projects.stream()
+                .map(ProjectResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }
