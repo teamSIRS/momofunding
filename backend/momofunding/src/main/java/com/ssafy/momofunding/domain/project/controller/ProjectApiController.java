@@ -199,8 +199,8 @@ public class ProjectApiController {
     }
 
     @Operation(
-            summary = "회원이 후원한 프로젝트 다중 조회",
-            description = "회원 ID로 회원이 후원한 프로젝트들을 확인할 수 있다."
+            summary = "프로젝트 진행 상태 변경 조회",
+            description = "프로젝트 진행 상태를 작성중 > 진행 중으로 변경할 수 있다."
     )
     @PutMapping("/{projectId}/complete")
     public ResponseEntity<Object> updateProjectState(@PathVariable Long projectId) {
