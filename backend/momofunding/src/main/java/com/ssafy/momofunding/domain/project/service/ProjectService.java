@@ -119,7 +119,21 @@ public class ProjectService {
 
     @Transactional
     public void deleteProject(Long projectId) {
-        projectRepository.deleteById(projectId);
+        Creator creator = creatorRepository.findByProjectId(projectId)
+                .orElseThrow(()-> new IllegalArgumentException("창작자를 찾을 수 없습니다.::projectId-"+projectId));
+        String creatorImg = creator.getCreatorImageUrl();
+        if(!creatorImg.equals(imagePath+"\\creator\\default.png")){
+            File creatorImgFile = new File(creator.getCreatorImageUrl());
+            creatorImgFile.delete();
+        }
+
+        Project project = projectRepository.findById(projectId)
+                        .orElseThrow(()-> new IllegalArgumentException("프로젝트를 찾을 수 없습니다.::projectId-"+projectId));
+        File projectImg = new File(project.getMainImageUrl());
+        projectImg.delete();
+        projectImg = new File(project.getSubImageUrl());
+        projectImg.delete();
+        projectRepository.delete(project);
     }
 
     @Transactional
