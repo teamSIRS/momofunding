@@ -38,7 +38,7 @@ export const Search = styled.div`
 export const Bar = styled.hr`
   display: flex;
   margin: 0 auto;
-  width: 80%;
+  width: 83%;
   size: 10px;
 `;
 
@@ -49,8 +49,17 @@ export const ListFilterSelected = styled.p`
   font-weight: bold;
 `;
 
-export const ListCenter = styled.div`  
+export const Container = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  position: relative;
+  margin: 20px 10px;
+`;
+
+export const Thumnail = styled.img`
+    width: 100%;
+    object-position: center;
+    object-fit: cover;
+    border-radius: 15px;
 `;

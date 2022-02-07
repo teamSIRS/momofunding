@@ -118,32 +118,15 @@ function ProjectList(){
       <Bar />
 
       <Container>
-        <ListCenter>
-          <Row>
-            <Col>
-              <ProjectCard></ProjectCard>
-            </Col>
-            <Col>
-              <ProjectCard></ProjectCard>
-            </Col>
-            <Col>
-              <ProjectCard></ProjectCard>
-            </Col>
-          </Row>
-        </ListCenter>
-        <ListCenter>
-          <Row>
-            <Col>
-              <ProjectCard></ProjectCard>
-            </Col>
-            <Col>
-              <ProjectCard></ProjectCard>
-            </Col>
-            <Col>
-              <ProjectCard></ProjectCard>
-            </Col>
-          </Row>
-        </ListCenter>
+        <div className="container">
+          <div className="row">
+            <ProjectCard></ProjectCard>
+            <ProjectCard></ProjectCard>
+            <ProjectCard></ProjectCard>
+            <ProjectCard></ProjectCard>
+            <ProjectCard></ProjectCard>
+          </div>
+        </div>
       </Container>
     </>
   );

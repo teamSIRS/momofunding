@@ -182,8 +182,8 @@ function randomString() {
  */
 
 // ec2에서 설정해준 URL과 비밀번호. opnevidu 서버에 REST API요청할 때 사용
-var OPENVIDU_SERVER_URL = "{도메인 또는 ip주소}";
-var OPENVIDU_SERVER_SECRET = "{비밀번호}";
+var OPENVIDU_SERVER_URL = "https://i6a202.p.ssafy.io";
+var OPENVIDU_SERVER_SECRET = "9793";
 
 function getToken(mySessionId) {
   return createSession(mySessionId).then((sessionId) => createToken(sessionId));
