@@ -98,7 +98,7 @@ public class ProjectService {
         project.updateProject(projectUpdateRequestDto);
         
         Long projectCategoryId = projectUpdateRequestDto.getProjectCategoryId();
-        if(projectUpdateRequestDto.getProjectCategoryId()!=null) {
+        if(projectUpdateRequestDto.getProjectCategoryId()!=0) {
             project.mapProjectCategory(projectCategoryRepository.findById(projectCategoryId)
                     .orElseThrow(() -> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호 입니다:: projectCategoryId-" + projectCategoryId)));
             for (Live live : project.getLives()) {
