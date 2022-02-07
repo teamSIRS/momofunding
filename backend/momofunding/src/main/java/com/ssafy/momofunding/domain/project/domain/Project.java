@@ -122,10 +122,7 @@ public class Project {
         this.summary = psr.getSummary();
         this.projectContent = psr.getProjectContent();
         this.currentAmount = psr.getCurrentAmount();
-        this.startDate = psr.getStartDate();
         this.expirationDate = psr.getExpirationDate();
-        this.likeCount = psr.getLikeCount();
-        this.registerDate = psr.getRegisterDate();
     }
 
     public void addCurrentAmount(Integer amount){
