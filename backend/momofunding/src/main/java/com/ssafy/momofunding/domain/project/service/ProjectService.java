@@ -66,18 +66,18 @@ public class ProjectService {
 
         try {
             if(!mainName.equals("")){
-                File mainImgFile = new File(projectId+"_main"+mainName.substring(mainName.lastIndexOf(".")));
+                File mainImgFile = new File("\\project\\"+projectId+"_main"+mainName.substring(mainName.lastIndexOf(".")));
                 mainImg.transferTo(mainImgFile);
-                projectUpdateRequestDto.setMainImageUrl(imagePath+"\\"+mainImgFile.getPath());
+                projectUpdateRequestDto.setMainImageUrl(imagePath+mainImgFile.getPath());
             }else if(project.getMainImageUrl() != null){
                 File file = new File(project.getMainImageUrl());
                 file.delete();
             }
 
             if(!subName.equals("")){
-                File subImgFile = new File(projectId+"_sub"+subName.substring(subName.lastIndexOf(".")));
+                File subImgFile = new File("\\project\\"+projectId+"_sub"+subName.substring(subName.lastIndexOf(".")));
                 subImg.transferTo(subImgFile);
-                projectUpdateRequestDto.setSubImageUrl(imagePath+"\\"+subImgFile.getPath());
+                projectUpdateRequestDto.setSubImageUrl(imagePath+subImgFile.getPath());
             }else if(project.getSubImageUrl() != null){
                 File file = new File(project.getSubImageUrl());
                 file.delete();

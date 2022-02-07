@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,10 +30,12 @@ public class CreatorApiController {
     )
     @Parameter(name = "projectId", description = "저장할 창작자의 프로젝트 식별번호", required = true)
     @PutMapping("/{projectId}")
-    public ResponseEntity<Object> updateCreator(@PathVariable Long projectId, @RequestBody CreatorUpdateRequestDto creatorUpdateRequestDto){
+    public ResponseEntity<Object> updateCreator(@PathVariable Long projectId,
+                                                @RequestPart("creator") CreatorUpdateRequestDto creatorUpdateRequestDto,
+                                                @RequestPart("creatorImage") MultipartFile creatorImg){
         try{
-            creatorService.updateCreator(projectId, creatorUpdateRequestDto);
-        }catch (IllegalArgumentException e){
+            creatorService.updateCreator(projectId, creatorUpdateRequestDto, creatorImg);
+        }catch (IllegalArgumentException | IOException e){
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
