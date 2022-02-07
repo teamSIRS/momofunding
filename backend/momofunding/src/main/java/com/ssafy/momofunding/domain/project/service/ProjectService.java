@@ -196,4 +196,12 @@ public class ProjectService {
                 .map(ProjectResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void updateProjectState(Long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
+
+        project.mapProjectState(projectStateRepository.getById(2L));
+    }
 }
