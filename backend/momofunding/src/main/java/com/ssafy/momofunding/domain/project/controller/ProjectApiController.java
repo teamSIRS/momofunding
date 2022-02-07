@@ -216,4 +216,16 @@ public class ProjectApiController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
     }
+
+    @Operation(
+            summary = "프로젝트 검색 결과 조회",
+            description = "검색어로 프로젝트 이름을 검색하여 결과 목록을 조회할 수 있다."
+    )
+    @Parameter(name = "keyword", description = "검색어", required = true)
+    @GetMapping("/search")
+    public ResponseEntity<Object> findProjectsByKeyword(@RequestParam String keyword) {
+        List<ProjectResponseDto> projects = projectService.findProjectsByKeyword(keyword);
+        if(projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(projects);
+    }
 }
