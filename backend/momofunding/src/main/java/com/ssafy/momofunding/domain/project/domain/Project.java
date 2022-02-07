@@ -54,10 +54,10 @@ public class Project {
     @Column
     Integer fundingGoal;
 
-    @Column(length=500)
+    @Column(columnDefinition = "varchar(500) default ''")
     String mainImageUrl;
 
-    @Column(length=500)
+    @Column(columnDefinition = "varchar(500) default ''")
     String subImageUrl;
 
     @Column(length=500)
@@ -80,6 +80,15 @@ public class Project {
 
     @Column
     Timestamp registerDate;
+
+    @PrePersist
+    public void initializer(){
+        mainImageUrl = "";
+        subImageUrl = "";
+        currentAmount = 0;
+        fundingGoal = 0;
+        likeCount = 0;
+    }
 
     @Formula("(current_amount/funding_goal)*100")
     Integer popularity;
@@ -121,10 +130,10 @@ public class Project {
         this.subImageUrl = psr.getSubImageUrl();
         this.summary = psr.getSummary();
         this.projectContent = psr.getProjectContent();
-        this.currentAmount = psr.getCurrentAmount();
-        this.startDate = psr.getStartDate();
         this.expirationDate = psr.getExpirationDate();
-        this.likeCount = psr.getLikeCount();
-        this.registerDate = psr.getRegisterDate();
+    }
+
+    public void addCurrentAmount(Integer amount){
+        this.currentAmount+=amount;
     }
 }

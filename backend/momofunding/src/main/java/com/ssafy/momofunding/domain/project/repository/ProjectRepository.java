@@ -12,4 +12,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findAllByProjectStateIdAndProjectCategoryIdOrderByStartDateDesc(Long projectStateId, Long projectCategoryId, Sort sort);
     List<Project> findAllByProjectStateIdAndProjectCategoryIdOrderByPopularityDesc(Long projectStateId, Long projectCategoryId, Sort sort);
     List<Project> findAllByUserId(Long userId);
+    List<Project> findAllByProjectStateIdAndProjectNameLike(Long projectStateId, String keyword);
 }

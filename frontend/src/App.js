@@ -23,7 +23,7 @@ import NoticeDetail from "./components/Notice/NoticeDetail/NoticeDetail";
 import LiveMain from "./components/Live/LiveMain";
 import FundProject from "./components/Profile/ProfileMyPage/FundProject";
 import MyProject from "./components/Profile/ProfileMyPage/MyProject";
-import MyProjectDetail from "./components/Profile/ProfileMyPage/MyProjectDetail";
+import MyProjectDetail from "./components/Profile/ProfileProjectDetail/MyProjectDetail";
 
 function App() {
   return (
@@ -53,13 +53,13 @@ function App() {
         <Route path="/funding" element={<Funding />}></Route>
         <Route path="/profile/member" element={<ProfileMember />}></Route>
 
-        <Route path="/users" element={<ProfileMain/>}>
-          <Route index element={<FundProject/>} />
-          <Route path="fundproject" element={<FundProject/>} />
-          <Route path="myproject" element={<MyProject/>} />
+        <Route path="/users" element={<ProfileMain />}>
+          <Route index element={<FundProject />} />
+          <Route path="fundproject" element={<FundProject />} />
+          <Route path="myproject" element={<MyProject />} />
         </Route>
 
-        <Route path="/myproject" element={<MyProjectDetail/>}></Route>
+        <Route path="/myproject" element={<MyProjectDetail />}></Route>
 
         <Route
           path="/projects/management/*"

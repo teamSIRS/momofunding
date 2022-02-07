@@ -64,4 +64,8 @@ public class Creator {
         this.tel = cur.getTel();
         this.account = cur.getAccount();
     }
+
+    public void updateCreatorImageUrl(String url){
+        this.creatorImageUrl = url;
+    }
 }

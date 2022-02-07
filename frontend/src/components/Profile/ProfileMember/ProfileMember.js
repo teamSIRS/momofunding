@@ -1,4 +1,8 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const ProfileMemberTitle = styled.div`
   margin: 50px;
@@ -115,13 +119,121 @@ const ProfileMemberDeleteBtn = styled.div`
   background-color: white;
   font-size: 15px;
 `;
+const ErrorMsg = styled.span`
+  font-size: 12px;
+  color: red;
+  display: block;
+  margin-left: 135px;
+  margin-top: 5px;
+`;
 
 function ProfileMember() {
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    setError,
+  } = useForm();
+  const baseUrl = "http://localhost:8080";
+  const [nickname, setNickname] = useState("");
+  const [email, setEmail] = useState("");
+
+  const onNickNameChange = (event) => {
+    setNickname(event.target.value);
+  };
+
+  // 이거는 나중에 로그인한 회원의 아이디로 바꿔야함
+  const userId = 12;
+
+  function getUser() {
+    const getUser = async () => {
+      await axios({
+        url: `/users/${userId}`,
+        method: "get",
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data);
+          setNickname(response.data.nickname);
+          setEmail(response.data.email);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    getUser();
+  }
+
+  function updateUser(data) {
+    const updateUser = async () => {
+      await axios({
+        url: `/users/${userId}`,
+        method: "put",
+        data: {
+          nickname: data.nickname,
+          password: data.changePassword,
+        },
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          // console.log(response.data);
+          setNickname(response.data.nickname);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    updateUser();
+  }
+
+  function deleteUser(data) {
+    const deleteUser = async () => {
+      await axios({
+        url: `/users/${userId}`,
+        method: "delete",
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data);
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    deleteUser();
+  }
+
+  const onValid = (data) => {
+    if (data.nickname !== "") {
+      data.nickname = nickname;
+    }
+    if (data.changePassword !== data.changePasswordCheck) {
+      setError(
+        "changePasswordCheck",
+        { message: "비밀번호가 일치하지 않습니다." },
+        { shouldFocus: true }
+      );
+    } else {
+      updateUser(data);
+      console.log(data);
+      setValue("password", "");
+      setValue("changePassword", "");
+      setValue("changePasswordCheck", "");
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
     <div>
       <ProfileMemberTitle>회원정보 수정 페이지</ProfileMemberTitle>
       <ProfileMemberBox>
-        <ProfileMemberForm>
+        <ProfileMemberForm onSubmit={handleSubmit(onValid)}>
           <ProfileMemberImgBox>
             <ProfileMemberImg src="/photo/profile.png" />
             <ProfileMemberImgLabel for="profile_photo">
@@ -132,49 +244,67 @@ function ProfileMember() {
 
           <ProfileMemberNicknameBox>
             <ProfileMemberNicknameLabel as={"label"}>
+              이메일[아이디]
+            </ProfileMemberNicknameLabel>
+            <ProfileMemberNicknameInput
+              as={"input"}
+              value={email}
+              disabled
+            ></ProfileMemberNicknameInput>
+          </ProfileMemberNicknameBox>
+          <ProfileMemberNicknameBox>
+            <ProfileMemberNicknameLabel as={"label"}>
               닉네임
             </ProfileMemberNicknameLabel>
             <ProfileMemberNicknameInput
               as={"input"}
-            ></ProfileMemberNicknameInput>
+              {...register("nickname")}
+              onChange={onNickNameChange}
+              value={nickname}
+            />
           </ProfileMemberNicknameBox>
-          <ProfileMemberIntroduceBox>
-            <ProfileMemberIntroduceLabel as={"label"}>
-              자기소개
-            </ProfileMemberIntroduceLabel>
-            <ProfileMemberIntroduceInput
-              as={"textarea"}
-            ></ProfileMemberIntroduceInput>
-          </ProfileMemberIntroduceBox>
+
           <ProfileMemberPasswordBox>
             <ProfileMemberPasswordInputBox>
               <ProfileMemberPasswordLabel as={"label"}>
                 현재 비밀번호
               </ProfileMemberPasswordLabel>
               <ProfileMemberPasswordInput
-                as={"input"}
-              ></ProfileMemberPasswordInput>
+                as="input"
+                type="password"
+                {...register("password", {
+                  required: "현재비밀번호를 확인하세요.",
+                })}
+              />
+              <br />
+              <ErrorMsg>{errors?.password?.message}</ErrorMsg>
             </ProfileMemberPasswordInputBox>
             <ProfileMemberPasswordInputBox>
               <ProfileMemberPasswordLabel as={"label"}>
                 비밀번호 변경
               </ProfileMemberPasswordLabel>
               <ProfileMemberPasswordInput
-                as={"input"}
-              ></ProfileMemberPasswordInput>
+                as="input"
+                type="password"
+                {...register("changePassword")}
+              />
             </ProfileMemberPasswordInputBox>
             <ProfileMemberPasswordInputBox>
               <ProfileMemberPasswordLabel as={"label"}>
                 비밀번호 변경 확인
               </ProfileMemberPasswordLabel>
               <ProfileMemberPasswordInput
-                as={"input"}
-              ></ProfileMemberPasswordInput>
+                as="input"
+                type="password"
+                {...register("changePasswordCheck")}
+              />
+              <br />
+              <ErrorMsg>{errors?.changePasswordCheck?.message}</ErrorMsg>
             </ProfileMemberPasswordInputBox>
           </ProfileMemberPasswordBox>
           <ProfileMemberBtnBox>
             <ProfileMemberUpdateBtn as={"button"}>수정</ProfileMemberUpdateBtn>
-            <ProfileMemberDeleteBtn as={"button"}>
+            <ProfileMemberDeleteBtn as={"button"} onClick={deleteUser}>
               회원탈퇴
             </ProfileMemberDeleteBtn>
           </ProfileMemberBtnBox>

@@ -20,7 +20,11 @@ import {
   ProjectText,
 } from "./styles";
 
-const Chat = () => {
+export type ChatProps = {
+  show: boolean;
+};
+
+const Chat = ({ show }: ChatProps) => {
   const param = useParams()["id"];
   const pjtApi = {
     title: "Apple iPhone 3GS",
@@ -66,13 +70,11 @@ const Chat = () => {
       element.scrollTop = element.scrollHeight;
     });
   }, [messages]);
+
   return (
-    <ChatWrapper>
+    <ChatWrapper className={show ? "hide" : ""}>
       <ChatHeader>
-        <ChatTop>
-          <ChatIcon icon={arrowDownCircleOutline} />
-          실시간 채팅
-        </ChatTop>
+        <ChatTop>실시간 채팅</ChatTop>
         <ProjectLink to={`/projects/${param}`}>
           <ProjectBtn>
             <ImageForBg src="https://image.itmedia.co.jp/mobile/articles/2109/15/si7101-iPhone13S-01.jpg" />

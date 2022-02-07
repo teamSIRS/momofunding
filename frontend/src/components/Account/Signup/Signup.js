@@ -1,5 +1,8 @@
 import { Col, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
+import { useState } from "react";
+import axios from "axios";
+import { useForm } from "react-hook-form";
 
 const SignupBackGround = styled.div`
   display: flex;
@@ -63,6 +66,7 @@ const CheckBtns = styled.button`
   border-radius: 5px;
   border-color: transparent;
   background-color: #b0e0e6;
+  color: black;
   &:hover {
     background-color: #8bdae3;
   }
@@ -83,6 +87,14 @@ const CheckBoxLabel = styled.label`
 `;
 
 const SignupBtn = styled(SignupInputs)`
+  background-color: #6667ab;
+  color: white;
+  &:hover {
+    background-color: #3c3d8b;
+  }
+`;
+
+const SignupBtn2 = styled.input`
   background-color: #6667ab;
   color: white;
   &:hover {
@@ -119,6 +131,11 @@ const SocialLoginLogo = styled.img`
   margin: 0px 15px;
 `;
 
+const ErrorMsg = styled.span`
+  font-size: 12px;
+  color: red;
+`;
+
 const styles = {
   col: {
     paddingLeft: 0,
@@ -131,30 +148,98 @@ const styles = {
 };
 
 function Signup() {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    setError,
+  } = useForm();
+  const baseUrl = "http://localhost:8080";
+  const [check, setCheck] = useState(false);
+  const onChecked = () => setCheck((prev) => !prev);
+
+  const onValid = (data) => {
+    if (!data.check) {
+      setError(
+        "check",
+        { message: "동의하기를 체크해주세요." },
+        { shouldFocus: true }
+      );
+    }
+    if (data.password !== data.passwordCheck) {
+      setError(
+        "passwordCheck",
+        { message: "비밀번호가 일치하지 않습니다." },
+        { shouldFocus: true }
+      );
+    } else {
+      signup(data);
+      console.log(data);
+      setValue("email", "");
+      setValue("nickname", "");
+      setValue("password", "");
+      setValue("passwordCheck", "");
+    }
+  };
+  function signup(data) {
+    const signup = async () => {
+      await axios({
+        url: "/users",
+        method: "post",
+        data: {
+          email: data.email,
+          nickname: data.nickname,
+          password: data.password,
+        },
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    signup();
+  }
+
   return (
     <SignupBackGround>
       <SignupMainForm>
-        <SignupForm>
+        <SignupForm onSubmit={handleSubmit(onValid)}>
           <SignupTitle>회원가입</SignupTitle>
 
           <Container>
             <SignupInputDiv>
-              <SignupInputsLabel>아이디</SignupInputsLabel>
+              <SignupInputsLabel>이메일[아이디]</SignupInputsLabel>
               <Row style={styles.row}>
                 <Col style={styles.col} xs={10}>
-                  <SignupInputs as="input"></SignupInputs>
+                  <SignupInputs
+                    as="input"
+                    placeholder="example@email.com"
+                    {...register("email", {
+                      required: "이메일은 필수입니다.",
+                    })}
+                  />
+                  <ErrorMsg>{errors?.email?.message}</ErrorMsg>
                 </Col>
                 <Col style={styles.col} xs={2}>
-                  <CheckBtns>중복확인</CheckBtns>
+                  <CheckBtns>인증하기</CheckBtns>
                 </Col>
               </Row>
             </SignupInputDiv>
-
             <SignupInputDiv>
               <SignupInputsLabel>닉네임</SignupInputsLabel>
               <Row style={styles.row}>
                 <Col style={styles.col} xs={10}>
-                  <SignupInputs as="input"></SignupInputs>
+                  <SignupInputs
+                    as="input"
+                    {...register("nickname", {
+                      required: "닉네임은 필수입니다.",
+                    })}
+                  />
+                  <ErrorMsg>{errors?.nickname?.message}</ErrorMsg>
                 </Col>
                 <Col style={styles.col} xs={2}>
                   <CheckBtns>중복확인</CheckBtns>
@@ -168,65 +253,49 @@ function Signup() {
                 <Col style={styles.col} xs={12}>
                   <SignupInputs
                     as="input"
+                    type="password"
                     placeholder="비밀번호"
-                  ></SignupInputs>
+                    {...register("password", {
+                      required: "비밀번호는 필수입니다.",
+                    })}
+                  />
+                  <ErrorMsg>{errors?.password?.message}</ErrorMsg>
                 </Col>
                 <Col style={styles.col} xs={12}>
                   <SignupInputs
                     as="input"
+                    type="password"
                     placeholder="비밀번호 확인"
-                  ></SignupInputs>
-                </Col>
-              </Row>
-            </SignupInputDiv>
-
-            <SignupInputDiv>
-              <SignupInputsLabel>이메일</SignupInputsLabel>
-              <Row style={styles.row}>
-                <Col style={styles.col} xs={10}>
-                  <SignupInputs
-                    as="input"
-                    placeholder="example@email.com"
-                  ></SignupInputs>
-                </Col>
-                <Col style={styles.col} xs={2}>
-                  <CheckBtns>인증하기</CheckBtns>
+                    {...register("passwordCheck", {
+                      required: "비밀번호체크는 필수입니다.",
+                    })}
+                  />
+                  <ErrorMsg>{errors?.passwordCheck?.message}</ErrorMsg>
                 </Col>
               </Row>
             </SignupInputDiv>
 
             <CheckBoxForm>
               <CheckBox>
-                <input id="check" type="checkbox" />
-                <CheckBoxLabel for="check">위 약관에 동의합니다.</CheckBoxLabel>
+                <input
+                  id="check"
+                  type="checkbox"
+                  {...register("check", {
+                    required: "동의하기를 체크해주세요.",
+                  })}
+                  onClick={onChecked}
+                  value={check}
+                />
+
+                <CheckBoxLabel htmlFor="check">
+                  위 약관에 동의합니다.
+                </CheckBoxLabel>
+                <br />
+                <ErrorMsg>{errors?.check?.message}</ErrorMsg>
               </CheckBox>
             </CheckBoxForm>
 
             <SignupBtn as="button">회원가입</SignupBtn>
-            <Col style={styles.col} xs={12}>
-              <SeparateLineForm>
-                <SeparateLine></SeparateLine>
-                <SeparateLabel>또는</SeparateLabel>
-                <SeparateLine></SeparateLine>
-              </SeparateLineForm>
-            </Col>
-            <SocialLoginForm>
-              <SocialLoginBtns>
-                <SocialLoginLogo
-                  src="/socialLoginLogo/facebook.png"
-                  alt="fackbook-image"
-                />
-                <SocialLoginLogo
-                  src="/socialLoginLogo/kakao-talk.png"
-                  alt="kakao-talk-image"
-                />
-                <SocialLoginLogo
-                  src="/socialLoginLogo/google.png"
-                  alt="google-image"
-                />
-                <SocialLoginBtns />
-              </SocialLoginBtns>
-            </SocialLoginForm>
           </Container>
         </SignupForm>
       </SignupMainForm>

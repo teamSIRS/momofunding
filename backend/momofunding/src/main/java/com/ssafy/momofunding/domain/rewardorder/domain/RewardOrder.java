@@ -2,6 +2,7 @@ package com.ssafy.momofunding.domain.rewardorder.domain;
 
 import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.reward.domain.Reward;
+import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderDeliveryRequestDto;
 import com.ssafy.momofunding.domain.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -82,4 +83,10 @@ public class RewardOrder {
         this.project = p;
     }
 
+    public void updateDeliveryInfo(RewardOrderDeliveryRequestDto rodr){
+        this.recipientName = rodr.getRecipientName();
+        this.recipientTel = rodr.getRecipientTel();
+        this.recipientAddress = rodr.getRecipientAddress();
+        this.requestContent = rodr.getRequestContent();
+    }
 }

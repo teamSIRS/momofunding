@@ -10,6 +10,8 @@ import com.ssafy.momofunding.domain.project.dto.ProjectUpdateRequestDto;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.projectcategory.repository.ProjectCategoryRepository;
 import com.ssafy.momofunding.domain.projectstate.repository.ProjectStateRepository;
+import com.ssafy.momofunding.domain.rewardorder.domain.RewardOrder;
+import com.ssafy.momofunding.domain.rewardorder.repository.RewardOrderRepository;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +38,7 @@ public class ProjectService {
     private final ProjectCategoryRepository projectCategoryRepository;
     private final UserRepository userRepository;
     private final CreatorRepository creatorRepository;
+    private final RewardOrderRepository rewardOrderRepository;
 
     @Transactional
     public Long createProject(Long userId) {
@@ -47,6 +50,7 @@ public class ProjectService {
 
         Creator creator = new Creator();
         creator.mapProject(project);
+        creator.updateCreatorImageUrl(imagePath+"\\creator\\default.png");
         creatorRepository.save(creator);
 
         return projectId;
@@ -63,19 +67,27 @@ public class ProjectService {
 
         try {
             if(!mainName.equals("")){
-                File mainImgFile = new File(projectId+"_main"+mainName.substring(mainName.lastIndexOf(".")));
+                if(project.getMainImageUrl() != null){
+                    File file = new File(project.getMainImageUrl());
+                    file.delete();
+                }
+                File mainImgFile = new File("\\project\\"+projectId+"_main"+mainName.substring(mainName.lastIndexOf(".")));
                 mainImg.transferTo(mainImgFile);
-                projectUpdateRequestDto.setMainImageUrl(imagePath+"\\"+mainImgFile.getPath());
-            }else if(project.getMainImageUrl() != null){
+                projectUpdateRequestDto.setMainImageUrl(imagePath+mainImgFile.getPath());
+            }else if(projectUpdateRequestDto.getMainImageUrl().equals("")){
                 File file = new File(project.getMainImageUrl());
                 file.delete();
             }
 
             if(!subName.equals("")){
-                File subImgFile = new File(projectId+"_sub"+subName.substring(subName.lastIndexOf(".")));
+                if(project.getSubImageUrl() != null){
+                    File file = new File(project.getSubImageUrl());
+                    file.delete();
+                }
+                File subImgFile = new File("\\project\\"+projectId+"_sub"+subName.substring(subName.lastIndexOf(".")));
                 subImg.transferTo(subImgFile);
-                projectUpdateRequestDto.setSubImageUrl(imagePath+"\\"+subImgFile.getPath());
-            }else if(project.getSubImageUrl() != null){
+                projectUpdateRequestDto.setSubImageUrl(imagePath+subImgFile.getPath());
+            }else if(projectUpdateRequestDto.getSubImageUrl().equals("")){
                 File file = new File(project.getSubImageUrl());
                 file.delete();
             }
@@ -86,7 +98,7 @@ public class ProjectService {
         project.updateProject(projectUpdateRequestDto);
         
         Long projectCategoryId = projectUpdateRequestDto.getProjectCategoryId();
-        if(projectUpdateRequestDto.getProjectCategoryId()!=null) {
+        if(projectUpdateRequestDto.getProjectCategoryId()!=0) {
             project.mapProjectCategory(projectCategoryRepository.findById(projectCategoryId)
                     .orElseThrow(() -> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호 입니다:: projectCategoryId-" + projectCategoryId)));
             for (Live live : project.getLives()) {
@@ -107,7 +119,21 @@ public class ProjectService {
 
     @Transactional
     public void deleteProject(Long projectId) {
-        projectRepository.deleteById(projectId);
+        Creator creator = creatorRepository.findByProjectId(projectId)
+                .orElseThrow(()-> new IllegalArgumentException("창작자를 찾을 수 없습니다.::projectId-"+projectId));
+        String creatorImg = creator.getCreatorImageUrl();
+        if(!creatorImg.equals(imagePath+"\\creator\\default.png")){
+            File creatorImgFile = new File(creator.getCreatorImageUrl());
+            creatorImgFile.delete();
+        }
+
+        Project project = projectRepository.findById(projectId)
+                        .orElseThrow(()-> new IllegalArgumentException("프로젝트를 찾을 수 없습니다.::projectId-"+projectId));
+        File projectImg = new File(project.getMainImageUrl());
+        projectImg.delete();
+        projectImg = new File(project.getSubImageUrl());
+        projectImg.delete();
+        projectRepository.delete(project);
     }
 
     @Transactional
@@ -167,11 +193,43 @@ public class ProjectService {
     }
 
     @Transactional
-    public List<ProjectResponseDto> getProjectsByUser(Long userId) {
+    public List<ProjectResponseDto> getProjectsByUserCreator(Long userId) {
         userRepository.findById(userId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 회원 번호 입니다:: userId-"+userId));
 
         List<Project> projects = projectRepository.findAllByUserId(userId);
+
+        return projects.stream()
+                .map(ProjectResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<ProjectResponseDto> getProjectsByUserOrder(Long userId) {
+        userRepository.findById(userId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 회원 번호 입니다:: userId-"+userId));
+
+        List<RewardOrder> rewardOrders = rewardOrderRepository.findAllByUserId(userId);
+        List<Project> projects = rewardOrders.stream()
+                .map(RewardOrder::getProject)
+                .distinct()
+                .collect(Collectors.toList());
+
+        return projects.stream()
+                .map(ProjectResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void updateProjectState(Long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
+
+        project.mapProjectState(projectStateRepository.getById(2L));
+    }
+
+    public List<ProjectResponseDto> findProjectsByKeyword(String keyword) {
+        List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectNameLike(2L, "%"+keyword+"%");
 
         return projects.stream()
                 .map(ProjectResponseDto::new)
