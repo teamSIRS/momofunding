@@ -20,23 +20,20 @@ public class ProjectUpdateRequestDto {
     private String subImageUrl;
     private String summary;
     private String projectContent;
-    private Integer currentAmount;
     private Timestamp expirationDate;
 
     @Builder
     public ProjectUpdateRequestDto(Long projectCategoryId, String projectName, Integer fundingGoal,
                                    String mainImageUrl, String subImageUrl, String summary,
-                                   String projectContent, Integer currentAmount, Timestamp expirationDate){
+                                   String projectContent, Timestamp expirationDate){
 
         this.projectCategoryId = projectCategoryId;
-
         this.projectName = projectName;
         this.fundingGoal = fundingGoal;
         this.mainImageUrl = mainImageUrl;
         this.subImageUrl = subImageUrl;
         this.summary = summary;
         this.projectContent = projectContent;
-        this.currentAmount = currentAmount;
         this.expirationDate = expirationDate;
     }
 
@@ -48,7 +45,6 @@ public class ProjectUpdateRequestDto {
                 .subImageUrl(subImageUrl)
                 .summary(summary)
                 .projectContent(projectContent)
-                .currentAmount(currentAmount)
                 .expirationDate(expirationDate)
                 .build();
     }

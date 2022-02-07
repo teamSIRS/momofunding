@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -89,7 +88,7 @@ public class ProjectApiController {
     public ResponseEntity<Map<String, Object>> deleteProject(@PathVariable Long projectId) {
         try {
             projectService.deleteProject(projectId);
-        } catch (EmptyResultDataAccessException e) {
+        } catch (IllegalArgumentException e) {
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", "잘못된 프로젝트 번호입니다:: projectId-" + projectId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
