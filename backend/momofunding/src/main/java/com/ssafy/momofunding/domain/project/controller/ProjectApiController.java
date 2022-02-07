@@ -166,6 +166,7 @@ public class ProjectApiController {
             summary = "회원이 창작한 프로젝트 다중 조회",
             description = "회원 ID로 회원이 창작한 프로젝트들을 확인할 수 있다."
     )
+    @Parameter(name = "userId", description = "회원 식별 번호", required = true)
     @GetMapping("/users/{userId}/creators")
     public ResponseEntity<Object> getProjectsByUserCreator(@PathVariable Long userId) {
         try{
@@ -183,6 +184,7 @@ public class ProjectApiController {
             summary = "회원이 후원한 프로젝트 다중 조회",
             description = "회원 ID로 회원이 후원한 프로젝트들을 확인할 수 있다."
     )
+    @Parameter(name = "userId", description = "회원 식별 번호", required = true)
     @GetMapping("/users/{userId}/orders")
     public ResponseEntity<Object> getProjectsByUserOrder(@PathVariable Long userId) {
 
@@ -201,6 +203,7 @@ public class ProjectApiController {
             summary = "프로젝트 진행 상태 변경 조회",
             description = "프로젝트 진행 상태를 작성중 > 진행 중으로 변경할 수 있다."
     )
+    @Parameter(name = "projectId", description = "프로젝트 식별 번호", required = true)
     @PutMapping("/{projectId}/complete")
     public ResponseEntity<Object> updateProjectState(@PathVariable Long projectId) {
 
