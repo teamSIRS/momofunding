@@ -23,16 +23,14 @@ public class ProjectDetailResponseDto {
     private String summary;
     private String projectContent;
     private Integer currentAmount;
-    private Timestamp startDate;
+    private Integer popularity;
     private Timestamp expirationDate;
-    private Integer likeCount;
-    private Timestamp registerDate;
 
     @Builder
     public ProjectDetailResponseDto(Long id, Long projectStateId, Long projectCategoryId, Long userId,
                                     String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
-                                    String summary, String projectContent, Integer currentAmount, Timestamp startDate,
-                                    Timestamp expirationDate, Integer likeCount, Timestamp registerDate){
+                                    String summary, String projectContent, Integer currentAmount, Integer popularity,
+                                    Timestamp expirationDate){
         this.id = id;
         this.projectStateId = projectStateId;
         this.projectCategoryId = projectCategoryId;
@@ -44,10 +42,8 @@ public class ProjectDetailResponseDto {
         this.summary = summary;
         this.projectContent = projectContent;
         this.currentAmount = currentAmount;
-        this.startDate = startDate;
+        this.popularity = popularity;
         this.expirationDate = expirationDate;
-        this.likeCount = likeCount;
-        this.registerDate = registerDate;
 
     }
 
@@ -63,9 +59,7 @@ public class ProjectDetailResponseDto {
         this.summary = projectEntity.getSummary();
         this.projectContent = projectEntity.getProjectContent();
         this.currentAmount = projectEntity.getCurrentAmount();
-        this.startDate = projectEntity.getStartDate();
+        this.popularity = projectEntity.getPopularity();
         this.expirationDate = projectEntity.getExpirationDate();
-        this.likeCount = projectEntity.getLikeCount();
-        this.registerDate = projectEntity.getRegisterDate();
     }
 }

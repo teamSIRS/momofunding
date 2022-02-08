@@ -75,9 +75,6 @@ public class Project {
     @Column
     Timestamp expirationDate;
 
-    @Column(columnDefinition = "integer default 0")
-    Integer likeCount;
-
     @Column
     Timestamp registerDate;
 
@@ -87,7 +84,6 @@ public class Project {
         subImageUrl = "";
         currentAmount = 0;
         fundingGoal = 0;
-        likeCount = 0;
     }
 
     @Formula("(current_amount/funding_goal)*100")
@@ -96,7 +92,7 @@ public class Project {
     @Builder
     public Project(Long id, String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
                    String summary, String projectContent, Integer currentAmount, Timestamp startDate,
-                   Timestamp expirationDate, Integer likeCount, Timestamp registerDate){
+                   Timestamp expirationDate, Timestamp registerDate){
         this.id = id;
         this.projectName = projectName;
         this.fundingGoal = fundingGoal;
@@ -107,7 +103,6 @@ public class Project {
         this.currentAmount = currentAmount;
         this.startDate = startDate;
         this.expirationDate = expirationDate;
-        this.likeCount = likeCount;
         this.registerDate = registerDate;
     }
 
