@@ -14,14 +14,16 @@ public class LiveSaveRequestDto {
     private Timestamp registerDate;
     private Long projectId;
     private Long projectCategoryId;
+    private String sessionId;
 
     @Builder
-    public LiveSaveRequestDto(String title, String content, Timestamp registerDate, Long projectId, Long projectCategoryId){
+    public LiveSaveRequestDto(String title, String content, Timestamp registerDate, Long projectId, Long projectCategoryId, String sessionId){
         this.title = title;
         this.content = content;
         this.registerDate = registerDate;
         this.projectId = projectId;
         this.projectCategoryId = projectCategoryId;
+        this.sessionId = sessionId;
     }
 
     public Live toEntity(){
@@ -29,6 +31,7 @@ public class LiveSaveRequestDto {
                 .title(title)
                 .content(content)
                 .registerDate(registerDate)
+                .sessionId(sessionId)
                 .build();
     }
 }

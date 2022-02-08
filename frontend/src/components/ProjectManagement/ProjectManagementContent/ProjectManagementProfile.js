@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
+import $ from "jquery";
 const ProjectManagementMain = styled.div`
   width: 100%;
   min-height: 800px;
@@ -80,15 +79,8 @@ const ProjectManagementContentImgInput = styled.input`
 
 const ProjectManagementContentProfileBtn = styled.button``;
 
-function ProjectManagementContentProfile() {
+function ProjectManagementProfile() {
   const baseUrl = "http://localhost:8080";
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-    setError,
-  } = useForm();
   //////////////////////////////////////////////////////////////////////
   const [creatorName, setCreatorName] = useState("");
   const [creatorImageUrl, setCreatorImageUrl] = useState("");
@@ -96,7 +88,6 @@ function ProjectManagementContentProfile() {
   const [email, setEmail] = useState("");
   const [tel, setTel] = useState("");
   const [account, setAccount] = useState("");
-  const [creator, setCreator] = useState({});
   //////////////////////////////////////////////////////////////////////
 
   //////////////////////////////////////////////////////////////////////
@@ -104,7 +95,8 @@ function ProjectManagementContentProfile() {
     setCreatorName(event.target.value);
   };
   const onCreatorImageUrlChange = (event) => {
-    setCreatorImageUrl(event.target.files[0]);
+    //여기는 창작자가 에디터 화면에서 이미지를 삭제했을 때 "" 값으로 바꿔주는 동작만 되면 됩니다.
+    setCreatorImageUrl("");
   };
   const onCreatorContentChange = (event) => {
     setCreatorContent(event.target.value);
@@ -173,31 +165,65 @@ function ProjectManagementContentProfile() {
     updateCreator();
   }
   //////////////////////////////////////////////////////////////////////
-  const onValid = (data) => {
-    if (data.creatorName === "") {
-      data.creatorName = creatorName;
-    }
-    if (data.creatorContent === "") {
-      data.creatorContent = creatorContent;
-    }
-    if (data.email === "") {
-      data.email = email;
-    }
-    if (data.tel === "") {
-      data.tel = tel;
-    }
-    if (data.account === "") {
-      data.account = account;
-    }
-    if (data.creatorImageUrl === "") {
-      data.creatorImageUrl = creatorImageUrl;
-    }
-    updateCreator(data);
+  const postSave = (event) => {
+    event.preventDefault();
+    const data = {
+      creatorName: creatorName,
+      creatorImageUrl: creatorImageUrl,
+      creatorContent: creatorContent,
+      email: email,
+      tel: tel,
+      account: account
+    };
+
+    var form = $("#form")[0];
+    var formData = new FormData(form);
+    formData.append(
+      "creator",
+      new Blob([JSON.stringify(data)], { type: "application/json" })
+    );
+    
+    formData.append("creatorImage", $("#file")[0].files[0]);
+    //formData.append("creatorImage", null);
+
+    //////////////////////////////////
+    // const updateCreator = async () => {
+    //   await axios({
+    //     url: `/creators/${projectId}`,
+    //     method: "put",
+    //     data: formData,
+    //     baseURL: baseUrl,
+    //     processData: false,
+    //     contentType: false,
+    //   })
+    //     .then((response) => {
+    //       console.log(response.data);
+    //     })
+    //     .catch((error) => {
+    //       console.log("에러발생");
+    //       console.log(error);
+    //     });
+    // };
+    // updateCreator();
+    //////////////////////////////////
+    $.ajax({
+      type: "PUT",
+      url: `${baseUrl}/creators/${projectId}`,
+      processData: false,
+      contentType: false,
+      data: formData,
+    })
+      .done(function () {
+        alert("글이 등록되었습니다.");
+        window.location.href = "/";
+      })
+      .fail(function (error) {
+        console.log(error);
+        // alert(JSON.stringify(error));
+      });
   };
   //////////////////////////////////////////////////////////////////////
-  useEffect(() => {
-    getCreator();
-  }, []);
+
   return (
     <div>
       <ProjectManagementMain>
@@ -205,7 +231,7 @@ function ProjectManagementContentProfile() {
           창작자 프로필 등록
         </ProjectManagementContentProfileTitle>
         <ProjectManagementContentForm
-          onSubmit={handleSubmit(onValid)}
+          id="form"
           enctype="multipart/form-data"
         >
           <ProjectManagementContentInputBox>
@@ -217,9 +243,6 @@ function ProjectManagementContentProfile() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
               as={"input"}
-              {...register("creatorName", {
-                required: "창작자 이름은 필수입니다.",
-              })}
               value={creatorName}
               onChange={onCreatorNameChange}
             ></ProjectManagementContentInput>
@@ -235,7 +258,8 @@ function ProjectManagementContentProfile() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentImgInput
               type="file"
-              id="photo"
+              id="file"
+              name="file"
               onChange={onCreatorImageUrlChange}
             />
 
@@ -256,9 +280,6 @@ function ProjectManagementContentProfile() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentTextarea
               as={"textarea"}
-              {...register("creatorContent", {
-                required: "자기소개는 필수입니다.",
-              })}
               value={creatorContent}
               onChange={onCreatorContentChange}
             ></ProjectManagementContentTextarea>
@@ -274,9 +295,6 @@ function ProjectManagementContentProfile() {
             <ProjectManagementContentInput
               as={"input"}
               placeholder="example@email.com"
-              {...register("email", {
-                required: "이메일은 필수입니다.",
-              })}
               value={email}
               onChange={onEmailChange}
             ></ProjectManagementContentInput>
@@ -292,9 +310,6 @@ function ProjectManagementContentProfile() {
             <ProjectManagementContentInput
               as={"input"}
               placeholder="- 없이 입력"
-              {...register("tel", {
-                required: "전화번호는 필수입니다.",
-              })}
               value={tel}
               onChange={onTelChange}
             ></ProjectManagementContentInput>
@@ -309,14 +324,11 @@ function ProjectManagementContentProfile() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
               as={"input"}
-              {...register("account", {
-                required: "계좌정보는 필수입니다.",
-              })}
               value={account}
               onChange={onAccountChange}
             ></ProjectManagementContentInput>
           </ProjectManagementContentInputBox>
-          <ProjectManagementContentProfileBtn>
+          <ProjectManagementContentProfileBtn onClick={postSave}>
             창작자 등록
           </ProjectManagementContentProfileBtn>
         </ProjectManagementContentForm>
@@ -324,4 +336,4 @@ function ProjectManagementContentProfile() {
     </div>
   );
 }
-export default ProjectManagementContentProfile;
+export default ProjectManagementProfile;

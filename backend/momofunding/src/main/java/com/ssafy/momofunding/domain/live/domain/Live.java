@@ -1,6 +1,6 @@
 package com.ssafy.momofunding.domain.live.domain;
 
-import com.ssafy.momofunding.domain.live.dto.LiveUpdateRequestDto;
+import com.ssafy.momofunding.domain.live.dto.LiveSummaryUpdateRequestDto;
 import com.ssafy.momofunding.domain.liveState.domain.LiveState;
 import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
@@ -27,7 +27,10 @@ public class Live {
     private String content;
 
     @Column
-    private Integer maxViewer;
+    private Integer viewerCount;
+
+    @Column(nullable = false, length=100)
+    private String sessionId;
 
     @Column
     private Integer totalPlayTime;
@@ -62,21 +65,24 @@ public class Live {
         this.project = project;
     }
 
-    public void update(LiveUpdateRequestDto liveUpdateRequestDto) {
-        this.title = liveUpdateRequestDto.getTitle();
-        this.content = liveUpdateRequestDto.getContent();
-        this.maxViewer = liveUpdateRequestDto.getMaxViewer();
-        this.totalPlayTime = liveUpdateRequestDto.getTotalPlayTime();
+    public void updateLiveSummary(LiveSummaryUpdateRequestDto updateRequestDto) {
+        this.title = updateRequestDto.getTitle();
+        this.content = updateRequestDto.getContent();
+    }
+
+    public void updateViewerCount(Integer viewerCount) {
+        this.viewerCount = viewerCount;
     }
 
     @Builder
-    public Live(String title, String content, Integer maxViewer, Integer totalPlayTime, Timestamp startTime, Timestamp registerDate){
+    public Live(String title, String content, Integer viewerCount, Integer totalPlayTime, Timestamp startTime, Timestamp registerDate, String sessionId){
         this.title = title;
         this.content = content;
-        this.maxViewer = maxViewer;
+        this.viewerCount = viewerCount;
         this.totalPlayTime = totalPlayTime;
         this.startTime = startTime;
         this.registerDate = registerDate;
+        this.sessionId = sessionId;
     }
 
 

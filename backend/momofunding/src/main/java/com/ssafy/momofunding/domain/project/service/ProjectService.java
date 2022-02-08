@@ -62,37 +62,49 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
 
-        String mainName = mainImg.getOriginalFilename()+"";
-        String subName = subImg.getOriginalFilename()+"";
+        File projectImgPath = new File(imagePath+"\\project");
+        if(!projectImgPath.exists()){
+            projectImgPath.mkdir();
+        }
 
-        try {
-            if(!mainName.equals("")){
-                if(project.getMainImageUrl() != null){
+        if(mainImg != null){
+            String mainName = mainImg.getOriginalFilename()+"";
+            try{
+                if(!mainName.equals("")){
+                    if(project.getMainImageUrl() != null){
+                        File file = new File(project.getMainImageUrl());
+                        file.delete();
+                    }
+                    File mainImgFile = new File("\\project\\"+projectId+"_main"+mainName.substring(mainName.lastIndexOf(".")));
+                    mainImg.transferTo(mainImgFile);
+                    projectUpdateRequestDto.setMainImageUrl(imagePath+mainImgFile.getPath());
+                }else if(projectUpdateRequestDto.getMainImageUrl().equals("")){
                     File file = new File(project.getMainImageUrl());
                     file.delete();
                 }
-                File mainImgFile = new File("\\project\\"+projectId+"_main"+mainName.substring(mainName.lastIndexOf(".")));
-                mainImg.transferTo(mainImgFile);
-                projectUpdateRequestDto.setMainImageUrl(imagePath+mainImgFile.getPath());
-            }else if(projectUpdateRequestDto.getMainImageUrl().equals("")){
-                File file = new File(project.getMainImageUrl());
-                file.delete();
+            } catch (IOException | NullPointerException e) {
+            throw new IOException("MainImg 파일 업로드에 실패하였습니다.");
             }
+        }
 
-            if(!subName.equals("")){
-                if(project.getSubImageUrl() != null){
+        if(subImg != null){
+            String subName = subImg.getOriginalFilename()+"";
+            try{
+                if(!subName.equals("")){
+                    if(project.getSubImageUrl() != null){
+                        File file = new File(project.getSubImageUrl());
+                        file.delete();
+                    }
+                    File subImgFile = new File("\\project\\"+projectId+"_sub"+subName.substring(subName.lastIndexOf(".")));
+                    subImg.transferTo(subImgFile);
+                    projectUpdateRequestDto.setSubImageUrl(imagePath+subImgFile.getPath());
+                }else if(projectUpdateRequestDto.getSubImageUrl().equals("")){
                     File file = new File(project.getSubImageUrl());
                     file.delete();
                 }
-                File subImgFile = new File("\\project\\"+projectId+"_sub"+subName.substring(subName.lastIndexOf(".")));
-                subImg.transferTo(subImgFile);
-                projectUpdateRequestDto.setSubImageUrl(imagePath+subImgFile.getPath());
-            }else if(projectUpdateRequestDto.getSubImageUrl().equals("")){
-                File file = new File(project.getSubImageUrl());
-                file.delete();
+            } catch (IOException | NullPointerException e) {
+                throw new IOException("SubImg 파일 업로드에 실패하였습니다.");
             }
-        } catch (IOException | NullPointerException e) {
-            throw new IOException("파일 이미지 업로드에 실패하였습니다.");
         }
 
         project.updateProject(projectUpdateRequestDto);

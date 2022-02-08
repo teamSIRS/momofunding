@@ -72,12 +72,16 @@ const ProjectManagementContentImgInput = styled.input`
 const ProjectManagementContentIntroTitle = styled.h3`
   text-align: center;
 `;
+
+const ProjectManagementContentTextarea = styled(ProjectManagementContentInput)`
+  height: 120px;
+`;
 function ProjectManagementContentIntro() {
   return (
     <div>
       <ProjectManagementMain>
         <ProjectManagementContentIntroTitle>
-          프로젝트 소개
+          프로젝트 정보 등록
         </ProjectManagementContentIntroTitle>
         <ProjectManagementContentBox>
           <ProjectManagementContentInputBox>
@@ -85,7 +89,7 @@ function ProjectManagementContentIntro() {
               프로젝트 제목
             </ProjectManagementContentTitle>
             <ProjectManagementContentMemo>
-              아이조아 님의 프로젝트 제목을 입력하세요.
+              창작자님의 프로젝트 제목을 입력하세요.
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
               as={"input"}
@@ -97,7 +101,7 @@ function ProjectManagementContentIntro() {
               카테고리
             </ProjectManagementContentTitle>
             <ProjectManagementContentMemo>
-              아이조아 님의 프로젝트에 알맞는 카테고리를 골라주세요.
+              창작자님의 프로젝트에 알맞는 카테고리를 골라주세요.
             </ProjectManagementContentMemo>
             <Dropdown>
               <Dropdown.Toggle variant="secondary" id="dropdown-basic">
@@ -105,19 +109,19 @@ function ProjectManagementContentIntro() {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">임시1</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">임시2</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">임시3</Dropdown.Item>
+                <Dropdown.Item href="#/action-1">음식</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">화장품</Dropdown.Item>
+                <Dropdown.Item href="#/action-3">캠핑</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
             <ProjectManagementContentTitle>
-              목표금액
+              펀딩 목표 금액
             </ProjectManagementContentTitle>
             <ProjectManagementContentMemo>
-              아이조아 님의 프로젝트 펀딩 목표금액을 입력하세요.
+              창작자님의 펀딩 목표 금액을 입력하세요.
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
               as={"input"}
@@ -129,7 +133,7 @@ function ProjectManagementContentIntro() {
               대표이미지
             </ProjectManagementContentTitle>
             <ProjectManagementContentMemo>
-              아이조아 님의 프로젝트 대표사진을 업로드하세요. (가로 1000px이상의
+              창작자님의 프로젝트 대표사진을 업로드하세요. (가로 1000px이상의
               JPG, PNG, BMP 이미지 업로드 가능)
             </ProjectManagementContentMemo>
             <ProjectManagementContentImgInput></ProjectManagementContentImgInput>
@@ -146,10 +150,54 @@ function ProjectManagementContentIntro() {
 
           <ProjectManagementContentInputBox>
             <ProjectManagementContentTitle>
+              소개사진
+            </ProjectManagementContentTitle>
+            <ProjectManagementContentMemo>
+              창작자님의 프로젝트 소개사진을 업로드하세요. (가로 1000px이상의
+              JPG, PNG, BMP 이미지 업로드 가능)
+            </ProjectManagementContentMemo>
+            <ProjectManagementContentImgInput></ProjectManagementContentImgInput>
+            <ProjectManagementContentImgLabel>
+              파일
+            </ProjectManagementContentImgLabel>
+            <ProjectManagementContentImgBox>
+              <ProjectManagementContentImg
+                src="/photo/funding_example.png"
+                alt="example-image"
+              ></ProjectManagementContentImg>
+            </ProjectManagementContentImgBox>
+          </ProjectManagementContentInputBox>
+
+          <ProjectManagementContentInputBox>
+            <ProjectManagementContentTitle>
+              프로젝트 요약
+            </ProjectManagementContentTitle>
+            <ProjectManagementContentMemo>
+              프로젝트를 요약하세요.
+            </ProjectManagementContentMemo>
+            <ProjectManagementContentTextarea
+              as={"textarea"}
+            ></ProjectManagementContentTextarea>
+          </ProjectManagementContentInputBox>
+
+          <ProjectManagementContentInputBox>
+            <ProjectManagementContentTitle>
+              프로젝트 내용
+            </ProjectManagementContentTitle>
+            <ProjectManagementContentMemo>
+              프로젝트 내용을 입력하세요.
+            </ProjectManagementContentMemo>
+            <ProjectManagementContentTextarea
+              as={"textarea"}
+            ></ProjectManagementContentTextarea>
+          </ProjectManagementContentInputBox>
+
+          <ProjectManagementContentInputBox>
+            <ProjectManagementContentTitle>
               프로젝트 종료일
             </ProjectManagementContentTitle>
             <ProjectManagementContentMemo>
-              아이조아 님의 프로젝트 종료일을 지정하세요
+              창작자님의 프로젝트 종료일을 지정하세요
             </ProjectManagementContentMemo>
             <ProjectManagementContentDate type="date"></ProjectManagementContentDate>
           </ProjectManagementContentInputBox>
