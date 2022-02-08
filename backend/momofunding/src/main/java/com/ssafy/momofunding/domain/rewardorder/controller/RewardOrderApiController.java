@@ -99,9 +99,14 @@ public class RewardOrderApiController {
     @Parameter(name = "projectId", description = "프로젝트 식별 번호", required = true)
     @GetMapping("/projects/{projectId}")
     public ResponseEntity<Object> findOrdersByProjectId(@PathVariable Long projectId){
-        List<RewardOrderPurchaseResponseDto> rewardOrders = rewardOrderService.findOrdersByProjectId(projectId);
-
-        if(rewardOrders.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        return ResponseEntity.status(HttpStatus.OK).body(rewardOrders);
+        try {
+            List<RewardOrderPurchaseResponseDto> rewardOrders = rewardOrderService.findOrdersByProjectId(projectId);
+            if (rewardOrders.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.OK).body(rewardOrders);
+        }catch (IllegalArgumentException e){
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
     }
 }

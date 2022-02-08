@@ -40,7 +40,7 @@ public class RewardOrderService {
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다::projectId-"+projectId));
 
         project.addCurrentAmount(rewardOrderSaveRequestDto.getAmount());
-        //reward.deleteLimitedQuantity(rewardOrderSaveRequestDto.getQuantity());
+        reward.deleteLimitedQuantity(rewardOrderSaveRequestDto.getQuantity());
 
         RewardOrder rewardOrder = rewardOrderSaveRequestDto.toEntity();
         rewardOrder.mapReward(reward);
