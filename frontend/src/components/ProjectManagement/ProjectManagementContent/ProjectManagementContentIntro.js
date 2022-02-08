@@ -6,7 +6,7 @@ const ProjectManagementMain = styled.div`
   min-height: 800px;
 `;
 
-const ProjectManagementContentBox = styled.div`
+const ProjectManagementContentForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -83,7 +83,7 @@ function ProjectManagementContentIntro() {
         <ProjectManagementContentIntroTitle>
           프로젝트 정보 등록
         </ProjectManagementContentIntroTitle>
-        <ProjectManagementContentBox>
+        <ProjectManagementContentForm>
           <ProjectManagementContentInputBox>
             <ProjectManagementContentTitle>
               프로젝트 제목
@@ -201,7 +201,7 @@ function ProjectManagementContentIntro() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentDate type="date"></ProjectManagementContentDate>
           </ProjectManagementContentInputBox>
-        </ProjectManagementContentBox>
+        </ProjectManagementContentForm>
       </ProjectManagementMain>
     </div>
   );
