@@ -68,7 +68,6 @@ public class Live {
     public void updateLiveSummary(LiveSummaryUpdateRequestDto updateRequestDto) {
         this.title = updateRequestDto.getTitle();
         this.content = updateRequestDto.getContent();
-        this.totalPlayTime = updateRequestDto.getTotalPlayTime();
     }
 
     public void updateViewerCount(Integer viewerCount) {

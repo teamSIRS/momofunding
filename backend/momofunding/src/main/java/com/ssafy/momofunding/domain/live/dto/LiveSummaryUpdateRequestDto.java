@@ -8,14 +8,12 @@ public class LiveSummaryUpdateRequestDto {
 
     private String title;
     private String content;
-    private Integer totalPlayTime;
     private Long liveStateId;
 
     @Builder
-    public LiveSummaryUpdateRequestDto(String title, String content, Integer totalPlayTime, Long liveStateId){
+    public LiveSummaryUpdateRequestDto(String title, String content, Long liveStateId){
         this.title = title;
         this.content = content;
-        this.totalPlayTime = totalPlayTime;
         this.liveStateId = liveStateId;
     }
 }
