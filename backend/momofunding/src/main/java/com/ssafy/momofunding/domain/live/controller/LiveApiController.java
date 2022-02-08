@@ -94,11 +94,11 @@ public class LiveApiController {
     )
     @Parameter(name = "liveId", description = "라이브 Id", required = true)
     @PutMapping("/{liveId}")
-    public ResponseEntity updateLive(@RequestBody LiveSummaryUpdateRequestDto liveUpdateRequestDto, @PathVariable Long liveId) {
+    public ResponseEntity updateLiveSummary(@RequestBody LiveSummaryUpdateRequestDto liveUpdateRequestDto, @PathVariable Long liveId) {
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
-            liveService.updateLiveSumamry(liveUpdateRequestDto, liveId);
+            liveService.updateLiveSummary(liveUpdateRequestDto, liveId);
         } catch (IllegalArgumentException e) {
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);

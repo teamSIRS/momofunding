@@ -66,7 +66,7 @@ public class LiveService {
     }
 
     @Transactional
-    public void updateLiveSumamry(LiveSummaryUpdateRequestDto liveUpdateRequestDto, Long liveId){
+    public void updateLiveSummary(LiveSummaryUpdateRequestDto liveUpdateRequestDto, Long liveId){
         Live live = liveRepository.findById(liveId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 라이브 번호 입니다. liveId : " + liveId));
 
