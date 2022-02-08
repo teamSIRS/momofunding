@@ -1,9 +1,9 @@
 // 프로젝트 리스트안에 하나의 카드(소세지 그림 + 설명)
-import { ProgressBar } from "react-bootstrap";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useState } from "react";
-import LiveBadge from "../Home/Badge";
+import { ProgressBar } from "react-bootstrap";
 import {Container, Thumnail} from './Project.styled';
+import LiveBadge from "../Home/Badge";
 
 const LiveOn = styled.div`
   color: white;
@@ -37,7 +37,6 @@ const TitleDetail = styled.div`
 const FundDetail = styled.div`
   display: inline-block;
   margin: 5px;
-
   span {
     font-size: 15px;
   }
@@ -49,8 +48,13 @@ const FundDetail = styled.div`
   }
 `;
 
-function ProjectCard(props) {
-  let [live, setLive] = useState(true); //////
+function ProjectCard({ project }) {
+  const [live, setLive] = useState(true); //////
+
+
+  let dmonth = project.expirationDate[5] + project.expirationDate[6];
+  let dday = project.expirationDate[8] + project.expirationDate[9];
+
   return (
     <div className="col-md-4">
       <Container>
@@ -60,17 +64,15 @@ function ProjectCard(props) {
                   <LiveBadge content={"Live"} color={"red"}/>
                   ) : null}
           </div>
-        <Thumnail src={"https://media.istockphoto.com/photos/orange-bicycle-next-to-a-field-of-hyacinths-dutch-spring-landscape-picture-id1199838576"}/>
+        <Thumnail src={project.subImageUrl}/>
         <TitleDetail>
-          <h5>프로젝트 제목</h5>
-          <span>창작자</span>
-          {/* {props.project.title} */}
-          {/* {props.project.creator} */}
+          <h5>{project.projectName}</h5>
+          <span>{project.creatorName}</span>
         </TitleDetail>
-        <ProgressBar variant="warning" now={60} />
+        <ProgressBar variant="warning" now={project.popularity} />
         <FundDetail>
-          <span id="percentage">60% · 1258000원</span>
-          <span id="leftdays">20일 남음</span>
+          <span id="percentage">{project.popularity}% · {project.currentAmount}원</span>
+          <span id="leftdays">{dmonth}월 {dday}일 까지</span>
         </FundDetail>
       </Container>
     </div>

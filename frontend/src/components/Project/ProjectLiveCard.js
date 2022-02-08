@@ -33,14 +33,15 @@ const CreatorName = styled.p`
 `;
 
 
-function ProjectLiveCard() {
+function ProjectLiveCard({ project }) {
+    
     return (
     <div className="col-lg-6">
       <Container>
           <div className="position-absolute top-0 end-0">
             <LiveBadge content={"Live"} color={"red"}/>
           </div>
-        <Thumnail src={"https://cdn.emetro.co.kr/data2/content/image/2020/08/13/.cache/512/20200813500392.jpg"}/>
+        <Thumnail src={''}/>
         <Detail>
             <Title>라이브 방송 제목</Title>
             <Creator>
