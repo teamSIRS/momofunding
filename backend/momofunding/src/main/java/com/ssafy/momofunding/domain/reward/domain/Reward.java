@@ -83,4 +83,8 @@ public class Reward {
         this.deliverStartDate = rsr.getDeliverStartDate();
     }
 
+    public void deleteLimitedQuantity(Integer quantity){
+        this.limitedQuantity -= quantity;
+    }
+
 }

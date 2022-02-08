@@ -5,10 +5,7 @@ import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.reward.domain.Reward;
 import com.ssafy.momofunding.domain.reward.repository.RewardRepository;
 import com.ssafy.momofunding.domain.rewardorder.domain.RewardOrder;
-import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderDeliveryRequestDto;
-import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderDeliveryResponseDto;
-import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderResponseDto;
-import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderSaveRequestDto;
+import com.ssafy.momofunding.domain.rewardorder.dto.*;
 import com.ssafy.momofunding.domain.rewardorder.repository.RewardOrderRepository;
 import com.ssafy.momofunding.domain.user.domain.User;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
@@ -43,6 +40,7 @@ public class RewardOrderService {
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다::projectId-"+projectId));
 
         project.addCurrentAmount(rewardOrderSaveRequestDto.getAmount());
+        reward.deleteLimitedQuantity(rewardOrderSaveRequestDto.getQuantity());
 
         RewardOrder rewardOrder = rewardOrderSaveRequestDto.toEntity();
         rewardOrder.mapReward(reward);
@@ -78,5 +76,17 @@ public class RewardOrderService {
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 주문 번호 입니다::rewardOrderId-"+rewardOrderId));
 
         rewardOrder.updateDeliveryInfo(rewardOrderDeliveryRequestDto);
+    }
+
+    @Transactional
+    public List<RewardOrderPurchaseResponseDto> findOrdersByProjectId(Long projectId) {
+        projectRepository.findById(projectId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호 입니다:: projectId-"+projectId));
+
+        List<RewardOrder> rewardOrders = rewardOrderRepository.findAllByProjectId(projectId);
+
+        return rewardOrders.stream()
+                .map(RewardOrderPurchaseResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
