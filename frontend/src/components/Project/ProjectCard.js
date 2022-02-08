@@ -3,26 +3,7 @@ import { ProgressBar } from "react-bootstrap";
 import styled from "styled-components";
 import { useState } from "react";
 import LiveBadge from "../Home/Badge";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  width: 295px;
-  margin: 20px;
-`;
-
-const Thumnail = styled.div`
-    width: 295px;
-    height: 170px;
-    margin: auto;
-    background-size: cover;
-    background-position: center;
-    background-image: url("https://media.istockphoto.com/photos/orange-bicycle-next-to-a-field-of-hyacinths-dutch-spring-landscape-picture-id1199838576"); //////////
-    /* background-image: ${(props) => props.img}; */
-    border-radius: 15px;
-`;
+import {Container, Thumnail} from './Project.styled';
 
 const LiveOn = styled.div`
   color: white;
@@ -71,26 +52,28 @@ const FundDetail = styled.div`
 function ProjectCard(props) {
   let [live, setLive] = useState(true); //////
   return (
-    <Container>
-        <div className="position-absolute top-0 end-0">
-            {live ? ( //{props.live}
-                // <LiveOn>Live</LiveOn>
-                <LiveBadge content={"Live"} color={"red"}/>
-            ) : null}
-        </div>
-      <Thumnail />
-      <TitleDetail>
-        <h5>프로젝트 제목</h5>
-        <span>창작자</span>
-        {/* {props.project.title} */}
-        {/* {props.project.creator} */}
-      </TitleDetail>
-      <ProgressBar variant="warning" now={60} />
-      <FundDetail>
-        <span id="percentage">60% · 1258000원</span>
-        <span id="leftdays">20일 남음</span>
-      </FundDetail>
-    </Container>
+    <div className="col-md-4">
+      <Container>
+          <div className="position-absolute top-0 end-0">
+              {live ? ( //{props.live}
+                  // <LiveOn>Live</LiveOn>
+                  <LiveBadge content={"Live"} color={"red"}/>
+                  ) : null}
+          </div>
+        <Thumnail src={"https://media.istockphoto.com/photos/orange-bicycle-next-to-a-field-of-hyacinths-dutch-spring-landscape-picture-id1199838576"}/>
+        <TitleDetail>
+          <h5>프로젝트 제목</h5>
+          <span>창작자</span>
+          {/* {props.project.title} */}
+          {/* {props.project.creator} */}
+        </TitleDetail>
+        <ProgressBar variant="warning" now={60} />
+        <FundDetail>
+          <span id="percentage">60% · 1258000원</span>
+          <span id="leftdays">20일 남음</span>
+        </FundDetail>
+      </Container>
+    </div>
   );
 }
 
