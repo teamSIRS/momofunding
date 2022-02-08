@@ -78,12 +78,16 @@ public class Project {
     @Column
     Timestamp registerDate;
 
+    @Column(columnDefinition = "boolean default false")
+    Boolean isLivePlaying;
+
     @PrePersist
     public void initializer(){
         mainImageUrl = "";
         subImageUrl = "";
         currentAmount = 0;
         fundingGoal = 0;
+        isLivePlaying = false;
     }
 
     @Formula("(current_amount/funding_goal)*100")

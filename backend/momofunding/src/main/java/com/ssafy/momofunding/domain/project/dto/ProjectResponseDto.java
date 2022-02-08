@@ -18,6 +18,7 @@ public class ProjectResponseDto {
     private String subImageUrl;
     private Integer currentAmount;
     private Integer popularity;
+    private Boolean isLivePlaying;
     private Timestamp expirationDate;
 
     private String creatorName;
@@ -25,7 +26,7 @@ public class ProjectResponseDto {
     @Builder
     public ProjectResponseDto(Long id, String projectName, Integer fundingGoal, String subImageUrl,
                               Integer currentAmount, Integer popularity, Timestamp expirationDate,
-                              String creatorName){
+                              String creatorName, Boolean isLivePlaying){
         this.id = id;
         this.projectName = projectName;
         this.fundingGoal = fundingGoal;
@@ -33,8 +34,8 @@ public class ProjectResponseDto {
         this.currentAmount = currentAmount;
         this.popularity = popularity;
         this.expirationDate = expirationDate;
-
         this.creatorName = creatorName;
+        this.isLivePlaying = isLivePlaying;
     }
 
     public ProjectResponseDto(Project projectEntity){
@@ -45,7 +46,7 @@ public class ProjectResponseDto {
         this.currentAmount = projectEntity.getCurrentAmount();
         this.popularity = projectEntity.getPopularity();
         this.expirationDate = projectEntity.getExpirationDate();
-
         this.creatorName = projectEntity.getCreator().getCreatorName();
+        this.isLivePlaying = projectEntity.getIsLivePlaying();
     }
 }
