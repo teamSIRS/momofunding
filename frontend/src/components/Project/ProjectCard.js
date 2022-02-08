@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { ProgressBar } from "react-bootstrap";
 import {Container, Thumnail} from './Project.styled';
 import LiveBadge from "../Home/Badge";
+import { Route, Router } from "react-router-dom";
+import { Switch } from "../Live/LivePowderRoom/RTCRenderer/styles";
 
 const LiveOn = styled.div`
   color: white;
@@ -21,19 +23,28 @@ const LiveOn = styled.div`
 `;
 
 const TitleDetail = styled.div`
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  height: 55px;
   margin: 10px 0 5px 0;
-  h5 {
-    display: inline;
-    font-weight: bold;
-  }
-
-  span {
-    float: right;
-    font-size: 18px;
-  }
 `;
 
+const ProjectTitle = styled.p`
+  /* border: 1px solid orange; */
+  /* width: 70%; */
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+`;
+const ProjectCreator = styled.p`
+  /* border: 1px solid red; */
+  /* text-align: right; */
+  /* float: right; */
+  /* width: 30%; */
+  font-size: 16px;
+  `;
+
+///////////////////////////////////////
 const FundDetail = styled.div`
   display: inline-block;
   margin: 5px;
@@ -43,36 +54,46 @@ const FundDetail = styled.div`
   span#percentage {
     float: left;
   }
-  span#leftdays {
-    float: right;
-  }
+`;
+
+const Leftday = styled.span`
+  float: right;
+  color: ${ props => props.color };
 `;
 
 function ProjectCard({ project }) {
-  const [live, setLive] = useState(true); //////
+  
+  let today = new Date();
+  let dday = (project.expirationDate); //받아온 값
+  let cdday = Date.parse(dday);
+  let gap = cdday - today.getTime();
+  let result = Math.ceil(gap / (1000*60*60*24));
 
-
-  let dmonth = project.expirationDate[5] + project.expirationDate[6];
-  let dday = project.expirationDate[8] + project.expirationDate[9];
 
   return (
     <div className="col-md-4">
-      <Container>
+      <Container onClick={()=>{console.log('클릭', project.id)}}>
           <div className="position-absolute top-0 end-0">
-              {live ? ( //{props.live}
-                  // <LiveOn>Live</LiveOn>
-                  <LiveBadge content={"Live"} color={"red"}/>
-                  ) : null}
+              {project.isLivePlaying 
+                  ? <LiveBadge content={"Live"} color={"red"}/> 
+                  : null
+              }
           </div>
         <Thumnail src={project.subImageUrl}/>
         <TitleDetail>
-          <h5>{project.projectName}</h5>
-          <span>{project.creatorName}</span>
+          <ProjectTitle>
+            {project.projectName.length > 25 ?`${project.projectName.slice(0, 25)}...`:project.projectName}
+          </ProjectTitle>
+          <ProjectCreator>{project.creatorName}</ProjectCreator>
         </TitleDetail>
         <ProgressBar variant="warning" now={project.popularity} />
         <FundDetail>
           <span id="percentage">{project.popularity}% · {project.currentAmount}원</span>
-          <span id="leftdays">{dmonth}월 {dday}일 까지</span>
+          {
+            result < 5
+            ? <Leftday color="red">{result}일 남음</Leftday>
+            :  <Leftday color="black">{result}일 남음</Leftday>
+          }
         </FundDetail>
       </Container>
     </div>

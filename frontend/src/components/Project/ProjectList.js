@@ -13,6 +13,59 @@ function ProjectList(){
   const [search, setSearch] = useState("");
   const [projects, setProjects] = useState([""]);
 
+  const Test = async() =>{
+    await axios({
+      url: 'http://127.0.0.1:8887/',
+      method: "get",
+    })
+    .then((result) =>{
+      console.log('성공');
+    })
+    .catch((err) =>{
+      console.log('실패')
+    })
+
+  }
+
+  const [categories, setCategories] = useState([""]);
+  const [selected, setSelected] = useState("");
+
+  const handleSelect = (e) =>{
+    console.log(e);
+    setSelected(e.target.value);
+  }
+
+  const Categories = async() => {
+    await axios({
+      url:`/categories`,
+      method:"get",
+      baseURL: baseUrl,
+    })
+    .then((response)=>{
+      // console.log(response.data);
+      // console.log(response.data[0].id);
+      setCategories([...response.data]);
+    })
+    .catch((err) =>{
+      console.log(err);
+    })
+  }
+
+  const CategoriesDate = async() => {
+    await axios({
+      url:`/projects/categories/${selected}`,
+      method:"get",
+      baseURL: baseUrl,
+    })
+    .then((response)=>{
+      console.log(response.data);
+      setCategories([...response.data]);
+    })
+    .catch((err) =>{
+      console.log(err);
+    })
+  }
+
   const showDateList = async() => { //default 최신순
     await axios({
       url:`/projects?sort=date`,
@@ -47,16 +100,11 @@ function ProjectList(){
 
   useEffect(()=>{
     showDateList();
+    // Test();
+    Categories();
   }, []);
 
-  // const [categories, setCategories] = useState(['']);
-  const categories = ['0', '1', '2', '3', '4'];
-  const [selected, setSelected] = useState("");
 
-  const handleSelect = (e) =>{
-    console.log(e.target.value);
-    setSelected(e.target.value);
-  }
 
 
   return(
@@ -66,18 +114,12 @@ function ProjectList(){
         <Category>
           <span id="category">카테고리</span>
           <select onChange={handleSelect} value={selected}>
-            {categories.map((item) =>(
-              <option value={item} key={item}>
-                {item}
+            {categories.map((category) =>(
+              <option value={category.name} key={category.id}>
+                {category.name}
               </option>
             ))}
             </select>
-          {/* </select>
-          <select name="category">
-            <option value="art">예술</option>
-            <option value="food">음식</option>
-            <option value="donation">기부</option>
-          </select> */}
         </Category>
 
         <Search>
