@@ -25,12 +25,13 @@ public class ProjectDetailResponseDto {
     private Integer currentAmount;
     private Integer popularity;
     private Timestamp expirationDate;
+    private Boolean isLivePlaying;
 
     @Builder
     public ProjectDetailResponseDto(Long id, Long projectStateId, Long projectCategoryId, Long userId,
                                     String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
                                     String summary, String projectContent, Integer currentAmount, Integer popularity,
-                                    Timestamp expirationDate){
+                                    Timestamp expirationDate, Boolean isLivePlaying){
         this.id = id;
         this.projectStateId = projectStateId;
         this.projectCategoryId = projectCategoryId;
@@ -44,6 +45,7 @@ public class ProjectDetailResponseDto {
         this.currentAmount = currentAmount;
         this.popularity = popularity;
         this.expirationDate = expirationDate;
+        this.isLivePlaying = isLivePlaying;
 
     }
 
@@ -62,5 +64,6 @@ public class ProjectDetailResponseDto {
         this.currentAmount = projectEntity.getCurrentAmount();
         this.popularity = projectEntity.getPopularity();
         this.expirationDate = projectEntity.getExpirationDate();
+        this.isLivePlaying = projectEntity.getIsLivePlaying();
     }
 }
