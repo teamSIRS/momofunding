@@ -1,7 +1,5 @@
 package com.ssafy.momofunding.domain.surveyquestion.controller;
 
-import com.ssafy.momofunding.domain.survey.dto.SurveyResponseDto;
-import com.ssafy.momofunding.domain.surveyquestion.domain.SurveyQuestion;
 import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionResponseDto;
 import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionSaveRequestDto;
 import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionUpdateRequestDto;

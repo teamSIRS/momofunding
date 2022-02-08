@@ -25,6 +25,8 @@ import FundProject from "./components/Profile/ProfileMyPage/FundProject";
 import MyProject from "./components/Profile/ProfileMyPage/MyProject";
 import MyProjectDetail from "./components/Profile/ProfileProjectDetail/MyProjectDetail";
 
+export const baseUrl = "http://localhost:8080";
+
 function App() {
   return (
     <Router>

@@ -1,9 +1,6 @@
 package com.ssafy.momofunding.domain.rewardorder.controller;
 
-import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderDeliveryRequestDto;
-import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderDeliveryResponseDto;
-import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderResponseDto;
-import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderSaveRequestDto;
+import com.ssafy.momofunding.domain.rewardorder.dto.*;
 import com.ssafy.momofunding.domain.rewardorder.service.RewardOrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -44,8 +41,8 @@ public class RewardOrderApiController {
     }
 
     @Operation(
-            summary = "후원 목록 다중 조회",
-            description = "후원한 정보 목록을 조회할 수 있다."
+            summary = "후원한 후원 목록 다중 조회(참여자)",
+            description = "회원 본인이 후원한 정보 목록을 조회할 수 있다."
     )
     @Parameter(name = "userId", description = "회원 식별 번호", required = true)
     @GetMapping("/users/{userId}")
@@ -62,8 +59,8 @@ public class RewardOrderApiController {
     }
 
     @Operation(
-            summary = "후원 배송 정보 조회",
-            description = "후원 배송 정보를 조회할 수 있다."
+            summary = "배송 정보 조회",
+            description = "배송 정보를 조회할 수 있다."
     )
     @Parameter(name = "rewardOrderId", description = "주문 식별 번호", required = true)
     @GetMapping("/{rewardOrderId}")
@@ -78,10 +75,9 @@ public class RewardOrderApiController {
         }
     }
 
-
     @Operation(
-            summary = "후원 배송 정보 수정",
-            description = "후원 배송 정보를 수정할 수 있다."
+            summary = "배송 정보 수정",
+            description = "배송 정보를 수정할 수 있다."
     )
     @Parameter(name = "rewardOrderId", description = "주문 식별 번호", required = true)
     @PutMapping("/{rewardOrderId}")
@@ -90,6 +86,24 @@ public class RewardOrderApiController {
             rewardOrderService.updateOrderDeliveryInfo(rewardOrderId, rewardOrderDeliveryRequestDto);
             return ResponseEntity.status(HttpStatus.OK).body(null);
         } catch(IllegalArgumentException e){
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+    }
+
+    @Operation(
+            summary = "후원 배송 정보 목록 조회(창작자)",
+            description = "회원 본인이 창작한 프로젝트에 후원된 배송 정보 목록을 조회할 수 있다."
+    )
+    @Parameter(name = "projectId", description = "프로젝트 식별 번호", required = true)
+    @GetMapping("/projects/{projectId}")
+    public ResponseEntity<Object> findOrdersByProjectId(@PathVariable Long projectId){
+        try {
+            List<RewardOrderPurchaseResponseDto> rewardOrders = rewardOrderService.findOrdersByProjectId(projectId);
+            if (rewardOrders.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.OK).body(rewardOrders);
+        }catch (IllegalArgumentException e){
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
