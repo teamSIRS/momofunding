@@ -1,12 +1,12 @@
 package com.ssafy.momofunding.domain.survey.controller;
 
-import com.ssafy.momofunding.domain.survey.dto.SurveyResponseDto;
+import com.ssafy.momofunding.domain.survey.dto.SurveyDetailResponseDto;
+import com.ssafy.momofunding.domain.survey.dto.SurveyListResponseDto;
 import com.ssafy.momofunding.domain.survey.dto.SurveySaveRequestDto;
 import com.ssafy.momofunding.domain.survey.dto.SurveyUpdateRequestDto;
 import com.ssafy.momofunding.domain.survey.service.SurveyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -46,24 +46,23 @@ public class SurveyApiController {
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
+
     @Operation(
-            summary = "설문조사 정보 단일 조회",
-            description = "설문조사 Id에 해당하는 설문조사 정보 반환"
+            summary = "설문조사 정보 단일 조회 (DETAIL)",
+            description = "설문조사 Id에 해당하는 설문조사 정보 + 질문 반환"
     )
     @Parameter(name = "surveyId", description = "설문조사 Id", required = true)
     @GetMapping("/{surveyId}")
-    public ResponseEntity findSurveyById(@PathVariable Long surveyId) {
-
-        SurveyResponseDto surveyResponseDto;
-
+    public ResponseEntity findSurveyDetailById(@PathVariable Long surveyId) {
+        SurveyDetailResponseDto surveyDetailResponseDto;
         try {
-            surveyResponseDto = surveyService.findSurveyById(surveyId);
+            surveyDetailResponseDto = surveyService.findSurveyDetailById(surveyId);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
-
-        return ResponseEntity.status(HttpStatus.OK).body(surveyResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(surveyDetailResponseDto);
     }
+
 
     @Operation(
             summary = "설문조사 정보 리스트 조회",
@@ -72,15 +71,15 @@ public class SurveyApiController {
     @GetMapping("")
     public ResponseEntity findSurveys() {
 
-        List<SurveyResponseDto> surveyResponseDtos;
+        List<SurveyListResponseDto> surveyListResponseDtos;
 
         try {
-            surveyResponseDtos = surveyService.findSurveys();
+            surveyListResponseDtos = surveyService.findSurveys();
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(surveyResponseDtos);
+        return ResponseEntity.status(HttpStatus.OK).body(surveyListResponseDtos);
     }
 
     @Operation(
