@@ -51,6 +51,7 @@ public class ProjectDetailResponseDto {
         this.id = projectEntity.getId();
         this.projectStateId = projectEntity.getProjectState().getId();
         if(projectEntity.getProjectCategory() != null) this.projectCategoryId = projectEntity.getProjectCategory().getId();
+        else this.projectCategoryId = 0L;
         this.userId = projectEntity.getUser().getId();
         this.projectName = projectEntity.getProjectName();
         this.fundingGoal = projectEntity.getFundingGoal();
