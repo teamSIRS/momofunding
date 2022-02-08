@@ -95,6 +95,7 @@ function ProjectManagementProfile() {
     setCreatorName(event.target.value);
   };
   const onCreatorImageUrlChange = (event) => {
+    //여기는 창작자가 에디터 화면에서 이미지를 삭제했을 때 "" 값으로 바꿔주는 동작만 되면 됩니다.
     setCreatorImageUrl("");
   };
   const onCreatorContentChange = (event) => {
@@ -172,22 +173,19 @@ function ProjectManagementProfile() {
       creatorContent: creatorContent,
       email: email,
       tel: tel,
-      account: account,
+      account: account
     };
-    console.log("제발나와라 데[이터] 얍!");
-    console.log(data);
-    // var form = $("#form");
-    var formData = new FormData();
-    // formData.append("key", "dasdsadadsads");
-    formData.append("creatorImage", $("#file"));
+
+    var form = $("#form")[0];
+    var formData = new FormData(form);
     formData.append(
       "creator",
       new Blob([JSON.stringify(data)], { type: "application/json" })
     );
-    console.log("제발나와라 얍!");
-    console.log(formData.get("creatorImage"));
-    alert(JSON.stringify(formData));
-    console.log(formData.get("creator"));
+    
+    formData.append("creatorImage", $("#file")[0].files[0]);
+    //formData.append("creatorImage", null);
+
     //////////////////////////////////
     // const updateCreator = async () => {
     //   await axios({
@@ -212,6 +210,7 @@ function ProjectManagementProfile() {
       type: "PUT",
       url: `${baseUrl}/creators/${projectId}`,
       processData: false,
+      contentType: false,
       data: formData,
     })
       .done(function () {
@@ -233,7 +232,6 @@ function ProjectManagementProfile() {
         </ProjectManagementContentProfileTitle>
         <ProjectManagementContentForm
           id="form"
-          method="put"
           enctype="multipart/form-data"
         >
           <ProjectManagementContentInputBox>
