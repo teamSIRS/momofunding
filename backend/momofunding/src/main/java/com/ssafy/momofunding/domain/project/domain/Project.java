@@ -78,12 +78,16 @@ public class Project {
     @Column
     Timestamp registerDate;
 
+    @Column(columnDefinition = "boolean default false")
+    Boolean isLivePlaying;
+
     @PrePersist
     public void initializer(){
         mainImageUrl = "";
         subImageUrl = "";
         currentAmount = 0;
         fundingGoal = 0;
+        isLivePlaying = false;
     }
 
     @Formula("(current_amount/funding_goal)*100")
@@ -126,6 +130,10 @@ public class Project {
         this.summary = psr.getSummary();
         this.projectContent = psr.getProjectContent();
         this.expirationDate = psr.getExpirationDate();
+    }
+
+    public void updateIsLivePlaying(Boolean isLivePlaying){
+        this.isLivePlaying = isLivePlaying;
     }
 
     public void addCurrentAmount(Integer amount){
