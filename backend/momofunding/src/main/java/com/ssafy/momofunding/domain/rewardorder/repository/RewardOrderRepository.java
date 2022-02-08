@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface RewardOrderRepository extends JpaRepository<RewardOrder, Long> {
     List<RewardOrder> findAllByUserId(Long userId);
+    List<RewardOrder> findAllByProjectId(Long projectId);
 }
