@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import $ from "jquery";
 const ProjectManagementMain = styled.div`
   width: 100%;
@@ -81,20 +81,21 @@ const ProjectManagementContentProfileBtn = styled.button``;
 
 function ProjectManagementProfile() {
   const baseUrl = "http://localhost:8080";
-  //////////////////////////////////////////////////////////////////////
+
   const [creatorName, setCreatorName] = useState("");
   const [creatorImageUrl, setCreatorImageUrl] = useState("");
   const [creatorContent, setCreatorContent] = useState("");
   const [email, setEmail] = useState("");
   const [tel, setTel] = useState("");
   const [account, setAccount] = useState("");
-  //////////////////////////////////////////////////////////////////////
 
   //////////////////////////////////////////////////////////////////////
+  // onChangeEvent...
   const onCreatorNameChange = (event) => {
     setCreatorName(event.target.value);
   };
   const onCreatorImageUrlChange = (event) => {
+    //여기는 창작자가 에디터 화면에서 이미지를 삭제했을 때 "" 값으로 바꿔주는 동작만 되면 됩니다.
     setCreatorImageUrl("");
   };
   const onCreatorContentChange = (event) => {
@@ -113,6 +114,7 @@ function ProjectManagementProfile() {
   // 이거는 나중에 로그인한 회원의 아이디로 바꿔야함
   const projectId = 2;
   //////////////////////////////////////////////////////////////////////
+  // get으로 사용자의 기존정보를 불러오기
   function getCreator() {
     const getCreator = async () => {
       await axios({
@@ -136,37 +138,15 @@ function ProjectManagementProfile() {
     getCreator();
   }
 
-  function updateCreator(data) {
-    console.log("업데이트하자");
-    console.log(data);
-    const formData = new FormData();
-    formData.append("creatorName", data.creatorName);
-    formData.append("creatorImageUrl", data.creatorImageUrl);
-    formData.append("creatorContent", data.creatorContent);
-    formData.append("email", data.email);
-    formData.append("tel", data.tel);
-    formData.append("account", data.account);
-    const updateCreator = async () => {
-      await axios({
-        url: `/creators/${projectId}`,
-        method: "post",
-        data: { creator: formData },
-        baseURL: baseUrl,
-      })
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log("에러발생");
-          console.log(error);
-        });
-    };
-    updateCreator();
-  }
   //////////////////////////////////////////////////////////////////////
-  const postSave = (event) => {
-    event.preventDefault();
+  // put으로 사용자가 입력한 내용 보내기 (json + file) 한 번에 보내는 방법
+  // $ : jquery를 사용하기 위해서는 npm install jquery 해야함 => useRef으로 대체 가능
+  const formRef = useRef(null); // useRef Hook를 통해서 form 태그 잡아오기
+
+  const updateCreator = (event) => {
+    event.preventDefault(); // 새로고침 막기
     const data = {
+      // json 데이터 만들기
       creatorName: creatorName,
       creatorImageUrl: creatorImageUrl,
       creatorContent: creatorContent,
@@ -174,22 +154,27 @@ function ProjectManagementProfile() {
       tel: tel,
       account: account,
     };
-    console.log(data);
-    const form = $("#form")[0];
-    const formData = new FormData(form);
-    formData.append("creatorImage", $("#file"));
+
+    // const form = $("#form")[0]; =>  input file을 가지고 있는 form
+    const form = formRef[0]; // useRef을 통해서 jquery대신 form태그를 잡아오는 방법
+    const formData = new FormData(form); // new formData() 만들기 : file을 보내려면 필수!
+
     formData.append(
       "creator",
       new Blob([JSON.stringify(data)], { type: "application/json" })
+      // 위에서 json으로 만든 data를 넣고 new Blob(미디어파일을 보내기 위함)에 넣기 type도 지정
     );
-    //////////////////////////////////
+    formData.append("creatorImage", $("#file")[0].files[0]);
+    //formData.append("creatorImage", null);
+
     const updateCreator = async () => {
       await axios({
         url: `/creators/${projectId}`,
         method: "put",
-        data: formData,
+        data: formData, // 만들어 놓은 formData를 data값으로 넣기 끝!!
         baseURL: baseUrl,
-        headers: { "Content-Type": "multipart/form-data" },
+        processData: false,
+        contentType: false,
       })
         .then((response) => {
           console.log("성공");
@@ -201,24 +186,11 @@ function ProjectManagementProfile() {
         });
     };
     updateCreator();
-    //////////////////////////////////
-    // $.ajax({
-    //   type: "PUT",
-    //   url: `${baseUrl}/creators/${projectId}`,
-    //   processData: false,
-    //   data: formData,
-    // })
-    //   .done(function () {
-    //     alert("글이 등록되었습니다.");
-    //     window.location.href = "/";
-    //   })
-    //   .fail(function (error) {
-    //     console.log(error);
-    //     // alert(JSON.stringify(error));
-    //   });
   };
-  //////////////////////////////////////////////////////////////////////
 
+  useEffect(() => {
+    getCreator();
+  }, []);
   return (
     <div>
       <ProjectManagementMain>
@@ -226,9 +198,8 @@ function ProjectManagementProfile() {
           창작자 프로필 등록
         </ProjectManagementContentProfileTitle>
         <ProjectManagementContentForm
-          id="form"
-          method="put"
-          encType="multipart/form-data"
+          ref={formRef}
+          enctype="multipart/form-data"
         >
           <ProjectManagementContentInputBox>
             <ProjectManagementContentTitle>
@@ -319,7 +290,7 @@ function ProjectManagementProfile() {
               onChange={onAccountChange}
             ></ProjectManagementContentInput>
           </ProjectManagementContentInputBox>
-          <ProjectManagementContentProfileBtn onClick={postSave}>
+          <ProjectManagementContentProfileBtn onClick={updateCreator}>
             창작자 등록
           </ProjectManagementContentProfileBtn>
         </ProjectManagementContentForm>

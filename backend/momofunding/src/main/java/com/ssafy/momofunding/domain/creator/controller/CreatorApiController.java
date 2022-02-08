@@ -32,7 +32,7 @@ public class CreatorApiController {
     @PutMapping("/{projectId}")
     public ResponseEntity<Object> updateCreator(@PathVariable Long projectId,
                                                 @RequestPart("creator") CreatorUpdateRequestDto creatorUpdateRequestDto,
-                                                @RequestPart("creatorImage") MultipartFile creatorImg){
+                                                @RequestPart(value = "creatorImage", required = false) MultipartFile creatorImg){
         try{
             creatorService.updateCreator(projectId, creatorUpdateRequestDto, creatorImg);
         }catch (IllegalArgumentException | IOException e){
