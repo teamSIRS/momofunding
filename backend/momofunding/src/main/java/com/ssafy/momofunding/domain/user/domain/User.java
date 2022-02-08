@@ -51,4 +51,9 @@ public class User {
         this.nickname = userInfoUpdateRequestDto.getNickname();
     }
 
+    public void updateUserPassword(String password){
+        this.password = password;
+    }
+
+
 }
