@@ -107,5 +107,24 @@ public class LiveApiController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
+    @Operation(
+            summary = "라이브 시청자 수 수정",
+            description = "라이브의 현재 시청자 수를 수정"
+    )
+    @Parameter(name = "liveId", description = "라이브 Id", required = true)
+    @PutMapping("/{liveId}/viewerCount")
+    public ResponseEntity updateViewerCount(@PathVariable Long liveId, @RequestBody Map<String, Integer> requestBody) {
+        Map<String, Object> responseMap = new HashMap<>();
+
+        try {
+            liveService.updateViewerCount(liveId, requestBody.get("viewerCount"));
+        } catch (IllegalArgumentException e) {
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
 
 }

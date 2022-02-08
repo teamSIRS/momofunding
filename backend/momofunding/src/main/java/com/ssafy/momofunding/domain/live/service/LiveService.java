@@ -28,7 +28,6 @@ public class LiveService {
     private final ProjectRepository projectRepository;
     private final LiveStateRepository liveStateRepository;
 
-
     @Transactional
     public List<LiveResponseDto> findBySort(Sort sort){
         List<Live> lives = liveRepository.findAllByLiveStateId(1L, sort);
@@ -37,6 +36,7 @@ public class LiveService {
                 .map(LiveResponseDto::new)
                 .collect(Collectors.toList());
     }
+
     @Transactional
     public List<LiveResponseDto> findAllByProjectCategoryId(Long projectCategoryId, Sort sort){
         projectCategoryRepository.findById(projectCategoryId)
@@ -83,5 +83,13 @@ public class LiveService {
         }
 
         live.updateLiveSummary(liveUpdateRequestDto);
+    }
+
+    @Transactional
+    public void updateViewerCount(Long liveId, Integer viewerCount){
+        Live live = liveRepository.findById(liveId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 라이브 번호 입니다. liveId : " + liveId));
+
+        live.updateViewerCount(viewerCount);
     }
 }

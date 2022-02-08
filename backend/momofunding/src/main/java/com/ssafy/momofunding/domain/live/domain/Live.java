@@ -72,11 +72,15 @@ public class Live {
         this.totalPlayTime = liveUpdateRequestDto.getTotalPlayTime();
     }
 
+    public void updateViewerCount(Integer viewerCount) {
+        this.viewerCount = viewerCount;
+    }
+
     @Builder
-    public Live(String title, String content, Integer maxViewer, Integer totalPlayTime, Timestamp startTime, Timestamp registerDate, String sessionId){
+    public Live(String title, String content, Integer viewerCount, Integer totalPlayTime, Timestamp startTime, Timestamp registerDate, String sessionId){
         this.title = title;
         this.content = content;
-        this.viewerCount = maxViewer;
+        this.viewerCount = viewerCount;
         this.totalPlayTime = totalPlayTime;
         this.startTime = startTime;
         this.registerDate = registerDate;
