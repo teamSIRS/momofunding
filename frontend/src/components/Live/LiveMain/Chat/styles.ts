@@ -11,11 +11,13 @@ import { Switch } from "../../LivePowderRoom/RTCRenderer/styles";
 
 export const ChatWrapper = styled.div`
   min-width: 300px;
+  max-width: 450px;
   margin: 15px;
+  margin-right: 40px;
   margin-top: 40px;
-  width: 35%;
+  width: 30%;
   color: #ffffffce;
-  height: 78%;
+  height: 86%;
   right: 0px;
   bottom: 75px;
   position: absolute;
@@ -175,4 +177,25 @@ export const ProjectText = styled.span`
   width: 60%;
   text-align: center;
   flex-direction: column;
+`;
+
+export const LiveBtnRoundDangerSmall = styled(LiveBtnRoundDanger)`
+  background: tomato;
+  width: 30px;
+  height: 30px;
+  margin: 0;
+`;
+
+export const ProjectClose = styled(ProjectLink)`
+  width: 42%;
+  font-size: 16px;
+  background: ${MomoWeakColor};
+  align-self: flex-end;
+  color: ${MomoStrongColor};
+  :hover {
+    background: tomato;
+    ${LiveBtnRoundDangerSmall} {
+      background: pink;
+    }
+  }
 `;
