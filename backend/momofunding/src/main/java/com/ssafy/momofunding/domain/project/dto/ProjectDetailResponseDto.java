@@ -62,6 +62,7 @@ public class ProjectDetailResponseDto {
         this.summary = projectEntity.getSummary();
         this.projectContent = projectEntity.getProjectContent();
         this.currentAmount = projectEntity.getCurrentAmount();
+        this.popularity = projectEntity.getPopularity();
         this.expirationDate = projectEntity.getExpirationDate();
         this.registerDate = projectEntity.getRegisterDate();
     }

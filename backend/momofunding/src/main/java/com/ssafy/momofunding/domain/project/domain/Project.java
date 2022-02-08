@@ -70,6 +70,9 @@ public class Project {
     Integer currentAmount;
 
     @Column
+    Timestamp startDate;
+
+    @Column
     Timestamp expirationDate;
 
     @Column
@@ -88,8 +91,8 @@ public class Project {
 
     @Builder
     public Project(Long id, String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
-                   String summary, String projectContent, Integer currentAmount, Timestamp expirationDate,
-                   Timestamp registerDate){
+                   String summary, String projectContent, Integer currentAmount, Timestamp startDate,
+                   Timestamp expirationDate, Timestamp registerDate){
         this.id = id;
         this.projectName = projectName;
         this.fundingGoal = fundingGoal;
@@ -98,6 +101,7 @@ public class Project {
         this.summary = summary;
         this.projectContent = projectContent;
         this.currentAmount = currentAmount;
+        this.startDate = startDate;
         this.expirationDate = expirationDate;
         this.registerDate = registerDate;
     }
