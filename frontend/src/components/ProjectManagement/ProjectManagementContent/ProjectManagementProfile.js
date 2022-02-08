@@ -79,7 +79,7 @@ const ProjectManagementContentImgInput = styled.input`
 
 const ProjectManagementContentProfileBtn = styled.button``;
 
-function ProjectManagementContentProfile() {
+function ProjectManagementProfile() {
   const baseUrl = "http://localhost:8080";
   //////////////////////////////////////////////////////////////////////
   const [creatorName, setCreatorName] = useState("");
@@ -178,7 +178,7 @@ function ProjectManagementContentProfile() {
     console.log(data);
     // var form = $("#form");
     var formData = new FormData();
-    formData.append("key", "dasdsadadsads");
+    // formData.append("key", "dasdsadadsads");
     formData.append("creatorImage", $("#file"));
     formData.append(
       "creator",
@@ -338,4 +338,4 @@ function ProjectManagementContentProfile() {
     </div>
   );
 }
-export default ProjectManagementContentProfile;
+export default ProjectManagementProfile;
