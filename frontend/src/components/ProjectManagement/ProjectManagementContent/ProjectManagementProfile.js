@@ -29,7 +29,7 @@ const ProjectManagementContentMemo = styled.div`
   font-size: 15px;
   margin-bottom: 10px;
 `;
-const ProjectManagementContentInput = styled.div`
+const ProjectManagementContentInput = styled.input`
   width: 100%;
   height: 50px;
   border-radius: 5px;
@@ -174,54 +174,48 @@ function ProjectManagementProfile() {
       tel: tel,
       account: account,
     };
-    console.log("제발나와라 데[이터] 얍!");
     console.log(data);
-    // var form = $("#form");
-    var formData = new FormData();
-    // formData.append("key", "dasdsadadsads");
+    const form = $("#form")[0];
+    const formData = new FormData(form);
     formData.append("creatorImage", $("#file"));
     formData.append(
       "creator",
       new Blob([JSON.stringify(data)], { type: "application/json" })
     );
-    console.log("제발나와라 얍!");
-    console.log(formData.get("creatorImage"));
-    alert(JSON.stringify(formData));
-    console.log(formData.get("creator"));
     //////////////////////////////////
-    // const updateCreator = async () => {
-    //   await axios({
-    //     url: `/creators/${projectId}`,
-    //     method: "put",
-    //     data: formData,
-    //     baseURL: baseUrl,
-    //     processData: false,
-    //     contentType: false,
-    //   })
-    //     .then((response) => {
-    //       console.log(response.data);
-    //     })
-    //     .catch((error) => {
-    //       console.log("에러발생");
-    //       console.log(error);
-    //     });
-    // };
-    // updateCreator();
-    //////////////////////////////////
-    $.ajax({
-      type: "PUT",
-      url: `${baseUrl}/creators/${projectId}`,
-      processData: false,
-      data: formData,
-    })
-      .done(function () {
-        alert("글이 등록되었습니다.");
-        window.location.href = "/";
+    const updateCreator = async () => {
+      await axios({
+        url: `/creators/${projectId}`,
+        method: "put",
+        data: formData,
+        baseURL: baseUrl,
+        headers: { "Content-Type": "multipart/form-data" },
       })
-      .fail(function (error) {
-        console.log(error);
-        // alert(JSON.stringify(error));
-      });
+        .then((response) => {
+          console.log("성공");
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log("에러발생");
+          console.log(error);
+        });
+    };
+    updateCreator();
+    //////////////////////////////////
+    // $.ajax({
+    //   type: "PUT",
+    //   url: `${baseUrl}/creators/${projectId}`,
+    //   processData: false,
+    //   data: formData,
+    // })
+    //   .done(function () {
+    //     alert("글이 등록되었습니다.");
+    //     window.location.href = "/";
+    //   })
+    //   .fail(function (error) {
+    //     console.log(error);
+    //     // alert(JSON.stringify(error));
+    //   });
   };
   //////////////////////////////////////////////////////////////////////
 
@@ -234,7 +228,7 @@ function ProjectManagementProfile() {
         <ProjectManagementContentForm
           id="form"
           method="put"
-          enctype="multipart/form-data"
+          encType="multipart/form-data"
         >
           <ProjectManagementContentInputBox>
             <ProjectManagementContentTitle>
@@ -244,7 +238,6 @@ function ProjectManagementProfile() {
               창작자님의 이름을 입력하세요.
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
-              as={"input"}
               value={creatorName}
               onChange={onCreatorNameChange}
             ></ProjectManagementContentInput>
@@ -262,7 +255,6 @@ function ProjectManagementProfile() {
               type="file"
               id="file"
               name="file"
-              onChange={onCreatorImageUrlChange}
             />
 
             <ProjectManagementContentImgLabel htmlFor="photo">
@@ -295,7 +287,6 @@ function ProjectManagementProfile() {
               창작자님의 이메일을 입력하세요.
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
-              as={"input"}
               placeholder="example@email.com"
               value={email}
               onChange={onEmailChange}
@@ -310,7 +301,6 @@ function ProjectManagementProfile() {
               창작자님의 대표번호를 입력하세요.
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
-              as={"input"}
               placeholder="- 없이 입력"
               value={tel}
               onChange={onTelChange}
@@ -325,7 +315,6 @@ function ProjectManagementProfile() {
               창작자님의 계좌정보를 입력하세요.
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
-              as={"input"}
               value={account}
               onChange={onAccountChange}
             ></ProjectManagementContentInput>
