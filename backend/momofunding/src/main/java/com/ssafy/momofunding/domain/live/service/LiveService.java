@@ -55,15 +55,11 @@ public class LiveService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호 입니다. projectId : " + projectId));
 
-        Long projectCategoryId = liveSaveRequestDto.getProjectCategoryId();
-        ProjectCategory projectCategory = projectCategoryRepository.findById(projectCategoryId)
-                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호 입니다. projectCategoryId : " + projectCategoryId));
-
         LiveState liveState = liveStateRepository.findById(1L).get();
 
         Live live = liveSaveRequestDto.toEntity();
         live.mapProject(project);
-        live.mapProjectCategory(projectCategory);
+        live.mapProjectCategory(project.getProjectCategory());
         live.mapLiveState(liveState);
 
         return liveRepository.save(live).getId();
