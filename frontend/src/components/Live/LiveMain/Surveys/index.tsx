@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import { ChatProps } from "../Chat";
 import { ChatTop } from "../Chat/styles";
+import { authorizationState, submitState } from "../LiveMain";
 import {
   SurveyBody,
   SurveyCreatorMsgBox,
@@ -15,6 +15,9 @@ import {
 } from "./styles";
 import SurveyChoice from "./SurveyChoice";
 import SurveyNarrative from "./SurveyNarrative";
+
+const thankYouMessage = "설문에 참여해주셔서 감사합니다";
+const checkMessage = "시청자 대상 설문이 진행중입니다";
 
 const api = {
   title: "Apple iPhone 3GS를 어떻게 생각하시나요?",
@@ -53,7 +56,7 @@ export const submitStates = atom({
 const submitConfirm = selector({
   key: "submitConfirm",
   get: ({ get }) => {
-    console.log("done?");
+    console.log(submitStates);
     const states = get(submitStates);
     let allConfirmed = true;
     states.forEach((isSubmitted) => {
@@ -64,44 +67,57 @@ const submitConfirm = selector({
 });
 
 const Survey = ({ show }: ChatProps) => {
-  const [states, setStates] = useRecoilState(submitStates);
+  const [surveyState, __] = useRecoilState(submitState);
+  const [isStaff, ___] = useRecoilState(authorizationState);
+  const [questionStates, _] = useRecoilState(submitStates);
   const submitAllDone = useRecoilValue(submitConfirm);
+
   return (
-    <form>
-      <SurveyWrapper className={show ? "hide" : ""}>
-        <SurveyHeader>
-          <ChatTop>설문조사</ChatTop>
-          <SurveyTitle>{api.title}</SurveyTitle>
-          <SurveyDescription>{api.content}</SurveyDescription>
-        </SurveyHeader>
-        <SurveyBody>
-          {api.questions.map((question, idx) => (
-            <div key={idx}>
-              <SurveyCreatorMsgBox>
-                Q{idx + 1}. {question.title}
-              </SurveyCreatorMsgBox>
-              <SurveyMessageBox
-                className={states[idx] ? "submitDone" : "submitUnDone"}
-              >
-                {question.type === 0 ? (
-                  <SurveyChoice q_idx={idx} choose={question.choose} />
-                ) : (
-                  <SurveyNarrative />
-                )}
-              </SurveyMessageBox>
-            </div>
-          ))}
-        </SurveyBody>
-        <SurveyFooter>
+    <SurveyWrapper className={show ? "hide" : ""}>
+      <SurveyHeader>
+        <ChatTop>설문조사</ChatTop>
+        <SurveyTitle>{api.title}</SurveyTitle>
+        <SurveyDescription>{api.content}</SurveyDescription>
+      </SurveyHeader>
+      <SurveyBody className={surveyState ? "done" : ""}>
+        {surveyState ? (
+          <h4>{isStaff ? checkMessage : thankYouMessage}</h4>
+        ) : (
+          <div>
+            {api.questions.map((question, idx) => (
+              <div key={idx}>
+                <SurveyCreatorMsgBox>
+                  Q{idx + 1}. {question.title}
+                </SurveyCreatorMsgBox>
+                <SurveyMessageBox
+                  className={
+                    questionStates[idx] ? "submitDone" : "submitUnDone"
+                  }
+                >
+                  {question.type === 0 ? (
+                    <SurveyChoice q_idx={idx} choose={question.choose} />
+                  ) : (
+                    <SurveyNarrative />
+                  )}
+                </SurveyMessageBox>
+              </div>
+            ))}
+          </div>
+        )}
+      </SurveyBody>
+      <SurveyFooter>
+        {surveyState ? (
+          ""
+        ) : (
           <SurveySubmitBtn
             disabled={!submitAllDone}
             className={submitAllDone ? "success" : "fail"}
           >
             {submitAllDone ? "제출하기" : "답변을 입력해주세요"}
           </SurveySubmitBtn>
-        </SurveyFooter>
-      </SurveyWrapper>
-    </form>
+        )}
+      </SurveyFooter>
+    </SurveyWrapper>
   );
 };
 

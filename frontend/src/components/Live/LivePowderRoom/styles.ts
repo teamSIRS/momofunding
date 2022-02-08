@@ -7,7 +7,7 @@ export const LivePowderRoomWrapper = styled.div`
   width: 100%;
   height: 100%;
   margin: 0;
-  margin-top: 60px;
+  padding-top: 60px;
   position: absolute;
   display: flex;
 `;

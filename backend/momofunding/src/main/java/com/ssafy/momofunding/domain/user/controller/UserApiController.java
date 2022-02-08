@@ -1,9 +1,6 @@
 package com.ssafy.momofunding.domain.user.controller;
 
-import com.ssafy.momofunding.domain.user.dto.UserInfoResponseDto;
-import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
-import com.ssafy.momofunding.domain.user.dto.UserSignInRequestDto;
-import com.ssafy.momofunding.domain.user.dto.UserSignUpRequestDto;
+import com.ssafy.momofunding.domain.user.dto.*;
 import com.ssafy.momofunding.domain.user.service.UserService;
 import com.ssafy.momofunding.global.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,19 +32,17 @@ public class UserApiController {
     )
     @PostMapping("/sign-in")
     public ResponseEntity signIn(@RequestBody UserSignInRequestDto userSignInRequestDto) {
-        Map<String, Object> responseMap = new HashMap<>();
+        UserSignInResponseDto userSignInResponseDto;
         try {
-            Long userId = userService.findEmailAndPassword(userSignInRequestDto);
-            String token = jwtService.create("userId", userId, "access-token");
-            responseMap.put("access-token", token);
-            responseMap.put("userId", userId);
-            responseMap.put("message", "success");
-        } catch (EmptyResultDataAccessException e) {
+            userSignInResponseDto = userService.findEmailAndPassword(userSignInRequestDto);
+            String token = jwtService.create("userId", userSignInResponseDto.getId(), "access-token");
+            userSignInResponseDto.setToken(token);
+        } catch (IllegalArgumentException e) {
+            Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", e.getMessage());
-            responseMap.put("message", "fail");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+        return ResponseEntity.status(HttpStatus.OK).body(userSignInResponseDto);
     }
 
     //Sign-up

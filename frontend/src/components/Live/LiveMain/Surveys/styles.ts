@@ -1,10 +1,5 @@
-import { type } from "os";
 import styled from "styled-components";
-import {
-  MomoColor,
-  MomoStrongColor,
-  MomoWeakColor,
-} from "../../../../shared/global";
+import { MomoColor, MomoWeakColor } from "../../../../shared/global";
 import {
   TextArea,
   TextAreaWrapper,
@@ -45,7 +40,15 @@ export const SurveyCreatorMsgBox = styled(SurveyMessageBox)`
   display: flex;
 `;
 
-export const SurveyBody = styled(ChatBody)``;
+export const SurveyBody = styled(ChatBody)`
+  &.done {
+    font-size: 20px;
+    align-items: center;
+    justify-content: center;
+    color: ${MomoColor};
+    background: var(--successGradient);
+  }
+`;
 
 export const SurveyFooter = styled(ChatFooter)`
   display: flex;
