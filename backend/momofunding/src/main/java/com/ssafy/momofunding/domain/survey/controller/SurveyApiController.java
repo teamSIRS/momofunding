@@ -48,8 +48,8 @@ public class SurveyApiController {
 
 
     @Operation(
-            summary = "설문조사 정보 단일 조회 (DETAIL)",
-            description = "설문조사 Id에 해당하는 설문조사 정보 + 질문 반환"
+            summary = "설문조사 정보 단일 조회 (질문)",
+            description = "설문조사 Id에 해당하는 설문조사 디테일 + 질문 반환"
     )
     @Parameter(name = "surveyId", description = "설문조사 Id", required = true)
     @GetMapping("/{surveyId}")
@@ -57,6 +57,22 @@ public class SurveyApiController {
         SurveyDetailResponseDto surveyDetailResponseDto;
         try {
             surveyDetailResponseDto = surveyService.findSurveyDetailById(surveyId);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(surveyDetailResponseDto);
+    }
+
+    @Operation(
+            summary = "설문조사 정보 단일 조회 (질문+답변)",
+            description = "설문조사 Id에 해당하는 설문조사 디테일 + 질문 + 답변 반환"
+    )
+    @Parameter(name = "surveyId", description = "설문조사 Id", required = true)
+    @GetMapping("/{surveyId}/answers")
+    public ResponseEntity findSurveyDetailByIdWithAnswer(@PathVariable Long surveyId) {
+        SurveyDetailResponseDto surveyDetailResponseDto;
+        try {
+            surveyDetailResponseDto = surveyService.findSurveyDetailByIdWithAnswers(surveyId);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
