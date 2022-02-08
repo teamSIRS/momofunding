@@ -62,6 +62,7 @@ const ProjectManagementContentProfileRadio = styled.label`
   }
 `;
 
+// 수정? 삭제? 기능 추가해야함
 function ProjectManagementContentReward() {
   const baseUrl = "http://localhost:8080";
   const {
@@ -80,6 +81,28 @@ function ProjectManagementContentReward() {
   const [limitedQuantity, setLimitedQuantity] = useState(0);
   const [deliverStartDate, setDeliverStartDate] = useState("");
   //////////////////////////////////////////////////////////////////////
+  const onNameChange = (event) => {
+    setName(event.target.value);
+  };
+  const onPriceChange = (event) => {
+    setPrice(event.target.value);
+  };
+  const onContentChange = (event) => {
+    setContent(event.target.value);
+  };
+  const onOptionDescriptionChange = (event) => {
+    setOptionDescription(event.target.value);
+  };
+  const onIsDeliverChange = (event) => {
+    setIsDeliver(event.target.value);
+  };
+  const onLimitedQuantityChange = (event) => {
+    setLimitedQuantity(event.target.value);
+  };
+  const onDeliverStartDateChange = (event) => {
+    setDeliverStartDate(event.target.value);
+  };
+  //////////////////////////////////////////////////////////////////////
   // 이거는 나중에 로그인한 회원의 프로젝트로 바꿔야함
   const projectId = 1;
   //////////////////////////////////////////////////////////////////////
@@ -88,7 +111,16 @@ function ProjectManagementContentReward() {
       await axios({
         url: `/rewards`,
         method: "post",
-        data: {},
+        data: {
+          projectId: projectId, // 나중에 회원 아이디로 바꿔야함
+          name: data.name,
+          price: data.price,
+          content: data.content,
+          optionDescription: data.optionDescription,
+          isDeliver: isDeliver,
+          limitedQuantity: data.limitedQuantity,
+          deliverStartDate: data.deliverStartDate,
+        },
         baseURL: baseUrl,
       })
         .then((response) => {
@@ -102,9 +134,43 @@ function ProjectManagementContentReward() {
     saveRewards();
   }
   //////////////////////////////////////////////////////////////////////
+  function getRewards(data) {
+    const getRewards = async () => {
+      await axios({
+        url: `/rewards/projects/${projectId}`,
+        method: "get",
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data[0]);
+          setName(response.data[0].name);
+          setPrice(response.data[0].price);
+          setContent(response.data[0].content);
+          setOptionDescription(response.data[0].optionDescription);
+          setIsDeliver(response.data[0].isDeliver);
+          setLimitedQuantity(response.data[0].limitedQuantity);
+          setDeliverStartDate(response.data[0].deliverStartDate);
+        })
+        .catch((error) => {
+          console.log("에러발생");
+          console.log(error);
+        });
+    };
+    getRewards();
+  }
+  //////////////////////////////////////////////////////////////////////
   const onValid = (data) => {
+    if (data.isDeliver === "true") {
+      setIsDeliver(true);
+    } else {
+      setIsDeliver(false);
+    }
     saveRewards(data);
   };
+
+  useEffect(() => {
+    getRewards();
+  }, []);
   return (
     <div>
       <ProjectManagementMain>
@@ -124,6 +190,8 @@ function ProjectManagementContentReward() {
               {...register("name", {
                 required: "리워드 명은 필수입니다.",
               })}
+              value={name}
+              onChange={onNameChange}
             ></ProjectManagementContentInput>
           </ProjectManagementContentInputBox>
 
@@ -139,6 +207,8 @@ function ProjectManagementContentReward() {
               {...register("price", {
                 required: "리워드 금액은 필수입니다.",
               })}
+              value={price}
+              onChange={onPriceChange}
             ></ProjectManagementContentInput>
           </ProjectManagementContentInputBox>
 
@@ -154,6 +224,8 @@ function ProjectManagementContentReward() {
               {...register("content", {
                 required: "상세 설명은 필수입니다.",
               })}
+              value={content}
+              onChange={onContentChange}
             ></ProjectManagementContentTextarea>
           </ProjectManagementContentInputBox>
 
@@ -169,6 +241,8 @@ function ProjectManagementContentReward() {
               {...register("optionDescription", {
                 required: "옵션조건은 필수입니다.",
               })}
+              value={optionDescription}
+              onChange={onOptionDescriptionChange}
             ></ProjectManagementContentTextarea>
           </ProjectManagementContentInputBox>
 
@@ -180,11 +254,25 @@ function ProjectManagementContentReward() {
               배송조건을 입력하세요.
             </ProjectManagementContentMemo>
             <ProjectManagementContentProfileRadio>
-              <input type="radio" value="1" name="deliver" checked />
+              <input
+                {...register("isDeliver")}
+                type="radio"
+                name="isDeliver"
+                value="true"
+                checked={isDeliver}
+                onChange={onIsDeliverChange}
+              />
               배송가능
             </ProjectManagementContentProfileRadio>
             <ProjectManagementContentProfileRadio>
-              <input type="radio" value="2" name="deliver" />
+              <input
+                {...register("isDeliver")}
+                type="radio"
+                name="isDeliver"
+                value="false"
+                checked={!isDeliver}
+                onChange={onIsDeliverChange}
+              />
               배송불가능
             </ProjectManagementContentProfileRadio>
           </ProjectManagementContentInputBox>
@@ -201,6 +289,8 @@ function ProjectManagementContentReward() {
               {...register("limitedQuantity", {
                 required: "제한수량은 필수입니다.",
               })}
+              value={limitedQuantity}
+              onChange={onLimitedQuantityChange}
             ></ProjectManagementContentInput>
           </ProjectManagementContentInputBox>
 
@@ -211,7 +301,14 @@ function ProjectManagementContentReward() {
             <ProjectManagementContentMemo>
               배송 시작일을 지정해주세요
             </ProjectManagementContentMemo>
-            <ProjectManagementContentDate type="date"></ProjectManagementContentDate>
+            <ProjectManagementContentDate
+              type="date"
+              {...register("deliverStartDate", {
+                required: "배송 시작일은 필수입니다.",
+              })}
+              value={deliverStartDate.slice(0, 10)}
+              onChange={onDeliverStartDateChange}
+            ></ProjectManagementContentDate>
           </ProjectManagementContentInputBox>
           <ProjectManagementContentProfileBtn>
             리워드 등록
