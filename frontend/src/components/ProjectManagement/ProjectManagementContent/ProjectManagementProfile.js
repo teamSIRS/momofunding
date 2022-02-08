@@ -228,7 +228,7 @@ function ProjectManagementProfile() {
               name="file"
             />
 
-            <ProjectManagementContentImgLabel htmlFor="photo">
+            <ProjectManagementContentImgLabel htmlFor="file">
               파일
             </ProjectManagementContentImgLabel>
             <ProjectManagementContentImgBox>
