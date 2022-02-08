@@ -127,5 +127,24 @@ public class LiveApiController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
+    @Operation(
+            summary = "라이브 종료 시 호출 api",
+            description = "라이브의 종료 시 상태 변경 및 총 시간 계산"
+    )
+    @Parameter(name = "liveId", description = "라이브 Id", required = true)
+    @PutMapping("/{liveId}/endLive")
+    public ResponseEntity endLive(@PathVariable Long liveId) {
+        Map<String, Object> responseMap = new HashMap<>();
+
+        try {
+            liveService.endLive(liveId);
+        } catch (IllegalArgumentException e) {
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
 
 }
