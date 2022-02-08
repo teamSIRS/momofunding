@@ -1,28 +1,28 @@
 // // 카드로 여러개 나열되어 있는 페이지
 import axios from 'axios';
 import { useEffect, useState } from "react";
-import { Col, Container, Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import HomeBanners from "../Home/HomeBanners";
 import ProjectCard from "./ProjectCard";
-import { ListNav, Category, Search, Bar, ListFilter, ListFilterSelected, ListCenter } from './Project.styled';
+import { ListNav, Category, Search, Bar, ListFilter, ListFilterSelected } from './Project.styled';
 
 function ProjectList(){
   const baseUrl = "http://localhost:8080";
   const [isPop, setIsPop] = useState(false);
   const [isDate, setIsDate] = useState(false);
   const [search, setSearch] = useState("");
+  const [projects, setProjects] = useState([""]);
 
-  const showDateList = async() => { //default
+  const showDateList = async() => { //default 최신순
     await axios({
       url:`/projects?sort=date`,
       method:"get",
       baseURL: baseUrl,
     })
     .then((response)=>{
-      console.log(response.data);
-      console.log('최신순');
       setIsDate(true);
       setIsPop(false);
+      setProjects([...response.data]);
     })
     .catch((err) =>{
       console.log(err);
@@ -36,10 +36,9 @@ function ProjectList(){
       baseURL: baseUrl,
     })
     .then((response)=>{
-      console.log(response.data);
-      console.log('인기순');
       setIsPop(true);
       setIsDate(false);
+      setProjects([...response.data]);
     })
     .catch((err) =>{
       console.log(err);
@@ -50,6 +49,7 @@ function ProjectList(){
     showDateList();
   }, []);
 
+  // const [categories, setCategories] = useState(['']);
   const categories = ['0', '1', '2', '3', '4'];
   const [selected, setSelected] = useState("");
 
@@ -111,8 +111,6 @@ function ProjectList(){
             ?(<ListFilterSelected onClick={showDateList}>최신순</ListFilterSelected>)
             :(<ListFilter onClick={showDateList}>최신순</ListFilter>)
           }
-          {/* <ListFilter onClick={showPopList}>인기순</ListFilter> */}
-          {/* <ListFilter onClick={showDateList}>최신순</ListFilter> */}
         </Search>
       </ListNav>
       <Bar />
@@ -120,11 +118,14 @@ function ProjectList(){
       <Container>
         <div className="container">
           <div className="row">
-            <ProjectCard></ProjectCard>
-            <ProjectCard></ProjectCard>
-            <ProjectCard></ProjectCard>
-            <ProjectCard></ProjectCard>
-            <ProjectCard></ProjectCard>
+            {
+              projects.map((project) => (
+                <ProjectCard
+                  project={project}
+                  key={project.id}
+                />
+              ))
+            }
           </div>
         </div>
       </Container>

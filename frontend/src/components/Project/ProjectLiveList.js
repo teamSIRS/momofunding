@@ -10,6 +10,7 @@ function ProjectLiveList(){
   const [isPop, setIsPop] = useState(false);
   const [isDate, setIsDate] = useState(false);
   const [search, setSearch] = useState("");
+  const [projects, setProjects] = useState([""]); 
 
   const showDateList = async() => { //default
     await axios({
@@ -18,10 +19,10 @@ function ProjectLiveList(){
       baseURL: baseUrl,
     })
     .then((response)=>{
-      console.log(response.data);
-      console.log('최신순');
       setIsDate(true);
       setIsPop(false);
+      setProjects([...response.data]);
+      console.log(projects);
     })
     .catch((err) =>{
       console.log(err);
@@ -84,38 +85,36 @@ function ProjectLiveList(){
                 </Category>
 
                 <Search>
-                <input
-                    type="text"
-                    onChange={(e) => {
-                    setSearch(e.target.value);
-                    }}
-                />
-                <svg
-                    onClick={() => {
-                    console.log(search, '검색');
-                    }}
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-search"
-                    viewBox="0 0 16 16"
-                >
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                </svg>
+                    <input
+                        type="text"
+                        onChange={(e) => {
+                        setSearch(e.target.value);
+                        }}
+                    />
+                    <svg
+                        onClick={() => {
+                        console.log(search, '검색');
+                        }}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-search"
+                        viewBox="0 0 16 16"
+                    >
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
 
-                {
-                    isPop
-                    ?(<ListFilterSelected onClick={showPopList}>인기순</ListFilterSelected>)
-                    :(<ListFilter onClick={showPopList}>인기순</ListFilter>)
-                }
-                {
-                    isDate
-                    ?(<ListFilterSelected onClick={showDateList}>최신순</ListFilterSelected>)
-                    :(<ListFilter onClick={showDateList}>최신순</ListFilter>)
-                }
-                {/* <ListFilter onClick={showPopList}>인기순</ListFilter> */}
-                {/* <ListFilter onClick={showDateList}>최신순</ListFilter> */}
+                    {
+                        isPop
+                        ?(<ListFilterSelected onClick={showPopList}>인기순</ListFilterSelected>)
+                        :(<ListFilter onClick={showPopList}>인기순</ListFilter>)
+                    }
+                    {
+                        isDate
+                        ?(<ListFilterSelected onClick={showDateList}>최신순</ListFilterSelected>)
+                        :(<ListFilter onClick={showDateList}>최신순</ListFilter>)
+                    }
                 </Search>
             </ListNav>
             <Bar />
@@ -123,7 +122,6 @@ function ProjectLiveList(){
             <Container>
                 <div className="container">
                     <div className="row">
-                        <ProjectLiveCard></ProjectLiveCard>
                         <ProjectLiveCard></ProjectLiveCard>
                         <ProjectLiveCard></ProjectLiveCard>
                         <ProjectLiveCard></ProjectLiveCard>
