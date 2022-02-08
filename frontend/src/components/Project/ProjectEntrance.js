@@ -1,5 +1,6 @@
 import { Button } from "react-bootstrap";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const ProjectEntranceBanner = styled.div`
   width: 100%;
@@ -85,6 +86,10 @@ const ProjectContentText = styled.p`
 `;
 
 function ProjectEntrance() {
+  const navigate = useNavigate();
+  const goToProject = () => {
+    navigate("/projects/management/profile");
+  };
   return (
     <div>
       <ProjectEntranceBanner>
@@ -98,7 +103,9 @@ function ProjectEntrance() {
             <br />
             모모펀딩을 통해 성공을 경험해 보세요.
           </ProjectEntranceBannerMessage>
-          <ProjectStartBtn>모모펀딩 프로젝트 생성</ProjectStartBtn>
+          <ProjectStartBtn onClick={goToProject}>
+            모모펀딩 프로젝트 생성
+          </ProjectStartBtn>
           <ProjectEntranceSeparateLine />
         </ProjectEntranceBannerText>
       </ProjectEntranceBanner>

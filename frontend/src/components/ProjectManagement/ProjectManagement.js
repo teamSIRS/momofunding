@@ -3,13 +3,12 @@ import { Routes, Route, Link } from "react-router-dom";
 import styled from "styled-components";
 import { useMatch } from "react-router";
 import ProjectManagementContentIntro from "./ProjectManagementContent/ProjectManagementContentIntro";
-import ProjectManagementContentProfile from "./ProjectManagementContent/ProjectManagementContentProfile";
+import ProjectManagementProfile from "./ProjectManagementContent/ProjectManagementProfile";
 import ProjectManagementContentReward from "./ProjectManagementContent/ProjectManagementContentReward";
-import ProjectManagementContentStory from "./ProjectManagementContent/ProjectManagementContentStory";
 
 const ProjectManagementSidebarMain = styled.div`
   width: 100%;
-  min-height: 1200px;
+  min-height: 1700px;
   background-color: #f8f4ea;
 `;
 
@@ -78,7 +77,6 @@ const styles = {
 function ProjectManagement() {
   const profileMatch = useMatch("/projects/management/profile");
   const introMatch = useMatch("/projects/management/intro");
-  const storyMatch = useMatch("/projects/management/storyInfo");
   const rewardMatch = useMatch("/projects/management/reward");
   return (
     <div>
@@ -90,7 +88,7 @@ function ProjectManagement() {
                 <ProjectManagementSidebarProfileBox>
                   <ProjectManagementSidebarProfileImg src="/photo/profile.png" />
                   <ProjectManagementSidebarProfileTitle>
-                    아이조아 님의 프로젝트
+                    창작자 님의 프로젝트
                   </ProjectManagementSidebarProfileTitle>
                 </ProjectManagementSidebarProfileBox>
                 <ProjectManagementSidebarMenu isActive={profileMatch !== null}>
@@ -100,17 +98,13 @@ function ProjectManagement() {
                 </ProjectManagementSidebarMenu>
                 <ProjectManagementSidebarMenu isActive={introMatch !== null}>
                   <CustomLink to={`/projects/management/intro`}>
-                    프로젝트 소개
+                    프로젝트 정보 등록
                   </CustomLink>
                 </ProjectManagementSidebarMenu>
-                <ProjectManagementSidebarMenu isActive={storyMatch !== null}>
-                  <CustomLink to={`/projects/management/storyInfo`}>
-                    프로젝트 스토리
-                  </CustomLink>
-                </ProjectManagementSidebarMenu>
+
                 <ProjectManagementSidebarMenu isActive={rewardMatch !== null}>
                   <CustomLink to={`/projects/management/reward`}>
-                    리워드 정보
+                    리워드 정보 등록
                   </CustomLink>
                 </ProjectManagementSidebarMenu>
               </ProjectManagementSidebarBox>
@@ -118,21 +112,18 @@ function ProjectManagement() {
           </Col>
           <Col sm={10} style={styles.col}>
             <ProjectManagementTitle>
-              프로젝트 관리 페이지
+              프로젝트 생성 페이지
             </ProjectManagementTitle>
             <Routes>
               <Route
                 path="/profile"
-                element={<ProjectManagementContentProfile />}
+                element={<ProjectManagementProfile />}
               ></Route>
               <Route
                 path="/intro"
                 element={<ProjectManagementContentIntro />}
               ></Route>
-              <Route
-                path="/storyInfo"
-                element={<ProjectManagementContentStory />}
-              ></Route>
+
               <Route
                 path="/reward"
                 element={<ProjectManagementContentReward />}
