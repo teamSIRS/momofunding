@@ -75,6 +75,8 @@ public class LiveService {
         live.mapProjectCategory(project.getProjectCategory());
         live.mapLiveState(liveState);
 
+        project.updateIsLivePlaying(true);
+
         return liveRepository.save(live).getId();
     }
 
@@ -113,5 +115,8 @@ public class LiveService {
 
         live.updateTotalPlayTime(currentTime - startTime);
         live.mapLiveState(liveState);
+
+        Project project = live.getProject();
+        project.updateIsLivePlaying(false);
     }
 }

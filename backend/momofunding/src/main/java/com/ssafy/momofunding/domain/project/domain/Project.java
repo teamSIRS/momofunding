@@ -132,6 +132,10 @@ public class Project {
         this.expirationDate = psr.getExpirationDate();
     }
 
+    public void updateIsLivePlaying(Boolean isLivePlaying){
+        this.isLivePlaying = isLivePlaying;
+    }
+
     public void addCurrentAmount(Integer amount){
         this.currentAmount+=amount;
     }
