@@ -32,12 +32,13 @@ public class LiveApiController {
     @Parameter(name = "sortValue", description = "정렬 방식", required = true)
     @GetMapping("")
     public ResponseEntity findLiveBySort(@RequestParam String sortValue) {
-        List<LiveResponseDto> lives = new ArrayList<>();
 
-        if (sortValue.equals("date")) {
-            Sort sort = Sort.by(Sort.Direction.DESC, "id");
-            lives = liveService.findBySort(sort);
-        }
+        List<LiveResponseDto> lives = new ArrayList<>();
+        if (sortValue.equals("date"))
+            lives = liveService.findAllOrderById();
+        else if (sortValue.equals("viewer"))
+            lives = liveService.findAllOrderByViewerCount();
+
 
         if (lives.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);

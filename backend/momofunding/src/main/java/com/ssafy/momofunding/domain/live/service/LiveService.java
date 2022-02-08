@@ -29,8 +29,17 @@ public class LiveService {
     private final LiveStateRepository liveStateRepository;
 
     @Transactional
-    public List<LiveResponseDto> findBySort(Sort sort){
-        List<Live> lives = liveRepository.findAllByLiveStateId(1L, sort);
+    public List<LiveResponseDto> findAllOrderById(){
+        List<Live> lives = liveRepository.findAllByLiveStateIdOrderByIdDesc(1L);
+
+        return lives.stream()
+                .map(LiveResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<LiveResponseDto> findAllOrderByViewerCount(){
+        List<Live> lives = liveRepository.findAllByLiveStateIdOrderByViewerCountDesc(1L);
 
         return lives.stream()
                 .map(LiveResponseDto::new)

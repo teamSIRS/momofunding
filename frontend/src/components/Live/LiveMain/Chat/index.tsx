@@ -1,8 +1,10 @@
-import { arrowDownCircleOutline, sendOutline } from "ionicons/icons";
+import { closeOutline, sendOutline } from "ionicons/icons";
 import { ChangeEventHandler, MouseEventHandler, useEffect } from "react";
 import { FormEventHandler, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import { DashboardInput } from "../../LivePowderRoom/RTCRenderer/styles";
+import { authorizationState } from "../LiveMain";
 import {
   ChatBody,
   ChatButton,
@@ -13,9 +15,11 @@ import {
   ChatTypingArea,
   ChatWrapper,
   ImageForBg,
+  LiveBtnRoundDangerSmall,
   MessageBox,
   NickName,
   ProjectBtn,
+  ProjectClose,
   ProjectLink,
   ProjectText,
 } from "./styles";
@@ -42,6 +46,7 @@ const Chat = ({ show }: ChatProps) => {
   ];
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([...chatApis]);
+  const [isStaff, _] = useRecoilState(authorizationState);
 
   const inputToServer = () => {
     if (message === "") return;
@@ -75,16 +80,25 @@ const Chat = ({ show }: ChatProps) => {
     <ChatWrapper className={show ? "hide" : ""}>
       <ChatHeader>
         <ChatTop>실시간 채팅</ChatTop>
-        <ProjectLink to={`/projects/${param}`}>
-          <ProjectBtn>
-            <ImageForBg src="https://image.itmedia.co.jp/mobile/articles/2109/15/si7101-iPhone13S-01.jpg" />
-          </ProjectBtn>
-          <ProjectText>
-            {pjtApi.title}
-            <br />
-            {"후원하러 가기"}
-          </ProjectText>
-        </ProjectLink>
+        {isStaff ? (
+          <ProjectClose to="#">
+            <LiveBtnRoundDangerSmall>
+              <ChatIcon icon={closeOutline}></ChatIcon>
+            </LiveBtnRoundDangerSmall>
+            <ProjectText>스트림 끝내기</ProjectText>
+          </ProjectClose>
+        ) : (
+          <ProjectLink to={`/projects/${param}`}>
+            <ProjectBtn>
+              <ImageForBg src="https://image.itmedia.co.jp/mobile/articles/2109/15/si7101-iPhone13S-01.jpg" />
+            </ProjectBtn>
+            <ProjectText>
+              {pjtApi.title}
+              <br />
+              {"후원하러 가기"}
+            </ProjectText>
+          </ProjectLink>
+        )}
       </ChatHeader>
       <ChatBody id="chatBody">
         {messages.map((chat, idx) => (

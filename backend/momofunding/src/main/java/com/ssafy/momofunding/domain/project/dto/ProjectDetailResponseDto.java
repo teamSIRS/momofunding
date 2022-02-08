@@ -25,13 +25,12 @@ public class ProjectDetailResponseDto {
     private Integer currentAmount;
     private Integer popularity;
     private Timestamp expirationDate;
-    private Timestamp registerDate;
 
     @Builder
     public ProjectDetailResponseDto(Long id, Long projectStateId, Long projectCategoryId, Long userId,
                                     String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
-                                    String summary, String projectContent, Integer currentAmount, Timestamp expirationDate,
-                                    Timestamp registerDate){
+                                    String summary, String projectContent, Integer currentAmount, Integer popularity,
+                                    Timestamp expirationDate){
         this.id = id;
         this.projectStateId = projectStateId;
         this.projectCategoryId = projectCategoryId;
@@ -43,10 +42,8 @@ public class ProjectDetailResponseDto {
         this.summary = summary;
         this.projectContent = projectContent;
         this.currentAmount = currentAmount;
-
+        this.popularity = popularity;
         this.expirationDate = expirationDate;
-
-        this.registerDate = registerDate;
 
     }
 
@@ -54,6 +51,7 @@ public class ProjectDetailResponseDto {
         this.id = projectEntity.getId();
         this.projectStateId = projectEntity.getProjectState().getId();
         if(projectEntity.getProjectCategory() != null) this.projectCategoryId = projectEntity.getProjectCategory().getId();
+        else this.projectCategoryId = 0L;
         this.userId = projectEntity.getUser().getId();
         this.projectName = projectEntity.getProjectName();
         this.fundingGoal = projectEntity.getFundingGoal();
@@ -64,6 +62,5 @@ public class ProjectDetailResponseDto {
         this.currentAmount = projectEntity.getCurrentAmount();
         this.popularity = projectEntity.getPopularity();
         this.expirationDate = projectEntity.getExpirationDate();
-        this.registerDate = projectEntity.getRegisterDate();
     }
 }
