@@ -50,8 +50,8 @@ public class ProjectApiController {
     @PutMapping("/{projectId}")
     public ResponseEntity<Map<String, Object>> updateProject(@PathVariable Long projectId,
                                                              @RequestPart("project") ProjectUpdateRequestDto projectSaveRequestDto,
-                                                             @RequestPart("mainImage") MultipartFile mainImg,
-                                                             @RequestPart("subImage") MultipartFile subImg) {
+                                                             @RequestPart(value = "mainImage", required = false) MultipartFile mainImg,
+                                                             @RequestPart(value = "subImage", required = false) MultipartFile subImg) {
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
