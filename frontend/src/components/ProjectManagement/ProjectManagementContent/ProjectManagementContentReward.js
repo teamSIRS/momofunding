@@ -1,11 +1,14 @@
 import styled from "styled-components";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const ProjectManagementMain = styled.div`
   width: 100%;
   min-height: 800px;
 `;
 
-const ProjectManagementContentBox = styled.div`
+const ProjectManagementContentForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -46,27 +49,69 @@ const ProjectManagementContentRewardTitle = styled.h3`
 `;
 
 const ProjectManagementContentTextarea = styled(ProjectManagementContentInput)`
-  height: 150px;
+  height: 120px;
+`;
+
+const ProjectManagementContentProfileBtn = styled.button``;
+
+const ProjectManagementContentProfileRadio = styled.label`
+  font-size: 20px;
+  margin-right: 30px;
+  input {
+    margin-right: 10px;
+  }
 `;
 
 function ProjectManagementContentReward() {
+  const baseUrl = "http://localhost:8080";
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    setError,
+  } = useForm();
+  //////////////////////////////////////////////////////////////////////
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState(0);
+  const [content, setContent] = useState("");
+  const [optionDescription, setOptionDescription] = useState("");
+  const [isDeliver, setIsDeliver] = useState(false);
+  const [limitedQuantity, setLimitedQuantity] = useState(0);
+  const [deliverStartDate, setDeliverStartDate] = useState("");
+  //////////////////////////////////////////////////////////////////////
+  // 이거는 나중에 로그인한 회원의 프로젝트로 바꿔야함
+  const projectId = 1;
+  //////////////////////////////////////////////////////////////////////
+  function saveRewards(data) {
+    const saveRewards = async () => {
+      await axios({
+        url: `/rewards`,
+        method: "post",
+        data: {},
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log("에러발생");
+          console.log(error);
+        });
+    };
+    saveRewards();
+  }
+  //////////////////////////////////////////////////////////////////////
+  const onValid = (data) => {
+    saveRewards(data);
+  };
   return (
     <div>
       <ProjectManagementMain>
         <ProjectManagementContentRewardTitle>
-          리워드 정보
+          리워드 정보 등록
         </ProjectManagementContentRewardTitle>
-        <ProjectManagementContentBox>
-          <ProjectManagementContentInputBox>
-            <ProjectManagementContentTitle>금액</ProjectManagementContentTitle>
-            <ProjectManagementContentMemo>
-              금액을 입력하세요.
-            </ProjectManagementContentMemo>
-            <ProjectManagementContentInput
-              as={"input"}
-            ></ProjectManagementContentInput>
-          </ProjectManagementContentInputBox>
-
+        <ProjectManagementContentForm onSubmit={handleSubmit(onValid)}>
           <ProjectManagementContentInputBox>
             <ProjectManagementContentTitle>
               리워드 명
@@ -76,6 +121,24 @@ function ProjectManagementContentReward() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
               as={"input"}
+              {...register("name", {
+                required: "리워드 명은 필수입니다.",
+              })}
+            ></ProjectManagementContentInput>
+          </ProjectManagementContentInputBox>
+
+          <ProjectManagementContentInputBox>
+            <ProjectManagementContentTitle>
+              리워드 금액
+            </ProjectManagementContentTitle>
+            <ProjectManagementContentMemo>
+              리워드 금액을 입력하세요.
+            </ProjectManagementContentMemo>
+            <ProjectManagementContentInput
+              as={"input"}
+              {...register("price", {
+                required: "리워드 금액은 필수입니다.",
+              })}
             ></ProjectManagementContentInput>
           </ProjectManagementContentInputBox>
 
@@ -88,6 +151,9 @@ function ProjectManagementContentReward() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentTextarea
               as={"textarea"}
+              {...register("content", {
+                required: "상세 설명은 필수입니다.",
+              })}
             ></ProjectManagementContentTextarea>
           </ProjectManagementContentInputBox>
 
@@ -100,7 +166,9 @@ function ProjectManagementContentReward() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentTextarea
               as={"textarea"}
-              style={{ height: 120 }}
+              {...register("optionDescription", {
+                required: "옵션조건은 필수입니다.",
+              })}
             ></ProjectManagementContentTextarea>
           </ProjectManagementContentInputBox>
 
@@ -111,10 +179,14 @@ function ProjectManagementContentReward() {
             <ProjectManagementContentMemo>
               배송조건을 입력하세요.
             </ProjectManagementContentMemo>
-            <ProjectManagementContentTextarea
-              as={"textarea"}
-              style={{ height: 120 }}
-            ></ProjectManagementContentTextarea>
+            <ProjectManagementContentProfileRadio>
+              <input type="radio" value="1" name="deliver" checked />
+              배송가능
+            </ProjectManagementContentProfileRadio>
+            <ProjectManagementContentProfileRadio>
+              <input type="radio" value="2" name="deliver" />
+              배송불가능
+            </ProjectManagementContentProfileRadio>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -126,19 +198,25 @@ function ProjectManagementContentReward() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
               as={"input"}
+              {...register("limitedQuantity", {
+                required: "제한수량은 필수입니다.",
+              })}
             ></ProjectManagementContentInput>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
             <ProjectManagementContentTitle>
-              발송 시작일
+              배송 시작일
             </ProjectManagementContentTitle>
             <ProjectManagementContentMemo>
-              발송 시작일을 지정해주세요
+              배송 시작일을 지정해주세요
             </ProjectManagementContentMemo>
             <ProjectManagementContentDate type="date"></ProjectManagementContentDate>
           </ProjectManagementContentInputBox>
-        </ProjectManagementContentBox>
+          <ProjectManagementContentProfileBtn>
+            리워드 등록
+          </ProjectManagementContentProfileBtn>
+        </ProjectManagementContentForm>
       </ProjectManagementMain>
     </div>
   );
