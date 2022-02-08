@@ -41,8 +41,8 @@ public class RewardOrderApiController {
     }
 
     @Operation(
-            summary = "후원 목록 다중 조회",
-            description = "후원한 정보 목록을 조회할 수 있다."
+            summary = "후원한 후원 목록 다중 조회(참여자)",
+            description = "회원 본인이 후원한 정보 목록을 조회할 수 있다."
     )
     @Parameter(name = "userId", description = "회원 식별 번호", required = true)
     @GetMapping("/users/{userId}")
@@ -59,8 +59,8 @@ public class RewardOrderApiController {
     }
 
     @Operation(
-            summary = "후원 배송 정보 조회",
-            description = "후원 배송 정보를 조회할 수 있다."
+            summary = "배송 정보 조회",
+            description = "배송 정보를 조회할 수 있다."
     )
     @Parameter(name = "rewardOrderId", description = "주문 식별 번호", required = true)
     @GetMapping("/{rewardOrderId}")
@@ -76,8 +76,8 @@ public class RewardOrderApiController {
     }
 
     @Operation(
-            summary = "후원 배송 정보 수정",
-            description = "후원 배송 정보를 수정할 수 있다."
+            summary = "배송 정보 수정",
+            description = "배송 정보를 수정할 수 있다."
     )
     @Parameter(name = "rewardOrderId", description = "주문 식별 번호", required = true)
     @PutMapping("/{rewardOrderId}")
@@ -93,8 +93,8 @@ public class RewardOrderApiController {
     }
 
     @Operation(
-            summary = "후원 배송 정보 수정",
-            description = "후원 배송 정보를 수정할 수 있다."
+            summary = "후원 배송 정보 목록 조회(창작자)",
+            description = "회원 본인이 창작한 프로젝트에 후원된 배송 정보 목록을 조회할 수 있다."
     )
     @Parameter(name = "projectId", description = "프로젝트 식별 번호", required = true)
     @GetMapping("/projects/{projectId}")
