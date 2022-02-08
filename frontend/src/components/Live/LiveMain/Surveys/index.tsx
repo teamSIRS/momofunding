@@ -1,4 +1,7 @@
+import axios from "axios";
+import { useEffect } from "react";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
+import { baseUrl } from "../../../../App";
 import { ChatProps } from "../Chat";
 import { ChatTop } from "../Chat/styles";
 import { authorizationState, submitState } from "../LiveMain";
@@ -19,44 +22,75 @@ import SurveyNarrative from "./SurveyNarrative";
 const thankYouMessage = "설문에 참여해주셔서 감사합니다";
 const checkMessage = "시청자 대상 설문이 진행중입니다";
 
-const api = {
-  title: "Apple iPhone 3GS를 어떻게 생각하시나요?",
-  content:
-    "해당 설문조사는 아이폰 3GS 설명회에 대한 설문입니다.\
-    모든 설문 결과는 익명이 보장되며, 여려분의 소중한 의견은\
-    적극적으로 반영하도록 하겠습니다.",
+const surveyId = 1;
+
+type questionForm = {
+  id: number;
+  title: string;
+  questionType: {
+    id: number;
+    name: string;
+  };
+  questionIds: {
+    id: number;
+    content: string;
+  }[];
+};
+
+type apiForm = {
+  id: number;
+  title: string;
+  content: string;
+  startDate: string;
+  endDate: string;
+  questions: questionForm[];
+};
+
+const defaultApi: apiForm = {
+  id: -1,
+  title: "",
+  content: "",
+  startDate: "",
+  endDate: "",
   questions: [
     {
-      title: "iPhone이 출시된다면?",
-      type: 0,
-      choose: ["구매의사가 있다", "구매의사가 없다"],
-    },
-    {
-      title: "현재 사용하시는 스마트폰의 기종이 무엇인가요?",
-      type: 0,
-      choose: ["아이폰", "갤럭시", "기타", "모모"],
-    },
-    {
-      title: "여러분의 의견을 자유롭게 제출해주세요",
-      type: 1,
+      id: -1,
+      title: "",
+      questionType: {
+        id: -1,
+        name: "",
+      },
+      questionIds: [
+        {
+          id: 1,
+          content: "싫어함",
+        },
+        {
+          id: 2,
+          content: "보통",
+        },
+        {
+          id: 3,
+          content: "좋아함",
+        },
+      ],
     },
   ],
 };
 
-const submits = api.questions.map((question) => {
-  if (question.type === 1) return true;
-  return false;
+export const surveyApiState = atom({
+  key: "surveyApi",
+  default: defaultApi,
 });
 
 export const submitStates = atom({
   key: "submitStates",
-  default: submits,
+  default: [false],
 });
 
 const submitConfirm = selector({
   key: "submitConfirm",
   get: ({ get }) => {
-    console.log(submitStates);
     const states = get(submitStates);
     let allConfirmed = true;
     states.forEach((isSubmitted) => {
@@ -71,31 +105,83 @@ const Survey = ({ show }: ChatProps) => {
   const [isStaff, ___] = useRecoilState(authorizationState);
   const [questionStates, _] = useRecoilState(submitStates);
   const submitAllDone = useRecoilValue(submitConfirm);
+  const [surveyApi, setSurveyApi] = useRecoilState(surveyApiState);
 
+  function getSurveyInfo() {
+    const getSurveyInfo = async () => {
+      await axios({
+        url: `/surveys/${surveyId}`,
+        method: "get",
+        baseURL: `${baseUrl}`,
+      })
+        .then((res) => {
+          const data = res.data;
+          console.log(res.data);
+          setSurveyApi({
+            id: data.id,
+            title: data.title,
+            content: data.content,
+            startDate: data.startDate,
+            endDate: data.endDate,
+            questions: [
+              // tmp 나중에는 서버에서 받아올거임
+              {
+                id: 1,
+                title: "만두를 얼마나 좋아하시나요?",
+                questionType: {
+                  id: 1,
+                  name: "객관식",
+                },
+                questionIds: [
+                  {
+                    id: 1,
+                    content: "싫어함",
+                  },
+                  {
+                    id: 2,
+                    content: "보통",
+                  },
+                  {
+                    id: 3,
+                    content: "좋아함",
+                  },
+                ],
+              },
+            ],
+          });
+        })
+        .catch((error) => console.log(error));
+    };
+    getSurveyInfo();
+  }
+
+  useEffect(() => {
+    getSurveyInfo();
+  }, []);
   return (
     <SurveyWrapper className={show ? "hide" : ""}>
       <SurveyHeader>
         <ChatTop>설문조사</ChatTop>
-        <SurveyTitle>{api.title}</SurveyTitle>
-        <SurveyDescription>{api.content}</SurveyDescription>
+        <SurveyTitle>{surveyApi.title}</SurveyTitle>
+        <SurveyDescription>{surveyApi.content}</SurveyDescription>
       </SurveyHeader>
       <SurveyBody className={surveyState ? "done" : ""}>
         {surveyState ? (
           <h4>{isStaff ? checkMessage : thankYouMessage}</h4>
         ) : (
           <div>
-            {api.questions.map((question, idx) => (
+            {surveyApi.questions.map((question, idx) => (
               <div key={idx}>
                 <SurveyCreatorMsgBox>
-                  Q{idx + 1}. {question.title}
+                  Q{question.id}. {question.title}
                 </SurveyCreatorMsgBox>
                 <SurveyMessageBox
                   className={
                     questionStates[idx] ? "submitDone" : "submitUnDone"
                   }
                 >
-                  {question.type === 0 ? (
-                    <SurveyChoice q_idx={idx} choose={question.choose} />
+                  {question.questionType.id === 1 ? (
+                    <SurveyChoice q_idx={idx} choose={question.questionIds} />
                   ) : (
                     <SurveyNarrative />
                   )}

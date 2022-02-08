@@ -9,7 +9,7 @@ import {
 
 type SurveyChoiceProps = {
   q_idx: number;
-  choose?: string[];
+  choose?: { id: number; content: string }[];
 };
 
 const defaultChoice = -1;
@@ -39,7 +39,7 @@ const SurveyChoice = ({ q_idx, choose }: SurveyChoiceProps) => {
           htmlFor={q_idx + "-" + idx}
           className={isChecked(idx) ? "checked" : "unchecked"}
         >
-          {choice}
+          {choice.content}
           <SurveyChoiceInput
             type="radio"
             id={q_idx + "-" + idx}
