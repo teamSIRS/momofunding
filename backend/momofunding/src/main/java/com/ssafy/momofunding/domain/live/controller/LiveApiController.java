@@ -2,7 +2,7 @@ package com.ssafy.momofunding.domain.live.controller;
 
 import com.ssafy.momofunding.domain.live.dto.LiveResponseDto;
 import com.ssafy.momofunding.domain.live.dto.LiveSaveRequestDto;
-import com.ssafy.momofunding.domain.live.dto.LiveUpdateRequestDto;
+import com.ssafy.momofunding.domain.live.dto.LiveSummaryUpdateRequestDto;
 import com.ssafy.momofunding.domain.live.service.LiveService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -54,7 +54,7 @@ public class LiveApiController {
 
         Map<String, Object> responseMap = new HashMap<>();
         try {
-            Long liveId = liveService.save(liveSaveRequestDto);
+            Long liveId = liveService.saveLive(liveSaveRequestDto);
             responseMap.put("liveId", liveId);
         } catch (IllegalArgumentException e) {
             responseMap.put("errorMsg", e.getMessage());
@@ -94,11 +94,11 @@ public class LiveApiController {
     )
     @Parameter(name = "liveId", description = "라이브 Id", required = true)
     @PutMapping("/{liveId}")
-    public ResponseEntity updateLive(@RequestBody LiveUpdateRequestDto liveUpdateRequestDto, @PathVariable Long liveId) {
+    public ResponseEntity updateLive(@RequestBody LiveSummaryUpdateRequestDto liveUpdateRequestDto, @PathVariable Long liveId) {
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
-            liveService.update(liveUpdateRequestDto, liveId);
+            liveService.updateLiveSumamry(liveUpdateRequestDto, liveId);
         } catch (IllegalArgumentException e) {
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);

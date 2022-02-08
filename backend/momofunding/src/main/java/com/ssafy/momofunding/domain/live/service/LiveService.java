@@ -3,7 +3,7 @@ package com.ssafy.momofunding.domain.live.service;
 import com.ssafy.momofunding.domain.live.domain.Live;
 import com.ssafy.momofunding.domain.live.dto.LiveResponseDto;
 import com.ssafy.momofunding.domain.live.dto.LiveSaveRequestDto;
-import com.ssafy.momofunding.domain.live.dto.LiveUpdateRequestDto;
+import com.ssafy.momofunding.domain.live.dto.LiveSummaryUpdateRequestDto;
 import com.ssafy.momofunding.domain.live.repository.LiveRepository;
 import com.ssafy.momofunding.domain.liveState.domain.LiveState;
 import com.ssafy.momofunding.domain.liveState.repository.LiveStateRepository;
@@ -50,7 +50,7 @@ public class LiveService {
     }
 
     @Transactional
-    public Long save(LiveSaveRequestDto liveSaveRequestDto){
+    public Long saveLive(LiveSaveRequestDto liveSaveRequestDto){
         Long projectId = liveSaveRequestDto.getProjectId();
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호 입니다. projectId : " + projectId));
@@ -70,7 +70,7 @@ public class LiveService {
     }
 
     @Transactional
-    public void update(LiveUpdateRequestDto liveUpdateRequestDto, Long liveId){
+    public void updateLiveSumamry(LiveSummaryUpdateRequestDto liveUpdateRequestDto, Long liveId){
         Live live = liveRepository.findById(liveId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 라이브 번호 입니다. liveId : " + liveId));
 
