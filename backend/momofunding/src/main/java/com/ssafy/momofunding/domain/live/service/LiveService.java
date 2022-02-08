@@ -42,7 +42,7 @@ public class LiveService {
         projectCategoryRepository.findById(projectCategoryId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 카테고리 번호입니다. projectCategoryId : " + projectCategoryId));
 
-        List<Live> lives = liveRepository.findAllByProjectCategoryId(projectCategoryId, sort);
+        List<Live> lives = liveRepository.findAllByProjectCategoryIdAndLiveStateId(projectCategoryId, 1L, sort);
 
         return lives.stream()
                 .map(LiveResponseDto::new)
