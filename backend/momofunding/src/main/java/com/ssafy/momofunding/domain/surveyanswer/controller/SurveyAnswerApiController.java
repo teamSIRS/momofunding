@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-@Tag(name = "Survey Question API")
+@Tag(name = "Survey Answer API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/survey-answers")
