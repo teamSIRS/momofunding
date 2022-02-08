@@ -11,11 +11,15 @@ import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
 import com.ssafy.momofunding.domain.projectcategory.repository.ProjectCategoryRepository;
+import com.ssafy.momofunding.domain.projectstate.domain.ProjectState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,5 +91,18 @@ public class LiveService {
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 라이브 번호 입니다. liveId : " + liveId));
 
         live.updateViewerCount(viewerCount);
+    }
+
+    @Transactional
+    public void endLive (Long liveId) {
+        Live live = liveRepository.findById(liveId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 라이브 번호 입니다. liveId : " + liveId));
+
+        LiveState liveState = liveStateRepository.findById(2L).get();
+        long currentTime = new Timestamp(System.currentTimeMillis()).getTime();
+        long startTime = live.getRegisterDate().getTime();
+
+        live.updateTotalPlayTime(currentTime - startTime);
+        live.mapLiveState(liveState);
     }
 }

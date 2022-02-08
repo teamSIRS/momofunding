@@ -33,10 +33,7 @@ public class Live {
     private String sessionId;
 
     @Column
-    private Integer totalPlayTime;
-
-    @Column
-    private Timestamp startTime;
+    private Long totalPlayTime;
 
     @Column(nullable = false)
     private Timestamp registerDate;
@@ -74,16 +71,17 @@ public class Live {
         this.viewerCount = viewerCount;
     }
 
+    public void updateTotalPlayTime(Long time) {
+        this.totalPlayTime = time;
+    }
+
     @Builder
-    public Live(String title, String content, Integer viewerCount, Integer totalPlayTime, Timestamp startTime, Timestamp registerDate, String sessionId){
+    public Live(String title, String content, Integer viewerCount, Long totalPlayTime, Timestamp registerDate, String sessionId){
         this.title = title;
         this.content = content;
         this.viewerCount = viewerCount;
         this.totalPlayTime = totalPlayTime;
-        this.startTime = startTime;
         this.registerDate = registerDate;
         this.sessionId = sessionId;
     }
-
-
 }
