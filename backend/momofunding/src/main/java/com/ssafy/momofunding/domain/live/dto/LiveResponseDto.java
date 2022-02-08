@@ -14,7 +14,7 @@ public class LiveResponseDto {
     private String content;
     private Integer totalPlayTime;
     private Timestamp startTime;
-    private Integer maxViewer;
+    private Integer viewerCount;
     private Timestamp registerDate;
     private String sessionId;
 
@@ -24,19 +24,19 @@ public class LiveResponseDto {
         this.content = entity.getContent();
         this.totalPlayTime = entity.getTotalPlayTime();
         this.startTime = entity.getStartTime();
-        this.maxViewer = entity.getViewerCount();
+        this.viewerCount = entity.getViewerCount();
         this.registerDate = entity.getRegisterDate();
         this.sessionId = entity.getSessionId();
     }
 
     @Builder
-    public LiveResponseDto(Long id, String title, String content, Integer totalPlayTime, Timestamp startTime, Integer maxViewer, Timestamp registerDate){
+    public LiveResponseDto(Long id, String title, String content, Integer totalPlayTime, Timestamp startTime, Integer viewerCount, Timestamp registerDate){
         this.id = id;
         this.title = title;
         this.content = content;
         this.totalPlayTime = totalPlayTime;
         this.startTime = startTime;
-        this.maxViewer = maxViewer;
+        this.viewerCount = viewerCount;
         this.registerDate = registerDate;
         this.sessionId = getSessionId();
     }
