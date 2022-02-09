@@ -21,9 +21,13 @@ function ProjectList(){
       name: "전체"
     }
   ];
+  var orderQuery = "";
+  var categoryQuery = "";
+  var keywordQuery = "";
 
   const handleSelect = (e) =>{
     setSelected(Number(e.target.value));
+    setSearch("");
   }
 
   const Categories = async() => {
@@ -40,50 +44,35 @@ function ProjectList(){
     })
   }
 
-  const ItemSearch = async() =>{
+  const Setlist = async() =>{
+    if(isDate){
+      orderQuery = "?order=date";
+      setSort("date");
+    } else{
+      orderQuery = "?order=popularity";
+      setSort("popularity");
+    }
+
+    if(selected != 0) categoryQuery = "&categoryId="+selected;
+    else categoryQuery = "";
+
+    if(search != "") keywordQuery = "&keyword="+search;
+    else keywordQuery = "";
+
+    //console.log(orderQuery+categoryQuery+keywordQuery);
+    
     await axios({
-      url:`http://localhost:8080/projects/search?order=${sort}&categoryId=${selected}&keyword=${search}`,
-      method: "get",
+      //url:`/projects/search?order=${sort}`,
+      url:`http://localhost:8080/projects/search`+orderQuery+categoryQuery+keywordQuery,
+      method:"get",
       baseURL: baseUrl,
     })
-    .then((res) => {
-      setProjects(res.data);
+    .then((response)=>{
+      setProjects([...response.data]);
     })
     .catch((err) =>{
       console.log(err);
     })
-  }
-
-  const Setlist = async() =>{
-    if(isDate) setSort("date");
-    else if(isPop) setSort("popularity");
-    
-    if(selected === 0){
-      await axios({
-        url:`/projects?sort=${sort}`,
-        method:"get",
-        baseURL: baseUrl,
-      })
-      .then((response)=>{
-        setProjects([...response.data]);
-      })
-      .catch((err) =>{
-        console.log(err);
-      })
-    }
-    else{
-      await axios({
-        url:`/projects/categories/${selected}?sort=${sort}`,
-        method:"get",
-        baseURL: baseUrl,
-      })
-      .then((response)=>{
-        setProjects([...response.data]);
-      })
-      .catch((err) =>{
-        console.log(err);
-      })
-    }
   }
 
   useEffect(()=>{
@@ -112,6 +101,7 @@ function ProjectList(){
         <Search>
           <input
             type="text"
+            value={search}
             onChange={(e) => {
               setSearch(e.target.value);
             }}
@@ -119,8 +109,7 @@ function ProjectList(){
           <svg
             onClick={() => {
               console.log(search, '검색');
-              setSelected(0);
-              ItemSearch();
+              Setlist();
             }}
             xmlns="http://www.w3.org/2000/svg"
             width="16"
