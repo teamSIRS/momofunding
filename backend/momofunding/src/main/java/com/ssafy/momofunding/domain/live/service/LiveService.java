@@ -2,6 +2,7 @@ package com.ssafy.momofunding.domain.live.service;
 
 import com.ssafy.momofunding.domain.live.domain.Live;
 import com.ssafy.momofunding.domain.live.dto.LiveResponseDto;
+import com.ssafy.momofunding.domain.live.dto.LiveResponseWithCreatorDto;
 import com.ssafy.momofunding.domain.live.dto.LiveSaveRequestDto;
 import com.ssafy.momofunding.domain.live.dto.LiveSummaryUpdateRequestDto;
 import com.ssafy.momofunding.domain.live.repository.LiveRepository;
@@ -9,17 +10,13 @@ import com.ssafy.momofunding.domain.liveState.domain.LiveState;
 import com.ssafy.momofunding.domain.liveState.repository.LiveStateRepository;
 import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
-import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
 import com.ssafy.momofunding.domain.projectcategory.repository.ProjectCategoryRepository;
-import com.ssafy.momofunding.domain.projectstate.domain.ProjectState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +34,7 @@ public class LiveService {
         List<Live> lives = liveRepository.findAllByLiveStateIdOrderByIdDesc(1L);
 
         return lives.stream()
-                .map(LiveResponseDto::new)
+                .map(live -> new LiveResponseWithCreatorDto(live, live.getProject().getCreator()))
                 .collect(Collectors.toList());
     }
 
@@ -46,7 +43,7 @@ public class LiveService {
         List<Live> lives = liveRepository.findAllByLiveStateIdOrderByViewerCountDesc(1L);
 
         return lives.stream()
-                .map(LiveResponseDto::new)
+                .map(live -> new LiveResponseWithCreatorDto(live, live.getProject().getCreator()))
                 .collect(Collectors.toList());
     }
 
@@ -58,7 +55,7 @@ public class LiveService {
         List<Live> lives = liveRepository.findAllByProjectCategoryIdAndLiveStateId(projectCategoryId, 1L, sort);
 
         return lives.stream()
-                .map(LiveResponseDto::new)
+                .map(live -> new LiveResponseWithCreatorDto(live, live.getProject().getCreator()))
                 .collect(Collectors.toList());
     }
 
