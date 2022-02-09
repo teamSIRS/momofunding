@@ -78,7 +78,7 @@ function CreateNotice() {
 
   //////////////////////////////////////////////////////
   // 나중에 직접 userId로 설정해야함
-  const userId = 18;
+  const userId = 17;
   //////////////////////////////////////////////////////
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
