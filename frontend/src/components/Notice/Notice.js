@@ -1,4 +1,5 @@
 import { Container, Col, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import NoticeList from "./NoticeList/NoticeList";
 
@@ -36,6 +37,10 @@ const styles = {
 };
 
 function Notice() {
+  const navigate = useNavigate();
+  const GoToCreateNotice = () => {
+    navigate("/notices/create");
+  };
   return (
     <div>
       <NoticeMainTitle>공지사항</NoticeMainTitle>
@@ -43,7 +48,9 @@ function Notice() {
         <Row style={styles.row}>
           <Col sm={12} style={styles.col}>
             <NoticeMain>
-              <NoticeMainBtn as={"button"}>글 작성</NoticeMainBtn>
+              <NoticeMainBtn as={"button"} onClick={GoToCreateNotice}>
+                글 작성
+              </NoticeMainBtn>
               <NoticeList />
             </NoticeMain>
           </Col>

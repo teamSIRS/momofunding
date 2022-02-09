@@ -1,4 +1,7 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Container, Col, Row } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const NoticeDetailMain = styled.div`
@@ -27,7 +30,7 @@ const NoticeDetailTitle = styled.div`
   font-weight: bold;
   margin-bottom: 5px;
 `;
-const NoticeDetailInput = styled.div`
+const NoticeDetailInput = styled.input`
   width: 100%;
   height: 50px;
   border-radius: 5px;
@@ -43,7 +46,7 @@ const NoticeDetailTextarea = styled(NoticeDetailInput)`
   height: 200px;
 `;
 
-const NoticeDetailBtn = styled.div`
+const NoticeDetailBtn = styled.button`
   float: right;
   padding: 5px 10px;
   margin-left: 10px;
@@ -62,9 +65,94 @@ const styles = {
 };
 
 function NoticeDetail() {
+  const baseUrl = "http://localhost:8080";
+  const navigate = useNavigate();
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const { id } = useParams();
+  //////////////////////////////////////////////////////////////////////
+  const onTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+  const onContentChange = (event) => {
+    setContent(event.target.value);
+  };
+
+  const goBackToList = () => {
+    navigate("/notices");
+  };
+  //////////////////////////////////////////////////////////////////////
+  function getNotice() {
+    const getNotice = async () => {
+      await axios({
+        url: `/notice/${id}`,
+        method: "get",
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data);
+          setTitle(response.data.title);
+          setContent(response.data.content);
+        })
+        .catch((error) => {
+          console.log("에러발생");
+          console.log(error);
+        });
+    };
+    getNotice();
+  }
+  //////////////////////////////////////////////////////////////////////
+  function updateNotice(event) {
+    event.preventDefault();
+    const data = {
+      title: title,
+      content: content,
+    };
+    const updateNotice = async () => {
+      await axios({
+        url: `/notice/${id}`,
+        method: "put",
+        data: data,
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data);
+          navigate("/notices");
+        })
+        .catch((error) => {
+          console.log("에러발생");
+          console.log(error);
+        });
+    };
+    updateNotice();
+  }
+  //////////////////////////////////////////////////////////////////////
+  function deleteNotice() {
+    const deleteNotice = async () => {
+      await axios({
+        url: `/notice/${id}`,
+        method: "delete",
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data);
+          navigate("/notices");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    deleteNotice();
+  }
+
+  //////////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    getNotice();
+  }, []);
   return (
     <div>
-      <NoticeDetailMainTitle>글 작성하기</NoticeDetailMainTitle>
+      <NoticeDetailMainTitle>글 수정, 삭제하기</NoticeDetailMainTitle>
       <Container>
         <Row style={styles.row}>
           <Col style={styles.col}>
@@ -72,21 +160,26 @@ function NoticeDetail() {
               <NoticeDetailForm>
                 <NoticeDetailInputBox>
                   <NoticeDetailTitle>제목</NoticeDetailTitle>
-                  <NoticeDetailInput as={"input"}></NoticeDetailInput>
+                  <NoticeDetailInput value={title} onChange={onTitleChange} />
                 </NoticeDetailInputBox>
 
                 <NoticeDetailInputBox>
                   <NoticeDetailTitle>내용</NoticeDetailTitle>
-                  <NoticeDetailTextarea></NoticeDetailTextarea>
+                  <NoticeDetailTextarea
+                    as={"textarea"}
+                    value={content}
+                    onChange={onContentChange}
+                  ></NoticeDetailTextarea>
                 </NoticeDetailInputBox>
 
                 <NoticeDetailInputBox>
-                  <NoticeDetailBtn as={"button"} BtnBgColor={"green"}>
-                    글 수정
-                  </NoticeDetailBtn>
-                  <NoticeDetailBtn as={"button"} BtnBgColor={"red"}>
+                  <NoticeDetailBtn onClick={deleteNotice} BtnBgColor={"red"}>
                     글 삭제
                   </NoticeDetailBtn>
+                  <NoticeDetailBtn onClick={updateNotice} BtnBgColor={"green"}>
+                    글 수정
+                  </NoticeDetailBtn>
+                  <NoticeDetailBtn onClick={goBackToList}>목록</NoticeDetailBtn>
                 </NoticeDetailInputBox>
               </NoticeDetailForm>
             </NoticeDetailMain>

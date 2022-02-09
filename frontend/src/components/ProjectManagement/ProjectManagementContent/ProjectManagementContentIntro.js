@@ -247,11 +247,17 @@ function ProjectManagementContentIntro() {
               value={projectCategoryId}
               onChange={onProjectCategoryIdChange}
             >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
+              <option value="1">푸드</option>
+              <option value="2">리빙</option>
+              <option value="3">가구</option>
+              <option value="4">테크</option>
+              <option value="5">패션</option>
+              <option value="6">뷰티</option>
+              <option value="7">스포츠</option>
+              <option value="8">도서</option>
+              <option value="9">굿즈</option>
+              <option value="10">뮤직</option>
+              <option value="11">게임</option>
             </select>
           </ProjectManagementContentInputBox>
 

@@ -38,10 +38,9 @@ function App() {
         <Route path="/lives" element={<ProjectLiveList />}></Route>
         <Route path="/lives/:id" element={<LiveMain />}></Route>
         <Route path="/lives/:id/new" element={<LivePowderRoom />}></Route>
-        <Route path="/notices" element={<h1>공지사항</h1>}></Route>
         <Route path="/notices" element={<Notice />}></Route>
         <Route path="/notices/create" element={<CreateNotice />}></Route>
-        <Route path="/notices/detail" element={<NoticeDetail />}></Route>
+        <Route path="/notices/:id" element={<NoticeDetail />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
         <Route path="projects/:id" element={<ProjectDetail />}>
