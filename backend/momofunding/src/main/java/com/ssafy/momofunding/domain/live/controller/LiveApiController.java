@@ -27,9 +27,9 @@ public class LiveApiController {
 
     @Operation(
             summary = "정렬 별 진행중인 라이브 다중 조회",
-            description = "최신 순, 시청자 순(추가 예정)에 따른 진행중인 라이브 리스트를 조회 (진행중이 아니면 조회되지 않음)"
+            description = "최신 순, 시청자 순(=인기순 에 따른 진행중인 라이브 리스트를 조회 (진행중이 아니면 조회되지 않음)"
     )
-    @Parameter(name = "sortValue", description = "정렬 방식", required = true)
+    @Parameter(name = "sortValue", description = "정렬 방식(date:최신순 / viewer:인기순)", required = true)
     @GetMapping("")
     public ResponseEntity findLiveBySort(@RequestParam String sortValue) {
 
@@ -42,6 +42,29 @@ public class LiveApiController {
 
         if (lives.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+
+        return ResponseEntity.status(HttpStatus.OK).body(lives);
+    }
+
+    @Operation(
+            summary = "프로젝트 내 종료된 라이브 목록 조회 (== 라이브 기록 조회)",
+            description = "프로젝트 Id로 종료된 라이브 조회"
+    )
+    @Parameter(name = "projectId", description = "프로젝트 Id", required = true)
+    @GetMapping("/projects/{projectId}")
+    public ResponseEntity findLivesByProjectId(@PathVariable Long projectId) {
+
+        List<LiveResponseDto> lives;
+        try {
+            lives = liveService.findLivesByProjectId(projectId);
+        } catch (IllegalArgumentException e) {
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+
+        if (lives.isEmpty())
+            ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 
         return ResponseEntity.status(HttpStatus.OK).body(lives);
     }
@@ -145,6 +168,4 @@ public class LiveApiController {
 
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-
-
 }
