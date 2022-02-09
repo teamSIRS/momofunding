@@ -24,7 +24,7 @@ export const HomeBanners = () => {
   return (
     <Carousel>
       {apis.map((api, idx) => (
-        <Carousel.Item>
+        <Carousel.Item key={idx}>
           <HomeBanner
             index={idx}
             title={api.title}

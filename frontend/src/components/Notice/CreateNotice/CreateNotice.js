@@ -83,7 +83,6 @@ function CreateNotice() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   function createNotice(data) {
-    console.log(localStorage.getItem("auth-token"));
     const createNotice = async () => {
       await axios({
         url: `/notices`,
@@ -93,9 +92,7 @@ function CreateNotice() {
           title: data.title,
           content: data.content,
         },
-        headers: {
-          Authorization: `${localStorage.getItem("auth-token")}`,
-        },
+        headers: setAuthorizationToken(),
         baseURL: baseUrl,
       })
         .then((response) => {
