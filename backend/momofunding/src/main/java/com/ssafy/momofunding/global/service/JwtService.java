@@ -49,6 +49,7 @@ public class JwtService {
                                 .parseClaimsJws(jwt);
             return true;
         } catch (Exception e) {
+
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "JWT UNAUTHORIZED");
         }
     }
@@ -58,6 +59,7 @@ public class JwtService {
         try {
             claims = Jwts.parserBuilder().setSigningKey(this.generateKey()).build().parseClaimsJws(jwt);
         } catch (Exception e) {
+
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "JWT UNAUTHORIZED");
         }
         Map<String, Object> value = claims.getBody();
