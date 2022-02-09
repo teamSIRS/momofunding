@@ -8,13 +8,19 @@ import { ListNav, Category, Search, Bar, ListFilter, ListFilterSelected } from '
 
 function ProjectList(){
   const baseUrl = "http://localhost:8080";
+  const [isDate, setIsDate] = useState(true);
   const [isPop, setIsPop] = useState(false);
-  const [isDate, setIsDate] = useState(false);
   const [search, setSearch] = useState("");
   const [projects, setProjects] = useState([""]);
   const [categories, setCategories] = useState([""]);
-  const [selected, setSelected] = useState(1);
-  
+  const [selected, setSelected] = useState(0);
+  const [sort, setSort] = useState("");
+  const all = [
+    {
+      id: 0,
+      name: "전체"
+    }
+  ];
 
   const handleSelect = (e) =>{
     setSelected(Number(e.target.value));
@@ -27,109 +33,51 @@ function ProjectList(){
       baseURL: baseUrl,
     })
     .then((response)=>{;
-      setCategories([...response.data]);
+      setCategories([...all, ...response.data]);
     })
     .catch((err) =>{
       console.log(err);
     })
   }
 
-  const CategorySelected = async() => {
-    if(isDate){
+  const list = async() =>{
+    if(isDate) setSort("date");
+    else if(isPop) setSort("popularity");
+    if(selected === 0){
       await axios({
-        url:`/projects/categories/${selected}?sort=date`,
+        url:`/projects?sort=${sort}`,
         method:"get",
         baseURL: baseUrl,
       })
       .then((response)=>{
-        console.log(selected);
-        console.log(response.data);
         setProjects([...response.data]);
       })
       .catch((err) =>{
         console.log(err);
       })
     }
-    else if(isPop){
+    else{
       await axios({
-        url:`/projects/categories/${selected}?sort=popularity`,
+        url:`/projects/categories/${selected}?sort=${sort}`,
         method:"get",
         baseURL: baseUrl,
       })
       .then((response)=>{
-        console.log(selected);
-        console.log(response.data);
         setProjects([...response.data]);
       })
       .catch((err) =>{
         console.log(err);
       })
     }
-  }
-  //현재상태
-  //처음 들어갔을 때 -> 전체 카테고리
-  //카테고리 선택시 -> 현재의 최신순/인기순에 맞춰서 결과 나옴
-  //전체 카테고리 보고싶으면 -> 인기순 or 최신순 선택하면 변경됨
-  // 즉 '카테고리 -> 인기/최신순 순서'로 선택시 전체목록으로 돌아감....
-  // 카테고리 안에서 인기순/최신순은 안된다는 말
-  // == 인기/최신순-카테고리(O), 카테고리-인기/최신순(X)
-  //DB에 '전체' 카테고리 추가 필요 -> isDate, isPop 상태에 따라서 함수 호출
-
-  //API 불러올 때 if문을 쓸 수는 없는걸까?
-  //만약 안된다면...
-  //if(isDate === true && 카테고리변경이 일어났다) -> CategoriesDate 불러오기, isDate, isPop 값 변경
-  //if(isPop === true && ~~) -> CategoriesPop 불러오기, isDate, isPop 값 변경 (CategoriesPop 함수 새로 만들어야 함)
-  //하,,근데 이 경우 문제가...........있음. 카테고리는 그대로 두고 인기순,최신순만 바꾼다면?....어케될까요홍
-
-  //페이지 무한스크롤 = 페이징이랑 똑같이... API가 여러장 있어야함!! 스크롤 넘어갈때마다 새로운 페이지를 불러옴
-
-
-
-  ///////////////////////////////
-
-  const showDateList = async() => { //default 최신순
-    await axios({
-      url:`/projects?sort=date`,
-      method:"get",
-      baseURL: baseUrl,
-    })
-    .then((response)=>{
-      setIsDate(true);
-      setIsPop(false);
-      setProjects([...response.data]);
-    })
-    .catch((err) =>{
-      console.log(err);
-    })
-  }
-  
-  const showPopList = async() => {
-    await axios({
-      url:`/projects?sort=popularity`,
-      method:"get",
-      baseURL: baseUrl,
-    })
-    .then((response)=>{
-      setIsPop(true);
-      setIsDate(false);
-      setProjects([...response.data]);
-    })
-    .catch((err) =>{
-      console.log(err);
-    })
   }
 
   useEffect(()=>{
-    showDateList();
     Categories();
   }, []);
 
   useEffect(()=>{
-    CategorySelected();
-  },[selected]);
-
-
-
+    list();
+  },[sort, selected, isPop, isDate]);
 
   return(
     <>
@@ -169,13 +117,13 @@ function ProjectList(){
 
           {
             isPop
-            ?(<ListFilterSelected onClick={showPopList}>인기순</ListFilterSelected>)
-            :(<ListFilter onClick={showPopList}>인기순</ListFilter>)
+            ?(<ListFilterSelected>인기순</ListFilterSelected>)
+            :(<ListFilter onClick={()=>{setIsPop(true); setIsDate(false); }}>인기순</ListFilter>)
           }
           {
             isDate
-            ?(<ListFilterSelected onClick={showDateList}>최신순</ListFilterSelected>)
-            :(<ListFilter onClick={showDateList}>최신순</ListFilter>)
+            ?(<ListFilterSelected>최신순</ListFilterSelected>)
+            :(<ListFilter onClick={()=>{setIsDate(true); setIsPop(false);}}>최신순</ListFilter>)
           }
         </Search>
       </ListNav>
