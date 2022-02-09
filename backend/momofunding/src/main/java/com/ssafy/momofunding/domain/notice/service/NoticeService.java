@@ -9,7 +9,6 @@ import com.ssafy.momofunding.domain.notice.repository.NoticeRepository;
 import com.ssafy.momofunding.domain.user.domain.User;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

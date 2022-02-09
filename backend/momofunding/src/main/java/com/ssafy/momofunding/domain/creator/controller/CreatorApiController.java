@@ -32,10 +32,10 @@ public class CreatorApiController {
     @PutMapping("/{projectId}")
     public ResponseEntity<Object> updateCreator(@PathVariable Long projectId,
                                                 @RequestPart("creator") CreatorUpdateRequestDto creatorUpdateRequestDto,
-                                                @RequestPart(value = "creatorImage", required = false) MultipartFile creatorImg){
-        try{
+                                                @RequestPart(value = "creatorImage", required = false) MultipartFile creatorImg) {
+        try {
             creatorService.updateCreator(projectId, creatorUpdateRequestDto, creatorImg);
-        }catch (IllegalArgumentException | IOException e){
+        } catch (IllegalArgumentException | IOException e) {
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
@@ -49,15 +49,15 @@ public class CreatorApiController {
     )
     @Parameter(name = "projectId", description = "조회할 창작자의 프로젝트 식별번호", required = true)
     @GetMapping("/{projectId}")
-    public ResponseEntity<Object> findCreatorByProjectId(@PathVariable Long projectId){
+    public ResponseEntity<Object> findCreatorByProjectId(@PathVariable Long projectId) {
         try {
             CreatorDetailResponseDto creatorDetailResponseDto = creatorService.findCreatorByProjectId(projectId);
             return ResponseEntity.status(HttpStatus.OK).body(creatorDetailResponseDto);
-        } catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
     }
-    
+
 }

@@ -166,8 +166,8 @@ public class UserApiController {
             summary = "이메일 전송",
             description = "비밀번호를 재설정 하는 회원에게 재설정 링크를 보내줌"
     )
-    @Parameter(name = "email", description = "비밀번호 재설정 할 이메일", required = true)
-    @PostMapping("/mail")
+    @Parameter(name = "email", description = "비밀번호 재설정 할 회원의 이메일", required = true)
+    @PostMapping("/email")
     public ResponseEntity resetPassword(@RequestParam String email) {
         try {
             if (!userService.findExistEmail(email))
