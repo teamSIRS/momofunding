@@ -2,6 +2,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import $ from "jquery";
+import { useNavigate } from "react-router-dom";
 
 const ProjectManagementMain = styled.div`
   width: 100%;
@@ -79,7 +80,9 @@ const ProjectManagementContentTextarea = styled(ProjectManagementContentInput)`
   height: 120px;
 `;
 
-const ProjectManagementContentProfileBtn = styled.button``;
+const ProjectManagementContentProfileBtn = styled.button`
+  margin: 0px 10px;
+`;
 
 function ProjectManagementContentIntro() {
   const baseUrl = "http://localhost:8080";
@@ -182,6 +185,27 @@ function ProjectManagementContentIntro() {
     };
     updateProject();
   };
+  //////////////////////////////////////////////////////////////////////
+  const navigate = useNavigate();
+
+  function deleteProject() {
+    const deleteProject = async () => {
+      await axios({
+        url: `/projects/${projectId}`,
+        method: "delete",
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data);
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    deleteProject();
+  }
+
   //////////////////////////////////////////////////////////////////////
   useEffect(() => {
     getProject();
@@ -333,10 +357,14 @@ function ProjectManagementContentIntro() {
               onChange={onExpirationDateChange}
             />
           </ProjectManagementContentInputBox>
-
-          <ProjectManagementContentProfileBtn onClick={updateProject}>
-            프로젝트 등록
-          </ProjectManagementContentProfileBtn>
+          <div>
+            <ProjectManagementContentProfileBtn onClick={updateProject}>
+              프로젝트 등록
+            </ProjectManagementContentProfileBtn>
+            <ProjectManagementContentProfileBtn onClick={deleteProject}>
+              프로젝트 삭제
+            </ProjectManagementContentProfileBtn>
+          </div>
         </ProjectManagementContentForm>
       </ProjectManagementMain>
     </div>

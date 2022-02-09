@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProjectManagementMain = styled.div`
   width: 100%;
@@ -52,7 +53,9 @@ const ProjectManagementContentTextarea = styled(ProjectManagementContentInput)`
   height: 120px;
 `;
 
-const ProjectManagementContentProfileBtn = styled.button``;
+const ProjectManagementContentProfileBtn = styled.button`
+  margin: 0px 10px;
+`;
 
 const ProjectManagementContentProfileRadio = styled.label`
   font-size: 20px;
@@ -94,7 +97,7 @@ function ProjectManagementContentReward() {
     setOptionDescription(event.target.value);
   };
   const onIsDeliverChange = (event) => {
-    setIsDeliver(event.target.value);
+    setIsDeliver((prev) => !prev);
   };
   const onLimitedQuantityChange = (event) => {
     setLimitedQuantity(event.target.value);
@@ -105,6 +108,7 @@ function ProjectManagementContentReward() {
   //////////////////////////////////////////////////////////////////////
   // 이거는 나중에 로그인한 회원의 프로젝트로 바꿔야함
   const projectId = 1;
+  const rewardId = 1;
   //////////////////////////////////////////////////////////////////////
   function saveRewards(data) {
     const saveRewards = async () => {
@@ -158,7 +162,60 @@ function ProjectManagementContentReward() {
     };
     getRewards();
   }
+
   //////////////////////////////////////////////////////////////////////
+  function updateRewards(event) {
+    event.preventDefault();
+    const data = {
+      name: name,
+      price: price,
+      content: content,
+      optionDescription: optionDescription,
+      isDeliver: isDeliver,
+      limitedQuantity: limitedQuantity,
+      deliverStartDate: deliverStartDate,
+    };
+
+    const updateRewards = async () => {
+      await axios({
+        url: `/rewards/${rewardId}`,
+        method: "put",
+        data: data,
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log("에러발생");
+          console.log(error);
+        });
+    };
+    updateRewards();
+  }
+  //////////////////////////////////////////////////////////////////////
+  const navigate = useNavigate();
+
+  function deleteRewards() {
+    const deleteRewards = async () => {
+      await axios({
+        url: `/reawrds/${rewardId}`,
+        method: "delete",
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data);
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    deleteRewards();
+  }
+
+  //////////////////////////////////////////////////////////////////////
+
   const onValid = (data) => {
     if (data.isDeliver === "true") {
       setIsDeliver(true);
@@ -310,9 +367,17 @@ function ProjectManagementContentReward() {
               onChange={onDeliverStartDateChange}
             ></ProjectManagementContentDate>
           </ProjectManagementContentInputBox>
-          <ProjectManagementContentProfileBtn>
-            리워드 등록
-          </ProjectManagementContentProfileBtn>
+          <div>
+            <ProjectManagementContentProfileBtn>
+              리워드 등록 및 추가
+            </ProjectManagementContentProfileBtn>
+            <ProjectManagementContentProfileBtn onClick={updateRewards}>
+              리워드 수정
+            </ProjectManagementContentProfileBtn>
+            <ProjectManagementContentProfileBtn onClick={deleteRewards}>
+              리워드 삭제
+            </ProjectManagementContentProfileBtn>
+          </div>
         </ProjectManagementContentForm>
       </ProjectManagementMain>
     </div>
