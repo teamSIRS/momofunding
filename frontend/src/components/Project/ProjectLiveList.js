@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import HomeBanners from "../Home/HomeBanners";
 import { Col, Container, Row } from 'react-bootstrap';
 import ProjectLiveCard from './ProjectLiveCard';
-import { ListNav, Category, Search, Bar, ListFilter, ListFilterSelected, ListCenter } from './Project.styled';
+import { ListNav, Category, Search, Bar, ListFilter, ListFilterSelected } from './Project.styled';
 
 function ProjectLiveList(){
     const baseUrl = "http://localhost:8080";
@@ -14,7 +14,7 @@ function ProjectLiveList(){
 
   const showDateList = async() => { //default
     await axios({
-      url:`/projects?sort=date`,
+      url:`/lives?sortValue=date`,
       method:"get",
       baseURL: baseUrl,
     })

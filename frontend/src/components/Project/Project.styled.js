@@ -59,6 +59,7 @@ export const Container = styled.div`
 
 export const Thumnail = styled.img`
     width: 100%;
+    height: 219px;
     object-position: center;
     object-fit: cover;
     border-radius: 15px;
