@@ -36,13 +36,13 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 //        GET이외의 모든 작업에서 jwt인증을 함
-//        registry.addInterceptor(methodInteceptor)
-//                .addPathPatterns(methodPatterns)
-//                .excludePathPatterns(excPatterns);
+        registry.addInterceptor(methodInteceptor)
+                .addPathPatterns(methodPatterns)
+                .excludePathPatterns(excPatterns);
 
         //GET중에서 특정 URI만 jwt인증을 함
-//        registry.addInterceptor(jwtInterceptor)
-//                .addPathPatterns(addPatterns2);
+        registry.addInterceptor(jwtInterceptor)
+                .addPathPatterns(addPatterns2);
 
 
     }
@@ -57,9 +57,7 @@ public class WebConfig implements WebMvcConfigurer {
 //		Allow all headers.
 //		Set max age to 1800 seconds (30 minutes).
         registry.addMapping("/**")
-                .allowedOrigins("*")
 //			.allowedOrigins("http://localhost:8080", "http://localhost:8081")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .maxAge(1800);
     }
 

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
+import setAuthorizationToken from "../../../../../atoms";
 
 const LoginBackGround = styled.div`
   display: flex;
@@ -165,6 +166,10 @@ function LoginButton() {
           console.log(response.data);
           setEmail("");
           setPassword("");
+          const token = response.data.token;
+          localStorage.setItem("auth-token", token);
+          setAuthorizationToken(token);
+          navigate("/");
         })
         .catch((error) => {
           console.log(error);
