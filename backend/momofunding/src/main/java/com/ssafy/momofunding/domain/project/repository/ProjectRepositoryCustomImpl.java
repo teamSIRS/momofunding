@@ -8,11 +8,11 @@ import com.ssafy.momofunding.domain.project.domain.QProject;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class ProjectRepositoryImpl implements ProjectRepositoryCustom{
+public class ProjectRepositoryCustomImpl implements ProjectRepositoryCustom{
 
     private final JPAQueryFactory query;
 
-    public ProjectRepositoryImpl(EntityManager entityManager) {
+    public ProjectRepositoryCustomImpl(EntityManager entityManager) {
         this.query = new JPAQueryFactory(entityManager);
     }
 
