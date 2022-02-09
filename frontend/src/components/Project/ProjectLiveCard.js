@@ -29,11 +29,11 @@ const CreatorPic = styled.div`
 `;
 
 const CreatorName = styled.p`
-    margin-left: 10px;
+    /* margin-left: 10px; */
 `;
 
 
-function ProjectLiveCard({ project }) {
+function ProjectLiveCard({ live }) {
     
     return (
     <div className="col-lg-6">
@@ -43,10 +43,10 @@ function ProjectLiveCard({ project }) {
           </div>
         <Thumnail src={''}/>
         <Detail>
-            <Title>라이브 방송 제목</Title>
+            <Title>{live.title}</Title>
             <Creator>
-                <CreatorPic />
-                <CreatorName>창작자</CreatorName>
+                {/* <CreatorPic /> 이거 지우면서 밑에 마진 없앰 */}
+                <CreatorName>{live.content}</CreatorName>
             </Creator>
         </Detail>
       </Container>
