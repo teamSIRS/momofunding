@@ -4,6 +4,7 @@ import { Container, Col, Row } from "react-bootstrap";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import setAuthorizationToken from "../../../atoms";
 
 const CreateNoticeMain = styled.div`
   background-color: whitesmoke;
@@ -77,19 +78,23 @@ function CreateNotice() {
 
   //////////////////////////////////////////////////////
   // 나중에 직접 userId로 설정해야함
-  const userId = 1;
+  const userId = 17;
   //////////////////////////////////////////////////////
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   function createNotice(data) {
+    console.log(localStorage.getItem("auth-token"));
     const createNotice = async () => {
       await axios({
-        url: `/notice`,
+        url: `/notices`,
         method: "post",
         data: {
           userId: userId,
           title: data.title,
           content: data.content,
+        },
+        headers: {
+          Authorization: `${localStorage.getItem("auth-token")}`,
         },
         baseURL: baseUrl,
       })

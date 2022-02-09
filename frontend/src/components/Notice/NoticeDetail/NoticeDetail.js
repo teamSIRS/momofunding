@@ -86,7 +86,7 @@ function NoticeDetail() {
   function getNotice() {
     const getNotice = async () => {
       await axios({
-        url: `/notice/${id}`,
+        url: `/notices/${id}`,
         method: "get",
         baseURL: baseUrl,
       })
@@ -111,7 +111,7 @@ function NoticeDetail() {
     };
     const updateNotice = async () => {
       await axios({
-        url: `/notice/${id}`,
+        url: `/notices/${id}`,
         method: "put",
         data: data,
         baseURL: baseUrl,
@@ -131,7 +131,7 @@ function NoticeDetail() {
   function deleteNotice() {
     const deleteNotice = async () => {
       await axios({
-        url: `/notice/${id}`,
+        url: `/notices/${id}`,
         method: "delete",
         baseURL: baseUrl,
       })
