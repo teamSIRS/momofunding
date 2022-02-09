@@ -1,6 +1,6 @@
 package com.ssafy.momofunding.domain.surveyquestion.dto;
 
-import com.ssafy.momofunding.domain.surveyanswer.dto.SurveyAnswerDto;
+import com.ssafy.momofunding.domain.surveyanswer.dto.SurveyAnswerResponseDto;
 import com.ssafy.momofunding.domain.surveyquestion.domain.SurveyQuestion;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 public class SurveyQuestionChoiceAnswerResponseDto extends SurveyQuestionResponseDto{
 
-    private List<SurveyAnswerDto> answers;
+    private List<SurveyAnswerResponseDto> answers;
 
-    public SurveyQuestionChoiceAnswerResponseDto(SurveyQuestion surveyQuestion, List<SurveyAnswerDto> answers){
+    public SurveyQuestionChoiceAnswerResponseDto(SurveyQuestion surveyQuestion, List<SurveyAnswerResponseDto> answers){
         super(surveyQuestion);
         this.answers = answers;
     }

@@ -9,7 +9,7 @@ import com.ssafy.momofunding.domain.survey.dto.SurveySaveRequestDto;
 import com.ssafy.momofunding.domain.survey.dto.SurveyUpdateRequestDto;
 import com.ssafy.momofunding.domain.survey.repository.SurveyRepository;
 import com.ssafy.momofunding.domain.surveyanswer.domain.SurveyAnswer;
-import com.ssafy.momofunding.domain.surveyanswer.dto.SurveyAnswerDto;
+import com.ssafy.momofunding.domain.surveyanswer.dto.SurveyAnswerResponseDto;
 import com.ssafy.momofunding.domain.surveyanswer.repository.SurveyAnswerRepository;
 import com.ssafy.momofunding.domain.surveyquestion.domain.SurveyQuestion;
 import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionChoiceAnswerResponseDto;
@@ -108,11 +108,12 @@ public class SurveyService {
         List<SurveyQuestionResponseDto> responseDtos = new ArrayList<>();
 
         for (SurveyQuestion surveyQuestion : surveyQuestions) {
-            if (surveyQuestion.getQuestionType().getId() == 1) { // 객관식
-                List<SurveyAnswerDto> answers = surveyAnswerRepository.findChoiceAnswerBySurveyQuestionId(surveyQuestion.getId());
+            SurveyQuestionResponseDto dto = new SurveyQuestionResponseDto();
 
-                SurveyQuestionChoiceAnswerResponseDto dto = new SurveyQuestionChoiceAnswerResponseDto(surveyQuestion, answers);
-                responseDtos.add(dto);
+            if (surveyQuestion.getQuestionType().getId() == 1) { // 객관식
+                List<SurveyAnswerResponseDto> choiceAnswers = surveyAnswerRepository.findChoiceAnswerBySurveyQuestionId(surveyQuestion.getId());
+
+                dto = new SurveyQuestionChoiceAnswerResponseDto(surveyQuestion, choiceAnswers);
             }
             else if (surveyQuestion.getQuestionType().getId() == 2) { // 주관식
                 List<SurveyAnswer> essayAnswers = surveyAnswerRepository.findAllBySurveyQuestionId(surveyQuestion.getId());
@@ -120,12 +121,14 @@ public class SurveyService {
                         .stream()
                         .map(s -> s.getContent())
                         .collect(Collectors.toList());
-                SurveyQuestionEssayAnswerResponseDto dto = new SurveyQuestionEssayAnswerResponseDto(surveyQuestion, answers);
-                responseDtos.add(dto);
+                dto = new SurveyQuestionEssayAnswerResponseDto(surveyQuestion, answers);
             }
+            responseDtos.add(dto);
         }
 
         surveyDetailResponseDto.setQuestions(responseDtos);
+
+
 
         return surveyDetailResponseDto;
     }

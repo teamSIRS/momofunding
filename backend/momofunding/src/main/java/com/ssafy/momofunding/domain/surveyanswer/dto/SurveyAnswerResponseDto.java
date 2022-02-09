@@ -1,18 +1,16 @@
 package com.ssafy.momofunding.domain.surveyanswer.dto;
 
-import com.ssafy.momofunding.domain.surveyanswer.domain.SurveyAnswer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
-public class SurveyAnswerDto {
+public class SurveyAnswerResponseDto {
     private Long selectId;
     private Long counts;
     private String content;
 
-    public SurveyAnswerDto(SurveyAnswer surveyAnswer) {
+    public SurveyAnswerResponseDto(Long selectId, Long counts, String content) {
         this.selectId = selectId;
         this.counts = counts;
         this.content = content;

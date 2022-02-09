@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
-public class SurveyQuestionSelectIdsResponseDto extends SurveyQuestionResponseDto{
+public class SurveyQuestionSelectIdsResponseDto extends SurveyQuestionResponseDto {
 
     List<QuestionSelectResponseDto> selectIds;
 
