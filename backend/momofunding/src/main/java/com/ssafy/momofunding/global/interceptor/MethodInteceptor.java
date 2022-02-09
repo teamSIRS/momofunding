@@ -9,6 +9,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 @Component
 public class MethodInteceptor implements HandlerInterceptor {
@@ -19,10 +20,12 @@ public class MethodInteceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws UnAuthorizedException {
-        if (HttpMethod.GET.matches(request.getMethod())) {
+        if (HttpMethod.GET.matches(request.getMethod()) || HttpMethod.OPTIONS.matches(request.getMethod())) {
             return true;
         }
+
         final String token = request.getHeader(HEADER_AUTH);
+
         if (token != null && jwtService.isUsable(token)) {
             return true;
         } else {
