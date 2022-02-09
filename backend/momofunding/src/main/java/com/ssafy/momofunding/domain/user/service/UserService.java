@@ -1,4 +1,5 @@
 package com.ssafy.momofunding.domain.user.service;
+
 import com.ssafy.momofunding.domain.user.domain.User;
 import com.ssafy.momofunding.domain.user.dto.*;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
@@ -18,6 +19,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final JavaMailSender mailSender;
     private static final String FROM_ADDRESS = "momofundingbyteachers@gmail.com";
+
+    private static final String EMAILMSG =
+                    "안녕하세요 모모펀딩입니다.\n" +
+                    "아래의 링크를 눌러 비밀번호를 재설정 해주세요.\n" +
+                    "=========================================================\n\n";
+
+    private static final String EMAILMSG2 =
+                    "\n\n=========================================================\n"+
+                    "감사합니다.";
+
 
     //SignIn
     @Transactional
@@ -82,7 +93,7 @@ public class UserService {
         message.setTo(email);
         message.setFrom(FROM_ADDRESS);
         message.setSubject("Here is momofunding password reset link!");
-        message.setText("localhost:3000/changePw/" + token);
+        message.setText(EMAILMSG + "http://localhost:3000/changePw/" + token + EMAILMSG2);
         mailSender.send(message);
     }
 

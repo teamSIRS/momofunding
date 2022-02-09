@@ -24,18 +24,16 @@ import java.util.NoSuchElementException;
 @Tag(name = "Notice API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/notice")
+@RequestMapping("/notices")
 public class NoticeApiController {
     private final NoticeService noticeService;
-
-    private final JwtService jwtService;
 
     //공지사항 목록 조회
     @Operation(
             summary = "공지사항 목록 조회",
             description = "공지사항 페이지에서 공지사항들을 조회 할 수 있습니다."
     )
-    @Parameter(name = "sort", description = "정렬 방식", required = true)
+    @Parameter(name = "sort", description = "정렬 방식 na = 오름차순 , nd = 내림차순(default)", required = true)
     @GetMapping("")
     public ResponseEntity<Object> findNoticesBySort(@RequestParam String sort) {
         List<NoticeResponseDto> notices = noticeService.findNoticeByDate(sort);
