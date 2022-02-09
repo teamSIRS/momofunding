@@ -26,15 +26,15 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ManyToOne(targetEntity = ProjectState.class)
+    @ManyToOne(targetEntity = ProjectState.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_state_id")
     ProjectState projectState;
 
-    @ManyToOne(targetEntity = ProjectCategory.class)
+    @ManyToOne(targetEntity = ProjectCategory.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_category_id")
     ProjectCategory projectCategory;
 
-    @ManyToOne(targetEntity = User.class)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 

@@ -6,7 +6,6 @@ import com.ssafy.momofunding.domain.project.dto.ProjectUpdateRequestDto;
 import com.ssafy.momofunding.domain.project.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -99,53 +98,6 @@ public class ProjectApiController {
     }
 
     @Operation(
-            summary = "프로젝트 정렬별 다중 조회",
-            description = "선태한 정렬 방식(최신 순, 인기 순)에 따라 프로젝트를 다중 조회 할 수 있다."
-    )
-    @Parameter(name = "sort", description = "정렬 방식(date : 최신순 / popularity : 인기순)", required = true)
-    @GetMapping("")
-    public ResponseEntity<Object> findProjectsBySort(@RequestParam String sort) {
-        List<ProjectResponseDto> projects = new ArrayList<>();
-
-        if (sort.equals("date")) {
-            projects = projectService.findProjectsByDate();
-        } else if (sort.equals("popularity")) {
-            projects = projectService.findProjectsByPopularity();
-        }
-
-        if (projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        return ResponseEntity.status(HttpStatus.OK).body(projects);
-    }
-
-    @Operation(
-            summary = "프로젝트 (카테고리 + 정렬) 별 다중 조회",
-            description = "카테고리선택과 정렬선택에 따라 프로젝트를 조회 할 수 있다"
-    )
-    @Parameters({
-            @Parameter(name = "categoryId", description = "카테고리", required = true),
-            @Parameter(name = "sort", description = "정렬 방식(date : 최신순 / popularity : 인기순)", required = true)
-    })
-    @GetMapping("/categories/{categoryId}")
-    public ResponseEntity<Object> getProjectsBySort(@PathVariable Long categoryId, @RequestParam String sort) {
-        List<ProjectResponseDto> projects = new ArrayList<>();
-
-        try {
-            if (sort.equals("date")) {
-                projects = projectService.findProjectsByCategoryDate(categoryId);
-            } else if (sort.equals("popularity")) {
-                projects = projectService.findProjectsByCategoryPopularity(categoryId);
-            }
-        }catch (IllegalArgumentException e){
-            Map<String, Object> responseMap = new HashMap<>();
-            responseMap.put("errorMsg", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
-        }
-
-        if (projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        return ResponseEntity.status(HttpStatus.OK).body(projects);
-    }
-
-    @Operation(
             summary = "프로젝트가 라이브 재생중인지 확인",
             description = "프로젝트 ID를 받아 라이브 재생 여부 (true or false) 반환"
     )
@@ -220,13 +172,17 @@ public class ProjectApiController {
 
     @Operation(
             summary = "프로젝트 검색 결과 조회",
-            description = "검색어로 프로젝트 이름을 검색하여 결과 목록을 조회할 수 있다."
+            description = "검색조건에 따라 프로젝트 검색 결과 목록을 조회할 수 있다."
     )
     @Parameter(name = "keyword", description = "검색어", required = true)
     @GetMapping("/search")
-    public ResponseEntity<Object> findProjectsByKeyword(@RequestParam String keyword) {
-        List<ProjectResponseDto> projects = projectService.findProjectsByKeyword(keyword);
+    public ResponseEntity<Object> searchProjectsByConditions(@RequestParam("order") String order,
+                                                             @RequestParam("categoryId") Long categoryId,
+                                                             @RequestParam("keyword") String keyword){
+
+        List<ProjectResponseDto> projects = projectService.searchProjectsByCondition(order, categoryId, keyword);
         if(projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
+
 }

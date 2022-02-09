@@ -18,7 +18,7 @@ public class Creator {
     Long id;
 
 
-    @OneToOne(targetEntity = Project.class)
+    @OneToOne(targetEntity = Project.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     Project project;
 
