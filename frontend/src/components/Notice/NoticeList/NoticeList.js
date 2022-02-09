@@ -1,4 +1,7 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const NoticeListMain = styled.div`
@@ -50,70 +53,43 @@ function NoticeList() {
       </Pagination.Item>
     );
   }
+  //////////////////////////////////////////////////////////////////////
+  const baseUrl = "http://localhost:8080";
+  const [data, setData] = useState([]);
+  //////////////////////////////////////////////////////////////////////
+  function getNoticeList() {
+    const getNoticeList = async () => {
+      await axios({
+        url: `/notice?sort=na`,
+        method: "get",
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data);
+          setData(response.data);
+        })
+        .catch((error) => {
+          console.log("에러발생");
+          console.log(error);
+        });
+    };
+    getNoticeList();
+  }
+  useEffect(() => {
+    getNoticeList();
+  }, []);
   return (
     <div>
       <NoticeListMain>
         <NoticeListContentBox>
-          <NoticeListContent>
-            <NoticeListContentTitle>
-              임시 공지사항 텍스트 입니다
-            </NoticeListContentTitle>
-            <NoticeListContentDate>2022.01.11</NoticeListContentDate>
-          </NoticeListContent>
-          <NoticeListContent>
-            <NoticeListContentTitle>
-              임시 공지사항 텍스트 입니다
-            </NoticeListContentTitle>
-            <NoticeListContentDate>2022.01.11</NoticeListContentDate>
-          </NoticeListContent>
-          <NoticeListContent>
-            <NoticeListContentTitle>
-              임시 공지사항 텍스트 입니다
-            </NoticeListContentTitle>
-            <NoticeListContentDate>2022.01.11</NoticeListContentDate>
-          </NoticeListContent>
-          <NoticeListContent>
-            <NoticeListContentTitle>
-              임시 공지사항 텍스트 입니다
-            </NoticeListContentTitle>
-            <NoticeListContentDate>2022.01.11</NoticeListContentDate>
-          </NoticeListContent>
-          <NoticeListContent>
-            <NoticeListContentTitle>
-              임시 공지사항 텍스트 입니다
-            </NoticeListContentTitle>
-            <NoticeListContentDate>2022.01.11</NoticeListContentDate>
-          </NoticeListContent>
-          <NoticeListContent>
-            <NoticeListContentTitle>
-              임시 공지사항 텍스트 입니다
-            </NoticeListContentTitle>
-            <NoticeListContentDate>2022.01.11</NoticeListContentDate>
-          </NoticeListContent>
-          <NoticeListContent>
-            <NoticeListContentTitle>
-              임시 공지사항 텍스트 입니다
-            </NoticeListContentTitle>
-            <NoticeListContentDate>2022.01.11</NoticeListContentDate>
-          </NoticeListContent>
-          <NoticeListContent>
-            <NoticeListContentTitle>
-              임시 공지사항 텍스트 입니다
-            </NoticeListContentTitle>
-            <NoticeListContentDate>2022.01.11</NoticeListContentDate>
-          </NoticeListContent>
-          <NoticeListContent>
-            <NoticeListContentTitle>
-              임시 공지사항 텍스트 입니다
-            </NoticeListContentTitle>
-            <NoticeListContentDate>2022.01.11</NoticeListContentDate>
-          </NoticeListContent>
-          <NoticeListContent>
-            <NoticeListContentTitle>
-              임시 공지사항 텍스트 입니다
-            </NoticeListContentTitle>
-            <NoticeListContentDate>2022.01.11</NoticeListContentDate>
-          </NoticeListContent>
+          {data.map((notice) => (
+            <NoticeListContent key={notice.id}>
+              <Link to={`/notices/${notice.id}`}>
+                <NoticeListContentTitle>{notice.title}</NoticeListContentTitle>
+              </Link>
+              <NoticeListContentDate>2022.01.11</NoticeListContentDate>
+            </NoticeListContent>
+          ))}
 
           <NoticeListPage>
             <Pagination>{items}</Pagination>

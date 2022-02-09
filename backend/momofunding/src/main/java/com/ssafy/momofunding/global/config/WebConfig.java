@@ -4,7 +4,10 @@ import com.ssafy.momofunding.global.interceptor.JwtInterceptor;
 import com.ssafy.momofunding.global.interceptor.MethodInteceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,9 +18,14 @@ public class WebConfig implements WebMvcConfigurer {
     private static final List<String> methodPatterns = Arrays.asList("/**");
 
     private static final List<String> addPatterns =
-            Arrays.asList("/creator/*", "/surveys/**", "/users/*");
+            Arrays.asList("/creator/*", "/surveys/**", "/users");
     private static final List<String> excPatterns =
-            Arrays.asList("/users/sign-in", "/users/sign-up", "/users/password");
+            Arrays.asList("/users/sign-in", "/users/sign-up", "/users/email", "/users", "/users/password",
+                    "/lives/*/viewerCount", "/lives/*/endLive", "/projects/*/complete");
+
+    private static final List<String> addPatterns2 =
+            Arrays.asList("/survey/**/**", "/survey-questions/*", "/orders/**/**");
+
 
     @Autowired
     private JwtInterceptor jwtInterceptor;
@@ -34,7 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
 
         //GET중에서 특정 URI만 jwt인증을 함
 //        registry.addInterceptor(jwtInterceptor)
-//                .addPathPatterns(addPatterns);
+//                .addPathPatterns(addPatterns2);
 
 
     }

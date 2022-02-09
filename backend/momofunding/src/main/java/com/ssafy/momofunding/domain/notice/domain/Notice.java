@@ -36,11 +36,11 @@ public class Notice {
     private Long viewerCount;
 
     @PrePersist
-    public void initializer(){
+    public void initializer() {
         viewerCount = 0L;
     }
 
-    public void mapUser(User user){
+    public void mapUser(User user) {
         this.user = user;
     }
 
@@ -53,12 +53,12 @@ public class Notice {
         this.viewerCount = viewerCount;
     }
 
-    public void updateNoticeInfo(NoticeRequestDto noticeRequestDto){
+    public void updateNoticeInfo(NoticeRequestDto noticeRequestDto) {
         this.title = noticeRequestDto.getTitle();
         this.content = noticeRequestDto.getContent();
     }
 
-    public void plusViewerCount(){
+    public void plusViewerCount() {
         this.viewerCount++;
     }
 }
