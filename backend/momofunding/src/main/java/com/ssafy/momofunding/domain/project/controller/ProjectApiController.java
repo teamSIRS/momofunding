@@ -102,7 +102,7 @@ public class ProjectApiController {
             summary = "프로젝트 정렬별 다중 조회",
             description = "선태한 정렬 방식(최신 순, 인기 순)에 따라 프로젝트를 다중 조회 할 수 있다."
     )
-    @Parameter(name = "sort", description = "정렬 방식", required = true)
+    @Parameter(name = "sort", description = "정렬 방식(date : 최신순 / popularity : 인기순)", required = true)
     @GetMapping("")
     public ResponseEntity<Object> findProjectsBySort(@RequestParam String sort) {
         List<ProjectResponseDto> projects = new ArrayList<>();
@@ -123,7 +123,7 @@ public class ProjectApiController {
     )
     @Parameters({
             @Parameter(name = "categoryId", description = "카테고리", required = true),
-            @Parameter(name = "sort", description = "정렬 방식", required = true)
+            @Parameter(name = "sort", description = "정렬 방식(date : 최신순 / popularity : 인기순)", required = true)
     })
     @GetMapping("/categories/{categoryId}")
     public ResponseEntity<Object> getProjectsBySort(@PathVariable Long categoryId, @RequestParam String sort) {
@@ -201,7 +201,7 @@ public class ProjectApiController {
     }
 
     @Operation(
-            summary = "프로젝트 진행 상태 변경 조회",
+            summary = "프로젝트 진행 상태 변경",
             description = "프로젝트 진행 상태를 작성중 > 진행 중으로 변경할 수 있다."
     )
     @Parameter(name = "projectId", description = "프로젝트 식별 번호", required = true)

@@ -27,9 +27,9 @@ public class LiveApiController {
 
     @Operation(
             summary = "정렬 별 진행중인 라이브 다중 조회",
-            description = "최신 순, 시청자 순(추가 예정)에 따른 진행중인 라이브 리스트를 조회 (진행중이 아니면 조회되지 않음)"
+            description = "최신 순, 시청자 순(=인기순 에 따른 진행중인 라이브 리스트를 조회 (진행중이 아니면 조회되지 않음)"
     )
-    @Parameter(name = "sortValue", description = "정렬 방식", required = true)
+    @Parameter(name = "sortValue", description = "정렬 방식(date:최신순 / viewer:인기순)", required = true)
     @GetMapping("")
     public ResponseEntity findLiveBySort(@RequestParam String sortValue) {
 
