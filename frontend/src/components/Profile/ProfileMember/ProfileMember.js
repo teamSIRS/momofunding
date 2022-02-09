@@ -145,7 +145,7 @@ function ProfileMember() {
   };
 
   // 이거는 나중에 로그인한 회원의 아이디로 바꿔야함
-  const userId = 12;
+  const userId = 18;
 
   function getUser() {
     const getUser = async () => {
