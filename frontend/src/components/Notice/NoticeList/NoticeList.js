@@ -60,7 +60,7 @@ function NoticeList() {
   function getNoticeList() {
     const getNoticeList = async () => {
       await axios({
-        url: `/notice?sort=na`,
+        url: `/notices?sort=na`,
         method: "get",
         baseURL: baseUrl,
       })
