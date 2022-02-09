@@ -63,6 +63,18 @@ public class LiveService {
     }
 
     @Transactional
+    public List<LiveResponseDto> findLivesByProjectId(Long projectId){
+        projectRepository.findById(projectId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다. projectId : " + projectId));
+
+        List<Live> lives = liveRepository.findAllByProjectIdAndLiveStateIdOrderByIdDesc(projectId, 2L);
+
+        return lives.stream()
+                .map(LiveResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
     public Long saveLive(LiveSaveRequestDto liveSaveRequestDto){
         Long projectId = liveSaveRequestDto.getProjectId();
         Project project = projectRepository.findById(projectId)
