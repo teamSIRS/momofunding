@@ -1,19 +1,18 @@
 import axios from 'axios';
 import { useEffect, useState } from "react";
 import HomeBanners from "../Home/HomeBanners";
-import { Col, Container, Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import ProjectLiveCard from './ProjectLiveCard';
 import { ListNav, Category, Search, Bar, ListFilter, ListFilterSelected } from './Project.styled';
-import LiveList from '../Profile/ProfileProjectDetail/LiveRecord/LiveList';
 
 function ProjectLiveList(){
   const baseUrl = "http://localhost:8080";
   const [isDate, setIsDate] = useState(true);
   const [isPop, setIsPop] = useState(false);
   const [search, setSearch] = useState("");
+  const [lives, setLives] = useState([""]);
   const [categories, setCategories] = useState([""]);
   const [selected, setSelected] = useState(0);
-  const [lives, setLives] = useState([""]);
   const [sort, setSort] = useState("");
   const all = [
     {
@@ -40,94 +39,70 @@ function ProjectLiveList(){
     })
   }
 
-  const CategorySelected = async() => {
-    //selected === 1 일때 에러!
-    await axios({
-      url:`lives/projectCategory/${selected}`,
-      method:"get",
-      baseURL: baseUrl,
-    })
-    .then((response)=>{
-      setLives([...response.data]);
-      console.log('라이브카테', lives);
-      console.log(selected);
-    })
-    .catch((err) =>{
-      console.log(err);
-    })
-    // if(selected === 1){
-    //   await axios({
-    //     url:`/lives?sortValue=date`, //sort에 따라서......해야함. 지금은 무조건 최신순
-    //     method:"get",
-    //     baseURL: baseUrl,
-    //   })
-    //   .then((response)=>{
-    //     setLives([...response.data]);
-    //   })
-    //   .catch((err) =>{
-    //     console.log(err);
-    //   })
-    // }
-    // else{
-    //   // let sort="";
-    //   // if(isDate) sort="date";
-    //   // else if(isPop) sort="popularity"
-    //   await axios({
-    //     url:`lives/projectCategory/${selected}`,
-    //     method:"get",
-    //     baseURL: baseUrl,
-    //   })
-    //   .then((response)=>{
-    //     setLives([...response.data]);
-    //     console.log('라이브카테', lives);
-    //   })
-    //   .catch((err) =>{
-    //     console.log(err);
-    //   })
-    // }
-  }
+  // const Setlist = async() =>{ //인기순, 최신순
+  //   if(isDate) setSort("date");
+  //   else if(isPop) setSort("viewer");
 
-  const showDateList = async() => { //default
-    await axios({
-      url:`/lives?sortValue=date`,
-      method:"get",
-      baseURL: baseUrl,
-    })
-    .then((response)=>{
-      setIsDate(true);
-      setIsPop(false);
-      setLives([...response.data]);
-      // console.log(lives);
-    })
-    .catch((err) =>{
-      console.log(err);
-    })
-  }
-  
-  const showPopList = async() =>{
-    await axios({
-      url:`/lives?sortValue=viewer`,
-      method:"get",
-      baseURL: baseUrl,
-    })
-    .then((res) =>{
-      setIsDate(false);
-      setIsPop(true);
-      setLives([...res.data]);
-    })
-    .catch((err)=>{
-      console.log(err);
-    })
+  //   await axios({
+  //     url: `/lives?sortValue=${sort}`,
+  //     method: "get",
+  //     baseURL: baseUrl,
+  //   })
+  //   .then((res) =>{
+  //     setLives([...res.data]);
+  //     // setSelected(0);
+  //   })
+  //   .catch((err) =>{
+  //     console.log(err);
+  //   })
+  // }
+
+  const CategorySelected = async() => {
+    if(isDate) setSort("date");
+    else if(isPop) setSort("viewer");
+    
+    //카테고리 전체일 때 => 인기순, 최신순에 따라
+    if(selected === 0){
+      await axios({
+        url: `/lives?sortValue=${sort}`,
+        method: "get",
+        baseURL: baseUrl,
+      })
+      .then((res) =>{
+        setLives([...res.data]);
+        console.log(sort);
+      })
+      .catch((err) =>{
+        console.log(err);
+      })
+    }
+    else{ //카테고리 선택 됐을 때
+      await axios({
+        url: `lives/projectCategory/${selected}`,
+        method: "get",
+        baseURL: baseUrl,
+      })
+      .then((res) =>{
+        setLives([...res.data]);
+        console.log(selected);
+      })
+      .catch((err) =>{
+        console.log(err);
+      })
+    }
   }
 
   useEffect(()=>{
-    showDateList();
     Categories();
   }, []);
 
   useEffect(()=>{
     CategorySelected();
-  },[selected]);
+  },[sort, selected, isPop, isDate]);
+
+  // useEffect(()=>{
+  //   Setlist();
+  // },[sort, selected, isPop, isDate]);
 
   return(
       <>
@@ -159,21 +134,21 @@ function ProjectLiveList(){
                       width="16"
                       height="16"
                       fill="currentColor"
-                      class="bi bi-search"
+                      className="bi bi-search"
                       viewBox="0 0 16 16"
                   >
                       <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                   </svg>
 
                   {
-                      isPop
-                      ?(<ListFilterSelected onClick={showPopList}>인기순</ListFilterSelected>)
-                      :(<ListFilter onClick={showPopList}>인기순</ListFilter>)
+                    isPop
+                    ?(<ListFilterSelected>인기순</ListFilterSelected>)
+                    :(<ListFilter onClick={()=>{setIsPop(true); setIsDate(false); }}>인기순</ListFilter>)
                   }
                   {
-                      isDate
-                      ?(<ListFilterSelected onClick={showDateList}>최신순</ListFilterSelected>)
-                      :(<ListFilter onClick={showDateList}>최신순</ListFilter>)
+                    isDate
+                    ?(<ListFilterSelected>최신순</ListFilterSelected>)
+                    :(<ListFilter onClick={()=>{setIsDate(true); setIsPop(false);}}>최신순</ListFilter>)
                   }
               </Search>
           </ListNav>
@@ -190,10 +165,6 @@ function ProjectLiveList(){
                         />
                       ))
                     }
-                      {/* <ProjectLiveCard></ProjectLiveCard>
-                      <ProjectLiveCard></ProjectLiveCard>
-                      <ProjectLiveCard></ProjectLiveCard>
-                      <ProjectLiveCard></ProjectLiveCard> */}
                   </div>
               </div>
           </Container>
