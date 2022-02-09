@@ -61,13 +61,14 @@ const Leftday = styled.span`
   color: ${ props => props.color };
 `;
 
-function ProjectCard({ project }) {
-  
+
+function ProjectCard({ project }) {  
   let today = new Date();
   let dday = (project.expirationDate); //받아온 값
   let cdday = Date.parse(dday);
   let gap = cdday - today.getTime();
   let result = Math.ceil(gap / (1000*60*60*24));
+
 
 
   return (
@@ -82,7 +83,9 @@ function ProjectCard({ project }) {
         <Thumnail src={project.subImageUrl}/>
         <TitleDetail>
           <ProjectTitle>
-            {project.projectName.length > 25 ?`${project.projectName.slice(0, 25)}...`:project.projectName}
+            { String(project.projectName).length > 25 
+            ? `${String(project.projectName).slice(0, 25)}...`
+            : String(project.projectName)}
           </ProjectTitle>
           <ProjectCreator>{project.creatorName}</ProjectCreator>
         </TitleDetail>
