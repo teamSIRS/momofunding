@@ -177,8 +177,8 @@ public class ProjectApiController {
     @Parameter(name = "keyword", description = "검색어", required = true)
     @GetMapping("/search")
     public ResponseEntity<Object> searchProjectsByConditions(@RequestParam("order") String order,
-                                                             @RequestParam("categoryId") Long categoryId,
-                                                             @RequestParam("keyword") String keyword){
+                                                             @RequestParam(value = "categoryId", required = false) Long categoryId,
+                                                             @RequestParam(value = "keyword", required = false) String keyword){
 
         List<ProjectResponseDto> projects = projectService.searchProjectsByCondition(order, categoryId, keyword);
         if(projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);

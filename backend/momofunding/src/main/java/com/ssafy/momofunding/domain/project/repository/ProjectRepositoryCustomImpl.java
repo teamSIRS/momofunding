@@ -22,10 +22,10 @@ public class ProjectRepositoryCustomImpl implements ProjectRepositoryCustom{
         BooleanBuilder builder = new BooleanBuilder();
 
         builder.and(project.projectState.id.eq(2L));
-        if(category != 0){
+        if(category != null){
             builder.and(project.projectCategory.id.eq(category));
         }
-        if(!keyword.equals("")){
+        if(keyword != null){
             builder.and(project.projectName.contains(keyword));
         }
 
