@@ -32,7 +32,7 @@ function ProjectList(){
       method:"get",
       baseURL: baseUrl,
     })
-    .then((response)=>{;
+    .then((response)=>{
       setCategories([...all, ...response.data]);
     })
     .catch((err) =>{
@@ -40,9 +40,24 @@ function ProjectList(){
     })
   }
 
-  const list = async() =>{
+  const ItemSearch = async() =>{
+    await axios({
+      url:`http://localhost:8080/projects/search?order=${sort}&categoryId=${selected}&keyword=${search}`,
+      method: "get",
+      baseURL: baseUrl,
+    })
+    .then((res) => {
+      setProjects(res.data);
+    })
+    .catch((err) =>{
+      console.log(err);
+    })
+  }
+
+  const Setlist = async() =>{
     if(isDate) setSort("date");
     else if(isPop) setSort("popularity");
+    
     if(selected === 0){
       await axios({
         url:`/projects?sort=${sort}`,
@@ -76,7 +91,7 @@ function ProjectList(){
   }, []);
 
   useEffect(()=>{
-    list();
+    Setlist();
   },[sort, selected, isPop, isDate]);
 
   return(
@@ -104,6 +119,8 @@ function ProjectList(){
           <svg
             onClick={() => {
               console.log(search, '검색');
+              setSelected(0);
+              ItemSearch();
             }}
             xmlns="http://www.w3.org/2000/svg"
             width="16"
