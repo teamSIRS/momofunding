@@ -15,7 +15,6 @@ import com.ssafy.momofunding.domain.rewardorder.repository.RewardOrderRepository
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -149,48 +148,6 @@ public class ProjectService {
     }
 
     @Transactional
-    public List<ProjectResponseDto> findProjectsByDate(){
-        List<Project> projects = projectRepository.findAllByProjectStateIdOrderByStartDateDesc(2L, Sort.by("id").ascending());
-
-        return projects.stream()
-                .map(ProjectResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional
-    public List<ProjectResponseDto> findProjectsByPopularity() {
-        List<Project> projects = projectRepository.findAllByProjectStateIdOrderByPopularityDesc(2L, Sort.by("id").ascending());
-
-        return projects.stream()
-                .map(ProjectResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional
-    public List<ProjectResponseDto> findProjectsByCategoryDate(Long categoryId) {
-        projectCategoryRepository.findById(categoryId)
-                .orElseThrow(()-> new IllegalArgumentException("잘못된 카테고리 번호입니다:: projectCategoryId-"+categoryId));
-
-        List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectCategoryIdOrderByStartDateDesc(2L, categoryId, Sort.by("id").ascending());
-
-        return projects.stream()
-                .map(ProjectResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional
-    public List<ProjectResponseDto> findProjectsByCategoryPopularity(Long categoryId) {
-        projectCategoryRepository.findById(categoryId)
-                .orElseThrow(()-> new IllegalArgumentException("잘못된 카테고리 번호입니다:: projectCategoryId-"+categoryId));
-
-        List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectCategoryIdOrderByPopularityDesc(2L, categoryId, Sort.by("id").ascending());
-
-        return projects.stream()
-                .map(ProjectResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional
     public boolean isPlayLive(Long projectId) {
         Project projects = projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다. projectId : " + projectId));
@@ -240,11 +197,13 @@ public class ProjectService {
         project.mapProjectState(projectStateRepository.getById(2L));
     }
 
-    public List<ProjectResponseDto> findProjectsByKeyword(String keyword) {
-        List<Project> projects = projectRepository.findAllByProjectStateIdAndProjectNameLike(2L, "%"+keyword+"%");
+    @Transactional
+    public List<ProjectResponseDto> searchProjectsByCondition(String order, Long category, String keyword){
+        List<Project> projects = projectRepository.searchProjects(order, category, keyword);
 
         return projects.stream()
                 .map(ProjectResponseDto::new)
                 .collect(Collectors.toList());
     }
+
 }

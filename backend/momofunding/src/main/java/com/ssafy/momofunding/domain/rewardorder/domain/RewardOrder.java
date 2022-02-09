@@ -20,15 +20,15 @@ public class RewardOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ManyToOne(targetEntity = Reward.class)
+    @ManyToOne(targetEntity = Reward.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "reward_id", nullable = false)
     Reward reward;
 
-    @ManyToOne(targetEntity = User.class)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
-    @ManyToOne(targetEntity = Project.class)
+    @ManyToOne(targetEntity = Project.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
     Project project;
 
