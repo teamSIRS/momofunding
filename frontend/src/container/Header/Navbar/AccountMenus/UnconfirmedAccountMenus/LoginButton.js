@@ -118,6 +118,9 @@ const GoToSignupMessage = styled.label`
 const GoToSignup = styled.a`
   color: blue;
   text-decoration: none;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const styles = {
@@ -140,6 +143,10 @@ function LoginButton() {
   const navigate = useNavigate();
   const goToFind = () => {
     navigate("/findAccount/findId");
+    setShow(false);
+  };
+  const goToSignup = () => {
+    navigate("/signup");
     setShow(false);
   };
   const baseUrl = "http://localhost:8080";
@@ -266,7 +273,7 @@ function LoginButton() {
                     <GoToSignupMessage>
                       아직 회원이 아니신가요?
                     </GoToSignupMessage>
-                    <GoToSignup>아이디, 비밀번호 찾기</GoToSignup>
+                    <GoToSignup onClick={goToSignup}>회원가입</GoToSignup>
                   </GoToSiginupForm>
                 </SocialLoginForm>
               </LoginForm>

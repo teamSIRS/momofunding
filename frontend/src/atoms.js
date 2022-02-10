@@ -23,3 +23,10 @@ export default function setAuthorizationToken() {
   };
   return config;
 }
+
+export function setAuthorizationEmailToken(token) {
+  const config = {
+    Authorization: `${token}`,
+  };
+  return config;
+}
