@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -18,11 +18,11 @@ public class RewardResponseDto {
     private String optionDescription;
     private Boolean isDeliver;
     private Integer limitedQuantity;
-    private Timestamp deliverStartDate;
+    private LocalDateTime deliverStartDate;
 
     @Builder
     public RewardResponseDto(Long id, String name, Integer price, String content, String optionDescription,
-                             Boolean isDeliver, Integer limitedQuantity, Timestamp deliverStartDate){
+                             Boolean isDeliver, Integer limitedQuantity, LocalDateTime deliverStartDate){
         this.id = id;
         this.name = name;
         this.price = price;

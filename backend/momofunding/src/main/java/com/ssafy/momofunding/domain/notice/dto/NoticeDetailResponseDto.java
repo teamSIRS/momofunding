@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -14,11 +15,11 @@ public class NoticeDetailResponseDto {
     private Long id;
     private String title;
     private String content;
-    private Timestamp registerTime;
+    private LocalDateTime registerTime;
     private Long viewerCount;
 
     @Builder
-    public NoticeDetailResponseDto(Long id, String title, String content, Timestamp registerTime, Long viewerCount) {
+    public NoticeDetailResponseDto(Long id, String title, String content, LocalDateTime registerTime, Long viewerCount) {
         this.id = id;
         this.title = title;
         this.content = content;

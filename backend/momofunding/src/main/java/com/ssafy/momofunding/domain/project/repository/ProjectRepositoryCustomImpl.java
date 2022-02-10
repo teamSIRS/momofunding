@@ -7,6 +7,7 @@ import com.ssafy.momofunding.domain.project.domain.QProject;
 
 import javax.persistence.EntityManager;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ProjectRepositoryCustomImpl implements ProjectRepositoryCustom{
@@ -46,7 +47,7 @@ public class ProjectRepositoryCustomImpl implements ProjectRepositoryCustom{
     }
 
     @Override
-    public void updateProjectStateIdToComplete(Timestamp today) {
+    public void updateProjectStateIdToComplete(LocalDateTime today) {
         QProject project = QProject.project;
         query.update(project)
                 .set(project.projectState.id, 3L)

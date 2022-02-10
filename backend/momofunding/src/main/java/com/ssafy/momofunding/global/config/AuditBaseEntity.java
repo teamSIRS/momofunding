@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
@@ -16,6 +17,6 @@ public class AuditBaseEntity {
 
     @CreatedDate
     @Column(updatable = false)
-    private Timestamp registerTime;
+    private LocalDateTime registerTime;
 
 }

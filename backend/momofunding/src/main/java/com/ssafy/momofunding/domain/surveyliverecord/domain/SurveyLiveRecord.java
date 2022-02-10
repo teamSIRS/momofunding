@@ -4,6 +4,7 @@ import com.ssafy.momofunding.domain.live.domain.Live;
 import com.ssafy.momofunding.domain.questionselect.domain.QuestionSelect;
 import com.ssafy.momofunding.domain.questiontype.domain.QuestionType;
 import com.ssafy.momofunding.domain.survey.domain.Survey;
+import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class SurveyLiveRecord {
+public class SurveyLiveRecord extends AuditBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +30,11 @@ public class SurveyLiveRecord {
     private Survey survey;
 
 
-    public void mapSurvey(Survey survey){
+    public void mapSurvey(Survey survey) {
         this.survey = survey;
     }
 
-    public void mapLive(Live live){
+    public void mapLive(Live live) {
         this.live = live;
     }
 

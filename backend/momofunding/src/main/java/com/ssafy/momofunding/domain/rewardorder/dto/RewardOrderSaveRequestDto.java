@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -21,12 +22,11 @@ public class RewardOrderSaveRequestDto {
     private String recipientAddress;
     private String requestContent;
     private Integer amount;
-    private Timestamp registerDate;
 
     @Builder
     public RewardOrderSaveRequestDto(Long rewardId, Long userId, Long projectId, Integer quantity, String optionContent,
                        String recipientName, String recipientTel, String recipientAddress,
-                       String requestContent, Integer amount, Timestamp registerDate){
+                       String requestContent, Integer amount){
         this.rewardId = rewardId;
         this.userId = userId;
         this.projectId = projectId;
@@ -37,7 +37,6 @@ public class RewardOrderSaveRequestDto {
         this.recipientAddress = recipientAddress;
         this.requestContent = requestContent;
         this.amount = amount;
-        this.registerDate = registerDate;
     }
 
     public RewardOrder toEntity(){
@@ -49,7 +48,6 @@ public class RewardOrderSaveRequestDto {
                 .recipientAddress(recipientAddress)
                 .requestContent(requestContent)
                 .amount(amount)
-                .registerDate(registerDate)
                 .build();
     }
 }

@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Setter
@@ -20,11 +20,11 @@ public class RewardUpdateRequestDto {
     private String optionDescription;
     private Boolean isDeliver;
     private Integer limitedQuantity;
-    private Timestamp deliverStartDate;
+    private LocalDateTime deliverStartDate;
 
     @Builder
     public RewardUpdateRequestDto(Long id, String name, Integer price, String content, String optionDescription,
-                                  Boolean isDeliver, Integer limitedQuantity, Timestamp deliverStartDate){
+                                  Boolean isDeliver, Integer limitedQuantity, LocalDateTime deliverStartDate){
         this.id = id;
         this.name = name;
         this.price = price;
