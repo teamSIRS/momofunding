@@ -8,8 +8,18 @@ import io.swagger.v3.oas.models.info.License;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
+import java.util.Date;
+import java.util.TimeZone;
+
 @Configuration
 public class SwaggerConfiguration {
+    @PostConstruct
+    public void started(){
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+        System.out.println("현재시각 : " + new Date());
+    }
+
 
     @Bean
     public OpenAPI momofundingAPI(){

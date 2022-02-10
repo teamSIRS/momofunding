@@ -6,7 +6,6 @@ import com.ssafy.momofunding.domain.notice.dto.NoticeDetailResponseDto;
 import com.ssafy.momofunding.domain.notice.dto.NoticeRequestDto;
 import com.ssafy.momofunding.domain.notice.dto.NoticeResponseDto;
 import com.ssafy.momofunding.domain.notice.service.NoticeService;
-import com.ssafy.momofunding.global.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,7 +35,7 @@ public class NoticeApiController {
     @Parameter(name = "sort", description = "정렬 방식 na = 오름차순 , nd = 내림차순(default)", required = true)
     @GetMapping("")
     public ResponseEntity<Object> findNoticesBySort(@RequestParam String sort) {
-        List<NoticeResponseDto> notices = noticeService.findNoticeByDate(sort);
+        List<NoticeResponseDto> notices = noticeService.findNoticeByOrder(sort);
         if (notices.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(notices);
     }
@@ -68,6 +67,7 @@ public class NoticeApiController {
         try {
             responseMap.put("noticeId", noticeService.createNotice(noticeCreateRequestDto));
         } catch (IllegalArgumentException e) {
+            System.out.println("test 입니다");
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }

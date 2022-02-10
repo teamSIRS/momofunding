@@ -2,18 +2,18 @@ package com.ssafy.momofunding.domain.notice.domain;
 
 import com.ssafy.momofunding.domain.notice.dto.NoticeRequestDto;
 import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Notice {
+public class Notice extends AuditBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +30,6 @@ public class Notice {
     private String content;
 
     @Column
-    private Timestamp registerDate;
-
-    @Column
     private Long viewerCount;
 
     @PrePersist
@@ -45,11 +42,10 @@ public class Notice {
     }
 
     @Builder
-    public Notice(User user, String title, String content, Timestamp registerDate, Long viewerCount) {
+    public Notice(User user, String title, String content, Long viewerCount) {
         this.user = user;
         this.title = title;
         this.content = content;
-        this.registerDate = registerDate;
         this.viewerCount = viewerCount;
     }
 

@@ -14,15 +14,15 @@ public class NoticeDetailResponseDto {
     private Long id;
     private String title;
     private String content;
-    private Timestamp registerDate;
+    private Timestamp registerTime;
     private Long viewerCount;
 
     @Builder
-    public NoticeDetailResponseDto(Long id, String title, String content, Timestamp registerDate, Long viewerCount) {
+    public NoticeDetailResponseDto(Long id, String title, String content, Timestamp registerTime, Long viewerCount) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.registerDate = registerDate;
+        this.registerTime = registerTime;
         this.viewerCount = viewerCount;
     }
 
@@ -30,7 +30,7 @@ public class NoticeDetailResponseDto {
         this.id = notice.getId();
         this.title = notice.getTitle();
         this.content = notice.getContent();
-        this.registerDate = notice.getRegisterDate();
+        this.registerTime = notice.getRegisterTime();
         this.viewerCount = notice.getViewerCount();
     }
 
