@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { nicknameState, isLoginState, userIdState } from "../../../../../atoms";
@@ -197,7 +197,7 @@ function LoginButton() {
   useEffect(() => {
     console.log(nickname);
     console.log(isLogin);
-  }, [nickname, isLogin]);
+  }, []);
   return (
     <>
       <LoginModalBtn onClick={handleShow}>로그인</LoginModalBtn>
@@ -242,6 +242,33 @@ function LoginButton() {
 
                   <LoginBtn as="button">로그인</LoginBtn>
                 </GeneralLoginForm>
+                <SeparateLineForm>
+                  <SeparateLine></SeparateLine> 또는
+                  <SeparateLine></SeparateLine>
+                </SeparateLineForm>
+                <SocialLoginForm>
+                  <SocialLoginBtns>
+                    <SocialLoginLogo
+                      src="/socialLoginLogo/facebook.png"
+                      alt="fackbook-image"
+                    />
+                    <SocialLoginLogo
+                      src="/socialLoginLogo/kakao-talk.png"
+                      alt="kakao-talk-image"
+                    />
+                    <SocialLoginLogo
+                      src="/socialLoginLogo/google.png"
+                      alt="google-image"
+                    />
+                    <SocialLoginBtns />
+                  </SocialLoginBtns>
+                  <GoToSiginupForm>
+                    <GoToSignupMessage>
+                      아직 회원이 아니신가요?
+                    </GoToSignupMessage>
+                    <GoToSignup>아이디, 비밀번호 찾기</GoToSignup>
+                  </GoToSiginupForm>
+                </SocialLoginForm>
               </LoginForm>
             </LoginMainForm>
           </LoginBackGround>
