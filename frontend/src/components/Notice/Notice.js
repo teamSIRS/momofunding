@@ -53,6 +53,7 @@ function Notice() {
               </NoticeMainBtn>
               <NoticeList />
             </NoticeMain>
+            <img src="http://3.36.69.14/home/ubuntu/momo_images/funding.jpg" />
           </Col>
         </Row>
       </Container>
