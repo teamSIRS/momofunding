@@ -96,7 +96,8 @@ function ChangePw() {
     } else {
       //재설정
       changePassword(data);
-      // alert("새로운 비밀번호로 로그인하세요.");
+      alert("새로운 비밀번호로 로그인하세요.");
+      navigate("/");
     }
   };
   return (

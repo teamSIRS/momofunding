@@ -185,7 +185,7 @@ function Signup() {
   function signup(data) {
     const signup = async () => {
       await axios({
-        url: "/users",
+        url: "/users/sign-up",
         method: "post",
         data: {
           email: data.email,
