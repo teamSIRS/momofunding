@@ -20,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
     private static final List<String> addPatterns =
             Arrays.asList("/creator/*", "/surveys/**", "/users");
     private static final List<String> excPatterns =
-            Arrays.asList("/users/sign-in", "/users/sign-up", "/users/email", 
+            Arrays.asList("/users/sign-in", "/users/sign-up", "/users/email", "/users/password",
                     "/lives/*/viewerCount", "/lives/*/endLive", "/projects/*/complete");
 
     private static final List<String> addPatterns2 =
@@ -57,8 +57,9 @@ public class WebConfig implements WebMvcConfigurer {
 //		Allow all headers.
 //		Set max age to 1800 seconds (30 minutes).
         registry.addMapping("/**")
+                .allowedMethods("GET", "POST","DELETE", "PUT")
 //			.allowedOrigins("http://localhost:8080", "http://localhost:8081")
-                .maxAge(1800);
+                .maxAge(18000);
     }
 
     //	Swagger UI 실행시 404처리

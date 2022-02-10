@@ -66,12 +66,12 @@ function ChangePw() {
       console.log(data);
       await axios({
         url: "/users/password",
-        method: "put",
+        method: "PUT",
         data: {
           Authorization: token,
           password: data.password,
         },
-        headers: setAuthorizationEmailToken(token), // 비밀번호 재설정도 필요없음 CORS
+        // headers: setAuthorizationEmailToken(token), // 비밀번호 재설정도 필요없음 CORS
         baseURL: baseUrl,
       })
         .then((response) => {

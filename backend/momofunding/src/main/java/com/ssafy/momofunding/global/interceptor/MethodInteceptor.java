@@ -20,6 +20,8 @@ public class MethodInteceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws UnAuthorizedException {
+        System.out.println(request.getMethod());
+        System.out.println("method");
         if (HttpMethod.GET.matches(request.getMethod()) || HttpMethod.OPTIONS.matches(request.getMethod())) {
             return true;
         }
