@@ -15,11 +15,16 @@ function ConfirmedAccountMenu() {
     navigate("/");
   };
   const onProfileClick = () => {
-    navigate("profile/member", {
+    navigate("users/myprojects", {
       state: {
         userId: userId,
       },
     });
+    // navigate("profile/member", {
+    //   state: {
+    //     userId: userId,
+    //   },
+    // });
   };
   return (
     <Nav>

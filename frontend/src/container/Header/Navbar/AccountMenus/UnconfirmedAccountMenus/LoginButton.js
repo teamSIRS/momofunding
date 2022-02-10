@@ -224,11 +224,11 @@ function LoginButton() {
             <LoginMainForm>
               <LoginForm>
                 <GeneralLoginForm>
-                  <LoginTitle>WelCome Back!</LoginTitle>
+                  <LoginTitle>Welcome Back!</LoginTitle>
                   <InputIdAndPw
                     placeholder="이메일"
                     value={email}
-                    onChange={onEmailChange}
+                    onChange={onEmailChange}                    
                   />
                   <InputIdAndPw
                     type="password"
