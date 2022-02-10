@@ -35,7 +35,7 @@ public class UserApiController {
         UserSignInResponseDto userSignInResponseDto;
         try {
             userSignInResponseDto = userService.findEmailAndPassword(userSignInRequestDto);
-            String token = jwtService.create("userId", userSignInResponseDto.getId(), "access-token");
+            String token = jwtService.create("userId", userSignInResponseDto.getId(), "Authorization");
             userSignInResponseDto.setToken(token);
         } catch (IllegalArgumentException e) {
             Map<String, Object> responseMap = new HashMap<>();
@@ -50,7 +50,7 @@ public class UserApiController {
             summary = "회원 가입",
             description = "회원은 email, password, nickname을 입력해 회원가입 할 수 있다."
     )
-    @PostMapping("")
+    @PostMapping("/sign-up")
     public ResponseEntity signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto) {
         Map<String, Object> responseMap = new HashMap<>();
         Long userId = userService.saveUserInfo(userSignUpRequestDto);
@@ -147,11 +147,11 @@ public class UserApiController {
             summary = "비밀번호 재설정",
             description = "비밀번호 재설정 화면에서 비밀번호 변경을 누르면 동작하는 API"
     )
-    @Parameter(name = "jwt 토큰과 변경할 비밀번호가 담겨있습니다.", description = "jwt의 key 는'access-token' 으로 보내주세요", required = true)
+    @Parameter(name = "jwt 토큰과 변경할 비밀번호가 담겨있습니다.", description = "jwt의 key 는'Authorization' 으로 보내주세요", required = true)
     @PutMapping("/password")
     public ResponseEntity updateUserPassword(@RequestBody Map<String, String> param) {
         try {
-            String email = jwtService.get(param.get("access-token")).get("email").toString();
+            String email = jwtService.get(param.get("Authorization")).get("email").toString();
             userService.updateUserPassword(email, param.get("password"));
 
         } catch (IllegalArgumentException e) {
@@ -172,7 +172,7 @@ public class UserApiController {
         try {
             if (!userService.findExistEmail(email))
                 throw new IllegalArgumentException("해당 계정이 등록되어있지 않습니다.");
-            String token = jwtService.create("email", email, "access-token");
+            String token = jwtService.create("email", email, "Authorization");
             userService.sendMail(email, token);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

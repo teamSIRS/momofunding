@@ -2,6 +2,7 @@ package com.ssafy.momofunding.domain.creator.domain;
 
 import com.ssafy.momofunding.domain.creator.dto.CreatorUpdateRequestDto;
 import com.ssafy.momofunding.domain.project.domain.Project;
+import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +12,11 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Creator {
+public class Creator extends AuditBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-
 
     @OneToOne(targetEntity = Project.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")

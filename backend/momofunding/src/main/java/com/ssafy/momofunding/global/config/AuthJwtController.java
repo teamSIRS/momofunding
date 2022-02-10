@@ -22,13 +22,13 @@ import java.util.Map;
 public class AuthJwtController {
 
     private final JwtService jwtService;
-    private final static String AUTHTOKEN = "access-token";
+    private final static String AUTHTOKEN = "Authorization";
 
     //jwt인증
     @Operation(
             summary = "JWT토큰 인증",
             description = "jwt인증을 진행할 수 있다 " +
-                    "Request Header에 'auth-token' 이름으로 jwt토큰을 넣어서 보내야함"
+                    "Request Header에 'Authorization' 이름으로 jwt토큰을 넣어서 보내야함"
     )
     @GetMapping("/jwt")
     public ResponseEntity authJwt(HttpServletRequest request){

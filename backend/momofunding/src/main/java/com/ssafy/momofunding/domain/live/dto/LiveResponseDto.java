@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -16,21 +16,21 @@ public class LiveResponseDto {
     private String content;
     private Long totalPlayTime;
     private Integer viewerCount;
-    private Timestamp registerDate;
+    private LocalDateTime registerDate;
     private String sessionId;
 
-    public LiveResponseDto (Live entity){
+    public LiveResponseDto(Live entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
         this.content = entity.getContent();
         this.totalPlayTime = entity.getTotalPlayTime();
         this.viewerCount = entity.getViewerCount();
-        this.registerDate = entity.getRegisterDate();
+        this.registerDate = entity.getRegisterTime();
         this.sessionId = entity.getSessionId();
     }
 
     @Builder
-    public LiveResponseDto(Long id, String title, String content, Long totalPlayTime, Integer viewerCount, Timestamp registerDate){
+    public LiveResponseDto(Long id, String title, String content, Long totalPlayTime, Integer viewerCount, LocalDateTime registerDate) {
         this.id = id;
         this.title = title;
         this.content = content;

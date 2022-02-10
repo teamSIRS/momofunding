@@ -27,7 +27,7 @@ public class NoticeService {
 
     //공지사항 목록 조회(정렬 방식 선택)
     @Transactional
-    public List<NoticeResponseDto> findNoticeByDate(String a) {
+    public List<NoticeResponseDto> findNoticeByOrder(String a) {
         List<Notice> notices = new ArrayList<>();
         if (a.equals("na"))
             notices = noticeRepository.findAll();

@@ -1,14 +1,11 @@
-import styled from 'styled-components';
-import { MomoColor } from '../../../shared/global';
-import { BrowserRouter, Routes,Route, Link, NavLink } from 'react-router-dom';
+import styled from "styled-components";
+import { MomoColor } from "../../../shared/global";
+import { Routes, Route, Link } from "react-router-dom";
 
-import { useMatch } from 'react-router-dom';
-import { Outlet } from 'react-router-dom';
+import { useMatch } from "react-router-dom";
 
-import FundProject from './FundProject';
-import MyProject from './MyProject';
-import ProjectCard from '../../Project/ProjectCard';
-
+import FundProject from "./FundProject";
+import MyProject from "./MyProject";
 const Body = styled.div`
     padding: 80px 120px;
 `;
@@ -33,30 +30,29 @@ const ProfileBox = styled.div`
     }
 `;
 const ProfilePic = styled.img`
-    width: 85px;
-    height: 85px;
-    border-radius: 50%;
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
 `;
 const ProfileName = styled.p`
-    font-weight: bold;
-    font-size: 16px;
+  font-weight: bold;
+  font-size: 16px;
 `;
 const ProfileInfo = styled.p`
-    font-size: 15px;
+  font-size: 15px;
 `;
 const ProfileMail = styled(ProfileInfo)`
-    color: #7B7B7B;
+  color: #7b7b7b;
 `;
 const EditBtn = styled(Link)`
-    color: black;
-    background-color: #C4C4C4;
-    border-radius: 4px;
-    font-size: 13px;
-    padding: 7px;
-    margin-top: 20px;
-    text-decoration: none;
+  color: black;
+  background-color: #c4c4c4;
+  border-radius: 4px;
+  font-size: 13px;
+  padding: 7px;
+  margin-top: 20px;
+  text-decoration: none;
 `;
-
 
 //프로젝트 상자
 const ProjectMainBox = styled.div`

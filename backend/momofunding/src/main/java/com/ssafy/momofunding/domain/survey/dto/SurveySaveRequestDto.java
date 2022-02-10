@@ -4,7 +4,7 @@ import com.ssafy.momofunding.domain.survey.domain.Survey;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 public class SurveySaveRequestDto {
@@ -12,14 +12,12 @@ public class SurveySaveRequestDto {
     private Long projectId;
     private String title;
     private String content;
-    private Timestamp startDate;
-    private Timestamp endDate;
+    private LocalDateTime endDate;
 
     @Builder
-    public SurveySaveRequestDto(String title, String content, Timestamp startDate, Timestamp endDate, Long projectId){
+    public SurveySaveRequestDto(String title, String content, LocalDateTime endDate, Long projectId){
         this.title = title;
         this.content = content;
-        this.startDate = startDate;
         this.endDate = endDate;
         this.projectId = projectId;
     }
@@ -28,7 +26,6 @@ public class SurveySaveRequestDto {
         return Survey.builder()
                 .title(title)
                 .content(content)
-                .startDate(startDate)
                 .endDate(endDate)
                 .build();
     }
