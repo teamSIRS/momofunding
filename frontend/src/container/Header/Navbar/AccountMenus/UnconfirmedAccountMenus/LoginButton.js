@@ -150,7 +150,6 @@ function LoginButton() {
     setShow(false);
   };
   const baseUrl = "http://localhost:8080";
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
