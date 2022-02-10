@@ -46,9 +46,6 @@ public class Reward {
     @Column
     Timestamp deliverStartDate;
 
-    @Column(columnDefinition = "boolean default false")
-    Boolean isSuccess;
-
     @Column
     Timestamp registerDate;
 
@@ -56,7 +53,7 @@ public class Reward {
     @Builder
     public Reward(Long id, String name, Integer price, String content, String optionDescription,
                   Boolean isDeliver, Integer limitedQuantity, Timestamp deliverStartDate,
-                  Boolean isSuccess, Timestamp registerDate) {
+                  Timestamp registerDate) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -65,7 +62,6 @@ public class Reward {
         this.isDeliver = isDeliver;
         this.limitedQuantity = limitedQuantity;
         this.deliverStartDate = deliverStartDate;
-        this.isSuccess = isSuccess;
         this.registerDate = registerDate;
     }
 

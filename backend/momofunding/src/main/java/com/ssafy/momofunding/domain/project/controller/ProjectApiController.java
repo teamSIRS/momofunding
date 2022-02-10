@@ -35,7 +35,7 @@ public class ProjectApiController {
     public void changeProjectStateId(){
         Timestamp today = Timestamp.valueOf(LocalDate.now().atStartOfDay());
         projectService.changeProjectsStateToComplete(today);
-        System.out.println(today+"-change project state as 'complete::3'");
+        System.out.println(today+"-change project state as 'complete(3)'");
     }
 
     @Operation(
