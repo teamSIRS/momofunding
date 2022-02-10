@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-@CrossOrigin("*")
 @Tag(name = "Notice API")
 @RequiredArgsConstructor
 @RestController

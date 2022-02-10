@@ -3,10 +3,12 @@ package com.ssafy.momofunding.domain.live.dto;
 import com.ssafy.momofunding.domain.live.domain.Live;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
 @Getter
+@NoArgsConstructor
 public class LiveResponseDto {
 
     private Long id;

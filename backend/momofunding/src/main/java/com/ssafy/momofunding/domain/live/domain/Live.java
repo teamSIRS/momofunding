@@ -38,15 +38,15 @@ public class Live {
     @Column(nullable = false)
     private Timestamp registerDate;
 
-    @ManyToOne(targetEntity = LiveState.class)
+    @ManyToOne(targetEntity = LiveState.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "live_state_id", nullable = false)
     LiveState liveState;
 
-    @ManyToOne(targetEntity = ProjectCategory.class)
+    @ManyToOne(targetEntity = ProjectCategory.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_category_id", nullable = false)
     ProjectCategory projectCategory;
 
-    @ManyToOne(targetEntity = Project.class)
+    @ManyToOne(targetEntity = Project.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
     Project project;
 
@@ -73,6 +73,12 @@ public class Live {
 
     public void updateTotalPlayTime(Long time) {
         this.totalPlayTime = time;
+    }
+
+    @PrePersist
+    public void initializer() {
+        this.totalPlayTime = 0L;
+        this.viewerCount = 0;
     }
 
     @Builder
