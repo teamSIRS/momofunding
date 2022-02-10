@@ -20,7 +20,7 @@ public class JwtService {
 
     @Value("${jwt.secret}")
     private String SALT;
-    private static final int EXPIRE_MINUTES = 30;
+    private static final int EXPIRE_MINUTES = 9999;
 
 
     public <T> String create(String key, T data, String subject) {
