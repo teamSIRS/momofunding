@@ -5,9 +5,10 @@ import { Container } from 'react-bootstrap';
 import HomeBanners from "../Home/HomeBanners";
 import ProjectCard from "./ProjectCard";
 import { ListNav, Category, Search, Bar, ListFilter, ListFilterSelected } from './Project.styled';
+import NonExist from './NonExist';
+import { baseUrl } from '../../App';
 
 function ProjectList(){
-  const baseUrl = "http://localhost:8080";
   const [isDate, setIsDate] = useState(true);
   const [isPop, setIsPop] = useState(false);
   const [search, setSearch] = useState("");
@@ -15,6 +16,7 @@ function ProjectList(){
   const [categories, setCategories] = useState([""]);
   const [selected, setSelected] = useState(0);
   const [sort, setSort] = useState("");
+  const [isExist, setIsExist] = useState(true);
   const all = [
     {
       id: 0,
@@ -44,6 +46,10 @@ function ProjectList(){
     })
   }
 
+  const enterkey = () =>{
+    if(window.event.keyCode === 13) Setlist();
+  }
+
   const Setlist = async() =>{
     if(isDate){
       orderQuery = "?order=date";
@@ -53,22 +59,22 @@ function ProjectList(){
       setSort("popularity");
     }
 
-    if(selected != 0) categoryQuery = "&categoryId="+selected;
+    if(selected !== 0) categoryQuery = "&categoryId="+selected;
     else categoryQuery = "";
 
-    if(search != "") keywordQuery = "&keyword="+search;
+    if(search !== "") keywordQuery = "&keyword="+search;
     else keywordQuery = "";
 
-    //console.log(orderQuery+categoryQuery+keywordQuery);
     
     await axios({
-      //url:`/projects/search?order=${sort}`,
       url:`http://localhost:8080/projects/search`+orderQuery+categoryQuery+keywordQuery,
       method:"get",
       baseURL: baseUrl,
     })
     .then((response)=>{
       setProjects([...response.data]);
+      if(response.data === "") setIsExist(false);
+      else setIsExist(true);
     })
     .catch((err) =>{
       console.log(err);
@@ -81,7 +87,7 @@ function ProjectList(){
 
   useEffect(()=>{
     Setlist();
-  },[sort, selected, isPop, isDate]);
+  },[ selected, isPop, isDate ]);
 
   return(
     <>
@@ -102,13 +108,13 @@ function ProjectList(){
           <input
             type="text"
             value={search}
+            onKeyUp={enterkey}
             onChange={(e) => {
               setSearch(e.target.value);
             }}
           />
           <svg
             onClick={() => {
-              console.log(search, '검색');
               Setlist();
             }}
             xmlns="http://www.w3.org/2000/svg"
@@ -139,12 +145,16 @@ function ProjectList(){
         <div className="container">
           <div className="row">
             {
+             isExist
+             ? (
               projects.map((project) => (
                 <ProjectCard
                   project={project}
                   key={project.id}
                 />
               ))
+             )
+             : <NonExist />
             }
           </div>
         </div>
