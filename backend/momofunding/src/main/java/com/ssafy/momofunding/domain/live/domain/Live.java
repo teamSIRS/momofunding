@@ -75,6 +75,12 @@ public class Live {
         this.totalPlayTime = time;
     }
 
+    @PrePersist
+    public void initializer() {
+        this.totalPlayTime = 0L;
+        this.viewerCount = 0;
+    }
+
     @Builder
     public Live(String title, String content, Integer viewerCount, Long totalPlayTime, Timestamp registerDate, String sessionId){
         this.title = title;
