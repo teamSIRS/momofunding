@@ -6,6 +6,7 @@ import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.project.domain.QProject;
 
 import javax.persistence.EntityManager;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class ProjectRepositoryCustomImpl implements ProjectRepositoryCustom{
@@ -42,5 +43,15 @@ public class ProjectRepositoryCustomImpl implements ProjectRepositoryCustom{
                     .fetch();
         }
         return projects;
+    }
+
+    @Override
+    public void updateProjectStateIdToComplete(Timestamp today) {
+        QProject project = QProject.project;
+        query.update(project)
+                .set(project.projectState.id, 3L)
+                .where(project.projectState.id.eq(2L)
+                .and(project.expirationDate.before(today)))
+                .execute();
     }
 }

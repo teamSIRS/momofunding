@@ -16,11 +16,12 @@ import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -204,6 +205,11 @@ public class ProjectService {
         return projects.stream()
                 .map(ProjectResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void changeProjectsStateToComplete(Timestamp today){
+        projectRepository.updateProjectStateIdToComplete(today);
     }
 
 }
