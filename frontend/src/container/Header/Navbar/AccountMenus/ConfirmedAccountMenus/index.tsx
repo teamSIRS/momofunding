@@ -1,12 +1,32 @@
 import { Nav } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { isLoginState, nicknameState, userIdState } from "../../../../../atoms";
 import Menu from "../../Menus/Menu";
-import { AccountMenusProp } from "../UnconfirmedAccountMenus";
 
-const ConfirmedAccountMenu = ({ setAuth }: AccountMenusProp) => (
-  <Nav>
-    <Menu setAuth={setAuth} path="users" name="로그아웃" />
-    <Menu path="users" name="프로필" />
-  </Nav>
-);
+function ConfirmedAccountMenu() {
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const nickname = useRecoilValue(nicknameState);
+  const userId = useRecoilValue(userIdState);
+  const navigate = useNavigate();
+  const onLogoutClick = () => {
+    setIsLogin(false);
+    // localStorage.removeItem("auth-token");
+    navigate("/");
+  };
+  const onProfileClick = () => {
+    navigate("profile/member", {
+      state: {
+        userId: userId,
+      },
+    });
+  };
+  return (
+    <Nav>
+      <button onClick={onProfileClick}>{nickname} 님</button>
+      <button onClick={onLogoutClick}>로그아웃</button>
+    </Nav>
+  );
+}
 
 export default ConfirmedAccountMenu;

@@ -1,18 +1,19 @@
 import { Dispatch, SetStateAction } from "react";
 import { Nav } from "react-bootstrap";
-import Menu from "../../Menus/Menu";
+import { useNavigate } from "react-router-dom";
 import LoginButton from "./LoginButton";
-export type AccountMenusProp = {
-  setAuth: Dispatch<SetStateAction<boolean>>;
-};
-const UnconfirmedAccountMenus = ({ setAuth }: AccountMenusProp) => {
+
+function UnconfirmedAccountMenus() {
+  const navigate = useNavigate();
+  const onSignupClick = () => {
+    navigate("/signup");
+  };
   return (
     <Nav>
       <LoginButton />
-      <Menu setAuth={setAuth} path="login" name="로그인" />
-      <Menu path="signup" name="회원가입" />
+      <button onClick={onSignupClick}>회원가입</button>
     </Nav>
   );
-};
+}
 
 export default UnconfirmedAccountMenus;

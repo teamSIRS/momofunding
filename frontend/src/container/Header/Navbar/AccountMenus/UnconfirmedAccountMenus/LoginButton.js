@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
-import setAuthorizationToken from "../../../../../atoms";
+import { useRecoilState } from "recoil";
+import { nicknameState, isLoginState, userIdState } from "../../../../../atoms";
 
 const LoginBackGround = styled.div`
   display: flex;
@@ -147,8 +148,13 @@ function LoginButton() {
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
 
+  const [nickname, setNickname] = useRecoilState(nicknameState);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [userId, setUserId] = useRecoilState(userIdState);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   function signin(event) {
     event.preventDefault();
 
@@ -164,12 +170,13 @@ function LoginButton() {
       })
         .then((response) => {
           console.log(response.data);
-          setEmail("");
-          setPassword("");
           const token = response.data.token;
           localStorage.setItem("auth-token", token);
-          setAuthorizationToken(token);
+          setUserId(response.data.id);
+          setNickname(response.data.nickname);
+          setIsLogin(true);
           navigate("/");
+          setShow(false);
         })
         .catch((error) => {
           console.log(error);
@@ -187,7 +194,10 @@ function LoginButton() {
     event.preventDefault();
     setPassword(event.target.value);
   };
-
+  useEffect(() => {
+    console.log(nickname);
+    console.log(isLogin);
+  }, [nickname, isLogin]);
   return (
     <>
       <LoginModalBtn onClick={handleShow}>로그인</LoginModalBtn>
@@ -223,7 +233,7 @@ function LoginButton() {
                   <CheckBoxAndLink>
                     <CheckBox>
                       <input id="check" type="checkbox" />
-                      <CheckBoxLabel for="check">아이디 저장</CheckBoxLabel>
+                      <CheckBoxLabel htmlFor="check">아이디 저장</CheckBoxLabel>
                     </CheckBox>
                     <FindIdOrPw as="button" onClick={goToFind}>
                       아이디, 비밀번호 찾기

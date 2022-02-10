@@ -29,6 +29,7 @@ public class MethodInteceptor implements HandlerInterceptor {
         if (token != null && jwtService.isUsable(token)) {
             return true;
         } else {
+            System.out.println(token);
             throw new UnAuthorizedException();
         }
     }
