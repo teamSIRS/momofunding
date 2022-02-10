@@ -13,10 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Tag(name = "Live API")
 @RequiredArgsConstructor
@@ -167,5 +164,19 @@ public class LiveApiController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @Operation(
+            summary = "라이브 종료 시 호출 api",
+            description = "라이브의 종료 시 상태 변경 및 총 시간 계산"
+    )
+    @GetMapping("/search")
+    public ResponseEntity<Object> searchLivesByConditions(@RequestParam("order") String order,
+                                                          @RequestParam(value = "categoryId", required = false) Long categoryId,
+                                                          @RequestParam(value = "keyword", required = false) String keyword){
+        List<LiveResponseDto> lives = liveService.searchLivesByCondition(order, categoryId, keyword);
+
+        if(lives.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(lives);
     }
 }
