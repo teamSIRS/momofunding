@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -33,6 +32,8 @@ public class ProjectService {
 
     @Value("${spring.servlet.multipart.location}")
     private String imagePath;
+
+    private final String resourcesPath = "http://localhost:8080/images/";
 
     private final ProjectRepository projectRepository;
     private final ProjectStateRepository projectStateRepository;
@@ -52,6 +53,7 @@ public class ProjectService {
         Creator creator = new Creator();
         creator.mapProject(project);
         creator.updateCreatorImageUrl(imagePath+"\\creator\\default.png");
+        //creator.updateCreatorImageUrl(resourcesPath+"/creator/default.png");
         creatorRepository.save(creator);
 
         return projectId;
@@ -76,11 +78,15 @@ public class ProjectService {
                         File file = new File(project.getMainImageUrl());
                         file.delete();
                     }
+                    //String mainFileName = projectId+"_main"+mainName.substring(mainName.lastIndexOf(".");
                     File mainImgFile = new File("\\project\\"+projectId+"_main"+mainName.substring(mainName.lastIndexOf(".")));
                     mainImg.transferTo(mainImgFile);
                     projectUpdateRequestDto.setMainImageUrl(imagePath+mainImgFile.getPath());
+                    //projectUpdateRequestDto.setMainImageUrl(resourcesPath+"/project/"+mainFileName);
                 }else if(projectUpdateRequestDto.getMainImageUrl().equals("")){
                     File file = new File(project.getMainImageUrl());
+                    project.getMainImageUrl();
+                    //File file = new File(project.getMainImageUrl().lastIndexOf("/"));
                     file.delete();
                 }
             } catch (IOException | NullPointerException e) {
