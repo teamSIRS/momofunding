@@ -6,7 +6,7 @@ const OpenButton = () => {
     <div>
       <Link to="/projects/entrance">
         <StyledBtn variant="outline-primary" size="md">
-          프로젝트 열기
+          프로젝트 만들기
         </StyledBtn>
       </Link>
     </div>

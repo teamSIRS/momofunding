@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Container, Col, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import setAuthorizationToken from "../../../atoms";
 
 const NoticeDetailMain = styled.div`
   background-color: whitesmoke;
@@ -88,6 +89,7 @@ function NoticeDetail() {
       await axios({
         url: `/notices/${id}`,
         method: "get",
+        headers: setAuthorizationToken(),
         baseURL: baseUrl,
       })
         .then((response) => {
@@ -114,6 +116,7 @@ function NoticeDetail() {
         url: `/notices/${id}`,
         method: "put",
         data: data,
+        headers: setAuthorizationToken(),
         baseURL: baseUrl,
       })
         .then((response) => {
@@ -133,6 +136,7 @@ function NoticeDetail() {
       await axios({
         url: `/notices/${id}`,
         method: "delete",
+        headers: setAuthorizationToken(),
         baseURL: baseUrl,
       })
         .then((response) => {

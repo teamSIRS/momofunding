@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ProfileMemberTitle = styled.div`
   margin: 50px;
@@ -129,6 +129,8 @@ const ErrorMsg = styled.span`
 
 function ProfileMember() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { userId } = location.state;
   const {
     register,
     handleSubmit,
@@ -143,9 +145,6 @@ function ProfileMember() {
   const onNickNameChange = (event) => {
     setNickname(event.target.value);
   };
-
-  // 이거는 나중에 로그인한 회원의 아이디로 바꿔야함
-  const userId = 18;
 
   function getUser() {
     const getUser = async () => {

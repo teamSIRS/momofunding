@@ -1,15 +1,25 @@
-import axios from "axios";
 import { atom } from "recoil";
 
-// export const nickname = atom({
-//   key: "nickname",
-//   default: "",
-// });
+export const nicknameState = atom({
+  key: "nickname",
+  default: "",
+});
 
-export default function setAuthorizationToken(token) {
-  if (token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  } else {
-    delete axios.defaults.headers.common["Authorization"];
-  }
+export const isLoginState = atom({
+  key: "isLogin",
+  default: false,
+});
+
+export const userIdState = atom({
+  key: "userId",
+  default: 0,
+});
+
+// jwt token 가져다 쓰기 => headers: setAuthorizationToken(),
+export default function setAuthorizationToken() {
+  const token = localStorage.getItem("auth-token");
+  const config = {
+    Authorization: `${token}`,
+  };
+  return config;
 }
