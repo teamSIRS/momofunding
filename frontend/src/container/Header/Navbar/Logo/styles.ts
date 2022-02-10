@@ -7,4 +7,7 @@ export const StyledLogo = styled(Navbar.Brand)`
   font-size: xx-large;
   text-decoration: none;
   font-family: "Jua", sans-serif;
+  &:hover {
+    cursor: pointer;
+  }
 `;
