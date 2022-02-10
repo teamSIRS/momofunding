@@ -11,7 +11,7 @@ function ConfirmedAccountMenu() {
   const navigate = useNavigate();
   const onLogoutClick = () => {
     setIsLogin(false);
-    // localStorage.removeItem("auth-token");
+    localStorage.removeItem("auth-token");
     navigate("/");
   };
   const onProfileClick = () => {

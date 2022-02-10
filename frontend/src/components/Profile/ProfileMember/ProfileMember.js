@@ -131,6 +131,7 @@ function ProfileMember() {
   const navigate = useNavigate();
   const location = useLocation();
   const { userId } = location.state;
+  console.log(userId);
   const {
     register,
     handleSubmit,

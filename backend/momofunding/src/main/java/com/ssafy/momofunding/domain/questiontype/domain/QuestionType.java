@@ -1,5 +1,6 @@
 package com.ssafy.momofunding.domain.questiontype.domain;
 
+import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -32,7 +32,7 @@ function FindPw() {
         });
     };
     sendEmail();
-    navigate("/");
+    // navigate("/");
   }
   return (
     <Container>

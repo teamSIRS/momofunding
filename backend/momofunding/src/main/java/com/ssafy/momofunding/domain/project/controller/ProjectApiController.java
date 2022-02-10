@@ -10,13 +10,19 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.*;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
-@CrossOrigin("*")
 @Tag(name = "Project API")
 @RequiredArgsConstructor
 @RestController
@@ -24,6 +30,13 @@ import java.util.*;
 public class ProjectApiController {
 
     private final ProjectService projectService;
+
+    @Scheduled(cron = "0 0 0 * * *")
+    public void changeProjectStateId(){
+        LocalDateTime today = LocalDate.now().atStartOfDay();
+        projectService.changeProjectsStateToComplete(today);
+        System.out.println(today+"-change project state as 'complete(3)'");
+    }
 
     @Operation(
             summary = "프로젝트 생성",
@@ -172,7 +185,7 @@ public class ProjectApiController {
 
     @Operation(
             summary = "프로젝트 검색 결과 조회",
-            description = "검색조건에 따라 프로젝트 검색 결과 목록을 조회할 수 있다."
+            description = "검색조건에 따라 프로젝트 검색 결과 목록을 조회할 수 있다. \n 정렬 조건(최신순-date / 인기순-popularity)"
     )
     @Parameter(name = "keyword", description = "검색어", required = true)
     @GetMapping("/search")

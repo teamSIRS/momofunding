@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { nicknameState, isLoginState, userIdState } from "../../../../../atoms";
@@ -118,6 +118,9 @@ const GoToSignupMessage = styled.label`
 const GoToSignup = styled.a`
   color: blue;
   text-decoration: none;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const styles = {
@@ -140,6 +143,10 @@ function LoginButton() {
   const navigate = useNavigate();
   const goToFind = () => {
     navigate("/findAccount/findId");
+    setShow(false);
+  };
+  const goToSignup = () => {
+    navigate("/signup");
     setShow(false);
   };
   const baseUrl = "http://localhost:8080";
@@ -197,7 +204,7 @@ function LoginButton() {
   useEffect(() => {
     console.log(nickname);
     console.log(isLogin);
-  }, [nickname, isLogin]);
+  }, []);
   return (
     <>
       <LoginModalBtn onClick={handleShow}>로그인</LoginModalBtn>
@@ -215,7 +222,7 @@ function LoginButton() {
         >
           <LoginBackGround>
             <LoginMainForm>
-              <LoginForm onSubmit={signin}>
+              <LoginForm>
                 <GeneralLoginForm>
                   <LoginTitle>WelCome Back!</LoginTitle>
                   <InputIdAndPw
@@ -240,8 +247,37 @@ function LoginButton() {
                     </FindIdOrPw>
                   </CheckBoxAndLink>
 
-                  <LoginBtn as="button">로그인</LoginBtn>
+                  <LoginBtn as="button" onClick={signin}>
+                    로그인
+                  </LoginBtn>
                 </GeneralLoginForm>
+                <SeparateLineForm>
+                  <SeparateLine></SeparateLine> 또는
+                  <SeparateLine></SeparateLine>
+                </SeparateLineForm>
+                <SocialLoginForm>
+                  <SocialLoginBtns>
+                    <SocialLoginLogo
+                      src="/socialLoginLogo/facebook.png"
+                      alt="fackbook-image"
+                    />
+                    <SocialLoginLogo
+                      src="/socialLoginLogo/kakao-talk.png"
+                      alt="kakao-talk-image"
+                    />
+                    <SocialLoginLogo
+                      src="/socialLoginLogo/google.png"
+                      alt="google-image"
+                    />
+                    <SocialLoginBtns />
+                  </SocialLoginBtns>
+                  <GoToSiginupForm>
+                    <GoToSignupMessage>
+                      아직 회원이 아니신가요?
+                    </GoToSignupMessage>
+                    <GoToSignup onClick={goToSignup}>회원가입</GoToSignup>
+                  </GoToSiginupForm>
+                </SocialLoginForm>
               </LoginForm>
             </LoginMainForm>
           </LoginBackGround>

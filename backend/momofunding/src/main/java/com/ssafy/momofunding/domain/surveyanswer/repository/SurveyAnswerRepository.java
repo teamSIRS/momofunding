@@ -12,8 +12,8 @@ public interface SurveyAnswerRepository extends JpaRepository<SurveyAnswer, Long
 
     @Query(value = "select new com.ssafy.momofunding.domain.surveyanswer.dto.SurveyAnswerResponseDto(" +
             "qs.id, count(sa.id), qs.content) " +
-            "FROM SurveyAnswer sa, QuestionSelect qs " +
-            "where sa.questionSelect.id = qs.id AND sa.surveyQuestion.id = :surveyQuestionId " +
-            "group by sa.questionSelect.id")
+            "FROM QuestionSelect qs left outer join SurveyAnswer sa " +
+            "on qs.id = sa.questionSelect.id where qs.surveyQuestion.id = :surveyQuestionId " +
+            "group by qs.id")
     List<SurveyAnswerResponseDto> findChoiceAnswerBySurveyQuestionId(Long surveyQuestionId);
 }
