@@ -53,10 +53,8 @@ function ProjectList(){
   const Setlist = async() =>{
     if(isDate){
       orderQuery = "?order=date";
-      setSort("date");
     } else{
       orderQuery = "?order=popularity";
-      setSort("popularity");
     }
 
     if(selected !== 0) categoryQuery = "&categoryId="+selected;

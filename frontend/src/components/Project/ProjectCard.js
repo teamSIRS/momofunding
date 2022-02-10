@@ -73,7 +73,7 @@ function ProjectCard({ project }) {
   const navigate = useNavigate();
 
   const goToProjct = (projectId) =>{
-    navigate(`/projects/${projectId}`, {});
+    navigate(`/projects/${projectId}`, { state: projectId });
     window.scrollTo(0, 0);
   }
 
