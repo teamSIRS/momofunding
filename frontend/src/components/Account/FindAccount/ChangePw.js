@@ -1,6 +1,10 @@
 import { Container, Info, InputForm, Input, Btn } from "./styles";
 import styled from "styled-components";
-
+import { useNavigate, useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { baseUrl } from "../../../App";
+import setAuthorizationEmailToken from "../../../atoms";
 const ChangePwTitle = styled.div`
   margin: 50px;
   font-size: 30px;
@@ -40,12 +44,61 @@ const styles = {
   },
 };
 
+const ErrorMsg = styled.span`
+  font-size: 12px;
+  color: red;
+`;
+
 function ChangePw() {
-  let newPw = "";
-  let newPwCheck = "";
+  const { token } = useParams();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    setError,
+  } = useForm();
 
-  function passCheck() {}
+  function changePassword(data) {
+    const changePassword = async () => {
+      console.log(token);
+      console.log(data);
+      await axios({
+        url: "/users/password",
+        method: "PUT",
+        data: {
+          Authorization: token,
+          password: data.password,
+        },
+        // headers: setAuthorizationEmailToken(token), // 비밀번호 재설정도 필요없음 CORS
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log("성공");
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log("실패");
+          console.log(error);
+        });
+    };
+    changePassword();
+  }
 
+  const onValid = (data) => {
+    if (data.password !== data.passwordCheck) {
+      setError(
+        "passwordCheck",
+        { message: "비밀번호가 일치하지 않습니다." },
+        { shouldFocus: true }
+      );
+    } else {
+      //재설정
+      changePassword(data);
+      // alert("새로운 비밀번호로 로그인하세요.");
+    }
+  };
   return (
     <div>
       <ChangePwTitle>비밀번호 재설정</ChangePwTitle>
@@ -59,24 +112,25 @@ function ChangePw() {
           <br />
           그리고 다시 확인해주세요.
         </Info>
-        <InputForm>
+        <InputForm onSubmit={handleSubmit(onValid)}>
           <Input
             style={styles.input}
             placeholder="새로운 비밀번호"
-            onChange={(e) => {
-              // console.log(e.target.value);
-              newPw = e.target.value;
-              console.log(newPw);
-            }}
+            type="password"
+            {...register("password", {
+              required: "비밀번호는 필수입니다.",
+            })}
           />
           <Input
             style={styles.input}
             placeholder="새로운 비밀번호 확인"
-            onChange={(e) => {
-              newPwCheck = e.target.value;
-            }}
+            type="password"
+            {...register("passwordCheck", {
+              required: "비밀번호체크는 필수입니다.",
+            })}
           />
-          <Btn onClick={() => {}}>확인</Btn>
+          <ErrorMsg>{errors?.passwordCheck?.message}</ErrorMsg>
+          <Btn>비밀번호 재설정</Btn>
         </InputForm>
       </Container>
     </div>

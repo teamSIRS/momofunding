@@ -50,7 +50,7 @@ public class UserApiController {
             summary = "회원 가입",
             description = "회원은 email, password, nickname을 입력해 회원가입 할 수 있다."
     )
-    @PostMapping("")
+    @PostMapping("/sign-up")
     public ResponseEntity signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto) {
         Map<String, Object> responseMap = new HashMap<>();
         Long userId = userService.saveUserInfo(userSignUpRequestDto);
