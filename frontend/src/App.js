@@ -50,7 +50,7 @@ function App() {
           <Route path="community" element={<ProjectCommunity />} />
         </Route>
         <Route path="/findAccount/*" element={<FindAccount />}></Route>
-        <Route path="/changepw" element={<ChangePw />}></Route>
+        <Route path="/changepw/:token" element={<ChangePw />}></Route>
         <Route path="/funding" element={<Funding />}></Route>
         <Route path="/profile/member" element={<ProfileMember />}></Route>
 
