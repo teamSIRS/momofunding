@@ -7,6 +7,7 @@ import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
 import com.ssafy.momofunding.domain.projectstate.domain.ProjectState;
 import com.ssafy.momofunding.domain.reward.domain.Reward;
 import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,13 +15,14 @@ import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @Getter
 @Entity
-public class Project {
+public class Project extends AuditBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,13 +72,10 @@ public class Project {
     Integer currentAmount;
 
     @Column
-    Timestamp startDate;
+    LocalDateTime startDate;
 
     @Column
-    Timestamp expirationDate;
-
-    @Column
-    Timestamp registerDate;
+    LocalDateTime expirationDate;
 
     @Column(columnDefinition = "boolean default false")
     Boolean isLivePlaying;
@@ -95,8 +94,8 @@ public class Project {
 
     @Builder
     public Project(Long id, String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
-                   String summary, String projectContent, Integer currentAmount, Timestamp startDate,
-                   Timestamp expirationDate, Timestamp registerDate){
+                   String summary, String projectContent, Integer currentAmount, LocalDateTime startDate,
+                   LocalDateTime expirationDate){
         this.id = id;
         this.projectName = projectName;
         this.fundingGoal = fundingGoal;
@@ -107,7 +106,6 @@ public class Project {
         this.currentAmount = currentAmount;
         this.startDate = startDate;
         this.expirationDate = expirationDate;
-        this.registerDate = registerDate;
     }
 
     public void mapProjectState(ProjectState ps){

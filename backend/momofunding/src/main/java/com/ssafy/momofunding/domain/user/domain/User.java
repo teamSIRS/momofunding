@@ -1,17 +1,17 @@
 package com.ssafy.momofunding.domain.user.domain;
 
 import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
+import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class User {
+public class User extends AuditBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +27,6 @@ public class User {
     private String nickname;
 
     @Column
-    private Timestamp registerDate;
-
-    @Column
     private String role;
 
     @PrePersist
@@ -38,12 +35,11 @@ public class User {
     }
 
     @Builder
-    public User(String email, String password, String nickname, String role, Timestamp registerDate) {
+    public User(String email, String password, String nickname, String role) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.role = role;
-        this.registerDate = registerDate;
     }
 
     public void updateUserInfo(UserInfoUpdateRequestDto userInfoUpdateRequestDto) {
@@ -51,7 +47,7 @@ public class User {
         this.nickname = userInfoUpdateRequestDto.getNickname();
     }
 
-    public void updateUserPassword(String password){
+    public void updateUserPassword(String password) {
         this.password = password;
     }
 

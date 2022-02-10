@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -14,21 +14,21 @@ public class UserInfoResponseDto {
     private String email;
     private String password;
     private String nickname;
-    private Timestamp registerDate;
+    private LocalDateTime registerTime;
 
     @Builder
-    public UserInfoResponseDto(String email, String password, String nickname, Timestamp registerDate) {
+    public UserInfoResponseDto(String email, String password, String nickname, LocalDateTime registerDate) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
-        this.registerDate = registerDate;
+        this.registerTime = registerDate;
     }
 
     public UserInfoResponseDto(User user) {
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.nickname = user.getNickname();
-        this.registerDate = user.getRegisterDate();
+        this.registerTime = user.getRegisterTime();
     }
 
 

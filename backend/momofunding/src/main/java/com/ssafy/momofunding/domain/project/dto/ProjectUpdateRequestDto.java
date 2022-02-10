@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Setter
@@ -20,12 +21,12 @@ public class ProjectUpdateRequestDto {
     private String subImageUrl;
     private String summary;
     private String projectContent;
-    private Timestamp expirationDate;
+    private LocalDateTime expirationDate;
 
     @Builder
     public ProjectUpdateRequestDto(Long projectCategoryId, String projectName, Integer fundingGoal,
                                    String mainImageUrl, String subImageUrl, String summary,
-                                   String projectContent, Timestamp expirationDate){
+                                   String projectContent, LocalDateTime expirationDate){
 
         this.projectCategoryId = projectCategoryId;
         this.projectName = projectName;

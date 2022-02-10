@@ -6,27 +6,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
 public class NoticeResponseDto {
     private Long id;
     private String title;
-    private Timestamp registerDate;
+    private LocalDateTime registerTime;
     private Long viewerCount;
 
     @Builder
-    public NoticeResponseDto(Long id, String title, Timestamp registerDate, Long viewerCount) {
+    public NoticeResponseDto(Long id, String title, LocalDateTime registerTime, Long viewerCount) {
         this.id = id;
         this.title = title;
-        this.registerDate = registerDate;
+        this.registerTime = registerTime;
         this.viewerCount = viewerCount;
     }
 
     public NoticeResponseDto(Notice notice){
         this.id = notice.getId();
         this.title = notice.getTitle();
-        this.registerDate = notice.getRegisterDate();
+        this.registerTime = notice.getRegisterTime();
         this.viewerCount = notice.getViewerCount();
     }
 }

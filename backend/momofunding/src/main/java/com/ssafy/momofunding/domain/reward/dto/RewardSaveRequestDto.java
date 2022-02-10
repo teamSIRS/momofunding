@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Setter
@@ -20,12 +20,11 @@ public class RewardSaveRequestDto {
     private String optionDescription;
     private Boolean isDeliver;
     private Integer limitedQuantity;
-    private Timestamp deliverStartDate;
-    private Timestamp registerDate;
+    private LocalDateTime deliverStartDate;
 
     @Builder
     public RewardSaveRequestDto(Long projectId, String name, Integer price, String content, String optionDescription,
-                                Boolean isDeliver, Integer limitedQuantity, Timestamp deliverStartDate, Timestamp registerDate){
+                                Boolean isDeliver, Integer limitedQuantity, LocalDateTime deliverStartDate){
         this.projectId = projectId;
         this.name = name;
         this.price = price;
@@ -34,7 +33,6 @@ public class RewardSaveRequestDto {
         this.isDeliver = isDeliver;
         this.limitedQuantity = limitedQuantity;
         this.deliverStartDate = deliverStartDate;
-        this.registerDate = registerDate;
     }
 
     public Reward toEntity(){
@@ -46,7 +44,6 @@ public class RewardSaveRequestDto {
                 .isDeliver(isDeliver)
                 .limitedQuantity(limitedQuantity)
                 .deliverStartDate(deliverStartDate)
-                .registerDate(registerDate)
                 .build();
     }
 

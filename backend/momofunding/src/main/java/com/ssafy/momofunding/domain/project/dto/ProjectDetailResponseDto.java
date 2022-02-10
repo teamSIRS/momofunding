@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Setter
@@ -24,14 +25,14 @@ public class ProjectDetailResponseDto {
     private String projectContent;
     private Integer currentAmount;
     private Integer popularity;
-    private Timestamp expirationDate;
+    private LocalDateTime expirationDate;
     private Boolean isLivePlaying;
 
     @Builder
     public ProjectDetailResponseDto(Long id, Long projectStateId, Long projectCategoryId, Long userId,
                                     String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
                                     String summary, String projectContent, Integer currentAmount, Integer popularity,
-                                    Timestamp expirationDate, Boolean isLivePlaying){
+                                    LocalDateTime expirationDate, Boolean isLivePlaying){
         this.id = id;
         this.projectStateId = projectStateId;
         this.projectCategoryId = projectCategoryId;
