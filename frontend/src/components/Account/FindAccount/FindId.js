@@ -1,10 +1,14 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { Container, Info, InputForm, Input, Btn } from "./styles";
+import axios from "axios";
+import { baseUrl } from "../../../App";
+import { useNavigate } from "react-router-dom";
 
 const Message = styled.div`
   margin: 30px;
   font-weight: bold;
+  font-size: 20px;
 `;
 
 const Exist = styled.p`
@@ -22,23 +26,42 @@ const styles = {
 };
 
 function FindId() {
-  let [email, setEmail] = useState("");
-  let [isEmail, setIsEmail] = useState(false); ///////////test용
-  let [modal, setModal] = useState(false); ///////////test용
-
-  const checkEmail = (e) => {
-    console.log(email);
-
-    // if(email === '')
-    //     setModal(false);
-    setModal(true);
-
-    if (isEmail) {
-      //이메일이 존재한다면(if문 안에 비교)
-      return setIsEmail(true);
-    }
-    return null; //이메일이 존재하지 않는다면 setIsEmail(false);
+  const [email, setEmail] = useState("");
+  const [isExist, setIsExist] = useState(false);
+  const [show, setShow] = useState(false);
+  const [test, setTest] = useState("");
+  const navigate = useNavigate();
+  const onEmailChange = (event) => {
+    setEmail(event.target.value);
   };
+
+  function checkEmail() {
+    const checkEmail = async () => {
+      await axios({
+        url: `/users/email/duplicate?email=${email}`,
+        method: "get",
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data);
+          setShow(true);
+          if (response.data.isExist) {
+            setIsExist(true);
+            setTest(email);
+          } else {
+            setIsExist(false);
+            setTest(email);
+            setEmail("");
+          }
+          navigate("/findAccount/findId");
+        })
+        .catch((error) => {
+          console.log("에러발생");
+          console.log(error);
+        });
+    };
+    checkEmail();
+  }
 
   return (
     <Container>
@@ -51,27 +74,20 @@ function FindId() {
         <Input
           style={styles.input}
           placeholder="이메일 계정"
-          type="email"
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        ></Input>
+          value={email}
+          onChange={onEmailChange}
+        />
         <Btn onClick={checkEmail} type="button">
           확인
         </Btn>
+        {show ? (
+          isExist ? (
+            <Message>[ {test} ]는 가입된 회원입니다.</Message>
+          ) : (
+            <Message>[ {test} ]는 가입된 회원이 아닙니다.</Message>
+          )
+        ) : null}
       </InputForm>
-
-      {modal ? (
-        email ? (
-          <Message>
-            <Exist>이미 가입한 회원입니다</Exist>
-          </Message>
-        ) : (
-          <Message>
-            <NonExist>가입정보가 존재하지 않습니다</NonExist>
-          </Message>
-        )
-      ) : null}
     </Container>
   );
 }
