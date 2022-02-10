@@ -222,7 +222,7 @@ function LoginButton() {
         >
           <LoginBackGround>
             <LoginMainForm>
-              <LoginForm onSubmit={signin}>
+              <LoginForm>
                 <GeneralLoginForm>
                   <LoginTitle>WelCome Back!</LoginTitle>
                   <InputIdAndPw
@@ -247,7 +247,9 @@ function LoginButton() {
                     </FindIdOrPw>
                   </CheckBoxAndLink>
 
-                  <LoginBtn as="button">로그인</LoginBtn>
+                  <LoginBtn as="button" onClick={signin}>
+                    로그인
+                  </LoginBtn>
                 </GeneralLoginForm>
                 <SeparateLineForm>
                   <SeparateLine></SeparateLine> 또는
