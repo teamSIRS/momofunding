@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-@CrossOrigin("*")
 @Tag(name = "Project API")
 @RequiredArgsConstructor
 @RestController
