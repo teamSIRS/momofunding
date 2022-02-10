@@ -20,6 +20,7 @@ function ProjectLiveList(){
       name: "전체"
     }
   ];
+  let query="";
 
   const handleSelect = (e) =>{
     setSelected(Number(e.target.value));
@@ -39,57 +40,28 @@ function ProjectLiveList(){
     })
   }
 
-  // const Setlist = async() =>{ //인기순, 최신순
-  //   if(isDate) setSort("date");
-  //   else if(isPop) setSort("viewer");
-
-  //   await axios({
-  //     url: `/lives?sortValue=${sort}`,
-  //     method: "get",
-  //     baseURL: baseUrl,
-  //   })
-  //   .then((res) =>{
-  //     setLives([...res.data]);
-  //     // setSelected(0);
-  //   })
-  //   .catch((err) =>{
-  //     console.log(err);
-  //   })
-  // }
+  const enterkey = () =>{
+    if(window.event.keyCode === 13) console.log(search);
+  }
 
   const CategorySelected = async() => {
     if(isDate) setSort("date");
     else if(isPop) setSort("viewer");
+
+    if(selected === 0) query=`?sortValue=${sort}`
+    else query = `/projectCategory/${selected}`;
     
-    //카테고리 전체일 때 => 인기순, 최신순에 따라
-    if(selected === 0){
-      await axios({
-        url: `/lives?sortValue=${sort}`,
-        method: "get",
-        baseURL: baseUrl,
-      })
-      .then((res) =>{
-        setLives([...res.data]);
-        console.log(sort);
-      })
-      .catch((err) =>{
-        console.log(err);
-      })
-    }
-    else{ //카테고리 선택 됐을 때
-      await axios({
-        url: `lives/projectCategory/${selected}`,
-        method: "get",
-        baseURL: baseUrl,
-      })
-      .then((res) =>{
-        setLives([...res.data]);
-        console.log(selected);
-      })
-      .catch((err) =>{
-        console.log(err);
-      })
-    }
+    await axios({
+      url: `/lives`+query,
+      method: "get",
+      baseURL: baseUrl,
+    })
+    .then((res) =>{
+      setLives([...res.data]);
+    })
+    .catch((err) =>{
+      console.log(err);
+    })
   }
 
   useEffect(()=>{
@@ -122,6 +94,8 @@ function ProjectLiveList(){
               <Search>
                   <input
                       type="text"
+                      value={search}
+                      onKeyUp={enterkey}
                       onChange={(e) => {
                       setSearch(e.target.value);
                       }}

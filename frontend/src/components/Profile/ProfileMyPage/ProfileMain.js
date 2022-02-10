@@ -11,14 +11,12 @@ import ProjectCard from '../../Project/ProjectCard';
 
 const Body = styled.div`
     padding: 80px 120px;
-    /* border: 2px solid blue; */
 `;
 
 const Container = styled.div`
     display: flex;
     border-radius: 15px;
     box-shadow: 4px 4px 20px 0px ${MomoColor};
-    /* border: 2px solid black; */
     padding: 15px;
 `;
 
@@ -29,7 +27,6 @@ const ProfileBox = styled.div`
     align-items:center;
     padding: 50px 0;
     width: 25%;
-    /* border: 2px solid rebeccapurple; */
     border-right: 1px solid #C8C8C8;
     p{
         margin: 3px 0;
@@ -65,41 +62,41 @@ const EditBtn = styled(Link)`
 const ProjectMainBox = styled.div`
     width: 85%;
     padding: 10px 20px;
-    /* border: 2px solid green; */
 `;
 
 const Navbar = styled.div`
     display: flex;
     width: 100%;
     height: 8%;
-    /* border: 1px solid black; */
 `;
 
-const Menu = styled(Link)`
-    color: black;
-    text-decoration: none;
+const Menu = styled.p`
     margin: 0 10px 0 10px;
     padding: 0 10px;
+`;
+
+const MyLink = styled(Link)`
+    color: black;
     :hover{
         color: black;
     }
     :focus{
-        font-weight: bolder;
-        border-bottom: 2px solid black;
-        color: black;
+        font-weight: bold;
     }
 `;
-
+  
 const ProjectBox = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    /* border: 1px solid yellowgreen; */
+    border: 1px solid yellowgreen;
     height: 92%;
     padding: 20px;
 `;
 
 function ProfileMain(){
+    const myProjects = useMatch("/users/myprojects");
+    const fundProjects = useMatch("/users/fundprojects")
     return(
         <Body>
             <Container>
@@ -114,21 +111,23 @@ function ProfileMain(){
                 <ProjectMainBox>
                     <Navbar>
                     {/* 상단 메뉴 */}
-                        <Menu to={"fundproject"}>
-                            후원한 프로젝트
+                        <Menu isActive={myProjects !== null}>
+                            <MyLink to={"/users/myprojects"}>
+                                창작한 프로젝트
+                            </MyLink>
                         </Menu>
-                        <Menu to={"myproject"}>
-                            창작한 프로젝트
+                        <Menu isActive={fundProjects !== null}>
+                            <MyLink to={'/users/fundprojects'}>
+                                후원한 프로젝트
+                            </MyLink>
                         </Menu>
                     </Navbar>
 
                     <ProjectBox>
-                        {/* 뭔가 잘못됐음!!!!!!!!!!! Link 추가*/}
-                        {/* 음..한 줄에 세개까지 들어가도록 */}
-                        {/* 카드가 너무 큰 것 같은데 새로 만들어야 할까? */}
-                        <ProjectCard></ProjectCard>
-                        <ProjectCard></ProjectCard>
-                        <ProjectCard></ProjectCard>
+                        <Routes>
+                            <Route path='/myprojects' element={<MyProject/>}></Route>
+                            <Route path='/fundprojects' element={<FundProject/>}></Route>
+                        </Routes>
                     </ProjectBox>
                 </ProjectMainBox>
             </Container>

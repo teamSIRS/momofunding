@@ -3,9 +3,7 @@ import ProjectCard from "../../Project/ProjectCard";
 function MyProject(){
     return(
         <>
-            <ProjectCard></ProjectCard>
-            <ProjectCard></ProjectCard>
-            <ProjectCard></ProjectCard>
+            <h1>내가 창작한 프로젝트s</h1>
         </>
     );
 }

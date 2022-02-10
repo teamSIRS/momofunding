@@ -13,10 +13,12 @@ const Detail = styled.div`
 
 const Title = styled.div`
     font-size: 20px;
+    font-weight: bold;
 `;
 
 const Creator = styled.div`
     display: flex;
+    flex-direction: column;
 `;
 
 const CreatorPic = styled.div`
@@ -28,8 +30,11 @@ const CreatorPic = styled.div`
     border-radius: 50%;
 `;
 
+const LiveContent = styled.p`
+    margin: 0;
+`;
 const CreatorName = styled.p`
-    /* margin-left: 10px; */
+    margin: 0;
 `;
 
 
@@ -45,8 +50,10 @@ function ProjectLiveCard({ live }) {
         <Detail>
             <Title>{live.title}</Title>
             <Creator>
-                {/* <CreatorPic /> 이거 지우면서 밑에 마진 없앰 */}
-                <CreatorName>{live.content}</CreatorName>
+                {/* <CreatorPic></CreatorPic>  */}
+                <LiveContent>{live.content}</LiveContent>
+                <CreatorName>{live.creatorName}</CreatorName> 
+                <span>{live.viewerCount}명 시청</span>
             </Creator>
         </Detail>
       </Container>

@@ -43,7 +43,7 @@ function App() {
         <Route path="/notices/:id" element={<NoticeDetail />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
-        <Route path="projects/:id" element={<ProjectDetail />}>
+        <Route path="projects/:id" element={<ProjectDetail />} component={ProjectDetail}>
           <Route index element={<ProjectCommunity />} />
           <Route path="story" element={<ProjectStory />} />
           <Route path="notices" element={<h1>공지사항</h1>} />
@@ -54,20 +54,19 @@ function App() {
         <Route path="/funding" element={<Funding />}></Route>
         <Route path="/profile/member" element={<ProfileMember />}></Route>
 
-        <Route path="/users" element={<ProfileMain />}>
-          <Route index element={<FundProject />} />
-          <Route path="fundproject" element={<FundProject />} />
-          <Route path="myproject" element={<MyProject />} />
-        </Route>
+{/* /////////// */}
+        <Route path="/users/*" element={<ProfileMain />}></Route>
+        <Route path="/myprojects" element={<MyProject/>}></Route>
+        <Route path="/fundprojects" element={<FundProject/>}></Route>
+{/* /////////// */}
 
-        <Route path="/myproject" element={<MyProjectDetail />}></Route>
+        <Route path="/myproject/:id" element={<MyProjectDetail />}></Route>
 
         <Route
           path="/projects/management/*"
           element={<ProjectManagement />}
         ></Route>
       </Routes>
-
       <Footer />
     </Router>
   );
