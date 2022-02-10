@@ -98,7 +98,7 @@ public class LiveService {
 
         if (liveStateId != null) {
             LiveState liveState = liveStateRepository.findById(liveStateId)
-                    .orElseThrow(() -> new IllegalArgumentException("잘못된 라이브 상태 번호입니다. liveStateId : " + liveStateId));
+                    .orElseThrow(() -> new IllegalArgumentException("잘못된 라이브상태 번호입니다. liveStateId : " + liveStateId));
             live.mapLiveState(liveState);
         }
 
