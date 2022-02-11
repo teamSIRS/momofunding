@@ -2,7 +2,6 @@ import { Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { isLoginState, nicknameState, userIdState } from "../../../../../atoms";
-import Menu from "../../Menus/Menu";
 
 function ConfirmedAccountMenu() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
@@ -15,7 +14,7 @@ function ConfirmedAccountMenu() {
     navigate("/");
   };
   const onProfileClick = () => {
-    navigate("profile/member", {
+    navigate("users", {
       state: {
         userId: userId,
       },
