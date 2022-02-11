@@ -15,6 +15,16 @@ export const userIdState = atom({
   default: 0,
 });
 
+export const createProjectIdState = atom({
+  key: "projectId",
+  default: 0,
+});
+
+export const createRewardIdState = atom({
+  key: "rewardId",
+  default: 0,
+});
+
 // jwt token 가져다 쓰기 => headers: setAuthorizationToken(),
 export default function setAuthorizationToken() {
   const token = localStorage.getItem("auth-token");

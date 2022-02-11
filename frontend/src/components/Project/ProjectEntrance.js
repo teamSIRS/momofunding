@@ -1,6 +1,14 @@
 import { Button } from "react-bootstrap";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import setAuthorizationToken, {
+  createProjectIdState,
+  userIdState,
+} from "../../atoms";
+import axios from "axios";
+import { baseUrl } from "../../App";
+import { useState } from "react";
 
 const ProjectEntranceBanner = styled.div`
   width: 100%;
@@ -86,10 +94,41 @@ const ProjectContentText = styled.p`
 `;
 
 function ProjectEntrance() {
+  const userId = useRecoilValue(userIdState);
+  const [createPjt, setCreatePjtId] = useRecoilState(createProjectIdState);
+  const [projectId, setProjectId] = useState(0);
   const navigate = useNavigate();
-  const goToProject = () => {
-    navigate("/projects/management/profile");
+  const goToProject = (pjtId) => {
+    navigate("/projects/management/profile", {
+      state: {
+        userId: userId,
+        projectId: pjtId,
+      },
+    });
   };
+
+  function startProject() {
+    const startProject = async () => {
+      await axios({
+        url: `/projects`,
+        method: "post",
+        data: {
+          userId: userId,
+        },
+        headers: setAuthorizationToken(),
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          setProjectId(response.data.projectId);
+          setCreatePjtId(response.data.projectId);
+          goToProject(response.data.projectId);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    startProject();
+  }
   return (
     <div>
       <ProjectEntranceBanner>
@@ -103,7 +142,7 @@ function ProjectEntrance() {
             <br />
             모모펀딩을 통해 성공을 경험해 보세요.
           </ProjectEntranceBannerMessage>
-          <ProjectStartBtn onClick={goToProject}>
+          <ProjectStartBtn onClick={startProject}>
             모모펀딩 프로젝트 생성
           </ProjectStartBtn>
           <ProjectEntranceSeparateLine />

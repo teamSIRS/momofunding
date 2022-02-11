@@ -2,6 +2,9 @@ import styled from "styled-components";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import $ from "jquery";
+import { useLocation } from "react-router-dom";
+import setAuthorizationToken, { createProjectIdState } from "../../../atoms";
+import { useRecoilValue } from "recoil";
 const ProjectManagementMain = styled.div`
   width: 100%;
   min-height: 800px;
@@ -81,7 +84,10 @@ const ProjectManagementContentProfileBtn = styled.button``;
 
 function ProjectManagementProfile() {
   const baseUrl = "http://localhost:8080";
-
+  const location = useLocation();
+  const { userId } = location.state;
+  // const { projectId } = location.state;
+  const projectId = useRecoilValue(createProjectIdState);
   const [creatorName, setCreatorName] = useState("");
   const [creatorImageUrl, setCreatorImageUrl] = useState("");
   const [creatorContent, setCreatorContent] = useState("");
@@ -112,7 +118,7 @@ function ProjectManagementProfile() {
   };
   //////////////////////////////////////////////////////////////////////
   // 이거는 나중에 로그인한 회원의 아이디로 바꿔야함
-  const projectId = 2;
+
   //////////////////////////////////////////////////////////////////////
   // get으로 사용자의 기존정보를 불러오기
   function getCreator() {
@@ -124,12 +130,36 @@ function ProjectManagementProfile() {
       })
         .then((response) => {
           console.log(response.data);
-          setCreatorName(response.data.creatorName);
-          setCreatorImageUrl(response.data.creatorImageUrl);
-          setCreatorContent(response.data.creatorContent);
-          setEmail(response.data.email);
-          setTel(response.data.tel);
-          setAccount(response.data.account);
+          if (response.data.creatorName) {
+            setCreatorName(response.data.creatorName);
+          } else {
+            setCreatorName("");
+          }
+          if (response.data.creatorImageUrl) {
+            setCreatorImageUrl(response.data.creatorImageUrl);
+          } else {
+            setCreatorImageUrl("");
+          }
+          if (response.data.creatorContent) {
+            setCreatorContent(response.data.creatorContent);
+          } else {
+            setCreatorContent("");
+          }
+          if (response.data.email) {
+            setEmail(response.data.email);
+          } else {
+            setEmail("");
+          }
+          if (response.data.tel) {
+            setTel(response.data.tel);
+          } else {
+            setTel("");
+          }
+          if (response.data.account) {
+            setAccount(response.data.account);
+          } else {
+            setAccount("");
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -172,6 +202,7 @@ function ProjectManagementProfile() {
         url: `/creators/${projectId}`,
         method: "put",
         data: formData, // 만들어 놓은 formData를 data값으로 넣기 끝!!
+        headers: setAuthorizationToken(),
         baseURL: baseUrl,
         processData: false,
         contentType: false,
