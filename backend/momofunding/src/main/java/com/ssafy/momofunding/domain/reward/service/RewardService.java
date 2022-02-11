@@ -22,14 +22,14 @@ public class RewardService {
     private final ProjectRepository projectRepository;
 
     @Transactional
-    public void saveReward(RewardSaveRequestDto rewardSaveRequestDto) {
+    public Long saveReward(RewardSaveRequestDto rewardSaveRequestDto) {
         Long projectId = rewardSaveRequestDto.getProjectId();
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
 
         Reward reward = rewardSaveRequestDto.toEntity();
         reward.mapProject(project);
-        rewardRepository.save(reward);
+        return rewardRepository.save(reward).getId();
     }
 
     @Transactional
