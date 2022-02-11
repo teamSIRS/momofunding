@@ -84,9 +84,7 @@ const MyLink = styled(Link)`
   color: black;
   :hover {
     color: black;
-    :hover{
-        color: black;
-    }
+  }
 `;
 
 const ProjectBox = styled.div`
@@ -95,6 +93,10 @@ const ProjectBox = styled.div`
   justify-content: space-around;
   height: 92%;
   padding: 20px;
+`;
+
+const ProfileEditBtn = styled.button`
+  margin-top: 15px;
 `;
 
 function ProfileMain() {
@@ -123,17 +125,50 @@ function ProfileMain() {
         .catch((err) => {
           console.log(err);
         });
-    }
-    
-    const goToProfileEdit = () => {
-        navigate("profile/member", {
-            state: {
-                userId: userId,
-              },
-            }}
-          >
+    };
+    getProjects();
+  }
+
+  const getAPI = async () => {
+    await axios
+      .get("http://localhost:8080/users/" + userId)
+      .then((response) => {
+        //   console.log(response.data);
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const goToProfileEdit = () => {
+    navigate("/users/member", {
+      state: {
+        userId: userId,
+      },
+    });
+  };
+
+  useEffect(() => {
+    getAPI();
+  }, []);
+
+  useEffect(() => {
+    getProjects();
+  }, [isMy, isFund, , isExist]);
+
+  return (
+    <Body>
+      <Container>
+        <ProfileBox>
+          <ProfilePic src="/photo/profile.png" />
+          <ProfileName>{user.nickname}</ProfileName>
+          <ProfileMail>{user.email}</ProfileMail>
+          {/* <ProfileInfo>간단한 소개글~!</ProfileInfo> */}
+          {/* 위: DB에 없음,*/}
+          <ProfileEditBtn onClick={goToProfileEdit}>
             회원 정보 수정
-          </EditBtn>
+          </ProfileEditBtn>
         </ProfileBox>
 
         <ProjectMainBox>
@@ -171,100 +206,46 @@ function ProfileMain() {
             )}
           </Navbar>
 
-    useEffect(()=>{
-        getAPI();
-    }, []);
-
-    useEffect(() =>{
-        getProjects();
-    }, [isMy, isFund, ,isExist]);
-
-
-    return(
-        <Body>
-            <Container>
-                <ProfileBox>
-                    <ProfilePic src="/photo/profile.png"/>
-                    <ProfileName>{user.nickname}</ProfileName>
-                    <ProfileMail>{user.email}</ProfileMail>
-                    {/* <ProfileInfo>간단한 소개글~!</ProfileInfo> */}
-                    {/* 위: DB에 없음,*/}
-                    <EditBtn onClick={goToProfileEdit}>회원 정보 수정</EditBtn>
-                </ProfileBox>
-
-                <ProjectMainBox>
-                    <Navbar>
-                    {/* 상단 메뉴 */}
-                    {
-                        isMy
-                        ?(
-                            <Menu fontWeight="bold">
-                                창작한 프로젝트
-                            </Menu>
-                        )
-                        :(
-                            <Menu isActive={myProjects !== null} >
-                                <MyLink to={"/users/myprojects"} onClick={()=>{setIsMy(true); setIsFund(false);}}>
-                                   창작한 프로젝트
-                                </MyLink>
-                            </Menu>
-                        )
-                    }
-                    {
-                        isFund
-                        ?(
-                            <Menu fontWeight="bold">
-                                후원한 프로젝트
-                            </Menu>
-                        )
-                        :(
-                            <Menu isActive={fundProjects !== null}>
-                                <MyLink to={'/users/fundprojects'} onClick={()=>{setIsMy(false); setIsFund(true);}}>
-                                    후원한 프로젝트
-                                </MyLink>
-                            </Menu>
-                        )
-                    }
-                    </Navbar>
-
-                    <ProjectBox>
-                        <Routes>
-                            <Route path='/myprojects' element={
-                                <div className="container">
-                                    <div className="row">
-                                        {
-                                            isExist
-                                            ? (
-                                                projects.map((project) => (
-                                                    <MyProject project={project} key={project.id}/>
-                                                ))
-                                            )
-                                            : <NonExist ment="창작한 프로젝트"/>
-                                        }
-                                    </div>
-                                </div>
-                            }></Route>
-                            <Route path='/fundprojects' element={
-                                <div className="container">
-                                    <div className="row">
-                                        {
-                                            isExist
-                                            ? (
-                                                projects.map((project) => (
-                                                    <MyProject project={project} key={project.id}/>
-                                                ))
-                                            )
-                                            : <NonExist ment="후원한 프로젝트"/>
-                                        }
-                                    </div>
-                                </div>
-                            }></Route>
-                        </Routes>
-                    </ProjectBox>
-                </ProjectMainBox>
-            </Container>
-        </Body>
-    );
+          <ProjectBox>
+            <Routes>
+              <Route
+                path="/myprojects"
+                element={
+                  <div className="container">
+                    <div className="row">
+                      {isExist ? (
+                        projects.map((project) => (
+                          <MyProject project={project} key={project.id} />
+                        ))
+                      ) : (
+                        <NonExist ment="창작한 프로젝트" />
+                      )}
+                    </div>
+                  </div>
+                }
+              ></Route>
+              <Route
+                path="/fundprojects"
+                element={
+                  <div className="container">
+                    <div className="row">
+                      {isExist ? (
+                        projects.map((project) => (
+                          <MyProject project={project} key={project.id} />
+                        ))
+                      ) : (
+                        <NonExist ment="후원한 프로젝트" />
+                      )}
+                    </div>
+                  </div>
+                }
+              ></Route>
+            </Routes>
+          </ProjectBox>
+        </ProjectMainBox>
+      </Container>
+    </Body>
+  );
 }
 
 export default ProfileMain;
