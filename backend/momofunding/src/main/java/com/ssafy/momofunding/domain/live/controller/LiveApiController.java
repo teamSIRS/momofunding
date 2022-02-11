@@ -8,12 +8,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Tag(name = "Live API")
 @RequiredArgsConstructor
@@ -21,27 +22,6 @@ import java.util.*;
 @RequestMapping("/lives")
 public class LiveApiController {
     private final LiveService liveService;
-
-    @Operation(
-            summary = "정렬 별 진행중인 라이브 다중 조회",
-            description = "최신 순, 시청자 순(=인기순 에 따른 진행중인 라이브 리스트를 조회 (진행중이 아니면 조회되지 않음)"
-    )
-    @Parameter(name = "sortValue", description = "정렬 방식(date:최신순 / viewer:인기순)", required = true)
-    @GetMapping("")
-    public ResponseEntity findLiveBySort(@RequestParam String sortValue) {
-
-        List<LiveResponseDto> lives = new ArrayList<>();
-        if (sortValue.equals("date"))
-            lives = liveService.findAllOrderById();
-        else if (sortValue.equals("viewer"))
-            lives = liveService.findAllOrderByViewerCount();
-
-
-        if (lives.isEmpty())
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-
-        return ResponseEntity.status(HttpStatus.OK).body(lives);
-    }
 
     @Operation(
             summary = "프로젝트 내 종료된 라이브 목록 조회 (== 라이브 기록 조회)",
@@ -83,30 +63,6 @@ public class LiveApiController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
-    }
-
-    @Operation(
-            summary = "카테고리 별 라이브 다중 조회",
-            description = "카테고리 ID에 해당하는 라이브 리스트를 리턴"
-    )
-    @Parameter(name = "projectCategoryId", description = "카테고리 Id", required = true)
-    @GetMapping("/projectCategory/{projectCategoryId}")
-    public ResponseEntity findLivesByCategoryId(@PathVariable Long projectCategoryId) {
-        Map<String, Object> responseMap = new HashMap<>();
-        List<LiveResponseDto> lives = new ArrayList<>();
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
-
-        try {
-            lives = liveService.findAllByProjectCategoryId(projectCategoryId, sort);
-        } catch (IllegalArgumentException e) {
-            responseMap.put("errorMsg", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
-        }
-
-        if (lives.isEmpty())
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-
-        return ResponseEntity.status(HttpStatus.OK).body(lives);
     }
 
     @Operation(
@@ -167,8 +123,8 @@ public class LiveApiController {
     }
 
     @Operation(
-            summary = "라이브 종료 시 호출 api",
-            description = "라이브의 종료 시 상태 변경 및 총 시간 계산"
+            summary = "라이브 검색 결과 조회",
+            description = "검색 조건에 따라 라이브 검색 결과 목록을 조회할 수 있다. \n 정렬 조건(최신순-date / 인기순-popularity)"
     )
     @GetMapping("/search")
     public ResponseEntity<Object> searchLivesByConditions(@RequestParam("order") String order,
