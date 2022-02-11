@@ -15,7 +15,6 @@ function ProjectList(){
   const [projects, setProjects] = useState([""]);
   const [categories, setCategories] = useState([""]);
   const [selected, setSelected] = useState(0);
-  const [sort, setSort] = useState("");
   const [isExist, setIsExist] = useState(true);
   const all = [
     {
@@ -23,9 +22,9 @@ function ProjectList(){
       name: "전체"
     }
   ];
-  var orderQuery = "";
-  var categoryQuery = "";
-  var keywordQuery = "";
+  let orderQuery = "";
+  let categoryQuery = "";
+  let keywordQuery = "";
 
   const handleSelect = (e) =>{
     setSelected(Number(e.target.value));
@@ -65,7 +64,7 @@ function ProjectList(){
 
     
     await axios({
-      url:`http://localhost:8080/projects/search`+orderQuery+categoryQuery+keywordQuery,
+      url:`/projects/search`+orderQuery+categoryQuery+keywordQuery,
       method:"get",
       baseURL: baseUrl,
     })
@@ -152,7 +151,7 @@ function ProjectList(){
                 />
               ))
              )
-             : <NonExist />
+             : <NonExist ment="검색결과"/>
             }
           </div>
         </div>
