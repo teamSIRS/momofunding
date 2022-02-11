@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface LiveRepository extends JpaRepository<Live, Long> {
+public interface LiveRepository extends JpaRepository<Live, Long>, LiveRepositoryCustom {
     @EntityGraph(attributePaths = {"project", "project.creator"})
     List<Live> findAllByLiveStateIdOrderByIdDesc(Long liveStateId);
 
