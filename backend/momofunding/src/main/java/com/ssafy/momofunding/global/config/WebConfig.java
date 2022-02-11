@@ -67,6 +67,12 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/swagger-ui.html**").addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+        //images 외부 경로
+        registry.addResourceHandler("/images/project/**")
+                .addResourceLocations("file:///C:/SSAFY/Temp/upload/project/");
+        registry.addResourceHandler("/images/creator/**")
+                .addResourceLocations("file:///C:/SSAFY/Temp/upload/creator/");
     }
 
 }

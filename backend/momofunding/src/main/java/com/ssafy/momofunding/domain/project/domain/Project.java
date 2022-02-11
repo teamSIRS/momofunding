@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +59,13 @@ public class Project extends AuditBaseEntity {
     String mainImageUrl;
 
     @Column(columnDefinition = "varchar(500) default ''")
+    String mainImagePath;
+
+    @Column(columnDefinition = "varchar(500) default ''")
     String subImageUrl;
+
+    @Column(columnDefinition = "varchar(500) default ''")
+    String subImagePath;
 
     @Column(length=500)
     String summary;
@@ -83,7 +88,9 @@ public class Project extends AuditBaseEntity {
     @PrePersist
     public void initializer(){
         mainImageUrl = "";
+        mainImagePath = "";
         subImageUrl = "";
+        subImagePath = "";
         currentAmount = 0;
         fundingGoal = 0;
         isLivePlaying = false;
