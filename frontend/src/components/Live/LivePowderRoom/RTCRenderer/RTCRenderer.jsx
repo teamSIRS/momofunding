@@ -21,36 +21,50 @@ import {
   micOffOutline,
 } from "ionicons/icons";
 import ImageUploader from "../../../ImageUploader/ImageUploader";
-import { OpenVidu, Publisher } from "openvidu-browser";
-import { Component, useEffect, useState } from "react";
+import { OpenVidu } from "openvidu-browser";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  camState,
-  micState,
-  publisherState,
-  titleState,
-} from "../../LiveAtoms";
-import { useRecoilState } from "recoil";
-import { Link, useNavigate } from "react-router-dom";
+import { camState, micState, titleState } from "../../LiveAtoms";
+import { selector, useRecoilState, useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../../App";
+import LiveMain from "../../LiveMain";
+import { userIdState } from "../../../../atoms";
 
 const OPENVIDU_SERVER_URL = "https://i6a202.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "9793";
+
+function randomString() {
+  return Math.random().toString(36).slice(2);
+}
+
+const sessionIdSelector = selector({
+  key: "sessionId",
+  get: ({ get }) => {
+    const id = get(userIdState);
+    return randomString(id);
+  },
+});
 
 export const RTCRenderer = () => {
   const [camActive, setCamActive] = useRecoilState(camState);
   const [micActive, setMicActive] = useRecoilState(micState);
   const [publisher, setPublisher] = useState(undefined);
-  const [preSession, setPreSession] = useState(undefined);
+  // const [preSession, setPreSession] = useState(undefined);
   const [isCreated, setIsCreated] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [title, setTitle] = useRecoilState(titleState);
   const [content, setContent] = useState("");
+
+  let preSession = undefined;
+  const sessionId = useRecoilValue(sessionIdSelector);
 
   const onCamClick = () => {
     setCamActive((now) => !now);
     publisher.publishVideo(camActive);
     console.log(camActive);
   };
+
   const onMicClick = () => {
     setMicActive((now) => !now);
     publisher.publishAudio(micActive);
@@ -141,15 +155,10 @@ export const RTCRenderer = () => {
 
   const joinPreSession = () => {
     const OV = new OpenVidu();
-    const preSession = OV.initSession();
-    setPreSession(preSession);
+    preSession = OV.initSession();
+    // setPreSession(preSession);
 
-    // preSession.on("streamCreated", (e) => {
-    //   const subscriber = preSession.subscribe(e.stream, "creatorVideo");
-    // });
-    console.log("before Gettoken");
-    getToken("m31nsedf9sdhjn").then((token) => {
-      console.log("getToken run", token);
+    getToken(sessionId).then((token) => {
       preSession
         .connect(token)
         .then(() => {
@@ -161,7 +170,7 @@ export const RTCRenderer = () => {
               publishAudio: micActive,
             });
             setPublisher(host);
-            preSession.publish(publisher);
+            preSession.publish(host);
           }
         })
         .catch((error) => {
@@ -169,41 +178,17 @@ export const RTCRenderer = () => {
         });
     });
   };
-
-  const joinSession = () => {
-    const OV = new OpenVidu();
-    const preSession = OV.initSession();
-    setPreSession(preSession);
-
-    preSession.on("streamCreated", (e) => {
-      const subscriber = preSession.subscribe(e.stream, "creatorVideo");
-    });
-    console.log("before Gettoken");
-    getToken("m31nsedf9sdhjn").then((token) => {
-      console.log("getToken run", token);
-      preSession
-        .connect(token)
-        .then(() => {
-          if (!isCreated) {
-            console.log("publishing...");
-
-            preSession.publish(publisher);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
-  };
-
   const navigate = useNavigate();
+
   const leaveSession = () => {
+    console.log("leaving live session", preSession, publisher);
     preSession.disconnect();
-    navigate(-1);
   };
 
   useEffect(() => {
     joinPreSession();
+    console.log(sessionId);
+    return () => leaveSession();
   }, []);
 
   const onTitleChange = (event) => {
@@ -225,12 +210,12 @@ export const RTCRenderer = () => {
         title,
         content,
         projectId: 0,
-        projectCategoryId: 0,
-        sessionId: 0,
+        sessionId,
       },
     })
       .then((response) => {
         console.log(response.data);
+        setIsSubmitted((now) => !now);
       })
       .catch((error) => {
         console.log(error);
@@ -239,10 +224,10 @@ export const RTCRenderer = () => {
 
   return (
     <RendererWrapper>
-      {preSession !== undefined ? (
+      {!isSubmitted ? (
         <>
           <TestVideoWrapper id="creatorVideo"></TestVideoWrapper>
-          <Dashboard id="live-init-form" onSubmit={joinSession}>
+          <Dashboard id="live-init-form" onSubmit={onSubmit}>
             <DashboardHeader>라이브 만들기</DashboardHeader>
             <DashboardContent>
               <DashBoardInputBox>
@@ -256,7 +241,7 @@ export const RTCRenderer = () => {
                 ></DashboardInput>
               </DashBoardInputBox>
               <DashBoardInputBox height="150px">
-                <label> 설명</label>
+                <label>설명</label>
                 <DashBoardTextArea
                   id="desc"
                   value={content}
@@ -295,7 +280,9 @@ export const RTCRenderer = () => {
             </DashBoardFooter>
           </Dashboard>
         </>
-      ) : null}
+      ) : (
+        <LiveMain></LiveMain>
+      )}
     </RendererWrapper>
   );
 };
