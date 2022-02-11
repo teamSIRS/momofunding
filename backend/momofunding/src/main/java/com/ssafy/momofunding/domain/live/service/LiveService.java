@@ -16,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -130,5 +129,14 @@ public class LiveService {
 
         Project project = live.getProject();
         project.updateIsLivePlaying(false);
+    }
+
+    @Transactional
+    public List<LiveResponseDto> searchLivesByCondition(String order, Long category, String keyword){
+        List<Live> lives = liveRepository.searchLives(order, category, keyword);
+
+        return lives.stream()
+                .map(LiveResponseDto::new)
+                .collect(Collectors.toList());
     }
 }

@@ -3,7 +3,9 @@ package com.ssafy.momofunding.domain.live.dto;
 import com.ssafy.momofunding.domain.live.domain.Live;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Getter
 public class LiveSaveRequestDto {
 

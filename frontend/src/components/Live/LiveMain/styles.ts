@@ -76,3 +76,13 @@ export const ControlBtn = styled(LiveBtnRound)`
     background: tomato;
   }
 `;
+
+export const VideoWrapper = styled.div`
+  background: gold;
+  width: 100%;
+  height: 100%;
+  right: 450px;
+  position: absolute;
+  display: flex;
+  opacity: 0.5;
+`;

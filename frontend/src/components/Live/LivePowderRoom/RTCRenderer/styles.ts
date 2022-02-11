@@ -1,4 +1,5 @@
 import { IonIcon } from "@ionic/react";
+import { Button } from "react-bootstrap";
 import styled from "styled-components";
 import { MomoStrongColor, MomoWeakColor } from "../../../../shared/global";
 import { TextArea } from "../../../ProjectDetail/ProjectContent/ProjectCommunity/PjCommunityQnA/PjCommunityInput/styles";
@@ -11,15 +12,15 @@ export const RendererWrapper = styled.div`
   overflow: hidden;
   color: whitesmoke;
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-
   position: relative;
   display: flex;
   flex: 1;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;
 
-export const Dashboard = styled.div`
+export const Dashboard = styled.form`
   background-color: rgba(69, 69, 117, 65%);
   left: 20%;
   top: 15%;
@@ -144,4 +145,18 @@ export const ButtonIconInactive = styled(IonIcon)`
 export const TmpImage = styled.img`
   width: 100%;
   filter: blur(6px);
+`;
+
+export const TestVideoWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  video {
+    width: 100%;
+    filter: blur(3px);
+  }
+`;
+
+export const SubmitBtn = styled(Button)`
+  margin-left: 10px;
 `;
