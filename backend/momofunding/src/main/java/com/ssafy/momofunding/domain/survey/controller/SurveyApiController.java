@@ -85,7 +85,7 @@ public class SurveyApiController {
             description = "모든 설문조사 정보 리스트 반환"
     )
     @GetMapping("/projects/{projectId}")
-    public ResponseEntity findSurveys(@PathVariable Long projectId) {
+    public ResponseEntity findSurveysByProjectId(@PathVariable Long projectId) {
 
         List<SurveyListResponseDto> surveyListResponseDtos;
 
