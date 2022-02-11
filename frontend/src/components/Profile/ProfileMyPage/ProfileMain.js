@@ -51,7 +51,7 @@ const ProfileMail = styled(ProfileInfo)`
     font-size: 18px;
     color: #7b7b7b;
 `;
-const EditBtn = styled(Link)`
+const EditBtn = styled.button`
   color: black;
   background-color: #c4c4c4;
   border-radius: 4px;
@@ -133,8 +133,6 @@ function ProfileMain(){
             console.log(error);
         });
     }
-
-
     
     const goToProfileEdit = () => {
         navigate("profile/member", {
@@ -150,7 +148,6 @@ function ProfileMain(){
 
     useEffect(() =>{
         getProjects();
-        console.log(isExist);
     }, [isMy, isFund, ,isExist]);
 
 
@@ -162,13 +159,8 @@ function ProfileMain(){
                     <ProfileName>{user.nickname}</ProfileName>
                     <ProfileMail>{user.email}</ProfileMail>
                     {/* <ProfileInfo>간단한 소개글~!</ProfileInfo> */}
-                    {/* 위: DB에 없음, 아래: 잘못됨 */}
-                    <EditBtn to={{ 
-                        pathname:'/profile/member',
-                        state: {
-                            userId: userId,
-                        }
-                    }}>회원 정보 수정</EditBtn>
+                    {/* 위: DB에 없음,*/}
+                    <EditBtn onClick={goToProfileEdit}>회원 정보 수정</EditBtn>
                 </ProfileBox>
 
                 <ProjectMainBox>
