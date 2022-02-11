@@ -7,7 +7,7 @@ import Survey from "./Surveys";
 import { atom, useRecoilState } from "recoil";
 
 const userApi = {
-  isStaff: true,
+  isStaff: false,
   surveySubmitted: false,
 };
 
@@ -25,21 +25,6 @@ export const authorizationState = atom({
   default: userApi.isStaff,
 });
 
-export const camState = atom({
-  key: "camState",
-  default: false,
-});
-
-export const micState = atom({
-  key: "micState",
-  default: false,
-});
-
-export const audioState = atom({
-  key: "audioState",
-  default: true,
-});
-
 export const submitState = atom({
   key: "submitState",
   default: userApi.surveySubmitted || userApi.isStaff,
@@ -47,13 +32,13 @@ export const submitState = atom({
 
 export const LiveMain = () => {
   const [show, setShow] = useRecoilState(sidebarState);
-
   return (
     <LivePowderRoomWrapper>
       <RendererWrapper>
-        <Viewers viewers={api.viewers}></Viewers>
         <Chat show={show} />
         <Survey show={!show} />
+
+        <Viewers viewers={api.viewers}></Viewers>
       </RendererWrapper>
       <LiveFooter />
     </LivePowderRoomWrapper>
