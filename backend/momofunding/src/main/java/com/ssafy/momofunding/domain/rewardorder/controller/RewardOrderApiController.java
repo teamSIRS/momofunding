@@ -1,5 +1,6 @@
 package com.ssafy.momofunding.domain.rewardorder.controller;
 
+import com.ssafy.momofunding.domain.reward.dto.RewardPayAndSaveRequestDto;
 import com.ssafy.momofunding.domain.rewardorder.dto.*;
 import com.ssafy.momofunding.domain.rewardorder.service.RewardOrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,10 +28,10 @@ public class RewardOrderApiController {
             description = "리워드 구매 시 구매 내역이 저장됨"
     )
     @PostMapping("")
-    public ResponseEntity<Object> saveRewardOrder(@RequestBody RewardOrderSaveRequestDto rewardOrderSaveRequestDto){
+    public ResponseEntity<Object> saveRewardOrder(@RequestBody RewardPayAndSaveRequestDto rewardPayAndSaveRequestDto){
         Map<String, Object> responseMap = new HashMap<>();
         try {
-            Long rewardOrderId = rewardOrderService.saveRewardOrder(rewardOrderSaveRequestDto);
+            Long rewardOrderId = rewardOrderService.saveRewardOrder(rewardPayAndSaveRequestDto);
             responseMap.put("rewardOrderId", rewardOrderId);
             return ResponseEntity.status(HttpStatus.OK).body(responseMap);
 

@@ -2,18 +2,24 @@ package com.ssafy.momofunding.domain.payment.controller;
 
 
 import com.ssafy.momofunding.domain.payment.service.PayService;
+import com.ssafy.momofunding.domain.reward.dto.RewardPayAndSaveRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 @Tag(name = "Pay API")
 @RestController
@@ -30,32 +36,34 @@ public class PayApiController {
     )
     @Parameter(name = "social", description = "결제 서비스 종류", required = true)
     @GetMapping("/kakao")
-    public ResponseEntity selectSocial() throws IOException {
-
+    public ResponseEntity selectSocial(@RequestBody RewardPayAndSaveRequestDto rewardPayAndSaveRequestDto) throws IOException {
+        Map<String, Object> responseMap = new HashMap<>();
 
         URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
         HttpURLConnection serverConnection = (HttpURLConnection) url.openConnection();
         serverConnection.setRequestMethod("POST");
         serverConnection.setRequestProperty("Authorization", "KakaoAK 4f50566635ad0cb48f2cbc0f0df35a4d");
-        serverConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        serverConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=euc-kr");
         serverConnection.setDoOutput(true);
 
         String param = "cid=TC0ONETIME&" +
                 "partner_order_id=partner_order_id&" +
                 "partner_user_id=partner_user_id&" +
-                "item_name=SSAFUS Reward Gold&" +
-                "quantity=1&" +
-                "total_amount=54000&" +
-                "vat_amount=4000&" +
+                "item_name=" + rewardPayAndSaveRequestDto.getName() + "\n" + rewardPayAndSaveRequestDto.getContent() + "&" +
+                "quantity=" + rewardPayAndSaveRequestDto.getQuantity() + "&" +
+                "total_amount=" + rewardPayAndSaveRequestDto.getAmount() + "&" +
+                "vat_amount=0&" +
                 "tax_free_amount=0&" +
-                "aplprova_url=http://localhost:3000&" +
-                "fail_url=https://naver.com&" +
-                "cancel_url=https://instagram.com/";
+                "approval_url=http://localhost:3000/pay/success&" +
+                "fail_url=https://localhost:3000/pay/fail&" +
+                "cancel_url=https://localhost:3000/pay/fail";
+
+        byte[] utf8 = param.getBytes(StandardCharsets.UTF_8);
 
         OutputStream output = serverConnection.getOutputStream();
         DataOutputStream dataOutput = new DataOutputStream(output);
 
-        dataOutput.writeBytes(param);
+        dataOutput.write(utf8);
         dataOutput.close();
 
         int resultCode = serverConnection.getResponseCode();
@@ -68,7 +76,10 @@ public class PayApiController {
 
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-        return ResponseEntity.status(HttpStatus.OK).body(bufferedReader.readLine());
+        responseMap.put("urlInfo", bufferedReader.readLine());
+        responseMap.put("rewardOrderInfo", rewardPayAndSaveRequestDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
 }
