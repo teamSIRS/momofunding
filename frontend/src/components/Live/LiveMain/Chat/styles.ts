@@ -10,12 +10,10 @@ import { TextAreaWrapper } from "../../../ProjectDetail/ProjectContent/ProjectCo
 import { Switch } from "../../LivePowderRoom/RTCRenderer/styles";
 
 export const ChatWrapper = styled.div`
-  min-width: 300px;
-  max-width: 450px;
   margin: 15px;
   margin-right: 40px;
   margin-top: 40px;
-  width: 30%;
+  width: 375px;
   color: #ffffffce;
   height: 86%;
   right: 0px;
