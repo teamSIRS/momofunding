@@ -36,14 +36,15 @@ public class RewardApiController {
     )
     @PostMapping("")
     public ResponseEntity<Object> saveReward(@RequestBody RewardSaveRequestDto rewardSaveRequestDto) {
+
+        Map<String, Object> responseMap = new HashMap<>();
         try {
-            rewardService.saveReward(rewardSaveRequestDto);
+            responseMap.put("rewardId", rewardService.saveReward(rewardSaveRequestDto));
+            return ResponseEntity.status(HttpStatus.OK).body(responseMap);
         } catch (IllegalArgumentException e) {
-            Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("errorMsg", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @Operation(
