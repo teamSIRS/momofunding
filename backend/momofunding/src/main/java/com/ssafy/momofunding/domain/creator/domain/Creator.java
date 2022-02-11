@@ -25,8 +25,11 @@ public class Creator extends AuditBaseEntity {
     @Column(length=20)
     String creatorName;
 
-    @Column(length=500)
+    @Column(columnDefinition = "varchar(500) default ''")
     String creatorImageUrl;
+
+    @Column(columnDefinition = "varchar(500) default ''")
+    String creatorImagePath;
 
     @Column(length=100)
     String creatorContent;
@@ -39,6 +42,12 @@ public class Creator extends AuditBaseEntity {
 
     @Column(length=30)
     String account;
+
+    @PrePersist
+    public void initializer(){
+        creatorImageUrl = "";
+        creatorImagePath = "";
+    }
 
     public void mapProject(Project p){
         this.project = p;
