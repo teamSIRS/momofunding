@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
 @Tag(name = "Project API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/projects")
+@RequestMapping("/project")
 public class ProjectApiController {
 
     private final ProjectService projectService;
