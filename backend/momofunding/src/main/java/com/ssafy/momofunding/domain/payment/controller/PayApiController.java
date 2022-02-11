@@ -1,10 +1,10 @@
 package com.ssafy.momofunding.domain.payment.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.momofunding.domain.payment.service.PayService;
-import com.ssafy.momofunding.domain.reward.dto.RewardPayAndSaveRequestDto;
+import com.ssafy.momofunding.domain.reward.dto.RewardPayRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,12 +31,11 @@ public class PayApiController {
     //pay
     @Operation(
             summary = "결제 서비스 동작",
-            description = "여러 소셜 결제를 진행 할 수 있음 " +
-                    "social = 'kakao' or 'naver' "
+            description = "카카오 페이 소셜 결제를 진행 할 수 있음 "
     )
-    @Parameter(name = "social", description = "결제 서비스 종류", required = true)
+
     @GetMapping("/kakao")
-    public ResponseEntity selectSocial(@RequestBody RewardPayAndSaveRequestDto rewardPayAndSaveRequestDto) throws IOException {
+    public ResponseEntity selectSocial(@RequestBody RewardPayRequestDto rewardPayRequestDto) throws IOException {
         Map<String, Object> responseMap = new HashMap<>();
 
         URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
@@ -49,9 +48,9 @@ public class PayApiController {
         String param = "cid=TC0ONETIME&" +
                 "partner_order_id=partner_order_id&" +
                 "partner_user_id=partner_user_id&" +
-                "item_name=" + rewardPayAndSaveRequestDto.getName() + "\n" + rewardPayAndSaveRequestDto.getContent() + "&" +
-                "quantity=" + rewardPayAndSaveRequestDto.getQuantity() + "&" +
-                "total_amount=" + rewardPayAndSaveRequestDto.getAmount() + "&" +
+                "item_name=" + rewardPayRequestDto.getName() + "\n" + rewardPayRequestDto.getContent() + "&" +
+                "quantity=" + rewardPayRequestDto.getQuantity() + "&" +
+                "total_amount=" + rewardPayRequestDto.getAmount() + "&" +
                 "vat_amount=0&" +
                 "tax_free_amount=0&" +
                 "approval_url=http://localhost:3000/pay/success&" +
@@ -76,8 +75,11 @@ public class PayApiController {
 
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-        responseMap.put("urlInfo", bufferedReader.readLine());
-        responseMap.put("rewardOrderInfo", rewardPayAndSaveRequestDto);
+        String x = bufferedReader.readLine();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> map = objectMapper.readValue(x, Map.class);
+
+        responseMap.put("url", map.get("next_redirect_pc_url"));
 
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
