@@ -5,6 +5,7 @@ import Viewers from "./Viewers";
 import LiveFooter from "./LiveFooter";
 import Survey from "./Surveys";
 import { atom, useRecoilState } from "recoil";
+import { VideoWrapper } from "./styles";
 
 const userApi = {
   isStaff: false,
@@ -33,14 +34,14 @@ export const submitState = atom({
 export const LiveMain = () => {
   const [show, setShow] = useRecoilState(sidebarState);
   return (
-    <LivePowderRoomWrapper>
-      <RendererWrapper>
-        <Chat show={show} />
-        <Survey show={!show} />
+    <>
+      {/* <VideoWrapper id="creatorVideo"></VideoWrapper> */}
+      <Chat show={show} />
+      <Survey show={!show} />
 
-        <Viewers viewers={api.viewers}></Viewers>
-      </RendererWrapper>
+      <Viewers viewers={api.viewers}></Viewers>
+
       <LiveFooter />
-    </LivePowderRoomWrapper>
+    </>
   );
 };

@@ -151,9 +151,22 @@ export const TestVideoWrapper = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
+
+  &.main {
+    width: 100%;
+    height: 100%;
+    right: 450px;
+    position: absolute;
+    display: flex;
+    video {
+      width: 100%;
+      filter: none;
+    }
+  }
+
   video {
     width: 100%;
-    filter: blur(3px);
+    filter: blur(5px);
   }
 `;
 
