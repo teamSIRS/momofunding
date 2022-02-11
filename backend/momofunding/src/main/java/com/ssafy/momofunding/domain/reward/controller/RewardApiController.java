@@ -22,11 +22,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/rewards")
 public class RewardApiController {
-    //    @Operation(
-//            summary = "이메일 중복 확인",
-//            description = "이미 동일한 이메일이 있다면 true, 없다면 false 리턴"
-//    )
-//    @Parameter(name = "email", description = "중복 체크 할 이메일", required = true)
 
     private final RewardService rewardService;
 
