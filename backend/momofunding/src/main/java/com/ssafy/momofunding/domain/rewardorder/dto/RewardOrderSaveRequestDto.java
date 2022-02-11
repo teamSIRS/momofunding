@@ -4,29 +4,29 @@ import com.ssafy.momofunding.domain.rewardorder.domain.RewardOrder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import lombok.Setter;
 
 @NoArgsConstructor
+@Setter
 @Getter
 public class RewardOrderSaveRequestDto {
+    private Long rewardId;//리워드의 id
+    private Long userId;//유저의 id
+    private Long projectId;//프로젝트의 id
 
-    private Long rewardId;
-    private Long userId;
-    private Long projectId;
-    private Integer quantity;
-    private String optionContent;
-    private String recipientName;
-    private String recipientTel;
-    private String recipientAddress;
-    private String requestContent;
-    private Integer amount;
+    private Integer quantity;// 리워드 수량
+    private Integer amount; // 금액
+
+    private String optionContent; // 리워드 옵션 내용
+    private String recipientName; // 수령인 이름
+    private String recipientTel; // 수령인 전화번호
+    private String recipientAddress; // 수령인 주소
+    private String requestContent; // 요청사항
+
+
 
     @Builder
-    public RewardOrderSaveRequestDto(Long rewardId, Long userId, Long projectId, Integer quantity, String optionContent,
-                       String recipientName, String recipientTel, String recipientAddress,
-                       String requestContent, Integer amount){
+    public RewardOrderSaveRequestDto(Long rewardId, Long userId, Long projectId, Integer quantity, String optionContent, String recipientName, String recipientTel, String recipientAddress, String requestContent, Integer amount) {
         this.rewardId = rewardId;
         this.userId = userId;
         this.projectId = projectId;
@@ -50,4 +50,5 @@ public class RewardOrderSaveRequestDto {
                 .amount(amount)
                 .build();
     }
+
 }

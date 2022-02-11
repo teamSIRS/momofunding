@@ -21,7 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
             Arrays.asList("/creator/*", "/surveys/**", "/users");
     private static final List<String> excPatterns =
             Arrays.asList("/users/sign-in", "/users/sign-up", "/users/email", "/users/password",
-                    "/lives/*/viewerCount", "/lives/*/endLive", "/projects/*/complete");
+                    "/lives/*/viewerCount", "/lives/*/endLive", "/projects/*/complete", "/payment/*");
 
     private static final List<String> addPatterns2 =
             Arrays.asList("/survey/**/**", "/survey-questions/*", "/orders/**/**");
