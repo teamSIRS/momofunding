@@ -19,6 +19,7 @@ public class CreatorService {
 
     @Value("${spring.servlet.multipart.location}")
     private String imagePath;
+    private final String imageUrl = "http://localhost:8080/images/";
 
     private final CreatorRepository creatorRepository;
 
@@ -34,28 +35,31 @@ public class CreatorService {
         }
 
         String curImgUrl = creator.getCreatorImageUrl();
-        String defaultImg = imagePath+"\\creator\\default.png";
+        String defaultImgUrl = imageUrl+"creator/default.png";
 
         if(creatorImg != null){
             String imgName = creatorImg.getOriginalFilename()+"";
             try{
                 if(!imgName.equals("")){
-                    if(!curImgUrl.equals(defaultImg)){
-                        File file = new File(curImgUrl);
+                    if(!curImgUrl.equals(defaultImgUrl)){
+                        File file = new File(creator.getCreatorImagePath());
                         file.delete();
                     }
-                    File creatorImgFile = new File("\\creator\\"+projectId+"_creator"+imgName.substring(imgName.lastIndexOf(".")));
+                    String creatorFileName = projectId+"_creator"+imgName.substring(imgName.lastIndexOf("."));
+                    File creatorImgFile = new File("\\creator\\"+creatorFileName);
                     creatorImg.transferTo(creatorImgFile);
-                    creatorUpdateRequestDto.setCreatorImageUrl(imagePath+creatorImgFile.getPath());
+                    creatorUpdateRequestDto.setCreatorImageUrl(imageUrl+"creator/"+creatorFileName);
+                    creator.updateCreatorImagePath(imagePath+creatorImgFile.getPath());
                 }
             } catch (IOException | NullPointerException e){
-                throw new IOException("파일 이미지 업로드에 실패하였습니다.");
+                throw new IOException("창작자 파일 이미지 처리에 실패하였습니다.");
             }
         }
         if(creatorUpdateRequestDto.getCreatorImageUrl().equals("")){ //에디터에서 이미지를 삭제했을 때
-            File file = new File(curImgUrl);
+            File file = new File(creator.getCreatorImagePath());
             file.delete();
-            creatorUpdateRequestDto.setCreatorImageUrl(defaultImg);
+            creatorUpdateRequestDto.setCreatorImageUrl(defaultImgUrl);
+            creator.updateCreatorImagePath(imagePath+"\\creator\\default.png");
         }
 
         creator.updateCreator(creatorUpdateRequestDto);

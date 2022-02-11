@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -187,7 +186,6 @@ public class ProjectApiController {
             summary = "프로젝트 검색 결과 조회",
             description = "검색조건에 따라 프로젝트 검색 결과 목록을 조회할 수 있다. \n 정렬 조건(최신순-date / 인기순-popularity)"
     )
-    @Parameter(name = "keyword", description = "검색어", required = true)
     @GetMapping("/search")
     public ResponseEntity<Object> searchProjectsByConditions(@RequestParam("order") String order,
                                                              @RequestParam(value = "categoryId", required = false) Long categoryId,

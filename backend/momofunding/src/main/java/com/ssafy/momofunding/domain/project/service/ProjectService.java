@@ -32,8 +32,7 @@ public class ProjectService {
 
     @Value("${spring.servlet.multipart.location}")
     private String imagePath;
-
-    private final String resourcesPath = "http://localhost:8080/images/";
+    private final String imageUrl = "http://localhost:8080/images/";
 
     private final ProjectRepository projectRepository;
     private final ProjectStateRepository projectStateRepository;
@@ -53,7 +52,7 @@ public class ProjectService {
         Creator creator = new Creator();
         creator.mapProject(project);
         creator.updateCreatorImageUrl(imagePath+"\\creator\\default.png");
-        //creator.updateCreatorImageUrl(resourcesPath+"/creator/default.png");
+        creator.updateCreatorImagePath(imageUrl+"creator/default.png");
         creatorRepository.save(creator);
 
         return projectId;
@@ -70,27 +69,27 @@ public class ProjectService {
             projectImgPath.mkdir();
         }
 
+        String projectResourcesPath = imageUrl+"project/";
         if(mainImg != null){
             String mainName = mainImg.getOriginalFilename()+"";
             try{
                 if(!mainName.equals("")){
                     if(project.getMainImageUrl() != null){
-                        File file = new File(project.getMainImageUrl());
+                        File file = new File(project.getMainImagePath());
                         file.delete();
                     }
-                    //String mainFileName = projectId+"_main"+mainName.substring(mainName.lastIndexOf(".");
-                    File mainImgFile = new File("\\project\\"+projectId+"_main"+mainName.substring(mainName.lastIndexOf(".")));
+                    String mainFileName = projectId+"_main"+mainName.substring(mainName.lastIndexOf("."));
+                    File mainImgFile = new File("\\project\\"+mainFileName);
                     mainImg.transferTo(mainImgFile);
-                    projectUpdateRequestDto.setMainImageUrl(imagePath+mainImgFile.getPath());
-                    //projectUpdateRequestDto.setMainImageUrl(resourcesPath+"/project/"+mainFileName);
+                    projectUpdateRequestDto.setMainImageUrl(projectResourcesPath +mainFileName);
+                    project.updateMainImagePath(imagePath+mainImgFile.getPath());
                 }else if(projectUpdateRequestDto.getMainImageUrl().equals("")){
-                    File file = new File(project.getMainImageUrl());
-                    project.getMainImageUrl();
-                    //File file = new File(project.getMainImageUrl().lastIndexOf("/"));
+                    File file = new File(project.getMainImagePath());
+                    project.updateMainImagePath("");
                     file.delete();
                 }
             } catch (IOException | NullPointerException e) {
-            throw new IOException("MainImg 파일 업로드에 실패하였습니다.");
+            throw new IOException("MainImg 파일 처리에 실패하였습니다.");
             }
         }
 
@@ -99,18 +98,21 @@ public class ProjectService {
             try{
                 if(!subName.equals("")){
                     if(project.getSubImageUrl() != null){
-                        File file = new File(project.getSubImageUrl());
+                        File file = new File(project.getSubImagePath());
                         file.delete();
                     }
-                    File subImgFile = new File("\\project\\"+projectId+"_sub"+subName.substring(subName.lastIndexOf(".")));
+                    String subFileName = projectId+"_sub"+subName.substring(subName.lastIndexOf("."));
+                    File subImgFile = new File("\\project\\"+subFileName);
                     subImg.transferTo(subImgFile);
-                    projectUpdateRequestDto.setSubImageUrl(imagePath+subImgFile.getPath());
+                    projectUpdateRequestDto.setSubImageUrl(projectResourcesPath +subFileName);
+                    project.updateSubImagePath(imagePath+subImgFile.getPath());
                 }else if(projectUpdateRequestDto.getSubImageUrl().equals("")){
-                    File file = new File(project.getSubImageUrl());
+                    File file = new File(project.getSubImagePath());
+                    project.updateSubImagePath("");
                     file.delete();
                 }
             } catch (IOException | NullPointerException e) {
-                throw new IOException("SubImg 파일 업로드에 실패하였습니다.");
+                throw new IOException("SubImg 파일 처리에 실패하였습니다.");
             }
         }
 
@@ -140,17 +142,16 @@ public class ProjectService {
     public void deleteProject(Long projectId) {
         Creator creator = creatorRepository.findByProjectId(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("창작자를 찾을 수 없습니다.::projectId-"+projectId));
-        String creatorImg = creator.getCreatorImageUrl();
-        if(!creatorImg.equals(imagePath+"\\creator\\default.png")){
-            File creatorImgFile = new File(creator.getCreatorImageUrl());
+        if(!creator.getCreatorImageUrl().equals(imageUrl+"creator/default.png")){
+            File creatorImgFile = new File(creator.getCreatorImagePath());
             creatorImgFile.delete();
         }
 
         Project project = projectRepository.findById(projectId)
                         .orElseThrow(()-> new IllegalArgumentException("프로젝트를 찾을 수 없습니다.::projectId-"+projectId));
-        File projectImg = new File(project.getMainImageUrl());
+        File projectImg = new File(project.getMainImagePath());
         projectImg.delete();
-        projectImg = new File(project.getSubImageUrl());
+        projectImg = new File(project.getMainImagePath());
         projectImg.delete();
         projectRepository.delete(project);
     }

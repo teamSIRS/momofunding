@@ -100,14 +100,16 @@ public class Project extends AuditBaseEntity {
     Integer popularity;
 
     @Builder
-    public Project(Long id, String projectName, Integer fundingGoal, String mainImageUrl, String subImageUrl,
-                   String summary, String projectContent, Integer currentAmount, LocalDateTime startDate,
-                   LocalDateTime expirationDate){
+    public Project(Long id, String projectName, Integer fundingGoal, String mainImageUrl, String mainImagePath,
+                   String subImageUrl, String subImagePath, String summary, String projectContent,
+                   Integer currentAmount, LocalDateTime startDate, LocalDateTime expirationDate){
         this.id = id;
         this.projectName = projectName;
         this.fundingGoal = fundingGoal;
         this.mainImageUrl = mainImageUrl;
+        this.mainImagePath = mainImagePath;
         this.subImageUrl = subImageUrl;
+        this.subImagePath = subImagePath;
         this.summary = summary;
         this.projectContent = projectContent;
         this.currentAmount = currentAmount;
@@ -143,5 +145,13 @@ public class Project extends AuditBaseEntity {
 
     public void addCurrentAmount(Integer amount){
         this.currentAmount+=amount;
+    }
+
+    public void updateMainImagePath(String mainImagePath){
+        this.mainImagePath = mainImagePath;
+    }
+
+    public void updateSubImagePath(String subImagePath){
+        this.subImagePath = subImagePath;
     }
 }
