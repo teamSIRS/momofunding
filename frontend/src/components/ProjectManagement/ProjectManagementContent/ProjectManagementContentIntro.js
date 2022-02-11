@@ -3,6 +3,8 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import setAuthorizationToken, { createProjectIdState } from "../../../atoms";
 
 const ProjectManagementMain = styled.div`
   width: 100%;
@@ -95,6 +97,7 @@ function ProjectManagementContentIntro() {
   const [summary, setSummary] = useState("");
   const [projectContent, setProjectContent] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
+
   //////////////////////////////////////////////////////////////////////
   // onChangeEvent...
   const onProjectCategoryIdChange = (event) =>
@@ -106,11 +109,13 @@ function ProjectManagementContentIntro() {
   const onSummaryChange = (event) => setSummary(event.target.value);
   const onProjectContentChange = (event) =>
     setProjectContent(event.target.value);
-  const onExpirationDateChange = (event) =>
+  const onExpirationDateChange = (event) => {
+    console.log(event.target.value);
     setExpirationDate(event.target.value);
+  };
   //////////////////////////////////////////////////////////////////////
   // 이거는 나중에 로그인한 회원의 아이디로 바꿔야함
-  const projectId = 2;
+  const projectId = useRecoilValue(createProjectIdState);
   //////////////////////////////////////////////////////////////////////
   // get으로 사용자의 기존정보를 불러오기
   function getProject() {
@@ -118,6 +123,7 @@ function ProjectManagementContentIntro() {
       await axios({
         url: `/projects/${projectId}`,
         method: "get",
+
         baseURL: baseUrl,
       })
         .then((response) => {
@@ -152,7 +158,7 @@ function ProjectManagementContentIntro() {
       subImageUrl: subImageUrl,
       summary: summary,
       projectContent: projectContent,
-      expirationDate: expirationDate,
+      expirationDate: expirationDate + "T12:00:00",
     };
 
     const form = formRef[0];
@@ -170,6 +176,7 @@ function ProjectManagementContentIntro() {
         url: `/projects/${projectId}`,
         method: "put",
         data: formData,
+        headers: setAuthorizationToken(),
         baseURL: baseUrl,
         processData: false,
         contentType: false,
@@ -193,6 +200,7 @@ function ProjectManagementContentIntro() {
       await axios({
         url: `/projects/${projectId}`,
         method: "delete",
+        headers: setAuthorizationToken(),
         baseURL: baseUrl,
       })
         .then((response) => {
@@ -359,7 +367,7 @@ function ProjectManagementContentIntro() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentDate
               type="date"
-              value={expirationDate.slice(0, 10)}
+              value={expirationDate ? expirationDate.slice(0, 20) : null}
               onChange={onExpirationDateChange}
             />
           </ProjectManagementContentInputBox>
