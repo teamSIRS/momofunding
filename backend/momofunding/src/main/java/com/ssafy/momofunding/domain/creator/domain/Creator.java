@@ -45,8 +45,8 @@ public class Creator extends AuditBaseEntity {
 
     @PrePersist
     public void initializer(){
-        creatorImageUrl = "";
-        creatorImagePath = "";
+        creatorImageUrl = "http://localhost:8080/creator/default.png";
+        creatorImagePath = "C:\\SSAFY\\Temp\\upload\\creator\\default.png";
     }
 
     public void mapProject(Project p){
@@ -76,5 +76,9 @@ public class Creator extends AuditBaseEntity {
 
     public void updateCreatorImageUrl(String url){
         this.creatorImageUrl = url;
+    }
+
+    public void updateCreatorImagePath(String path) {
+        this.creatorImagePath = path;
     }
 }
