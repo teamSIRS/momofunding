@@ -1,8 +1,7 @@
-package com.ssafy.momofunding.domain.payment.controller;
+package com.ssafy.momofunding.domain.util;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.momofunding.domain.payment.service.PayService;
 import com.ssafy.momofunding.domain.reward.dto.RewardPayRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,8 +25,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/payment")
 public class PayApiController {
-    private final PayService payService;
-
     //pay
     @Operation(
             summary = "결제 서비스 동작",
