@@ -30,7 +30,7 @@ function MyProject({project}){
     return(
         <div class="col-md-4">
             <Container>
-                <ProjectPic src="https://img.hankyung.com/photo/202107/01.27019659.1.jpg" alt="" />
+                <ProjectPic src={project.subImageUrl}/>
                 <Bar/>
                 <ProjectTitle>
                     { String(project.projectName).length > 14 
