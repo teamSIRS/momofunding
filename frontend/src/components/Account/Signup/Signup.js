@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const SignupBackGround = styled.div`
   display: flex;
@@ -12,7 +13,7 @@ const SignupBackGround = styled.div`
 
 const SignupMainForm = styled.div`
   width: 600px;
-  height: 750px;
+  height: 700px;
   background-color: whitesmoke;
   border-radius: 10px;
 `;
@@ -136,6 +137,10 @@ const ErrorMsg = styled.span`
   color: red;
 `;
 
+const SuccessMsg = styled(ErrorMsg)`
+  color: green;
+`;
+
 const styles = {
   col: {
     paddingLeft: 0,
@@ -148,6 +153,7 @@ const styles = {
 };
 
 function Signup() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -160,6 +166,19 @@ function Signup() {
   const onChecked = () => setCheck((prev) => !prev);
 
   const onValid = (data) => {
+    console.log("이메일 결과");
+    console.log(emailResult);
+    if (!emailResult) {
+      setError("email", { message: "이메일 중복확인을 해주세요." });
+      return;
+    }
+
+    if (!nicknameResult) {
+      setError("nickname", {
+        message: "닉네임 중복확인을 해주세요.",
+      });
+      return;
+    }
     if (!data.check) {
       setError(
         "check",
@@ -176,6 +195,7 @@ function Signup() {
     } else {
       signup(data);
       console.log(data);
+      navigate("/");
       setValue("email", "");
       setValue("nickname", "");
       setValue("password", "");
@@ -185,7 +205,7 @@ function Signup() {
   function signup(data) {
     const signup = async () => {
       await axios({
-        url: "/users",
+        url: "/users/sign-up",
         method: "post",
         data: {
           email: data.email,
@@ -202,6 +222,72 @@ function Signup() {
         });
     };
     signup();
+  }
+  /////////////////////////////////////////////////////////////////////
+  const [checkEmailValue, setCheckEmailValue] = useState("");
+  const [checkNicknameValue, setCheckNicknameValue] = useState("");
+
+  // 중복확인 했는지 여부
+  const [emailResult, setEmailResult] = useState(false);
+  const [nicknameResult, setNicknameResult] = useState(false);
+
+  const [emailShow, setEmailShow] = useState(false);
+  const [nicknameShow, setNicknameShow] = useState(false);
+  /////////////////////////////////////////////////////////////////////
+
+  const onEmailValueChange = (event) => {
+    setCheckEmailValue(event.target.value);
+  };
+  const onNicknameValueChange = (event) => {
+    setCheckNicknameValue(event.target.value);
+  };
+  /////////////////////////////////////////////////////////////////////
+  function checkEmail() {
+    const checkEmail = async () => {
+      await axios({
+        url: `/users/email/duplicate?email=${checkEmailValue}`,
+        method: "get",
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          setEmailShow(true);
+          console.log(response.data);
+          if (response.data.isExist) {
+            return;
+          } else {
+            setEmailResult(true);
+          }
+        })
+        .catch((error) => {
+          console.log("에러발생");
+          console.log(error);
+        });
+    };
+    checkEmail();
+  }
+
+  function checkNickname() {
+    const checkNickname = async () => {
+      await axios({
+        url: `/users/nickname/duplicate?nickname=${checkNicknameValue}`,
+        method: "get",
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          setNicknameShow(true);
+          console.log(response.data);
+          if (response.data.isExist) {
+            return;
+          } else {
+            setNicknameResult(true);
+          }
+        })
+        .catch((error) => {
+          console.log("에러발생");
+          console.log(error);
+        });
+    };
+    checkNickname();
   }
 
   return (
@@ -221,12 +307,23 @@ function Signup() {
                     {...register("email", {
                       required: "이메일은 필수입니다.",
                     })}
+                    value={checkEmailValue}
+                    onChange={onEmailValueChange}
                   />
                   <ErrorMsg>{errors?.email?.message}</ErrorMsg>
                 </Col>
                 <Col style={styles.col} xs={2}>
-                  <CheckBtns>인증하기</CheckBtns>
+                  <CheckBtns type={"button"} onClick={checkEmail}>
+                    중복확인
+                  </CheckBtns>
                 </Col>
+                {emailShow ? (
+                  emailResult ? (
+                    <SuccessMsg>가입 가능한 이메일입니다.</SuccessMsg>
+                  ) : (
+                    <ErrorMsg>이미 등록된 아이디입니다.</ErrorMsg>
+                  )
+                ) : null}
               </Row>
             </SignupInputDiv>
             <SignupInputDiv>
@@ -238,12 +335,23 @@ function Signup() {
                     {...register("nickname", {
                       required: "닉네임은 필수입니다.",
                     })}
+                    value={checkNicknameValue}
+                    onChange={onNicknameValueChange}
                   />
                   <ErrorMsg>{errors?.nickname?.message}</ErrorMsg>
                 </Col>
                 <Col style={styles.col} xs={2}>
-                  <CheckBtns>중복확인</CheckBtns>
+                  <CheckBtns type={"button"} onClick={checkNickname}>
+                    중복확인
+                  </CheckBtns>
                 </Col>
+                {nicknameShow ? (
+                  nicknameResult ? (
+                    <ErrorMsg>이미 등록된 닉네임입니다.</ErrorMsg>
+                  ) : (
+                    <SuccessMsg>가입 가능한 닉네임입니다.</SuccessMsg>
+                  )
+                ) : null}
               </Row>
             </SignupInputDiv>
 
@@ -296,6 +404,30 @@ function Signup() {
             </CheckBoxForm>
 
             <SignupBtn as="button">회원가입</SignupBtn>
+            <Col style={styles.col} xs={12}>
+              <SeparateLineForm>
+                <SeparateLine></SeparateLine>
+                <SeparateLabel>또는</SeparateLabel>
+                <SeparateLine></SeparateLine>
+              </SeparateLineForm>
+            </Col>
+            <SocialLoginForm>
+              <SocialLoginBtns>
+                <SocialLoginLogo
+                  src="/socialLoginLogo/facebook.png"
+                  alt="fackbook-image"
+                />
+                <SocialLoginLogo
+                  src="/socialLoginLogo/kakao-talk.png"
+                  alt="kakao-talk-image"
+                />
+                <SocialLoginLogo
+                  src="/socialLoginLogo/google.png"
+                  alt="google-image"
+                />
+                <SocialLoginBtns />
+              </SocialLoginBtns>
+            </SocialLoginForm>
           </Container>
         </SignupForm>
       </SignupMainForm>

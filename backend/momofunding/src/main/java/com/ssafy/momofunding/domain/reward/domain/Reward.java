@@ -2,19 +2,20 @@ package com.ssafy.momofunding.domain.reward.domain;
 
 import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.reward.dto.RewardUpdateRequestDto;
+import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
 @DynamicInsert
 @Entity
-public class Reward {
+public class Reward extends AuditBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,16 +45,11 @@ public class Reward {
     Integer limitedQuantity;
 
     @Column
-    Timestamp deliverStartDate;
-
-    @Column
-    Timestamp registerDate;
-
+    LocalDateTime deliverStartDate;
 
     @Builder
     public Reward(Long id, String name, Integer price, String content, String optionDescription,
-                  Boolean isDeliver, Integer limitedQuantity, Timestamp deliverStartDate,
-                  Timestamp registerDate) {
+                  Boolean isDeliver, Integer limitedQuantity, LocalDateTime deliverStartDate) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -62,7 +58,6 @@ public class Reward {
         this.isDeliver = isDeliver;
         this.limitedQuantity = limitedQuantity;
         this.deliverStartDate = deliverStartDate;
-        this.registerDate = registerDate;
     }
 
     public void mapProject(Project p){

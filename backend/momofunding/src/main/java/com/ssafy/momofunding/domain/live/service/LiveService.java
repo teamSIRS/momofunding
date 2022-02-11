@@ -16,7 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -119,13 +120,23 @@ public class LiveService {
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 라이브 번호 입니다. liveId : " + liveId));
 
         LiveState liveState = liveStateRepository.findById(2L).get();
-        long currentTime = new Timestamp(System.currentTimeMillis()).getTime();
-        long startTime = live.getRegisterDate().getTime();
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime startTime = live.getRegisterTime();
 
-        live.updateTotalPlayTime(currentTime - startTime);
+        Duration duration = Duration.between(startTime,currentTime);
+        live.updateTotalPlayTime(duration.getSeconds());
         live.mapLiveState(liveState);
 
         Project project = live.getProject();
         project.updateIsLivePlaying(false);
+    }
+
+    @Transactional
+    public List<LiveResponseDto> searchLivesByCondition(String order, Long category, String keyword){
+        List<Live> lives = liveRepository.searchLives(order, category, keyword);
+
+        return lives.stream()
+                .map(LiveResponseDto::new)
+                .collect(Collectors.toList());
     }
 }

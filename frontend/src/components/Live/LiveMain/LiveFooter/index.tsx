@@ -19,15 +19,9 @@ import {
   ToggleBtn,
 } from "../styles";
 import { useRecoilState } from "recoil";
-import {
-  audioState,
-  authorizationState,
-  camState,
-  micState,
-  sidebarState,
-  submitState,
-} from "../LiveMain";
+import { authorizationState, sidebarState, submitState } from "../LiveMain";
 import { MouseEventHandler } from "react";
+import { audioState, camState, micState } from "../../LiveAtoms";
 
 const LiveFooter = () => {
   const [show, setShow] = useRecoilState(sidebarState);

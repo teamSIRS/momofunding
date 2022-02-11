@@ -4,8 +4,9 @@ import styled from "styled-components";
 import { ProgressBar } from "react-bootstrap";
 import {Container, Thumnail} from './Project.styled';
 import LiveBadge from "../Home/Badge";
-import { Route, Router } from "react-router-dom";
+import { Route, Router, useNavigate, Link, useParams } from "react-router-dom";
 import { Switch } from "../Live/LivePowderRoom/RTCRenderer/styles";
+import ProjectDetail from "../ProjectDetail";
 
 const LiveOn = styled.div`
   color: white;
@@ -69,11 +70,16 @@ function ProjectCard({ project }) {
   let gap = cdday - today.getTime();
   let result = Math.ceil(gap / (1000*60*60*24));
 
+  const navigate = useNavigate();
 
+  const goToProjct = (projectId) =>{
+    navigate(`/projects/${projectId}`, { state: projectId });
+    window.scrollTo(0, 0);
+  }
 
   return (
     <div className="col-md-4">
-      <Container onClick={()=>{console.log('클릭', project.id)}}>
+      <Container onClick={() => {goToProjct(project.id)}}>
           <div className="position-absolute top-0 end-0">
               {project.isLivePlaying 
                   ? <LiveBadge content={"Live"} color={"red"}/> 

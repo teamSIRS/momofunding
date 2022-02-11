@@ -1,21 +1,19 @@
 package com.ssafy.momofunding.domain.surveyanswer.domain;
 
 import com.ssafy.momofunding.domain.questionselect.domain.QuestionSelect;
-import com.ssafy.momofunding.domain.questiontype.domain.QuestionType;
-import com.ssafy.momofunding.domain.survey.domain.Survey;
 import com.ssafy.momofunding.domain.surveyquestion.domain.SurveyQuestion;
 import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class SurveyAnswer {
+public class SurveyAnswer extends AuditBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

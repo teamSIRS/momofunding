@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -16,24 +16,21 @@ public class SurveyDetailResponseDto {
     private Long id;
     private String title;
     private String content;
-    private Timestamp startDate;
-    private Timestamp endDate;
+    private LocalDateTime endDate;
     private List<SurveyQuestionResponseDto> questions;
 
     public SurveyDetailResponseDto(Survey survey) {
         this.id = survey.getId();
         this.title = survey.getTitle();
         this.content = survey.getContent();
-        this.startDate = survey.getStartDate();
         this.endDate = survey.getEndDate();
     }
 
     @Builder
-    public SurveyDetailResponseDto(Long id, String title, String content, Timestamp startDate, Timestamp endDate) {
+    public SurveyDetailResponseDto(Long id, String title, String content, LocalDateTime endDate) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.startDate = startDate;
         this.endDate = endDate;
     }
 

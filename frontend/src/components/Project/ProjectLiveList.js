@@ -13,16 +13,18 @@ function ProjectLiveList(){
   const [lives, setLives] = useState([""]);
   const [categories, setCategories] = useState([""]);
   const [selected, setSelected] = useState(0);
-  const [sort, setSort] = useState("");
   const all = [
     {
       id: 0,
       name: "전체"
     }
   ];
+  let query="";
+  let orderQuery = "";
 
   const handleSelect = (e) =>{
     setSelected(Number(e.target.value));
+    setSearch("");
   }
 
   const Categories = async() => {
@@ -32,64 +34,39 @@ function ProjectLiveList(){
       baseURL: baseUrl,
     })
     .then((response)=>{;
+      // console.log(response.data);
       setCategories([...all, ...response.data]);
+      console.log(typeof categories);
+      console.log(categories);
     })
     .catch((err) =>{
       console.log(err);
     })
   }
 
-  // const Setlist = async() =>{ //인기순, 최신순
-  //   if(isDate) setSort("date");
-  //   else if(isPop) setSort("viewer");
-
-  //   await axios({
-  //     url: `/lives?sortValue=${sort}`,
-  //     method: "get",
-  //     baseURL: baseUrl,
-  //   })
-  //   .then((res) =>{
-  //     setLives([...res.data]);
-  //     // setSelected(0);
-  //   })
-  //   .catch((err) =>{
-  //     console.log(err);
-  //   })
-  // }
+  const enterkey = () =>{
+    if(window.event.keyCode === 13) setSelected(0);
+    //검색했을때 카테고리 전체로 변경
+  }
 
   const CategorySelected = async() => {
-    if(isDate) setSort("date");
-    else if(isPop) setSort("viewer");
+    if(isDate) orderQuery="date";
+    else if(isPop) orderQuery="viewer";
+
+    if(selected === 0) query='?sortValue='+orderQuery
+    else query = '/projectCategory/'+selected;
     
-    //카테고리 전체일 때 => 인기순, 최신순에 따라
-    if(selected === 0){
-      await axios({
-        url: `/lives?sortValue=${sort}`,
-        method: "get",
-        baseURL: baseUrl,
-      })
-      .then((res) =>{
-        setLives([...res.data]);
-        console.log(sort);
-      })
-      .catch((err) =>{
-        console.log(err);
-      })
-    }
-    else{ //카테고리 선택 됐을 때
-      await axios({
-        url: `lives/projectCategory/${selected}`,
-        method: "get",
-        baseURL: baseUrl,
-      })
-      .then((res) =>{
-        setLives([...res.data]);
-        console.log(selected);
-      })
-      .catch((err) =>{
-        console.log(err);
-      })
-    }
+    await axios({
+      url: `/lives`+query,
+      method: "get",
+      baseURL: baseUrl,
+    })
+    .then((res) =>{
+      setLives([...res.data]);
+    })
+    .catch((err) =>{
+      console.log(err);
+    })
   }
 
   useEffect(()=>{
@@ -98,11 +75,7 @@ function ProjectLiveList(){
 
   useEffect(()=>{
     CategorySelected();
-  },[sort, selected, isPop, isDate]);
-
-  // useEffect(()=>{
-  //   Setlist();
-  // },[sort, selected, isPop, isDate]);
+  },[selected, isPop, isDate]);
 
   return(
       <>
@@ -122,6 +95,8 @@ function ProjectLiveList(){
               <Search>
                   <input
                       type="text"
+                      value={search}
+                      onKeyUp={enterkey}
                       onChange={(e) => {
                       setSearch(e.target.value);
                       }}

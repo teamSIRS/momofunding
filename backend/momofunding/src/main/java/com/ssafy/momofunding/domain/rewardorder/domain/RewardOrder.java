@@ -4,17 +4,17 @@ import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.reward.domain.Reward;
 import com.ssafy.momofunding.domain.rewardorder.dto.RewardOrderDeliveryRequestDto;
 import com.ssafy.momofunding.domain.user.domain.User;
+import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @NoArgsConstructor
 @Getter
 @Entity
-public class RewardOrder {
+public class RewardOrder extends AuditBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,13 +53,10 @@ public class RewardOrder {
     @Column
     Integer amount;
 
-    @Column
-    Timestamp registerDate;
-
     @Builder
     public RewardOrder(Long id, Integer quantity, String optionContent, String recipientName,
                        String recipientTel, String recipientAddress, String requestContent,
-                       Integer amount, Timestamp registerDate){
+                       Integer amount){
         this.id = id;
         this.quantity = quantity;
         this.optionContent = optionContent;
@@ -68,7 +65,7 @@ public class RewardOrder {
         this.recipientAddress = recipientAddress;
         this.requestContent = requestContent;
         this.amount = amount;
-        this.registerDate = registerDate;
+
     }
 
     public void mapReward(Reward r){

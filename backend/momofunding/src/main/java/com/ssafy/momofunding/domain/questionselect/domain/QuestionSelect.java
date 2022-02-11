@@ -1,6 +1,7 @@
 package com.ssafy.momofunding.domain.questionselect.domain;
 
 import com.ssafy.momofunding.domain.surveyquestion.domain.SurveyQuestion;
+import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-public class QuestionSelect {
+public class QuestionSelect extends AuditBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -31,7 +31,7 @@ type questionForm = {
     id: number;
     name: string;
   };
-  questionIds: {
+  selectIds: {
     id: number;
     content: string;
   }[];
@@ -60,18 +60,10 @@ const defaultApi: apiForm = {
         id: -1,
         name: "",
       },
-      questionIds: [
+      selectIds: [
         {
           id: 1,
           content: "싫어함",
-        },
-        {
-          id: 2,
-          content: "보통",
-        },
-        {
-          id: 3,
-          content: "좋아함",
         },
       ],
     },
@@ -85,7 +77,7 @@ export const surveyApiState = atom({
 
 export const submitStates = atom({
   key: "submitStates",
-  default: [false],
+  default: [] as boolean[],
 });
 
 const submitConfirm = selector({
@@ -101,63 +93,35 @@ const submitConfirm = selector({
 });
 
 const Survey = ({ show }: ChatProps) => {
-  const [surveyState, __] = useRecoilState(submitState);
-  const [isStaff, ___] = useRecoilState(authorizationState);
-  const [questionStates, _] = useRecoilState(submitStates);
+  const [surveyState, _0] = useRecoilState(submitState);
+  const [isStaff, _1] = useRecoilState(authorizationState);
+  const [questionStates, setQstates] = useRecoilState(submitStates);
   const submitAllDone = useRecoilValue(submitConfirm);
   const [surveyApi, setSurveyApi] = useRecoilState(surveyApiState);
 
-  function getSurveyInfo() {
-    const getSurveyInfo = async () => {
-      await axios({
-        url: `/surveys/${surveyId}`,
-        method: "get",
-        baseURL: `${baseUrl}`,
+  const getSurveyInfo = async () => {
+    await axios({
+      url: `/surveys/${surveyId}`,
+      method: "get",
+      baseURL: `${baseUrl}`,
+    })
+      .then((res) => {
+        const data: apiForm = res.data;
+        setSurveyApi(data);
+        setQstates(
+          data.questions.map((question, idx) => {
+            if (question.questionType.id === 1) return false;
+            return true;
+          })
+        );
       })
-        .then((res) => {
-          const data = res.data;
-          console.log(res.data);
-          setSurveyApi({
-            id: data.id,
-            title: data.title,
-            content: data.content,
-            startDate: data.startDate,
-            endDate: data.endDate,
-            questions: [
-              // tmp 나중에는 서버에서 받아올거임
-              {
-                id: 1,
-                title: "만두를 얼마나 좋아하시나요?",
-                questionType: {
-                  id: 1,
-                  name: "객관식",
-                },
-                questionIds: [
-                  {
-                    id: 1,
-                    content: "싫어함",
-                  },
-                  {
-                    id: 2,
-                    content: "보통",
-                  },
-                  {
-                    id: 3,
-                    content: "좋아함",
-                  },
-                ],
-              },
-            ],
-          });
-        })
-        .catch((error) => console.log(error));
-    };
-    getSurveyInfo();
-  }
+      .catch((error) => console.log(error));
+  };
 
   useEffect(() => {
     getSurveyInfo();
   }, []);
+
   return (
     <SurveyWrapper className={show ? "hide" : ""}>
       <SurveyHeader>
@@ -181,7 +145,7 @@ const Survey = ({ show }: ChatProps) => {
                   }
                 >
                   {question.questionType.id === 1 ? (
-                    <SurveyChoice q_idx={idx} choose={question.questionIds} />
+                    <SurveyChoice q_idx={idx} choose={question.selectIds} />
                   ) : (
                     <SurveyNarrative />
                   )}

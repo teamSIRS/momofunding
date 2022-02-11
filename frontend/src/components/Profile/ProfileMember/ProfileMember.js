@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
+import setAuthorizationToken, { nicknameState } from "../../../atoms";
+import { useRecoilState } from "recoil";
 
 const ProfileMemberTitle = styled.div`
   margin: 50px;
@@ -142,7 +144,8 @@ function ProfileMember() {
   const baseUrl = "http://localhost:8080";
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
-
+  const [password, setPassword] = useState("");
+  const [nName, setNname] = useRecoilState(nicknameState);
   const onNickNameChange = (event) => {
     setNickname(event.target.value);
   };
@@ -158,6 +161,7 @@ function ProfileMember() {
           console.log(response.data);
           setNickname(response.data.nickname);
           setEmail(response.data.email);
+          setPassword(response.data.password);
         })
         .catch((error) => {
           console.log(error);
@@ -175,11 +179,13 @@ function ProfileMember() {
           nickname: data.nickname,
           password: data.changePassword,
         },
+        headers: setAuthorizationToken(),
         baseURL: baseUrl,
       })
         .then((response) => {
-          // console.log(response.data);
+          console.log("회원 정보 수정 성공!");
           setNickname(response.data.nickname);
+          setNname(nickname);
         })
         .catch((error) => {
           console.log(error);
@@ -193,6 +199,7 @@ function ProfileMember() {
       await axios({
         url: `/users/${userId}`,
         method: "delete",
+        headers: setAuthorizationToken(),
         baseURL: baseUrl,
       })
         .then((response) => {
@@ -210,6 +217,14 @@ function ProfileMember() {
     if (data.nickname !== "") {
       data.nickname = nickname;
     }
+    if (password !== data.passwordNow) {
+      setError(
+        "passwordNow",
+        { message: "현재 비밀번호가 일치하지 않습니다." },
+        { shouldFocus: true }
+      );
+      return;
+    }
     if (data.changePassword !== data.changePasswordCheck) {
       setError(
         "changePasswordCheck",
@@ -219,7 +234,7 @@ function ProfileMember() {
     } else {
       updateUser(data);
       console.log(data);
-      setValue("password", "");
+      setValue("passwordNow", "");
       setValue("changePassword", "");
       setValue("changePasswordCheck", "");
     }
@@ -236,7 +251,7 @@ function ProfileMember() {
         <ProfileMemberForm onSubmit={handleSubmit(onValid)}>
           <ProfileMemberImgBox>
             <ProfileMemberImg src="/photo/profile.png" />
-            <ProfileMemberImgLabel for="profile_photo">
+            <ProfileMemberImgLabel htmlFor="profile_photo">
               사진변경
             </ProfileMemberImgLabel>
             <ProfileMemberImgInput type="file" id="profile_photo" />
@@ -272,12 +287,12 @@ function ProfileMember() {
               <ProfileMemberPasswordInput
                 as="input"
                 type="password"
-                {...register("password", {
+                {...register("passwordNow", {
                   required: "현재비밀번호를 확인하세요.",
                 })}
               />
               <br />
-              <ErrorMsg>{errors?.password?.message}</ErrorMsg>
+              <ErrorMsg>{errors?.passwordNow?.message}</ErrorMsg>
             </ProfileMemberPasswordInputBox>
             <ProfileMemberPasswordInputBox>
               <ProfileMemberPasswordLabel as={"label"}>

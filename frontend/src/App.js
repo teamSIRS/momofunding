@@ -52,22 +52,21 @@ function App() {
         <Route path="/findAccount/*" element={<FindAccount />}></Route>
         <Route path="/changepw/:token" element={<ChangePw />}></Route>
         <Route path="/funding" element={<Funding />}></Route>
-        <Route path="/profile/member" element={<ProfileMember />}></Route>
+        <Route path="/users/member" element={<ProfileMember />}></Route>
 
-        <Route path="/users" element={<ProfileMain />}>
-          <Route index element={<FundProject />} />
-          <Route path="fundproject" element={<FundProject />} />
-          <Route path="myproject" element={<MyProject />} />
-        </Route>
+        {/* /////////// */}
+        <Route path="/users/*" element={<ProfileMain />}></Route>
+        <Route path="/myprojects" element={<MyProject />}></Route>
+        <Route path="/fundprojects" element={<FundProject />}></Route>
+        {/* /////////// */}
 
-        <Route path="/myproject" element={<MyProjectDetail />}></Route>
+        <Route path="/myproject/:id" element={<MyProjectDetail />}></Route>
 
         <Route
           path="/projects/management/*"
           element={<ProjectManagement />}
         ></Route>
       </Routes>
-
       <Footer />
     </Router>
   );

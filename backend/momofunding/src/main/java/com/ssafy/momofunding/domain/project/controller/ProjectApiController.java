@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class ProjectApiController {
 
     @Scheduled(cron = "0 0 0 * * *")
     public void changeProjectStateId(){
-        Timestamp today = Timestamp.valueOf(LocalDate.now().atStartOfDay());
+        LocalDateTime today = LocalDate.now().atStartOfDay();
         projectService.changeProjectsStateToComplete(today);
         System.out.println(today+"-change project state as 'complete(3)'");
     }
