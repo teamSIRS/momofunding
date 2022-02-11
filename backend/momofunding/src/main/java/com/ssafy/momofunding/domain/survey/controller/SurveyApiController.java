@@ -84,15 +84,19 @@ public class SurveyApiController {
             summary = "설문조사 정보 리스트 조회",
             description = "모든 설문조사 정보 리스트 반환"
     )
-    @GetMapping("")
-    public ResponseEntity findSurveys() {
+    @GetMapping("/projects/{projectId}")
+    public ResponseEntity findSurveys(@PathVariable Long projectId) {
 
         List<SurveyListResponseDto> surveyListResponseDtos;
 
         try {
-            surveyListResponseDtos = surveyService.findSurveys();
+            surveyListResponseDtos = surveyService.findSurveysByProjectId(projectId);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        } catch (IllegalArgumentException e) {
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(surveyListResponseDtos);

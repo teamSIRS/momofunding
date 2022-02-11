@@ -46,16 +46,11 @@ public class SurveyService {
     }
 
     @Transactional
-    public SurveyListResponseDto findSurveyById(Long surveyId) {
-        Survey survey = surveyRepository.findById(surveyId)
-                .orElseThrow(() -> new NoSuchElementException());
+    public List<SurveyListResponseDto> findSurveysByProjectId(Long projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 프로젝트 번호 입니다. projectId : " + projectId));
 
-        return new SurveyListResponseDto(survey);
-    }
-
-    @Transactional
-    public List<SurveyListResponseDto> findSurveys() {
-        List<Survey> surveys = surveyRepository.findAll();
+        List<Survey> surveys = surveyRepository.findAllByProjectId(projectId);
         if (surveys.isEmpty()) {
             throw new NoSuchElementException();
         }
