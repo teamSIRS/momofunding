@@ -1,23 +1,18 @@
 import styled from "styled-components";
 import { MomoColor } from "../../../shared/global";
-import {
-  Routes,
-  Route,
-  Link,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
-
+import { Routes, Route, Link, useParams, useNavigate } from "react-router-dom";
 import { useMatch } from "react-router-dom";
-
-import FundProject from "./FundProject";
-import MyProject from "./MyProject";
-import { useRecoilValue } from "recoil";
-import { nicknameState } from "../../../atoms";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { baseUrl } from "../../../App";
+import setAuthorizationToken, { userIdState } from "../../../atoms";
+import MyProject from "./MyProject";
+import { ProjectText } from "../../Live/LiveMain/Chat/styles";
+import NonExist from "../../Project/NonExist";
+
 const Body = styled.div`
-  padding: 80px 120px;
+  padding: 80px 100px;
 `;
 
 const Container = styled.div`
@@ -32,7 +27,7 @@ const ProfileBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px 0;
+  padding: 50px 15px;
   width: 25%;
   border-right: 1px solid #c8c8c8;
   p {
@@ -47,21 +42,23 @@ const ProfilePic = styled.img`
 `;
 const ProfileName = styled.p`
   font-weight: bold;
-  font-size: 16px;
+  font-size: 20px;
+  padding-top: 8px;
 `;
 const ProfileInfo = styled.p`
   font-size: 15px;
 `;
 const ProfileMail = styled(ProfileInfo)`
+  font-size: 18px;
   color: #7b7b7b;
 `;
 const EditBtn = styled(Link)`
   color: black;
   background-color: #c4c4c4;
   border-radius: 4px;
-  font-size: 13px;
-  padding: 7px;
-  margin-top: 20px;
+  font-size: 16px;
+  padding: 7px 10px;
+  margin-top: 150px;
   text-decoration: none;
 `;
 
@@ -80,16 +77,16 @@ const Navbar = styled.div`
 const Menu = styled.p`
   margin: 0 10px 0 10px;
   padding: 0 10px;
+  font-weight: ${(props) => props.fontWeight};
 `;
 
 const MyLink = styled(Link)`
   color: black;
   :hover {
     color: black;
-  }
-  :focus {
-    font-weight: bold;
-  }
+    :hover{
+        color: black;
+    }
 `;
 
 const ProjectBox = styled.div`
@@ -100,77 +97,155 @@ const ProjectBox = styled.div`
   padding: 20px;
 `;
 
-const GoToProfile = styled.button`
-  margin-top: 15px;
-`;
-
 function ProfileMain() {
-  const location = useLocation();
   const navigate = useNavigate();
-  const { userId } = location.state;
+  const userId = useRecoilValue(userIdState);
+  const [user, setUser] = useState([""]);
   const myProjects = useMatch("/users/myprojects");
   const fundProjects = useMatch("/users/fundprojects");
-  const onProfileMemberClick = () => {
-    navigate("/profile/member", {
+  const [isMy, setIsMy] = useState(true);
+  const [isFund, setIsFund] = useState(false);
+  const [projects, setProjects] = useState([""]);
+  const [isExist, setIsExist] = useState(true);
+  let isSelected = "";
+
+  if (isMy) isSelected = "/creators";
+  else if (isFund) isSelected = "/orders";
+  function getProjects() {
+    const getProjects = async () => {
+      await axios
+        .get("http://localhost:8080/projects/users/" + userId + isSelected)
+        .then((res) => {
+          setProjects([...res.data]);
+          if (res.data == "") setIsExist(false);
+          else setIsExist(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getProjects();
+  }
+
+  const getAPI = async () => {
+    await axios
+      .get("http://localhost:8080/users/" + userId)
+      .then((response) => {
+        //   console.log(response.data);
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const goToProfileEdit = () => {
+    navigate("profile/member", {
       state: {
         userId: userId,
       },
     });
   };
-  /////////////////////////////////////////////////////
-  const baseUrl = "http://localhost:8080";
-  const [nickname, setNickname] = useState("");
-  const [email, setEmail] = useState("");
 
-  function getUser() {
-    const getUser = async () => {
-      await axios({
-        url: `/users/${userId}`,
-        method: "get",
-        baseURL: baseUrl,
-      })
-        .then((response) => {
-          console.log(response.data);
-          setNickname(response.data.nickname);
-          setEmail(response.data.email);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    getUser();
-  }
-  /////////////////////////////////////////////////////
   useEffect(() => {
-    getUser();
+    getAPI();
   }, []);
+
+  useEffect(() => {
+    getProjects();
+    console.log(isExist);
+  }, [isMy, isFund, , isExist]);
+
   return (
     <Body>
       <Container>
         <ProfileBox>
           <ProfilePic src="/photo/profile.png" />
-          <ProfileName>{nickname}</ProfileName>
-          <ProfileMail>{email}</ProfileMail>
-          <GoToProfile onClick={onProfileMemberClick}>
+          <ProfileName>{user.nickname}</ProfileName>
+          <ProfileMail>{user.email}</ProfileMail>
+          {/* <ProfileInfo>간단한 소개글~!</ProfileInfo> */}
+          {/* 위: DB에 없음, 아래: 잘못됨 */}
+          <EditBtn
+            to={{
+              pathname: "/profile/member",
+              state: {
+                userId: userId,
+              },
+            }}
+          >
             회원 정보 수정
-          </GoToProfile>
+          </EditBtn>
         </ProfileBox>
 
         <ProjectMainBox>
           <Navbar>
             {/* 상단 메뉴 */}
-            <Menu isActive={myProjects !== null}>
-              <MyLink to={"/users/myprojects"}>창작한 프로젝트</MyLink>
-            </Menu>
-            <Menu isActive={fundProjects !== null}>
-              <MyLink to={"/users/fundprojects"}>후원한 프로젝트</MyLink>
-            </Menu>
+            {isMy ? (
+              <Menu fontWeight="bold">창작한 프로젝트</Menu>
+            ) : (
+              <Menu isActive={myProjects !== null}>
+                <MyLink
+                  to={"/users/myprojects"}
+                  onClick={() => {
+                    setIsMy(true);
+                    setIsFund(false);
+                  }}
+                >
+                  창작한 프로젝트
+                </MyLink>
+              </Menu>
+            )}
+            {isFund ? (
+              <Menu fontWeight="bold">후원한 프로젝트</Menu>
+            ) : (
+              <Menu isActive={fundProjects !== null}>
+                <MyLink
+                  to={"/users/fundprojects"}
+                  onClick={() => {
+                    setIsMy(false);
+                    setIsFund(true);
+                  }}
+                >
+                  후원한 프로젝트
+                </MyLink>
+              </Menu>
+            )}
           </Navbar>
 
           <ProjectBox>
             <Routes>
-              <Route path="/myprojects" element={<MyProject />}></Route>
-              <Route path="/fundprojects" element={<FundProject />}></Route>
+              <Route
+                path="/myprojects"
+                element={
+                  <div className="container">
+                    <div className="row">
+                      {isExist ? (
+                        projects.map((project) => (
+                          <MyProject project={project} key={project.id} />
+                        ))
+                      ) : (
+                        <NonExist ment="창작한 프로젝트" />
+                      )}
+                    </div>
+                  </div>
+                }
+              ></Route>
+              <Route
+                path="/fundprojects"
+                element={
+                  <div className="container">
+                    <div className="row">
+                      {isExist ? (
+                        projects.map((project) => (
+                          <MyProject project={project} key={project.id} />
+                        ))
+                      ) : (
+                        <NonExist ment="후원한 프로젝트" />
+                      )}
+                    </div>
+                  </div>
+                }
+              ></Route>
             </Routes>
           </ProjectBox>
         </ProjectMainBox>
