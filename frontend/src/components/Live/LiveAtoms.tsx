@@ -1,4 +1,6 @@
 import { atom } from "recoil";
+import { OpenVidu } from "openvidu-browser";
+var OV = new OpenVidu();
 
 export const micState = atom({
   key: "micActive",
@@ -36,11 +38,12 @@ type MessageProps = {
 }[];
 
 export const msgsState = atom({
-  key: "msgState",
+  key: "msgState", 
   default: [] as MessageProps,
 });
 
 export const sessionState = atom({
   key: "sessionState",
-  default: undefined,
+  default: OV.initSession(),
+  dangerouslyAllowMutability: true,
 });

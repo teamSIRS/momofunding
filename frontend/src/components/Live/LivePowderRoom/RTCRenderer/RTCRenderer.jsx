@@ -52,11 +52,13 @@ const sessionIdSelector = selector({
   },
 });
 
+const sessionSelector = selector
+
 export const RTCRenderer = () => {
   const [camActive, setCamActive] = useRecoilState(camState);
   const [micActive, setMicActive] = useRecoilState(micState);
   const [publisher, setPublisher] = useState(undefined);
-  const [Session, setSession] = useRecoilState(sessionState);
+  const [recoilSession, setSession] = useRecoilState(sessionState);
   const [isCreated, setIsCreated] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [title, setTitle] = useRecoilState(titleState);
@@ -165,13 +167,9 @@ export const RTCRenderer = () => {
     const OV = new OpenVidu();
     session = OV.initSession();
 
-    // session.on("signal:survey-id", (event) => {
-    //   console.log(event.data);
-    // });
-
-    // session.on("signal:my-chat", (event) => {
-    //   console.log(event.data);
-    // });
+    session.on("signal:pleaseAlert", (event) => {
+      alert("recoilSession 테스트 성공.");
+    });
 
     getToken(sessionId).then((token) => {
       session
@@ -181,11 +179,12 @@ export const RTCRenderer = () => {
             console.log("publishing...");
             const host = OV.initPublisher("creatorVideo", {
               resolution: "1280x720",
-              publishVideo: camActive,
+              publishVideo: !camActive,
               publishAudio: micActive,
             });
             setPublisher(host);
             session.publish(host);
+            setSession(session);
           }
         })
         .catch((error) => {
@@ -241,6 +240,15 @@ export const RTCRenderer = () => {
       });
   };
 
+  const sendSignalSessionRecoil = (event) => {
+
+    recoilSession.signal({
+      data: "Test!!!", // Any string (optional)
+      to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
+      type: "pleaseAlert", // The type of message (optional)
+    });
+  };
+
   return (
     <RendererWrapper>
       <TestVideoWrapper
@@ -250,7 +258,7 @@ export const RTCRenderer = () => {
       {!isSubmitted ? (
         <>
           <Dashboard id="live-init-form" onSubmit={onSubmit}>
-            <DashboardHeader>라이브 만들기</DashboardHeader>
+            <DashboardHeader onClick={(sendSignalSessionRecoil)}>라이브 만들기</DashboardHeader>
             <DashboardContent>
               <DashBoardInputBox>
                 <label>라이브 제목 (필수)</label>
