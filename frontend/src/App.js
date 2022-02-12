@@ -24,6 +24,7 @@ import LiveMain from "./components/Live/LiveMain";
 import FundProject from "./components/Profile/ProfileMyPage/FundProject";
 import MyProject from "./components/Profile/ProfileMyPage/MyProject";
 import MyProjectDetail from "./components/Profile/ProfileProjectDetail/MyProjectDetail";
+import PaySuccess from "./components/Funding/PaySuccess";
 
 export const baseUrl = "http://localhost:8080";
 
@@ -66,6 +67,7 @@ function App() {
           path="/projects/management/*"
           element={<ProjectManagement />}
         ></Route>
+        <Route path="/funding/paysuccess" element={<PaySuccess />}></Route>
       </Routes>
       <Footer />
     </Router>
