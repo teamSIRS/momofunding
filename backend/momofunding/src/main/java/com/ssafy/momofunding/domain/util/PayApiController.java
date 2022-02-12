@@ -3,15 +3,14 @@ package com.ssafy.momofunding.domain.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.momofunding.domain.reward.dto.RewardPayRequestDto;
+import com.ssafy.momofunding.domain.rewardorder.service.RewardOrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -25,15 +24,20 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/payment")
 public class PayApiController {
+
+    private final RewardOrderService rewardOrderService;
+
     //pay
     @Operation(
             summary = "결제 서비스 동작",
             description = "카카오 페이 소셜 결제를 진행 할 수 있음 "
     )
 
-    @GetMapping("/kakao")
+    @PostMapping("/kakao")
     public ResponseEntity selectSocial(@RequestBody RewardPayRequestDto rewardPayRequestDto) throws IOException {
         Map<String, Object> responseMap = new HashMap<>();
+
+        Long rewardId = rewardOrderService.saveRewardOrder(rewardPayRequestDto);
 
         URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
         HttpURLConnection serverConnection = (HttpURLConnection) url.openConnection();
@@ -51,8 +55,8 @@ public class PayApiController {
                 "vat_amount=0&" +
                 "tax_free_amount=0&" +
                 "approval_url=http://localhost:3000/pay/success&" +
-                "fail_url=https://localhost:3000/pay/fail&" +
-                "cancel_url=https://localhost:3000/pay/fail";
+                "fail_url=https://localhost:3000/pay/fail/" + rewardId + "&" +
+                "cancel_url=https://localhost:3000/pay/fail/" + rewardId;
 
         byte[] utf8 = param.getBytes(StandardCharsets.UTF_8);
 
