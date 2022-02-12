@@ -24,9 +24,15 @@ import ImageUploader from "../../../ImageUploader/ImageUploader";
 import { OpenVidu } from "openvidu-browser";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { camState, micState, titleState } from "../../LiveAtoms";
+import {
+  camState,
+  micState,
+  msgsState,
+  msgState,
+  sessionState,
+  titleState,
+} from "../../LiveAtoms";
 import { selector, useRecoilState, useRecoilValue } from "recoil";
-import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../../App";
 import LiveMain from "../../LiveMain";
 import { userIdState } from "../../../../atoms";
@@ -50,13 +56,15 @@ export const RTCRenderer = () => {
   const [camActive, setCamActive] = useRecoilState(camState);
   const [micActive, setMicActive] = useRecoilState(micState);
   const [publisher, setPublisher] = useState(undefined);
-  // const [preSession, setPreSession] = useState(undefined);
+  const [Session, setSession] = useRecoilState(sessionState);
   const [isCreated, setIsCreated] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [title, setTitle] = useRecoilState(titleState);
   const [content, setContent] = useState("");
+  const [message, setMessage] = useRecoilState(msgState);
+  const [messages, setMessages] = useRecoilState(msgsState);
 
-  let preSession = undefined;
+  let session = undefined;
   const sessionId = useRecoilValue(sessionIdSelector);
 
   const onCamClick = () => {
@@ -153,13 +161,20 @@ export const RTCRenderer = () => {
     );
   };
 
-  const joinPreSession = () => {
+  const joinSession = () => {
     const OV = new OpenVidu();
-    preSession = OV.initSession();
-    // setPreSession(preSession);
+    session = OV.initSession();
+
+    // session.on("signal:survey-id", (event) => {
+    //   console.log(event.data);
+    // });
+
+    // session.on("signal:my-chat", (event) => {
+    //   console.log(event.data);
+    // });
 
     getToken(sessionId).then((token) => {
-      preSession
+      session
         .connect(token)
         .then(() => {
           if (!isCreated) {
@@ -170,7 +185,7 @@ export const RTCRenderer = () => {
               publishAudio: micActive,
             });
             setPublisher(host);
-            preSession.publish(host);
+            session.publish(host);
           }
         })
         .catch((error) => {
@@ -178,15 +193,16 @@ export const RTCRenderer = () => {
         });
     });
   };
-  const navigate = useNavigate();
 
   const leaveSession = () => {
-    console.log("leaving live session", preSession, publisher);
-    preSession.disconnect();
+    console.log("leaving live session", session, publisher);
+    session.disconnect();
   };
 
   useEffect(() => {
-    joinPreSession();
+    joinSession();
+    // console.log(session);
+    // setSession(session);
     console.log("session id: ", sessionId);
     return () => leaveSession();
   }, []);
@@ -221,7 +237,7 @@ export const RTCRenderer = () => {
       })
       .catch((error) => {
         console.log(error);
-        setIsSubmitted(true);
+        setIsSubmitted(true); // tmp: 백에서 404를 리턴해서 임시로 해결했습니다.
       });
   };
 

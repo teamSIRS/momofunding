@@ -155,9 +155,8 @@ export const TestVideoWrapper = styled.div`
   &.main {
     width: 100%;
     height: 100%;
-    right: 450px;
-    position: absolute;
-    display: flex;
+    right: 370px;
+    position: relative;
     video {
       width: 100%;
       filter: none;
