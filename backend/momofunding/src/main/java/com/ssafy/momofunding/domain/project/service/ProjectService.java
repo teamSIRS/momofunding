@@ -32,6 +32,10 @@ public class ProjectService {
 
     @Value("${spring.servlet.multipart.location}")
     private String imagePath;
+
+    @Value("${pathSeparator}")
+    private String separator;
+
     private final String imageUrl = "http://localhost:8080/images/";
 
     private final ProjectRepository projectRepository;
@@ -51,7 +55,7 @@ public class ProjectService {
 
         Creator creator = new Creator();
         creator.mapProject(project);
-        creator.updateCreatorImageUrl(imagePath+"\\creator\\default.png");
+        creator.updateCreatorImageUrl(imagePath+ separator + "creator" + separator + "default.png");
         creator.updateCreatorImagePath(imageUrl+"creator/default.png");
         creatorRepository.save(creator);
 
@@ -64,7 +68,7 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다:: projectId-"+projectId));
 
-        File projectImgPath = new File(imagePath+"\\project");
+        File projectImgPath = new File(imagePath+ separator + "project");
         if(!projectImgPath.exists()){
             projectImgPath.mkdir();
         }
@@ -79,17 +83,17 @@ public class ProjectService {
                         file.delete();
                     }
                     String mainFileName = projectId+"_main"+mainName.substring(mainName.lastIndexOf("."));
-                    File mainImgFile = new File("\\project\\"+mainFileName);
+                    File mainImgFile = new File(imagePath + separator + "project" + separator + mainFileName);
                     mainImg.transferTo(mainImgFile);
                     projectUpdateRequestDto.setMainImageUrl(projectResourcesPath +mainFileName);
-                    project.updateMainImagePath(imagePath+mainImgFile.getPath());
+                    project.updateMainImagePath(mainImgFile.getPath());
                 }else if(projectUpdateRequestDto.getMainImageUrl().equals("")){
                     File file = new File(project.getMainImagePath());
                     project.updateMainImagePath("");
                     file.delete();
                 }
             } catch (IOException | NullPointerException e) {
-            throw new IOException("MainImg 파일 처리에 실패하였습니다.");
+                throw new IOException("MainImg 파일 처리에 실패하였습니다.");
             }
         }
 
@@ -102,10 +106,10 @@ public class ProjectService {
                         file.delete();
                     }
                     String subFileName = projectId+"_sub"+subName.substring(subName.lastIndexOf("."));
-                    File subImgFile = new File("\\project\\"+subFileName);
+                    File subImgFile = new File(imagePath + separator + "project" + separator +subFileName);
                     subImg.transferTo(subImgFile);
                     projectUpdateRequestDto.setSubImageUrl(projectResourcesPath +subFileName);
-                    project.updateSubImagePath(imagePath+subImgFile.getPath());
+                    project.updateSubImagePath(subImgFile.getPath());
                 }else if(projectUpdateRequestDto.getSubImageUrl().equals("")){
                     File file = new File(project.getSubImagePath());
                     project.updateSubImagePath("");
