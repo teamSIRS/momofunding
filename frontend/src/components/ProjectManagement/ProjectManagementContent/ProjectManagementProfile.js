@@ -84,6 +84,7 @@ const ProjectManagementContentProfileBtn = styled.button``;
 
 function ProjectManagementProfile() {
   const baseUrl = "http://localhost:8080";
+  const imgBaseUrl = "http://localhost:8080/images/creator/";
   const location = useLocation();
   const { userId } = location.state;
   // const { projectId } = location.state;
@@ -101,8 +102,13 @@ function ProjectManagementProfile() {
     setCreatorName(event.target.value);
   };
   const onCreatorImageUrlChange = (event) => {
-    //여기는 창작자가 에디터 화면에서 이미지를 삭제했을 때 "" 값으로 바꿔주는 동작만 되면 됩니다.
     setCreatorImageUrl("");
+    //여기는 창작자가 에디터 화면에서 이미지를 삭제했을 때 "" 값으로 바꿔주는 동작만 되면 됩니다.
+    // console.log(event.target.value.split("\\", 3)[2]);
+    // setCreatorImageUrl(imgBaseUrl + event.target.value.split("\\", 3)[2]);
+    // setCreatorImageUrl(imgBaseUrl + projectId + "_creator.jpg");
+    // console.log(imgBaseUrl + projectId + "_creator.jpg");
+    // src="http://localhost:8080/images/creator/22_creator.jpg"
   };
   const onCreatorContentChange = (event) => {
     setCreatorContent(event.target.value);
@@ -257,13 +263,17 @@ function ProjectManagementProfile() {
               type="file"
               id="file"
               name="file"
+              onChange={onCreatorImageUrlChange}
             />
 
             <ProjectManagementContentImgLabel htmlFor="file">
               파일
             </ProjectManagementContentImgLabel>
             <ProjectManagementContentImgBox>
-              <ProjectManagementContentImg alt="example-image"></ProjectManagementContentImg>
+              <ProjectManagementContentImg
+                src={`http://localhost:8080/images/creator/${projectId}_creator.jpg`}
+                alt="example-image"
+              ></ProjectManagementContentImg>
             </ProjectManagementContentImgBox>
           </ProjectManagementContentInputBox>
 
