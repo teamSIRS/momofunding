@@ -12,7 +12,7 @@ const userApi = {
 };
 
 const api = {
-  viewers: 32674, // numSockets
+  viewers: 3274, // numSockets
 };
 
 export const sidebarState = atom({
