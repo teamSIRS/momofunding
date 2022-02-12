@@ -3,6 +3,7 @@ import { ChangeEventHandler, MouseEventHandler, useEffect } from "react";
 import { FormEventHandler, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import { msgsState, msgState, sessionState } from "../../LiveAtoms";
 import { DashboardInput } from "../../LivePowderRoom/RTCRenderer/styles";
 import { authorizationState } from "../LiveMain";
 import {
@@ -33,25 +34,16 @@ const Chat = ({ show }: ChatProps) => {
   const pjtApi = {
     title: "Apple iPhone 3GS",
   };
-  const chatApis = [
-    { nickname: "빌게이츠", message: "이런 쓰레기좀 만들지 마라" },
-    { nickname: "영진갓", message: "서울 2반 2조 화이팅!!" },
-    {
-      nickname: "애플스토어 대기알바",
-      message: "시간당 2만원에 대기해드려요 당근 연락주세요",
-    },
-    { nickname: "백승윤", message: "가즈아 🚀🚀🚀🚀🚀🚀🚀🚀" },
-    { nickname: "송지호", message: "안녕하세요" },
-    { nickname: "임건호", message: "안녕하세요!!" },
-  ];
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([...chatApis]);
+  // const [session, setSession] = useRecoilState(sessionState);
+  const [message, setMessage] = useRecoilState(msgState);
+  const [messages, setMessages] = useRecoilState(msgsState);
   const [isStaff, _] = useRecoilState(authorizationState);
 
   const inputToServer = () => {
     if (message === "") return;
     const newMsg = { nickname: "anonymous", message: message };
     const updated = [...messages, newMsg];
+
     setMessage("");
     setMessages(updated);
   };
