@@ -24,10 +24,38 @@ import LiveMain from "./components/Live/LiveMain";
 import FundProject from "./components/Profile/ProfileMyPage/FundProject";
 import MyProject from "./components/Profile/ProfileMyPage/MyProject";
 import MyProjectDetail from "./components/Profile/ProfileProjectDetail/MyProjectDetail";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import setAuthorizationToken, { isLoginState } from "./atoms";
+import { useRecoilState } from "recoil";
 
 export const baseUrl = "http://localhost:8080";
 
 function App() {
+  const [nowLogin, setNowLogin] = useRecoilState(isLoginState);
+  const checkLogin = async () => {
+    await axios({
+      url: `/auth/jwt`,
+      method: "get",
+      headers: setAuthorizationToken(),
+      baseURL: baseUrl,
+    })
+      .then((response) => {
+        const validLogin = response.data.isValid;
+        if (validLogin) {
+          setNowLogin(response.data.isValid);
+        } else {
+          setNowLogin(response.data.isValid);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    checkLogin();
+  }, []);
+
   return (
     <Router>
       <GlobalStyle />

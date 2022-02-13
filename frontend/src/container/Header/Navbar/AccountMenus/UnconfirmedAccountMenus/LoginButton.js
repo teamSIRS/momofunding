@@ -66,7 +66,7 @@ const CheckBoxLabel = styled.label`
   margin-left: 10px;
 `;
 
-const FindIdOrPw = styled.div`
+const FindIdOrPw = styled.input`
   display: inline-block;
   margin-left: auto;
   color: black;
@@ -155,6 +155,7 @@ function LoginButton() {
   const [show, setShow] = useState(false);
 
   const [nickname, setNickname] = useRecoilState(nicknameState);
+  // 로그인
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userId, setUserId] = useRecoilState(userIdState);
 
@@ -163,7 +164,6 @@ function LoginButton() {
 
   function signin(event) {
     event.preventDefault();
-
     const signin = async () => {
       await axios({
         url: "/users/sign-in",
@@ -178,6 +178,8 @@ function LoginButton() {
           console.log(response.data);
           const token = response.data.token;
           localStorage.setItem("auth-token", token);
+          localStorage.setItem("is-login", "true");
+
           setUserId(response.data.id);
           setNickname(response.data.nickname);
           setIsLogin(true);
@@ -203,6 +205,12 @@ function LoginButton() {
   // useEffect(() => {
 
   // }, []);
+  const onKeyPress = (e) => {
+    console.log(e.key);
+    if (e.key === "Enter") {
+      signin();
+    }
+  };
   return (
     <>
       <LoginModalBtn onClick={handleShow}>로그인</LoginModalBtn>
@@ -234,7 +242,6 @@ function LoginButton() {
                     value={password}
                     onChange={onPasswordChange}
                   />
-
                   <CheckBoxAndLink>
                     <CheckBox>
                       <input id="check" type="checkbox" />

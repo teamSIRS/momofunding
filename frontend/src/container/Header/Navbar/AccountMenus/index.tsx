@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { isLoginState } from "../../../../atoms";
 import { StyledMenus } from "../Menus/styles";
@@ -5,14 +6,17 @@ import ConfirmedAccountMenus from "./ConfirmedAccountMenus";
 import UnconfirmedAccountMenus from "./UnconfirmedAccountMenus";
 
 const AccountMenus = () => {
+  // 로그인
   const isLogin = useRecoilValue(isLoginState);
-
-  console.log("로그인여부");
-  console.log(isLogin);
-  console.log("로그인여부");
+  const isLoginLocalState = localStorage.getItem("is-login");
+  useEffect(() => {}, [isLogin]);
   return (
     <StyledMenus>
-      {isLogin ? <ConfirmedAccountMenus /> : <UnconfirmedAccountMenus />}
+      {isLoginLocalState ? (
+        <ConfirmedAccountMenus />
+      ) : (
+        <UnconfirmedAccountMenus />
+      )}
     </StyledMenus>
   );
 };
