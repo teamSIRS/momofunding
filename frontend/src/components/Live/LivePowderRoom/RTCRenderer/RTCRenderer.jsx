@@ -24,20 +24,11 @@ import ImageUploader from "../../../ImageUploader/ImageUploader";
 import { OpenVidu } from "openvidu-browser";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  camState,
-  micState,
-  msgsState,
-  msgState,
-  publisherState,
-  sessionState,
-  titleState,
-} from "../../LiveAtoms";
+import { camState, micState, sessionState, titleState } from "../../LiveAtoms";
 import { selector, useRecoilState, useRecoilValue } from "recoil";
 import { baseUrl } from "../../../../App";
 import LiveMain from "../../LiveMain";
 import { userIdState } from "../../../../atoms";
-import { SignalEvent } from "openvidu-browser";
 
 const OPENVIDU_SERVER_URL = "https://i6a202.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "9793";
@@ -54,28 +45,38 @@ const sessionIdSelector = selector({
   },
 });
 
+const pubType = {
+  publishVideo: () => true,
+  publishAudio: () => true,
+};
+
 export const RTCRenderer = () => {
   const [camActive, setCamActive] = useRecoilState(camState);
   const [micActive, setMicActive] = useRecoilState(micState);
-  const [publisher, setPublisher] = useRecoilState(publisherState);
+  const [publisher, setPublisher] = useState(pubType);
   const [recoilSession, setSession] = useRecoilState(sessionState);
   // const [isCreated, setIsCreated] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [title, setTitle] = useRecoilState(titleState);
   const [content, setContent] = useState("");
-  const [message, setMessage] = useRecoilState(msgState);
-  const [messages, setMessages] = useRecoilState(msgsState);
 
   var isCreated = false;
 
   let session = undefined;
-  // const sessionId = useRecoilValue(sessionIdSelector);
-  const sessionId = "gfbcde1wg1e";
+  const sessionId = useRecoilValue(sessionIdSelector);
+  // const sessionId = "gfbcde1wg1e";
 
   const onCamClick = () => {
     setCamActive((now) => !now);
-    publisher.publishVideo(camActive);
     console.log(camActive);
+  };
+
+  const toggleCam = () => {
+    publisher.publishVideo(camActive);
+  };
+
+  const toggleMic = () => {
+    publisher.publishAudio(micActive);
   };
 
   const onMicClick = () => {
@@ -200,7 +201,7 @@ export const RTCRenderer = () => {
             console.log("publishing...");
             const host = OV.initPublisher("creatorVideo", {
               resolution: "1280x720",
-              publishVideo: !camActive,
+              publishVideo: camActive,
               publishAudio: micActive,
             });
             setPublisher(host);
@@ -229,6 +230,12 @@ export const RTCRenderer = () => {
   }, []);
 
   // toggle 관련
+  useEffect(() => {
+    toggleCam();
+  }, [camActive]);
+  useEffect(() => {
+    toggleMic();
+  }, [micActive]);
 
   const onTitleChange = (event) => {
     console.log(event);
@@ -308,25 +315,25 @@ export const RTCRenderer = () => {
               <ImageUploader />
             </DashboardContent>
             <DashBoardFooter>
-              {!camActive ? (
-                <Switch onClick={onCamClick}>
-                  <ButtonIconActive icon={videocamOutline}></ButtonIconActive>
-                </Switch>
-              ) : (
+              {camActive ? (
                 <WeakSwitch onClick={onCamClick}>
+                  <ButtonIconActive icon={videocamOutline}></ButtonIconActive>
+                </WeakSwitch>
+              ) : (
+                <Switch onClick={onCamClick}>
                   <ButtonIconInactive
                     icon={videocamOffOutline}
                   ></ButtonIconInactive>
-                </WeakSwitch>
-              )}
-              {!micActive ? (
-                <Switch onClick={onMicClick}>
-                  <ButtonIconActive icon={micOutline}></ButtonIconActive>
                 </Switch>
-              ) : (
+              )}
+              {micActive ? (
                 <WeakSwitch onClick={onMicClick}>
-                  <ButtonIconInactive icon={micOffOutline}></ButtonIconInactive>
+                  <ButtonIconActive icon={micOutline}></ButtonIconActive>
                 </WeakSwitch>
+              ) : (
+                <Switch onClick={onMicClick}>
+                  <ButtonIconInactive icon={micOffOutline}></ButtonIconInactive>
+                </Switch>
               )}
               <SubmitBtn onClick={leaveSession}>나가기</SubmitBtn>
               <SubmitBtn onClick={onSubmit} type="submit">
