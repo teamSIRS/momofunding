@@ -67,7 +67,7 @@ const CheckBoxLabel = styled.label`
   margin-left: 10px;
 `;
 
-const FindIdOrPw = styled.div`
+const FindIdOrPw = styled.input`
   display: inline-block;
   margin-left: auto;
   color: black;
@@ -156,6 +156,7 @@ function LoginButton() {
   const [show, setShow] = useState(false);
 
   const [nickname, setNickname] = useRecoilState(nicknameState);
+  // 로그인
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userId, setUserId] = useRecoilState(userIdState);
 
@@ -164,7 +165,6 @@ function LoginButton() {
 
   function signin(event) {
     event.preventDefault();
-
     const signin = async () => {
       await axios({
         url: "/users/sign-in",
@@ -179,6 +179,7 @@ function LoginButton() {
           console.log(response.data);
           const token = response.data.token;
           localStorage.setItem("auth-token", token);
+
           setUserId(response.data.id);
           setNickname(response.data.nickname);
           setIsLogin(true);
@@ -202,9 +203,13 @@ function LoginButton() {
     event.preventDefault();
     setPassword(event.target.value);
   };
-  // useEffect(() => {
 
-  // }, []);
+  const onKeyDown = (e) => {
+    if (e.key === "Enter") {
+      console.log("엔터나와랏!");
+      signin();
+    }
+  };
   return (
     <>
       <LoginModalBtn onClick={handleShow}>로그인</LoginModalBtn>
@@ -235,15 +240,14 @@ function LoginButton() {
                     placeholder="비밀번호"
                     value={password}
                     onChange={onPasswordChange}
-                    // onKeyUp={enterkey}
+                    onKeyDown={onKeyDown}
                   />
-
                   <CheckBoxAndLink>
                     <CheckBox>
                       <input id="check" type="checkbox" />
                       <CheckBoxLabel htmlFor="check">아이디 저장</CheckBoxLabel>
                     </CheckBox>
-                    <FindIdOrPw as="button" onClick={goToFind}>
+                    <FindIdOrPw as="a" onClick={goToFind}>
                       아이디, 비밀번호 찾기
                     </FindIdOrPw>
                   </CheckBoxAndLink>
