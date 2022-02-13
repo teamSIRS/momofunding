@@ -95,8 +95,8 @@ function MyProjectDetail(){
     useEffect(()=>{
         Survey();
     }, [isSurvey]);
+    // Survey();
 
-    console.log(surveys);
     return(
         <Body>
             <ProjectBox>
@@ -116,14 +116,14 @@ function MyProjectDetail(){
             <MainBox>
                 <LiveBox>
                     <Title>라이브 기록</Title> 
-                    <LiveList lives={lives}/>
+                    <LiveList lives={lives} key={lives.id}/>
                 </LiveBox>
 
                 <BottomBox>
                     <SurveyBox>
                         <Title>설문조사 목록</Title>
                         <SurveyTextBox>
-                            <SurveyAdd/>
+                            <SurveyAdd></SurveyAdd>
                             {
                                 isEdit
                                 ?(
@@ -140,7 +140,8 @@ function MyProjectDetail(){
                             ?(                                
                                 isEdit 
                                     ? (
-                                        <>
+                                        // 설문조사 수정
+                                        <> 
                                         {surveys.map((survey) => (
                                             <SurveyEdit 
                                                 survey={survey}
@@ -151,6 +152,7 @@ function MyProjectDetail(){
                                         </>
                                     )
                                     : (
+                                        // 설문조사 기본
                                         <>
                                         {surveys.map((survey) => (
                                             <SurveyBasic 

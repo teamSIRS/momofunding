@@ -5,6 +5,7 @@ import $ from "jquery";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import setAuthorizationToken, { createProjectIdState } from "../../../atoms";
+import { baseUrl } from '../../../App'; 
 
 const ProjectManagementMain = styled.div`
   width: 100%;

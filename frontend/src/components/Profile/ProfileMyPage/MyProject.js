@@ -38,7 +38,7 @@ function MyProject({project}){
       }
 
     return(
-        <div class="col-md-4">
+        <div className="col-md-4">
             <Container onClick={() => {goToProjctSet(project.id)}}>
                 <ProjectPic src={project.subImageUrl}/>
                 <Bar/>
