@@ -34,6 +34,7 @@ import axios from "axios";
 import setAuthorizationToken, { isLoginState } from "./atoms";
 import { useRecoilState } from "recoil";
 import PaySuccess from "./components/Funding/FundingSidebar/PaySuccess";
+import MyProjectManagement from "./components/Profile/ProfileProjectDetail/MyProjectManagement/MyProjectManagement";
 
 export const baseUrl = "http://localhost:8080";
 
@@ -103,6 +104,11 @@ function App() {
         <Route
           path="/projects/management/*"
           element={<ProjectManagement />}
+        ></Route>
+
+        <Route
+          path="/myproject/:id/management/*"
+          element={<MyProjectManagement />}
         ></Route>
       </Routes>
       <Footer />
