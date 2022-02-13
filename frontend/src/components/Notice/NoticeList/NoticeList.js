@@ -83,14 +83,18 @@ function NoticeList() {
     <div>
       <NoticeListMain>
         <NoticeListContentBox>
-          {data.map((notice) => (
-            <NoticeListContent key={notice.id}>
-              <Link to={`/notices/${notice.id}`}>
-                <NoticeListContentTitle>{notice.title}</NoticeListContentTitle>
-              </Link>
-              <NoticeListContentDate>2022.01.11</NoticeListContentDate>
-            </NoticeListContent>
-          ))}
+          {data
+            ? data.map((notice) => (
+                <NoticeListContent key={notice.id}>
+                  <Link to={`/notices/${notice.id}`}>
+                    <NoticeListContentTitle>
+                      {notice.title}
+                    </NoticeListContentTitle>
+                  </Link>
+                  <NoticeListContentDate>2022.01.11</NoticeListContentDate>
+                </NoticeListContent>
+              ))
+            : null}
 
           <NoticeListPage>
             <Pagination>{items}</Pagination>

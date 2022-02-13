@@ -3,6 +3,11 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import setAuthorizationToken, {
+  createProjectIdState,
+  createRewardIdState,
+} from "../../../atoms";
 
 const ProjectManagementMain = styled.div`
   width: 100%;
@@ -107,28 +112,31 @@ function ProjectManagementContentReward() {
   };
   //////////////////////////////////////////////////////////////////////
   // 이거는 나중에 로그인한 회원의 프로젝트로 바꿔야함
-  const projectId = 1;
-  const rewardId = 1;
+  const projectId = useRecoilValue(createProjectIdState);
+  const [rewardId, setRewardId] = useRecoilState(createRewardIdState);
   //////////////////////////////////////////////////////////////////////
   function saveRewards(data) {
+    console.log(data);
     const saveRewards = async () => {
       await axios({
         url: `/rewards`,
         method: "post",
         data: {
-          projectId: projectId, // 나중에 회원 아이디로 바꿔야함
+          projectId: projectId,
           name: data.name,
           price: data.price,
           content: data.content,
           optionDescription: data.optionDescription,
           isDeliver: isDeliver,
           limitedQuantity: data.limitedQuantity,
-          deliverStartDate: data.deliverStartDate,
+          deliverStartDate: data.deliverStartDate + "T12:00:00",
         },
+        headers: setAuthorizationToken(),
         baseURL: baseUrl,
       })
         .then((response) => {
           console.log(response.data);
+          setRewardId(response.data.id);
         })
         .catch((error) => {
           console.log("에러발생");
@@ -181,6 +189,7 @@ function ProjectManagementContentReward() {
         url: `/rewards/${rewardId}`,
         method: "put",
         data: data,
+        headers: setAuthorizationToken(),
         baseURL: baseUrl,
       })
         .then((response) => {
@@ -201,6 +210,7 @@ function ProjectManagementContentReward() {
       await axios({
         url: `/reawrds/${rewardId}`,
         method: "delete",
+        headers: setAuthorizationToken(),
         baseURL: baseUrl,
       })
         .then((response) => {

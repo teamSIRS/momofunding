@@ -1,5 +1,3 @@
-import { RendererWrapper } from "../LivePowderRoom/RTCRenderer/styles";
-import { LivePowderRoomWrapper } from "../LivePowderRoom/styles";
 import Chat from "./Chat";
 import Viewers from "./Viewers";
 import LiveFooter from "./LiveFooter";
@@ -7,12 +5,12 @@ import Survey from "./Surveys";
 import { atom, useRecoilState } from "recoil";
 
 const userApi = {
-  isStaff: false,
+  isStaff: true,
   surveySubmitted: false,
 };
 
 const api = {
-  viewers: 32674, // numSockets
+  viewers: 3274, // numSockets
 };
 
 export const sidebarState = atom({
@@ -33,14 +31,14 @@ export const submitState = atom({
 export const LiveMain = () => {
   const [show, setShow] = useRecoilState(sidebarState);
   return (
-    <LivePowderRoomWrapper>
-      <RendererWrapper>
-        <Chat show={show} />
-        <Survey show={!show} />
+    <>
+      {/* <VideoWrapper id="creatorVideo"></VideoWrapper> */}
+      <Chat show={show} />
+      <Survey show={!show} />
 
-        <Viewers viewers={api.viewers}></Viewers>
-      </RendererWrapper>
+      <Viewers viewers={api.viewers}></Viewers>
+
       <LiveFooter />
-    </LivePowderRoomWrapper>
+    </>
   );
 };

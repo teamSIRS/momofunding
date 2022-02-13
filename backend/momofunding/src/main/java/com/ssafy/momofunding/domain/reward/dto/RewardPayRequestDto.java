@@ -1,4 +1,4 @@
-package com.ssafy.momofunding.domain.rewardorder.dto;
+package com.ssafy.momofunding.domain.reward.dto;
 
 import com.ssafy.momofunding.domain.rewardorder.domain.RewardOrder;
 import lombok.Builder;
@@ -9,11 +9,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class RewardOrderSaveRequestDto {
+public class RewardPayRequestDto {
     private Long rewardId;//리워드의 id
     private Long userId;//유저의 id
     private Long projectId;//프로젝트의 id
 
+    private String name;// 리워드의 이름
+    private String content; // 리워드의 내용
     private Integer quantity;// 리워드 수량
     private Integer amount; // 금액
 
@@ -23,20 +25,19 @@ public class RewardOrderSaveRequestDto {
     private String recipientAddress; // 수령인 주소
     private String requestContent; // 요청사항
 
-
-
-    @Builder
-    public RewardOrderSaveRequestDto(Long rewardId, Long userId, Long projectId, Integer quantity, String optionContent, String recipientName, String recipientTel, String recipientAddress, String requestContent, Integer amount) {
+    public RewardPayRequestDto(Long rewardId, Long userId, Long projectId, String name, String content, Integer quantity, Integer amount, String optionContent, String recipientName, String recipientTel, String recipientAddress, String requestContent) {
         this.rewardId = rewardId;
         this.userId = userId;
         this.projectId = projectId;
+        this.name = name;
+        this.content = content;
         this.quantity = quantity;
+        this.amount = amount;
         this.optionContent = optionContent;
         this.recipientName = recipientName;
         this.recipientTel = recipientTel;
         this.recipientAddress = recipientAddress;
         this.requestContent = requestContent;
-        this.amount = amount;
     }
 
     public RewardOrder toEntity(){
@@ -50,5 +51,6 @@ public class RewardOrderSaveRequestDto {
                 .amount(amount)
                 .build();
     }
+
 
 }

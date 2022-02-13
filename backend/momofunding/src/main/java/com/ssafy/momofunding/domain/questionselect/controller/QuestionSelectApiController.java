@@ -41,5 +41,4 @@ public class QuestionSelectApiController {
 
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
-
 }

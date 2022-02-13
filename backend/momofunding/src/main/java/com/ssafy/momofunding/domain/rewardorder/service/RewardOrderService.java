@@ -3,6 +3,7 @@ package com.ssafy.momofunding.domain.rewardorder.service;
 import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.project.repository.ProjectRepository;
 import com.ssafy.momofunding.domain.reward.domain.Reward;
+import com.ssafy.momofunding.domain.reward.dto.RewardPayRequestDto;
 import com.ssafy.momofunding.domain.reward.repository.RewardRepository;
 import com.ssafy.momofunding.domain.rewardorder.domain.RewardOrder;
 import com.ssafy.momofunding.domain.rewardorder.dto.*;
@@ -26,23 +27,23 @@ public class RewardOrderService {
     private final ProjectRepository projectRepository;
     
     @Transactional
-    public Long saveRewardOrder(RewardOrderSaveRequestDto rewardOrderSaveRequestDto) {
-        Long rewardId = rewardOrderSaveRequestDto.getRewardId();
+    public Long saveRewardOrder(RewardPayRequestDto rewardPayRequestDto) {
+        Long rewardId = rewardPayRequestDto.getRewardId();
         Reward reward = rewardRepository.findById(rewardId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 리워드 번호입니다:: rewardId-"+rewardId));
 
-        Long userId = rewardOrderSaveRequestDto.getUserId();
+        Long userId = rewardPayRequestDto.getUserId();
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 회원 번호입니다::userId-"+userId));
 
-        Long projectId = rewardOrderSaveRequestDto.getProjectId();
+        Long projectId = rewardPayRequestDto.getProjectId();
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 프로젝트 번호입니다::projectId-"+projectId));
 
-        project.addCurrentAmount(rewardOrderSaveRequestDto.getAmount());
-        reward.deleteLimitedQuantity(rewardOrderSaveRequestDto.getQuantity());
+        project.addCurrentAmount(rewardPayRequestDto.getAmount());
+        reward.deleteLimitedQuantity(rewardPayRequestDto.getQuantity());
 
-        RewardOrder rewardOrder = rewardOrderSaveRequestDto.toEntity();
+        RewardOrder rewardOrder = rewardPayRequestDto.toEntity();
         rewardOrder.mapReward(reward);
         rewardOrder.mapUser(user);
         rewardOrder.mapProject(project);

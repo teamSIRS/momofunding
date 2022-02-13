@@ -347,9 +347,9 @@ function Signup() {
                 </Col>
                 {nicknameShow ? (
                   nicknameResult ? (
-                    <ErrorMsg>이미 등록된 닉네임입니다.</ErrorMsg>
-                  ) : (
                     <SuccessMsg>가입 가능한 닉네임입니다.</SuccessMsg>
+                  ) : (
+                    <ErrorMsg>이미 등록된 닉네임입니다.</ErrorMsg>
                   )
                 ) : null}
               </Row>

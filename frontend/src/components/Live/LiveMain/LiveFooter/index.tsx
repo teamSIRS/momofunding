@@ -37,10 +37,12 @@ const LiveFooter = () => {
 
   const onCamClick: MouseEventHandler<HTMLDivElement> = () => {
     setCam((now: boolean) => !now);
+    console.log("카메라 스테이트:", camOn);
   };
 
   const onMicClick: MouseEventHandler<HTMLDivElement> = () => {
     setMic((now: boolean) => !now);
+    // publisher.publishAudio(micOn);
   };
 
   const onAudioClick: MouseEventHandler<HTMLDivElement> = () => {
