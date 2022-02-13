@@ -1,5 +1,4 @@
 import { Carousel } from "react-bootstrap";
-import LiveBadge from "../../Badge";
 import { BadgeContainer } from "../../HomeFundings/HomeFundingCard/styles";
 import { BannerBox, StyledImg } from "./styles";
 
@@ -20,7 +19,7 @@ export const HomeBanner = ({
     <BannerBox>
       <StyledImg src={imgSrc} alt={index.toString()} />
       <BadgeContainer bottom="18px" left="30px">
-        <LiveBadge color="red" content={"라이브"} />
+        {/* <LiveBadge color="red" content={"라이브"} /> */}
       </BadgeContainer>
       <Carousel.Caption>
         <h3>{title}</h3>
