@@ -197,6 +197,7 @@ export const RTCRenderer = () => {
             });
             setPublisher(host);
             session.publish(host);
+            setSession(session);
           }
           // setSession(session);
         })
