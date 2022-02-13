@@ -25,7 +25,6 @@ public class Reward extends AuditBaseEntity {
     @JoinColumn(name = "project_id", nullable = false)
     Project project;
 
-
     @Column(length = 50)
     String name;
 

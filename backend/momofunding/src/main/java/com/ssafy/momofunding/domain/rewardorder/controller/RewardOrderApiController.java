@@ -22,23 +22,23 @@ public class RewardOrderApiController {
 
     private final RewardOrderService rewardOrderService;
 
-    @Operation(
-            summary = "리워드 구매(주문) 내역 저장",
-            description = "리워드 구매 시 구매 내역이 저장됨"
-    )
-    @PostMapping("")
-    public ResponseEntity<Object> saveRewardOrder(@RequestBody RewardOrderSaveRequestDto rewardOrderSaveRequestDto){
-        Map<String, Object> responseMap = new HashMap<>();
-        try {
-            Long rewardOrderId = rewardOrderService.saveRewardOrder(rewardOrderSaveRequestDto);
-            responseMap.put("rewardOrderId", rewardOrderId);
-            return ResponseEntity.status(HttpStatus.OK).body(responseMap);
-
-        }catch (IllegalArgumentException e){
-            responseMap.put("errorMsg", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
-        }
-    }
+//    @Operation(
+//            summary = "리워드 구매(주문) 내역 저장",
+//            description = "리워드 구매 시 구매 내역이 저장됨"
+//    )
+//    @PostMapping("")
+//    public ResponseEntity<Object> saveRewardOrder(@RequestBody RewardOrderSaveRequestDto rewardOrderSaveRequestDto){
+//        Map<String, Object> responseMap = new HashMap<>();
+//        try {
+//            Long rewardOrderId = rewardOrderService.saveRewardOrder(rewardOrderSaveRequestDto);
+//            responseMap.put("rewardOrderId", rewardOrderId);
+//            return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+//
+//        }catch (IllegalArgumentException e){
+//            responseMap.put("errorMsg", e.getMessage());
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+//        }
+//    }
 
     @Operation(
             summary = "후원한 후원 목록 다중 조회(참여자)",

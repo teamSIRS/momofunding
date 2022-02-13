@@ -1,10 +1,18 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { Routes, Route, Link } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import styled from "styled-components";
 import { useMatch } from "react-router";
 import ProjectManagementContentIntro from "./ProjectManagementContent/ProjectManagementContentIntro";
 import ProjectManagementProfile from "./ProjectManagementContent/ProjectManagementProfile";
 import ProjectManagementContentReward from "./ProjectManagementContent/ProjectManagementContentReward";
+import { useRecoilValue } from "recoil";
+import { createProjectIdState } from "../../atoms";
 
 const ProjectManagementSidebarMain = styled.div`
   width: 100%;
@@ -75,6 +83,35 @@ const styles = {
 };
 
 function ProjectManagement() {
+  const location = useLocation();
+  const { userId } = location.state;
+  const pjtId = useRecoilValue(createProjectIdState);
+  console.log(userId);
+  const navigate = useNavigate();
+  const onProfileClick = () => {
+    navigate("/projects/management/profile", {
+      state: {
+        userId: userId,
+        projectId: pjtId,
+      },
+    });
+  };
+  const onIntroClick = () => {
+    navigate("/projects/management/intro", {
+      state: {
+        userId: userId,
+        projectId: pjtId,
+      },
+    });
+  };
+  const onRewardClick = () => {
+    navigate("/projects/management/reward", {
+      state: {
+        userId: userId,
+        projectId: pjtId,
+      },
+    });
+  };
   const profileMatch = useMatch("/projects/management/profile");
   const introMatch = useMatch("/projects/management/intro");
   const rewardMatch = useMatch("/projects/management/reward");
@@ -92,20 +129,14 @@ function ProjectManagement() {
                   </ProjectManagementSidebarProfileTitle>
                 </ProjectManagementSidebarProfileBox>
                 <ProjectManagementSidebarMenu isActive={profileMatch !== null}>
-                  <CustomLink to={`/projects/management/profile`}>
-                    창작자 프로필 등록
-                  </CustomLink>
+                  <button onClick={onProfileClick}>창작자 프로필 등록</button>
                 </ProjectManagementSidebarMenu>
                 <ProjectManagementSidebarMenu isActive={introMatch !== null}>
-                  <CustomLink to={`/projects/management/intro`}>
-                    프로젝트 정보 등록
-                  </CustomLink>
+                  <button onClick={onIntroClick}>프로젝트 정보 등록</button>
                 </ProjectManagementSidebarMenu>
 
                 <ProjectManagementSidebarMenu isActive={rewardMatch !== null}>
-                  <CustomLink to={`/projects/management/reward`}>
-                    리워드 정보 등록
-                  </CustomLink>
+                  <button onClick={onRewardClick}>리워드 정보 등록</button>
                 </ProjectManagementSidebarMenu>
               </ProjectManagementSidebarBox>
             </ProjectManagementSidebarMain>

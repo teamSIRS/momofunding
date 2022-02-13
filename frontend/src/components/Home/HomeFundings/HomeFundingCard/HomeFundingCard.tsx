@@ -7,16 +7,16 @@ import {
   StyledLink,
 } from "./styles";
 
-export type HomeFundingCardProps = {
-  // 임시로 만듦
-  progress?: string;
-  height?: string;
-  width?: string;
-  title: string;
-  imgSrc: string;
-  projectPath: string;
-};
 
+export type HomeFundingCardProps = {
+  progress?: any;
+  height?: any;
+  width?: any;
+  title: any;
+  imgSrc: any;
+  projectPath: any;
+  isLive: any;
+};
 export const HomeFundingCard = ({
   height,
   width,
@@ -24,15 +24,20 @@ export const HomeFundingCard = ({
   imgSrc,
   projectPath,
   progress,
+  isLive,
 }: HomeFundingCardProps) => {
+
   return (
     <StyledCard height={height} width={width}>
       <StyledLink to={projectPath}>
         <StyledCardImg src={imgSrc}></StyledCardImg>
         <Card.ImgOverlay className="d-flex flex-column justify-content-center align-items-center">
-          <Card.Title>이것은 {title}입니다.</Card.Title>
+          <Card.Title>{title}</Card.Title>
           <BadgeContainer top="8px" right="20px">
-            <LiveBadge content={"ON AIR"} color={"green"} />
+              {isLive
+                  ? <LiveBadge content={"Live"} color={"red"}/> 
+                  : null
+              }
           </BadgeContainer>
           <Card.Text>{progress}</Card.Text>
         </Card.ImgOverlay>

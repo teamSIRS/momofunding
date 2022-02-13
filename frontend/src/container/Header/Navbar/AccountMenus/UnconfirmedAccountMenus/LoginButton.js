@@ -202,16 +202,9 @@ function LoginButton() {
     event.preventDefault();
     setPassword(event.target.value);
   };
+  // useEffect(() => {
 
-  const enterkey = (event) =>{
-    event.preventDefault();
-    if(window.event.keyCode === 'Enter') signin();
-    alert('엔터키 입력');
-  }
-  useEffect(() => {
-    console.log(nickname);
-    console.log(isLogin);
-  }, []);
+  // }, []);
   return (
     <>
       <LoginModalBtn onClick={handleShow}>로그인</LoginModalBtn>
@@ -235,7 +228,7 @@ function LoginButton() {
                   <InputIdAndPw
                     placeholder="이메일"
                     value={email}
-                    onChange={onEmailChange}                    
+                    onChange={onEmailChange}
                   />
                   <InputIdAndPw
                     type="password"

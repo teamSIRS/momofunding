@@ -39,14 +39,15 @@ public class JwtService {
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SALT));
         return key;
     }
+
     //	전달 받은 토큰이 제대로 생성된것인지 확인 하고 문제가 있다면 UnauthorizedException을 발생.
     public boolean isUsable(String jwt) {
         try {
             Jws<Claims> claims = Jwts
-                                .parserBuilder()
-                                .setSigningKey(this.generateKey())
-                                .build()
-                                .parseClaimsJws(jwt);
+                    .parserBuilder()
+                    .setSigningKey(this.generateKey())
+                    .build()
+                    .parseClaimsJws(jwt);
             return true;
         } catch (Exception e) {
 

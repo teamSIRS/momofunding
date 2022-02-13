@@ -2,6 +2,9 @@ import styled from "styled-components";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import $ from "jquery";
+import { useLocation } from "react-router-dom";
+import setAuthorizationToken, { createProjectIdState } from "../../../atoms";
+import { useRecoilValue } from "recoil";
 const ProjectManagementMain = styled.div`
   width: 100%;
   min-height: 800px;
@@ -81,7 +84,11 @@ const ProjectManagementContentProfileBtn = styled.button``;
 
 function ProjectManagementProfile() {
   const baseUrl = "http://localhost:8080";
-
+  const imgBaseUrl = "http://localhost:8080/images/creator/";
+  const location = useLocation();
+  const { userId } = location.state;
+  // const { projectId } = location.state;
+  const projectId = useRecoilValue(createProjectIdState);
   const [creatorName, setCreatorName] = useState("");
   const [creatorImageUrl, setCreatorImageUrl] = useState("");
   const [creatorContent, setCreatorContent] = useState("");
@@ -95,8 +102,13 @@ function ProjectManagementProfile() {
     setCreatorName(event.target.value);
   };
   const onCreatorImageUrlChange = (event) => {
-    //여기는 창작자가 에디터 화면에서 이미지를 삭제했을 때 "" 값으로 바꿔주는 동작만 되면 됩니다.
     setCreatorImageUrl("");
+    //여기는 창작자가 에디터 화면에서 이미지를 삭제했을 때 "" 값으로 바꿔주는 동작만 되면 됩니다.
+    // console.log(event.target.value.split("\\", 3)[2]);
+    // setCreatorImageUrl(imgBaseUrl + event.target.value.split("\\", 3)[2]);
+    // setCreatorImageUrl(imgBaseUrl + projectId + "_creator.jpg");
+    // console.log(imgBaseUrl + projectId + "_creator.jpg");
+    // src="http://localhost:8080/images/creator/22_creator.jpg"
   };
   const onCreatorContentChange = (event) => {
     setCreatorContent(event.target.value);
@@ -112,7 +124,7 @@ function ProjectManagementProfile() {
   };
   //////////////////////////////////////////////////////////////////////
   // 이거는 나중에 로그인한 회원의 아이디로 바꿔야함
-  const projectId = 2;
+
   //////////////////////////////////////////////////////////////////////
   // get으로 사용자의 기존정보를 불러오기
   function getCreator() {
@@ -124,12 +136,36 @@ function ProjectManagementProfile() {
       })
         .then((response) => {
           console.log(response.data);
-          setCreatorName(response.data.creatorName);
-          setCreatorImageUrl(response.data.creatorImageUrl);
-          setCreatorContent(response.data.creatorContent);
-          setEmail(response.data.email);
-          setTel(response.data.tel);
-          setAccount(response.data.account);
+          if (response.data.creatorName) {
+            setCreatorName(response.data.creatorName);
+          } else {
+            setCreatorName("");
+          }
+          if (response.data.creatorImageUrl) {
+            setCreatorImageUrl(response.data.creatorImageUrl);
+          } else {
+            setCreatorImageUrl("");
+          }
+          if (response.data.creatorContent) {
+            setCreatorContent(response.data.creatorContent);
+          } else {
+            setCreatorContent("");
+          }
+          if (response.data.email) {
+            setEmail(response.data.email);
+          } else {
+            setEmail("");
+          }
+          if (response.data.tel) {
+            setTel(response.data.tel);
+          } else {
+            setTel("");
+          }
+          if (response.data.account) {
+            setAccount(response.data.account);
+          } else {
+            setAccount("");
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -172,6 +208,7 @@ function ProjectManagementProfile() {
         url: `/creators/${projectId}`,
         method: "put",
         data: formData, // 만들어 놓은 formData를 data값으로 넣기 끝!!
+        headers: setAuthorizationToken(),
         baseURL: baseUrl,
         processData: false,
         contentType: false,
@@ -226,13 +263,17 @@ function ProjectManagementProfile() {
               type="file"
               id="file"
               name="file"
+              onChange={onCreatorImageUrlChange}
             />
 
             <ProjectManagementContentImgLabel htmlFor="file">
               파일
             </ProjectManagementContentImgLabel>
             <ProjectManagementContentImgBox>
-              <ProjectManagementContentImg alt="example-image"></ProjectManagementContentImg>
+              <ProjectManagementContentImg
+                src={`http://localhost:8080/images/creator/${projectId}_creator.jpg`}
+                alt="example-image"
+              ></ProjectManagementContentImg>
             </ProjectManagementContentImgBox>
           </ProjectManagementContentInputBox>
 
