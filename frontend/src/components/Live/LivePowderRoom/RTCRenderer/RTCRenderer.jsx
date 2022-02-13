@@ -36,6 +36,7 @@ import { selector, useRecoilState, useRecoilValue } from "recoil";
 import { baseUrl } from "../../../../App";
 import LiveMain from "../../LiveMain";
 import { userIdState } from "../../../../atoms";
+import { SignalEvent } from "openvidu-browser";
 
 const OPENVIDU_SERVER_URL = "https://i6a202.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "9793";
@@ -56,16 +57,19 @@ export const RTCRenderer = () => {
   const [camActive, setCamActive] = useRecoilState(camState);
   const [micActive, setMicActive] = useRecoilState(micState);
   const [publisher, setPublisher] = useState(undefined);
-  const [Session, setSession] = useRecoilState(sessionState);
-  const [isCreated, setIsCreated] = useState(false);
+  const [recoilSession, setSession] = useRecoilState(sessionState);
+  // const [isCreated, setIsCreated] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [title, setTitle] = useRecoilState(titleState);
   const [content, setContent] = useState("");
   const [message, setMessage] = useRecoilState(msgState);
   const [messages, setMessages] = useRecoilState(msgsState);
+  
+  var isCreated = false;
 
   let session = undefined;
-  const sessionId = useRecoilValue(sessionIdSelector);
+  // const sessionId = useRecoilValue(sessionIdSelector);
+  const sessionId = "gfbcde1wg1e";
 
   const onCamClick = () => {
     setCamActive((now) => !now);
@@ -77,7 +81,7 @@ export const RTCRenderer = () => {
     setMicActive((now) => !now);
     publisher.publishAudio(micActive);
   };
-
+  
   const createSession = (sessionId) => {
     console.log("create session. id:", sessionId);
     return new Promise((resolve, reject) => {
@@ -100,7 +104,9 @@ export const RTCRenderer = () => {
           var error = Object.assign({}, response);
           if (error?.response?.status === 409) {
             console.log(409, "handled");
-            setIsCreated(true);
+            console.log("isCreated를 바꿀게!!");
+            isCreated = true;
+            console.log("바뀐결과 : " + isCreated);
             resolve(sessionId);
           } else {
             console.log(error);
@@ -164,29 +170,43 @@ export const RTCRenderer = () => {
   const joinSession = () => {
     const OV = new OpenVidu();
     session = OV.initSession();
+    
+    session.on("streamCreated", function (event) {
+      console.log("들어왔드앙~~~~");
+      session.subscribe(event.stream, "creatorVideo");
+    });
 
-    // session.on("signal:survey-id", (event) => {
-    //   console.log(event.data);
-    // });
+    session.on("streamCreated", function (event) {
+      const subscriber = session.subscribe(event.stream, "creatorVideo");
+    });
 
-    // session.on("signal:my-chat", (event) => {
-    //   console.log(event.data);
-    // });
+    session.on("signal:pleaseAlert", (event) => {
+      alert("recoilSession 테스트 성공.");
+    });
+
+    session.on("signal:momo-chat", (event) => {
+      console.log(event.data, "수신 성공");
+      // setMessages([...messages, event.data]);
+    });
 
     getToken(sessionId).then((token) => {
       session
         .connect(token)
         .then(() => {
+          
+          console.log("이즈크리에이티드 : " + isCreated);
           if (!isCreated) {
+            console.log("난 개설자얌!!!!");
             console.log("publishing...");
             const host = OV.initPublisher("creatorVideo", {
               resolution: "1280x720",
-              publishVideo: camActive,
+              publishVideo: !camActive,
               publishAudio: micActive,
             });
             setPublisher(host);
             session.publish(host);
           }
+          // setSession(session);
         })
         .catch((error) => {
           console.log(error);
@@ -200,9 +220,9 @@ export const RTCRenderer = () => {
   };
 
   useEffect(() => {
+    console.log("시작 : " + isCreated);
+    isCreated = false;
     joinSession();
-    // console.log(session);
-    // setSession(session);
     console.log("session id: ", sessionId);
     return () => leaveSession();
   }, []);
@@ -241,6 +261,14 @@ export const RTCRenderer = () => {
       });
   };
 
+  const sendSignalSessionRecoil = (event) => {
+    recoilSession.signal({
+      data: "Test!!!", // Any string (optional)
+      to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
+      type: "pleaseAlert", // The type of message (optional)
+    });
+  };
+
   return (
     <RendererWrapper>
       <TestVideoWrapper
@@ -250,7 +278,9 @@ export const RTCRenderer = () => {
       {!isSubmitted ? (
         <>
           <Dashboard id="live-init-form" onSubmit={onSubmit}>
-            <DashboardHeader>라이브 만들기</DashboardHeader>
+            <DashboardHeader onClick={sendSignalSessionRecoil}>
+              라이브 만들기
+            </DashboardHeader>
             <DashboardContent>
               <DashBoardInputBox>
                 <label>라이브 제목 (필수)</label>
