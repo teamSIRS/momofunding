@@ -178,7 +178,6 @@ function LoginButton() {
           console.log(response.data);
           const token = response.data.token;
           localStorage.setItem("auth-token", token);
-          localStorage.setItem("is-login", "true");
 
           setUserId(response.data.id);
           setNickname(response.data.nickname);
@@ -202,12 +201,10 @@ function LoginButton() {
     event.preventDefault();
     setPassword(event.target.value);
   };
-  // useEffect(() => {
 
-  // }, []);
-  const onKeyPress = (e) => {
-    console.log(e.key);
+  const onKeyDown = (e) => {
     if (e.key === "Enter") {
+      console.log("엔터나와랏!");
       signin();
     }
   };
@@ -241,13 +238,14 @@ function LoginButton() {
                     placeholder="비밀번호"
                     value={password}
                     onChange={onPasswordChange}
+                    onKeyDown={onKeyDown}
                   />
                   <CheckBoxAndLink>
                     <CheckBox>
                       <input id="check" type="checkbox" />
                       <CheckBoxLabel htmlFor="check">아이디 저장</CheckBoxLabel>
                     </CheckBox>
-                    <FindIdOrPw as="button" onClick={goToFind}>
+                    <FindIdOrPw as="a" onClick={goToFind}>
                       아이디, 비밀번호 찾기
                     </FindIdOrPw>
                   </CheckBoxAndLink>

@@ -8,15 +8,11 @@ import UnconfirmedAccountMenus from "./UnconfirmedAccountMenus";
 const AccountMenus = () => {
   // 로그인
   const isLogin = useRecoilValue(isLoginState);
-  const isLoginLocalState = localStorage.getItem("is-login");
+  // const isLoginLocalState = localStorage.getItem("is-login");
   useEffect(() => {}, [isLogin]);
   return (
     <StyledMenus>
-      {isLoginLocalState ? (
-        <ConfirmedAccountMenus />
-      ) : (
-        <UnconfirmedAccountMenus />
-      )}
+      {isLogin ? <ConfirmedAccountMenus /> : <UnconfirmedAccountMenus />}
     </StyledMenus>
   );
 };

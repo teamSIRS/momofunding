@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import Signup from "./components/Account/Signup/Signup";
 import ProjectList from "./components/Project/ProjectList";
 import Home from "./components/Home";
@@ -47,6 +52,11 @@ function App() {
           setNowLogin(response.data.isValid);
         } else {
           setNowLogin(response.data.isValid);
+          localStorage.removeItem("auth-token");
+          localStorage.removeItem("recoil-persist");
+          // 나중에 swal로 변경
+          // alert("다시 로그인해 주세요.");
+          // window.location.replace("/");
         }
       })
       .catch((error) => {

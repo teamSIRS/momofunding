@@ -14,7 +14,6 @@ function ConfirmedAccountMenu() {
     setIsLogin(false);
     localStorage.removeItem("auth-token");
     // 로그인
-    localStorage.removeItem("is-login");
     localStorage.removeItem("recoil-persist");
     // navigate("/");
     window.location.replace("/");
@@ -25,13 +24,8 @@ function ConfirmedAccountMenu() {
         userId: userId,
       },
     });
-    // navigate("profile/member", {
-    //   state: {
-    //     userId: userId,
-    //   },
-    // });
   };
-
+  useEffect(() => {}, [isLogin]);
   return (
     <Nav>
       <button onClick={onProfileClick}>{nickname} 님</button>

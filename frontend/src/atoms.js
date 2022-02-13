@@ -18,16 +18,19 @@ export const isLoginState = atom({
 export const userIdState = atom({
   key: "userId",
   default: 0,
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const createProjectIdState = atom({
   key: "projectId",
   default: 0,
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const createRewardIdState = atom({
   key: "rewardId",
   default: 0,
+  effects_UNSTABLE: [persistAtom],
 });
 
 // jwt token 가져다 쓰기 => headers: setAuthorizationToken(),
