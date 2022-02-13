@@ -26,8 +26,6 @@ import {
   ProjectText,
 } from "./styles";
 
-import { SignalEvent } from "openvidu-browser";
-
 export type ChatProps = {
   show: boolean;
 };
