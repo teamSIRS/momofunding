@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import LiveList from "./LiveRecord/LiveList";
 import SurveyBasic from "./Survey/SurveyBasic";
@@ -108,6 +108,11 @@ function MyProjectDetail() {
     setSurveys(surveys.filter((survey) => survey.id !== id));
   };
 
+  const navigate = useNavigate();
+  const goToManagePjt = () => {
+    navigate(`/myproject/${id}/management/profile`);
+  };
+
   useEffect(() => {
     Project();
     getLiveList();
@@ -130,7 +135,7 @@ function MyProjectDetail() {
         </Card>
         <BtnBox>
           <ManageBtn>
-            <MyLink to={`/projects/management`}>프로젝트 관리</MyLink>
+            <button onClick={goToManagePjt}>프로젝트 관리</button>
           </ManageBtn>
           <LiveBtn>라이브 켜기</LiveBtn>
         </BtnBox>
