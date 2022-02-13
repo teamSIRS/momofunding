@@ -28,6 +28,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import setAuthorizationToken, { isLoginState } from "./atoms";
 import { useRecoilState } from "recoil";
+import PaySuccess from "./components/Funding/FundingSidebar/PaySuccess";
 
 export const baseUrl = "http://localhost:8080";
 
@@ -89,6 +90,7 @@ function App() {
         {/* /////////// */}
 
         <Route path="/myproject/:id" element={<MyProjectDetail />}></Route>
+        <Route path="/pay/success" element={<PaySuccess />}></Route>
 
         <Route
           path="/projects/management/*"
