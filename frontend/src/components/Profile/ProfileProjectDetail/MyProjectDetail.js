@@ -1,86 +1,113 @@
-import React, { useState }from 'react';
-import { Body, ProjectBox, Card, ProjectPic, TitleBox, ProjectTitle, 
-    CreatorName, ProjectContent, BtnBox, ManageBtn, LiveBtn, MyLink,
-    MainBox, LiveBox, Title, BottomBox, SurveyBox, SurveyTextBox, SurveyAdd,
-    SurveyEditText, SponsorBox, SponsorList } from './styles';
+import React, { useState, useEffect }from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import LiveList from './LiveRecord/LiveList';
 import SurveyBasic from './Survey/SurveyBasic';
 import SurveyEdit from './Survey/SurveyEdit';
 import MySponsor from './Sponsor/MySponsor';
+import SurveyAdd from '../ProfileMyPage/SurveyAdd';
+import { baseUrl } from '../../../App';
+import { Body, ProjectBox, Card, ProjectPic, TitleBox, ProjectTitle, 
+    CreatorName, ProjectContent, BtnBox, ManageBtn, LiveBtn, MyLink,
+    MainBox, LiveBox, Title, BottomBox, SurveyBox, SurveyTextBox,
+    SurveyEditText, SponsorBox, SponsorList } from './styles';
+import setAuthorizationToken from "../../../atoms";
+import styled from 'styled-components';
 
-
-
+const NoSurvey = styled.div`
+    width: 90%;
+    margin: 15px 0px;
+    padding: 13px 15px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 2px 2px 7px 0 silver;
+`;
 
 function MyProjectDetail(){
-    const [surveys, setSurveys] = useState([
-        {
-            id: 0,
-            title: "선호도 조사",
-        },
-        {
-            id: 1,
-            title: "구매 의사",
-        },
-        {
-            id: 2,
-            title: "추천 의사",
-        },
-        {
-            id: 3,
-            title: "피드백",
-        }
-    ]);
+    const { id } = useParams();
+    const [project, setProject] = useState("");
     const [isEdit, setIsEdit] = useState(false);
-
-    const onRemove = (id) => {
-        setSurveys(surveys.filter((survey) => survey.id !== id));
-    }
-
+    const [surveys, setSurveys] = useState([{id:0, title: "test"}]);
+    const [isSurvey, setIsSurvey] = useState(false);
+    const [lives, setLives] = useState("");
     const [sponsors, setSponsors] = useState([
         {
             id: 0,
             pic: 'https://image.newdaily.co.kr/site/data/img/2011/02/10/2011021000033_0.jpg',
-            name: '송지호',
-        },
-        {
-            id: 1,
-            pic: 'https://nitter.domain.glass/pic/media%2FFHxHZMPakAAUwPi.jpg%3Fname%3Dsmall',
-            name: '효달',
-        },
-        {
-            id: 2,
-            pic: 'https://image.newdaily.co.kr/site/data/img/2011/02/10/2011021000033_0.jpg',
-            name: '송지호',
-        },
-        {
-            id: 3,
-            pic: 'https://image.newdaily.co.kr/site/data/img/2011/02/10/2011021000033_0.jpg',
-            name: '송지호',
-        },
-        {
-            id: 4,
-            pic: 'https://image.newdaily.co.kr/site/data/img/2011/02/10/2011021000033_0.jpg',
-            name: '송지호',
-        },
-        {
-            id: 5,
-            pic: 'https://image.newdaily.co.kr/site/data/img/2011/02/10/2011021000033_0.jpg',
-            name: '송지호',
+            name: 'test',
         },
     ]);
+
+    const Project = async() =>{
+        await axios
+        .get(baseUrl + "/projects/" + id)
+        .then((res) => {
+            setProject(res.data);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    const Survey = async() => {
+        await axios.get(baseUrl + "/surveys/projects/" + id)
+        .then((res) =>{
+            setSurveys([...res.data]);
+            if(surveys.length === 0) setIsSurvey(false);
+            else setIsSurvey(true);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
+
+    const getLiveList = async() =>{
+        await axios.get(baseUrl + "/lives/projects/" + id)
+        .then((res) =>{
+            setLives([...res.data]);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    const onRemove = async(id) => {
+        await axios({
+            url: baseUrl + "/surveys/" + id,
+            method: "delete",
+            headers: setAuthorizationToken(),
+            baseUrl: baseUrl,
+        })
+        .then((res) => {
+            // console.log('삭제완');
+        })
+        .catch((err) =>{
+            console.log(err);
+        })
+        setSurveys(surveys.filter((survey) => survey.id !== id));
+    }
+    
+    useEffect(()=>{
+        Project();
+        // Survey();
+        getLiveList();
+    }, []);
+
+    useEffect(()=>{
+        Survey();
+    }, [isSurvey]);
 
     return(
         <Body>
             <ProjectBox>
                 <Card>
-                    <ProjectPic /> 
+                    <ProjectPic src={project.subImageUrl}/>
                     <TitleBox>
-                        <ProjectTitle>보송보송 타올</ProjectTitle>
-                        <CreatorName>아이조아</CreatorName>
+                    <ProjectTitle>{project.projectName}</ProjectTitle>
+                    <CreatorName>{project.summary}</CreatorName>
+                    <ProjectContent>{project.projectContent}</ProjectContent>
                     </TitleBox>
-                    <ProjectContent>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, inventore?</ProjectContent>
                 </Card>
-
                 <BtnBox>
                     <ManageBtn><MyLink to={`/projects/management`}>프로젝트 관리</MyLink></ManageBtn>
                     <LiveBtn>라이브 켜기</LiveBtn>
@@ -89,19 +116,19 @@ function MyProjectDetail(){
 
             <MainBox>
                 <LiveBox>
-                    <Title>라이브 기록</Title>
-                    <LiveList></LiveList>
+                    <Title>라이브 기록</Title> 
+                    <LiveList lives={lives}/>
                 </LiveBox>
 
                 <BottomBox>
                     <SurveyBox>
                         <Title>설문조사 목록</Title>
                         <SurveyTextBox>
-                            <SurveyAdd>추가</SurveyAdd>
+                            <SurveyAdd/>
                             {
                                 isEdit
                                 ?(
-                                    <SurveyEditText onClick={()=> {setIsEdit(!isEdit);}}>저장</SurveyEditText>
+                                    <SurveyEditText onClick={()=> {setIsEdit(!isEdit);}}>편집완료</SurveyEditText>
                                 )
                                 :(
                                     <SurveyEditText onClick={()=> {setIsEdit(!isEdit);}}>편집</SurveyEditText>
@@ -109,31 +136,34 @@ function MyProjectDetail(){
 
                             }
                         </SurveyTextBox>
-
                         {
-                            isEdit 
-                                ? (
-                                    <>
-                                    {surveys.map((survey) => (
-                                        <SurveyEdit 
-                                            survey={survey}
-                                            key={survey.id}
-                                            onRemove={onRemove}
-                                        />
-                                    ))}
-                                    </>
-                                )
-                                : (
-                                    <>
-                                    {surveys.map((survey) => (
-                                        <SurveyBasic 
-                                            survey={survey}
-                                            key={survey.id}
-                                        />
-                                    ))}
-                                    </>
-                                ) 
+                            isSurvey
+                            ?(                                
+                                isEdit 
+                                    ? (
+                                        <>
+                                        {surveys.map((survey) => (
+                                            <SurveyEdit 
+                                                survey={survey}
+                                                key={survey.id}
+                                                onRemove={onRemove}
+                                            />
+                                        ))}
+                                        </>
+                                    )
+                                    : (
+                                        <>
+                                        {surveys.map((survey) => (
+                                            <SurveyBasic 
+                                                survey={survey}
+                                                key={survey.id}
+                                            />
+                                        ))}
+                                        </>
+                                    ) 
 
+                            )
+                            :<NoSurvey>설문조사 없음</NoSurvey>
                         }
                     </SurveyBox>
 

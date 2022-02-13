@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React,{ useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   Btn,
@@ -11,7 +11,11 @@ import BannerContribStatus from "./BannerContribStatus";
 import { MomoProgress } from "./BannerProgress/styles";
 import { BannerCover, BannerImg, BannerWrapper } from "./styles";
 
-export const ProjectBanner = () => {
+interface Props {
+  project: any,
+}
+
+export const ProjectBanner:React.FC<Props> = ({...props}) => {
   const params = useParams();
   const [onAir, setOnAir] = useState(false);
   const api = {
@@ -26,20 +30,20 @@ export const ProjectBanner = () => {
     goalContribution: 7000000,
   };
   const contribRate =
-    Math.round((api.totalContribution / api.goalContribution) * 1000) / 10;
+    Math.round((props.project.currentAmount / props.project.fundingGoal) * 1000) / 10;
 
   return (
     <BannerWrapper>
-      <BannerImg src={api.imgSrc} width="100%" />
+      <BannerImg src={props.project.mainImageUrl} width="100%" />
       <BannerCover>
-        <BannerTitle>{api.title}</BannerTitle>
-        <BannerSubTitle>{api.subtitle}</BannerSubTitle>
+        <BannerTitle>{props.project.projectName}</BannerTitle>
+        <BannerSubTitle>{props.project.subtitle}</BannerSubTitle>
         <BannerContribStatus
-          from={api.from}
-          to={api.to}
-          total={api.totalContribution}
+          // from={api.from}
+          to={props.project.expirationDate}
+          total={props.project.currentAmount}
           contribRate={contribRate}
-        ></BannerContribStatus>
+          ></BannerContribStatus>
 
         <SocialBtn bottom="31px" right="350px" />
         {!onAir ? (
@@ -54,7 +58,7 @@ export const ProjectBanner = () => {
         <Btn bottom="35px" right="30px">
           펀딩하기
         </Btn>
-        <MomoProgress width="100%" bottom="0px" animated now={contribRate} />
+        {/* <MomoProgress width="100%" bottom="0px" animated now={contribRate} /> */}
       </BannerCover>
     </BannerWrapper>
   );

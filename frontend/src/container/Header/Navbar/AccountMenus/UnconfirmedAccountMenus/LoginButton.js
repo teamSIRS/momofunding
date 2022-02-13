@@ -5,6 +5,7 @@ import { Modal } from "react-bootstrap";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { nicknameState, isLoginState, userIdState } from "../../../../../atoms";
+import swal from 'sweetalert';
 
 const LoginBackGround = styled.div`
   display: flex;
@@ -186,6 +187,7 @@ function LoginButton() {
         })
         .catch((error) => {
           console.log(error);
+          swal('로그인 실패',"아이디와 비밀번호를 확인하세요", "warning", {button: false});
         });
     };
     signin();
@@ -200,6 +202,12 @@ function LoginButton() {
     event.preventDefault();
     setPassword(event.target.value);
   };
+
+  const enterkey = (event) =>{
+    event.preventDefault();
+    if(window.event.keyCode === 'Enter') signin();
+    alert('엔터키 입력');
+  }
   useEffect(() => {
     console.log(nickname);
     console.log(isLogin);
@@ -234,6 +242,7 @@ function LoginButton() {
                     placeholder="비밀번호"
                     value={password}
                     onChange={onPasswordChange}
+                    // onKeyUp={enterkey}
                   />
 
                   <CheckBoxAndLink>

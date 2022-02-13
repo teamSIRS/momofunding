@@ -54,11 +54,9 @@ function App() {
         <Route path="/funding" element={<Funding />}></Route>
         <Route path="/users/member" element={<ProfileMember />}></Route>
 
-        {/* /////////// */}
         <Route path="/users/*" element={<ProfileMain />}></Route>
         <Route path="/myprojects" element={<MyProject />}></Route>
         <Route path="/fundprojects" element={<FundProject />}></Route>
-        {/* /////////// */}
 
         <Route path="/myproject/:id" element={<MyProjectDetail />}></Route>
 

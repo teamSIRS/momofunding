@@ -4,23 +4,27 @@ import HomeBanners from "../Home/HomeBanners";
 import { Container } from 'react-bootstrap';
 import ProjectLiveCard from './ProjectLiveCard';
 import { ListNav, Category, Search, Bar, ListFilter, ListFilterSelected } from './Project.styled';
+import NonExist from './NonExist';
+import { baseUrl } from '../../App';
 
 function ProjectLiveList(){
-  const baseUrl = "http://localhost:8080";
   const [isDate, setIsDate] = useState(true);
   const [isPop, setIsPop] = useState(false);
   const [search, setSearch] = useState("");
   const [lives, setLives] = useState([""]);
   const [categories, setCategories] = useState([""]);
   const [selected, setSelected] = useState(0);
+  const [isExist, setIsExist] = useState(true);
   const all = [
     {
       id: 0,
       name: "전체"
     }
   ];
-  let query="";
+
   let orderQuery = "";
+  let categoryQuery = "";
+  let keywordQuery = "";
 
   const handleSelect = (e) =>{
     setSelected(Number(e.target.value));
@@ -34,10 +38,7 @@ function ProjectLiveList(){
       baseURL: baseUrl,
     })
     .then((response)=>{;
-      // console.log(response.data);
       setCategories([...all, ...response.data]);
-      console.log(typeof categories);
-      console.log(categories);
     })
     .catch((err) =>{
       console.log(err);
@@ -45,36 +46,44 @@ function ProjectLiveList(){
   }
 
   const enterkey = () =>{
-    if(window.event.keyCode === 13) setSelected(0);
-    //검색했을때 카테고리 전체로 변경
+    if(window.event.keyCode === 13) Setlist();
   }
 
-  const CategorySelected = async() => {
-    if(isDate) orderQuery="date";
-    else if(isPop) orderQuery="viewer";
+  const Setlist = async() =>{
+    if(isDate){
+      orderQuery = "?order=date";
+    } else{
+      orderQuery = "?order=popularity";
+    }
 
-    if(selected === 0) query='?sortValue='+orderQuery
-    else query = '/projectCategory/'+selected;
+    if(selected !== 0) categoryQuery = "&categoryId="+selected;
+    else categoryQuery = "";
+
+    if(search !== "") keywordQuery = "&keyword="+search;
+    else keywordQuery = "";
+
     
     await axios({
-      url: `/lives`+query,
-      method: "get",
+      url:`/lives/search`+orderQuery+categoryQuery+keywordQuery,
+      method:"get",
       baseURL: baseUrl,
     })
-    .then((res) =>{
-      setLives([...res.data]);
+    .then((response)=>{
+      setLives([...response.data]);
+      if(response.data === "") setIsExist(false);
+      else setIsExist(true);
     })
     .catch((err) =>{
       console.log(err);
     })
   }
-
+  
   useEffect(()=>{
     Categories();
   }, []);
 
   useEffect(()=>{
-    CategorySelected();
+    Setlist();
   },[selected, isPop, isDate]);
 
   return(
@@ -103,7 +112,7 @@ function ProjectLiveList(){
                   />
                   <svg
                       onClick={() => {
-                      console.log(search, '검색');
+                        Setlist();
                       }}
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -132,14 +141,18 @@ function ProjectLiveList(){
           <Container>
               <div className="container">
                   <div className="row">
-                    {
-                      lives.map((live) =>(
-                        <ProjectLiveCard 
+                  {
+                    isExist
+                    ? (
+                      lives.map((live) => (
+                        <ProjectLiveCard
                           live={live}
                           key={live.id}
                         />
                       ))
-                    }
+                    )
+                    : <NonExist ment="검색결과"/>
+                  }
                   </div>
               </div>
           </Container>

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from '../../../App';
 
 const ProjectManagementMain = styled.div`
   width: 100%;
@@ -85,7 +86,6 @@ const ProjectManagementContentProfileBtn = styled.button`
 `;
 
 function ProjectManagementContentIntro() {
-  const baseUrl = "http://localhost:8080";
 
   const [projectCategoryId, setProjectCategoryId] = useState(0);
   const [projectName, setProjectName] = useState("");

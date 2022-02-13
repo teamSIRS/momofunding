@@ -132,6 +132,7 @@ public class SurveyApiController {
         Map<String, Object> responseMap = new HashMap<>();
         try {
             surveyService.deleteSurvey(surveyId);
+
         } catch (EmptyResultDataAccessException e) {
             responseMap.put("errorMsg", "아이디에 해당하는 설문조사가 없습니다. surveyId : " + surveyId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);

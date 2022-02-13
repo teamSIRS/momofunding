@@ -25,17 +25,17 @@ export const Card = styled.div`
     box-shadow: 2px 2px 10px 0px ${MomoColor};
 `;
 
-export const ProjectPic = styled.div`
+export const ProjectPic = styled.img`
     width: 95%;
     height: 250px;
     margin: 10px;
-    background-image: url('https://image.hmall.com/static/1/1/80/25/2125801100_0.jpg?RS=600x600&AR=0');
-    background-position: center;
-    background-size: cover;
+    object-position: center;
+    object-fit: cover;
 `;
 
 export const TitleBox = styled.div`
     display: flex;
+    flex-direction: column;
     width: 95%;
     justify-content: space-between;
     border-top: 2px solid black;
@@ -44,12 +44,17 @@ export const TitleBox = styled.div`
 
 export const ProjectTitle = styled.p`
     font-weight: bold;
+    padding-top: 5px;
+    margin: 3px;
 `;
 
-export const CreatorName = styled.p``;
+export const CreatorName = styled.p`
+    margin: 3px;
+    color: ${MomoColor};
+`;
 
 export const ProjectContent = styled.p`
-    width: 95%;
+    margin: 3px 3px 5px 3px;
 `;
 
 export const BtnBox = styled.div`
@@ -111,11 +116,8 @@ export const SurveyTextBox = styled.div`
     margin: 5px 0;
 `;
 
-export const SurveyAdd = styled.span`
+export const SurveyEditText = styled.span`
     padding-left: 10px;
-`;
-
-export const SurveyEditText = styled(SurveyAdd)`
     color: ${MomoColor};
 `;
 

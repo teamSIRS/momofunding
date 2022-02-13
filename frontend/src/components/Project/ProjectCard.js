@@ -1,12 +1,9 @@
 // 프로젝트 리스트안에 하나의 카드(소세지 그림 + 설명)
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ProgressBar } from "react-bootstrap";
 import {Container, Thumnail} from './Project.styled';
 import LiveBadge from "../Home/Badge";
-import { Route, Router, useNavigate, Link, useParams } from "react-router-dom";
-import { Switch } from "../Live/LivePowderRoom/RTCRenderer/styles";
-import ProjectDetail from "../ProjectDetail";
+import { useNavigate } from "react-router-dom";
 
 const LiveOn = styled.div`
   color: white;

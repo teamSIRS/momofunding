@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
     border: 1px solid #7C7C7C;
@@ -9,6 +10,9 @@ const Container = styled.div`
 
 const ProjectPic = styled.img`
     width: 100%;
+    height: 200px;
+    object-position: center;
+    object-fit: cover;
 `;
 
 const Bar = styled.hr`
@@ -26,10 +30,16 @@ const CreatorName = styled.p`
 `;
 
 function MyProject({project}){
+    const navigate = useNavigate();
+
+    const goToProjctSet = (projectId) =>{
+        navigate(`/myproject/${projectId}`, { state: projectId });
+        window.scrollTo(0, 0);
+      }
 
     return(
         <div class="col-md-4">
-            <Container>
+            <Container onClick={() => {goToProjctSet(project.id)}}>
                 <ProjectPic src={project.subImageUrl}/>
                 <Bar/>
                 <ProjectTitle>

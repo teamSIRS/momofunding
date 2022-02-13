@@ -7,24 +7,24 @@ import {
 } from "./styles";
 
 type BannerContribStatusProps = {
-  from: string;
+  // from: string;
   to: string;
   total: number;
   contribRate: number;
 };
 
 export const BannerContribStatus = ({
-  from,
+  // from,
   to,
   total,
   contribRate,
 }: BannerContribStatusProps) => {
-  const startDay = new Date(from);
+  // const startDay = new Date(from);
   const today = new Date();
   const endDay = new Date(to);
-  const totalDays = Math.ceil(
-    (endDay.getTime() - startDay.getTime()) / (1000 * 60 * 60 * 24)
-  );
+  // const totalDays = Math.ceil(
+  //   (endDay.getTime() - startDay.getTime()) / (1000 * 60 * 60 * 24)
+  // );
   const daysLeft = Math.ceil(
     (endDay.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
   );
@@ -40,11 +40,12 @@ export const BannerContribStatus = ({
         <ContribContent>~ {to} </ContribContent>
         <ContribTitleStrong>{daysLeft}일 남음</ContribTitleStrong>
         <MomoProgress
-          animated
+          // animated
           border-radius="15px"
           width="100%"
           bottom="0px"
-          now={((totalDays - daysLeft) / totalDays) * 100}
+          now={contribRate}
+          // now={((totalDays - daysLeft) / totalDays) * 100}
         ></MomoProgress>
       </ContribWrapper>
     </div>

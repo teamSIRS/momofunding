@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import setAuthorizationToken, { nicknameState } from "../../../atoms";
 import { useRecoilState } from "recoil";
+import swal from 'sweetalert';
 
 const ProfileMemberTitle = styled.div`
   margin: 50px;
@@ -133,7 +134,7 @@ function ProfileMember() {
   const navigate = useNavigate();
   const location = useLocation();
   const { userId } = location.state;
-  console.log(userId);
+  // console.log(userId);
   const {
     register,
     handleSubmit,
@@ -158,7 +159,7 @@ function ProfileMember() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           setNickname(response.data.nickname);
           setEmail(response.data.email);
           setPassword(response.data.password);
@@ -183,7 +184,8 @@ function ProfileMember() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log("회원 정보 수정 성공!");
+          // console.log("회원 정보 수정 성공!");
+          swal('회원 정보 수정 성공!', {button: false});
           setNickname(response.data.nickname);
           setNname(nickname);
         })

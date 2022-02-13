@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { shortAnsQuestionSelector, shortAnsQuestionTitleState } from "../atoms";
+import axios from 'axios';
+import {baseUrl} from '../../../../App';
 
 const SurveyShortAnsLabel = styled.label`
   font-size: 20px;
@@ -33,6 +35,12 @@ function SurveyShortAns() {
     setShortAnsQuestion(shortAnsQuestion);
     setValue("shortAnsQuestion", "");
   };
+
+  // const saveSurvey = async() =>{
+  //   await axios({
+  //     url:
+  //   })
+  // }
 
   return (
     <div>

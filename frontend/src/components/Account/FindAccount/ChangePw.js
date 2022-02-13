@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { baseUrl } from "../../../App";
 import setAuthorizationEmailToken from "../../../atoms";
+import swal from 'sweetalert';
+
 const ChangePwTitle = styled.div`
   margin: 50px;
   font-size: 30px;
@@ -96,7 +98,7 @@ function ChangePw() {
     } else {
       //재설정
       changePassword(data);
-      alert("새로운 비밀번호로 로그인하세요.");
+      swal("새로운 비밀번호로 로그인하세요.");
       navigate("/");
     }
   };

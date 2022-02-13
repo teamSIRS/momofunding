@@ -111,12 +111,23 @@ function ProfileMain() {
   const [isExist, setIsExist] = useState(true);
   let isSelected = "";
 
+  const getAPI = async () => {
+    await axios
+      .get(baseUrl + "/users/" + userId)
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   if (isMy) isSelected = "/creators";
   else if (isFund) isSelected = "/orders";
   function getProjects() {
     const getProjects = async () => {
       await axios
-        .get("http://localhost:8080/projects/users/" + userId + isSelected)
+        .get(baseUrl + "/projects/users/" + userId + isSelected)
         .then((res) => {
           setProjects([...res.data]);
           if (res.data == "") setIsExist(false);
@@ -128,18 +139,6 @@ function ProfileMain() {
     };
     getProjects();
   }
-
-  const getAPI = async () => {
-    await axios
-      .get("http://localhost:8080/users/" + userId)
-      .then((response) => {
-        //   console.log(response.data);
-        setUser(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   const goToProfileEdit = () => {
     navigate("/users/member", {

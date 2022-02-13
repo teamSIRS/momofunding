@@ -5,6 +5,8 @@ import { Button, Fade, Modal } from "react-bootstrap";
 import SurveyNum from "./SurveyForm/SurveyNum";
 import SurveyShortAns from "./SurveyForm/SurveyShortAns";
 import SurveySelect from "./SurveyForm/SurveySelect";
+import axios from "axios";
+import { baseUrl } from '../../../App';
 
 const SurveyModalBtn = styled.button`
   background-color: #6667ab;
@@ -40,6 +42,10 @@ const SurveyAddLabel = styled.label`
   margin-right: 20px;
 `;
 
+const ExpirationDate = styled.input`
+  margin: 10px 0 20px 0;
+`;
+
 function SurveyAdd() {
   const [show, setShow] = useState(false);
 
@@ -51,6 +57,31 @@ function SurveyAdd() {
   const onChange = (event) => {
     setSelectedNum(event.target.value);
   };
+
+  const [expirationDate, setExpirationDate] = useState("");
+  const onExpirationDateChange = (event) =>
+  setExpirationDate(event.target.value);
+
+  const AddSurvey= async(data) => {
+    console.log('설문조사 등록');
+    await axios({
+      url: "/survey-questions",
+      method: "post",
+      data: {
+        surveyId: data.surveyId,
+        questionTypeId: data.questionTypeId,
+        title: data.title,
+      },
+      baseUrl: baseUrl,
+    }).
+    then((res) =>{
+      console.log(res.data);
+      console.log('2', data);
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }
 
   return (
     <>
@@ -78,6 +109,9 @@ function SurveyAdd() {
                   ))}
                 </select>
                 <hr />
+
+                    {/* 설문조사 종료일 등록 필! */}
+
                 <SurveyAddLabel>
                   질문 내용
                   {selectedNum === "선택하세요" ? <SurveySelect /> : null}
@@ -87,7 +121,7 @@ function SurveyAdd() {
               </SurveyAddInputBox>
               <hr />
 
-              <Button>등록</Button>
+              <Button onClick={()=>{console.log(selectedNum)}}>등록</Button>
             </SurveyAddDiv>
           </SurveyAddMain>
         </Modal.Body>

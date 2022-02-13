@@ -19,11 +19,6 @@ function ConfirmedAccountMenu() {
         userId: userId,
       },
     });
-    // navigate("profile/member", {
-    //   state: {
-    //     userId: userId,
-    //   },
-    // });
   };
   return (
     <Nav>
