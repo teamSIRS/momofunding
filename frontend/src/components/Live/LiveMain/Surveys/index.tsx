@@ -17,10 +17,10 @@ import {
   SurveySubmitBtn,
 } from "./styles";
 import SurveyChoice from "./SurveyChoice";
+import SurveyList from "./SurveyList";
 import SurveyNarrative from "./SurveyNarrative";
 
 const thankYouMessage = "설문에 참여해주셔서 감사합니다";
-const checkMessage = "시청자 대상 설문이 진행중입니다";
 
 const surveyId = 1;
 
@@ -126,12 +126,26 @@ const Survey = ({ show }: ChatProps) => {
     <SurveyWrapper className={show ? "hide" : ""}>
       <SurveyHeader>
         <ChatTop>설문조사</ChatTop>
-        <SurveyTitle>{surveyApi.title}</SurveyTitle>
-        <SurveyDescription>{surveyApi.content}</SurveyDescription>
+        {isStaff ? (
+          <>
+            <SurveyTitle>설문 목록</SurveyTitle>
+            <SurveyDescription>
+              창작자께서 사전에 설정한 설문 목록입니다. 방송 시청자를 대상으로
+              배포할 설문을 선택해주세요
+            </SurveyDescription>
+          </>
+        ) : (
+          <>
+            <SurveyTitle>{surveyApi.title}</SurveyTitle>
+            <SurveyDescription>{surveyApi.content}</SurveyDescription>
+          </>
+        )}
       </SurveyHeader>
       <SurveyBody className={surveyState ? "done" : ""}>
         {surveyState ? (
-          <h4>{isStaff ? checkMessage : thankYouMessage}</h4>
+          <>
+            <h4>{isStaff ? <SurveyList /> : thankYouMessage}</h4>
+          </>
         ) : (
           <div>
             {surveyApi.questions.map((question, idx) => (
