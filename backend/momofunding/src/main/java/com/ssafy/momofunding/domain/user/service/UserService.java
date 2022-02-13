@@ -21,14 +21,10 @@ public class UserService {
     private static final String FROM_ADDRESS = "momofundingbyteachers@gmail.com";
 
     private static final String EMAILMSG =
-                    "안녕하세요 모모펀딩입니다.\n" +
-                    "아래의 링크를 눌러 비밀번호를 재설정 해주세요.\n" +
                     "=========================================================\n\n";
 
     private static final String EMAILMSG2 =
-                    "\n\n=========================================================\n"+
-                    "감사합니다.";
-
+                    "\n\n=========================================================\n";
 
     //SignIn
     @Transactional
@@ -58,35 +54,33 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    //ID로 회원 정보 조회
+
     @Transactional
     public UserInfoResponseDto findUserInfoById(Long userId) {
         return new UserInfoResponseDto(userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 Id가 존재하지 않습니다. UserId : " + userId)));
     }
 
-    //회원정보 수정
     @Transactional
     public void updateUserInfo(Long userId, UserInfoUpdateRequestDto userInfoUpdateRequestDto) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 Id가 존재하지 않습니다. UserId : " + userId));
         user.updateUserInfo(userInfoUpdateRequestDto);
     }
 
-    //회원정보 삭제
     @Transactional
     public void deleteById(Long userId) {
         userRepository.deleteById(userId);
     }
 
 
-    //회원 비밀번호 수정
+
     @Transactional
     public void updateUserPassword(String email, String password) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("해당 email에 해당하는 유저가 없습니다."));
         user.updateUserPassword(password);
     }
 
-    //회원에게 비밀번호 재설정 메일 전송
+
     @Transactional
     public void sendMail(String email, String token) throws MailException {
         SimpleMailMessage message = new SimpleMailMessage();
