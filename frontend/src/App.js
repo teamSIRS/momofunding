@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import Signup from "./components/Account/Signup/Signup";
 import ProjectList from "./components/Project/ProjectList";
 import Home from "./components/Home";
@@ -24,11 +29,44 @@ import LiveMain from "./components/Live/LiveMain";
 import FundProject from "./components/Profile/ProfileMyPage/FundProject";
 import MyProject from "./components/Profile/ProfileMyPage/MyProject";
 import MyProjectDetail from "./components/Profile/ProfileProjectDetail/MyProjectDetail";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import setAuthorizationToken, { isLoginState } from "./atoms";
+import { useRecoilState } from "recoil";
 import PaySuccess from "./components/Funding/FundingSidebar/PaySuccess";
 
 export const baseUrl = "http://localhost:8080";
 
 function App() {
+  const [nowLogin, setNowLogin] = useRecoilState(isLoginState);
+  const checkLogin = async () => {
+    await axios({
+      url: `/auth/jwt`,
+      method: "get",
+      headers: setAuthorizationToken(),
+      baseURL: baseUrl,
+    })
+      .then((response) => {
+        const validLogin = response.data.isValid;
+        if (validLogin) {
+          setNowLogin(response.data.isValid);
+        } else {
+          setNowLogin(response.data.isValid);
+          localStorage.removeItem("auth-token");
+          localStorage.removeItem("recoil-persist");
+          // 나중에 swal로 변경
+          // alert("다시 로그인해 주세요.");
+          // window.location.replace("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    checkLogin();
+  }, []);
+
   return (
     <Router>
       <GlobalStyle />
