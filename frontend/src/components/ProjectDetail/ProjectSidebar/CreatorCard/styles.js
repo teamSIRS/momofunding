@@ -11,14 +11,16 @@ export const InfoCard = styled.div`
   justify-content: center;
   align-items: center;
   width: 347px;
-  height: 307px;
   border-radius: 20px;
   box-shadow: 4px 4px 20px 0px ${MomoColor};
   margin: 20px;
+  padding: 20px 0;
 `;
 
 export const CardTitle = styled.p`
-  color: ${MomoColor};
-  font-size: 18px;
+  margin: 20px;
+  /* color: ${MomoColor}; */
+  color: transparent;
+  font-size: 20px;
   font-weight: bold;
 `;

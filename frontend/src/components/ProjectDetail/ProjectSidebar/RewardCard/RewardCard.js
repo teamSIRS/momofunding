@@ -4,7 +4,7 @@ import { InfoCard, Text } from "../CreatorCard/styles";
 import { useState } from 'react';
 import { IonIcon } from "@ionic/react";
 import { caretUp, caretDown } from "ionicons/icons";
-
+import { comma } from '../../../../atoms';
 
 const Card = styled(InfoCard)`
   height: auto;
@@ -19,7 +19,8 @@ const Card = styled(InfoCard)`
 const RewardTitle = styled.p`
   font-size: 24px;
   font-weight: bold;
-  margin: 3px;
+  padding-right: 20px;
+  /* margin: auto 0; */
   color: ${MomoColor};
   `;
 
@@ -111,17 +112,17 @@ function RewardCard(props) {
     <Card>
       <div onClick={() => {setClicked(!clicked)}}>
         <Text>
-          <RewardTitle>{ props.rewards.title }</RewardTitle>
-          <Price>{ props.rewards.price }</Price>
-          {props.rewards.reward.map((a, i) =>{
+          <RewardTitle>{ props.rewards.name }</RewardTitle>
+          <Price>{ comma(props.rewards.price) }원</Price>
+          {/* {props.rewards.reward.map((a, i) =>{
             return <RewardDetail>{props.rewards.reward[i]}</RewardDetail>
             
-          })}
+          })} */}
         </Text>
         <Space />
         <Text>
-          <RewardDetail>{ props.rewards.people }명이 선택</RewardDetail>
-          <RewardDetail>예상 전달일 { props.rewards.date }</RewardDetail>
+          <RewardDetail>{ props.rewards.limitedQuantity }개 제한</RewardDetail>
+          <RewardDetail>예상 전달일 { props.rewards.deliverStartDate }</RewardDetail>
         </Text>
       </div>
 

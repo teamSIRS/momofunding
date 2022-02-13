@@ -26,3 +26,8 @@ export const Side = styled.div`
 export const ProjectDetailWrapper = styled.div`
   justify-content: center;
 `;
+
+export const SetCenter = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;

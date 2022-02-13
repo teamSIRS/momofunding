@@ -1,3 +1,4 @@
+import { prototype } from "events";
 import React,{ useState } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -6,7 +7,7 @@ import {
   NotLiveBtn,
   SocialBtn,
 } from "./BannerButton/BannerButton";
-import { BannerSubTitle, BannerTitle } from "./BannerCaption/styles";
+import { BannerSubTitle, BannerTitle, SubTitle } from "./BannerCaption/styles";
 import BannerContribStatus from "./BannerContribStatus";
 import { MomoProgress } from "./BannerProgress/styles";
 import { BannerCover, BannerImg, BannerWrapper } from "./styles";
@@ -36,12 +37,15 @@ export const ProjectBanner:React.FC<Props> = ({...props}) => {
     <BannerWrapper>
       <BannerImg src={props.project.mainImageUrl} width="100%" />
       <BannerCover>
-        <BannerTitle>{props.project.projectName}</BannerTitle>
+        {/* <Test> */}
+        <BannerTitle>{props.project.summary}</BannerTitle>
+        <SubTitle>{props.project.projectName}</SubTitle>
         <BannerSubTitle>{props.project.subtitle}</BannerSubTitle>
         <BannerContribStatus
           // from={api.from}
           to={props.project.expirationDate}
           total={props.project.currentAmount}
+          goal={props.project.fundingGoal}
           contribRate={contribRate}
           ></BannerContribStatus>
 

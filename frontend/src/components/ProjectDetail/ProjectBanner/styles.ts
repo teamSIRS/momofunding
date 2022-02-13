@@ -26,3 +26,8 @@ export const BannerCover = styled(BannerBox)`
   width: 100%;
   height: 100%;
 `;
+
+export const BannerContent = styled.div`
+  border: 1px solid red;
+  margin-right: 20px;
+`;

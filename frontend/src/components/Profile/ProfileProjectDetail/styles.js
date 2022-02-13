@@ -50,7 +50,6 @@ export const ProjectTitle = styled.p`
 
 export const CreatorName = styled.p`
     margin: 3px;
-    color: ${MomoColor};
 `;
 
 export const ProjectContent = styled.p`

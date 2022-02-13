@@ -4,6 +4,7 @@ import { ProgressBar } from "react-bootstrap";
 import {Container, Thumnail} from './Project.styled';
 import LiveBadge from "../Home/Badge";
 import { useNavigate } from "react-router-dom";
+import {comma} from '../../atoms';
 
 const LiveOn = styled.div`
   color: white;
@@ -94,7 +95,7 @@ function ProjectCard({ project }) {
         </TitleDetail>
         <ProgressBar variant="warning" now={project.popularity} />
         <FundDetail>
-          <span id="percentage">{project.popularity}% · {project.currentAmount}원</span>
+          <span id="percentage">{comma(project.popularity)}% · {comma(project.currentAmount)}원</span>
           {
             result < 5
             ? <Leftday color="red">{result}일 남음</Leftday>

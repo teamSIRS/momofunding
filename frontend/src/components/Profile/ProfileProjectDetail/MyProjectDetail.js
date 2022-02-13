@@ -89,7 +89,6 @@ function MyProjectDetail(){
     
     useEffect(()=>{
         Project();
-        // Survey();
         getLiveList();
     }, []);
 
@@ -97,15 +96,15 @@ function MyProjectDetail(){
         Survey();
     }, [isSurvey]);
 
+    console.log(surveys);
     return(
         <Body>
             <ProjectBox>
                 <Card>
                     <ProjectPic src={project.subImageUrl}/>
                     <TitleBox>
-                    <ProjectTitle>{project.projectName}</ProjectTitle>
-                    <CreatorName>{project.summary}</CreatorName>
-                    <ProjectContent>{project.projectContent}</ProjectContent>
+                    <ProjectTitle>{project.summary}</ProjectTitle>
+                    <CreatorName>{project.projectName}</CreatorName>
                     </TitleBox>
                 </Card>
                 <BtnBox>

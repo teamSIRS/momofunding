@@ -9,6 +9,12 @@ export const BannerTitle = styled.h2`
   right: 20px;
 `;
 
+export const SubTitle = styled(BannerTitle)`
+  font-weight: normal;
+  font-size: 20px;
+  top: 80px;
+`;
+
 export const BannerSubTitle = styled.h3`
   color: ${MomoColor};
   position: absolute;

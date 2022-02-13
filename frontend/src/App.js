@@ -44,7 +44,7 @@ function App() {
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
         <Route path="projects/:id" element={<ProjectDetail />}>
-          <Route index element={<ProjectCommunity />} />
+          <Route index element={<ProjectStory />} />
           <Route path="story" element={<ProjectStory />} />
           <Route path="notices" element={<h1>공지사항</h1>} />
           <Route path="community" element={<ProjectCommunity />} />

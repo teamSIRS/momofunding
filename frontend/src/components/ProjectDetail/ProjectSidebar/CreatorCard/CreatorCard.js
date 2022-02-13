@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import { InfoCard, CardTitle } from "./styles";
 
-const CreatorPic = styled.div`
+const CreatorPic = styled.img`
   width: 120px;
   height: 120px;
-  background-image: url("https://pbs.twimg.com/profile_images/813380182291529728/mKDilml6_400x400.jpg");
-  background-size: cover;
-  background-position: center;
+  object-fit: cover;
+  object-position: center;
   border-radius: 50%;
   margin: 20px;
 `;
@@ -21,6 +20,7 @@ const CreatorName = styled.p`
 `;
 
 const SemiTitle = styled(CreatorName)`
+  padding: 0 30px;
   font-size: 18px;
 `;
 
@@ -28,16 +28,16 @@ const Contact = styled(CreatorName)`
   font-size: 18px;
 `;
 
-function CreatorCard() {
+function CreatorCard({creator}) {
   return (
     <>
-      <CardTitle>창작자 정보</CardTitle>
+      <CardTitle>상품 정보</CardTitle>
       <InfoCard>
-        <CreatorPic />
+        <CreatorPic src={creator.creatorImageUrl}/>
         <CreatorInfo>
-          <CreatorName>Hahm Desheuvoir</CreatorName>
-          <SemiTitle>당신의 파티를 더욱 특별하게</SemiTitle>
-          <Contact>hahhaah@naver.com</Contact>
+          <CreatorName>{creator.creatorName}</CreatorName>
+          <SemiTitle>{creator.creatorContent}</SemiTitle>
+          <Contact>{creator.email}</Contact>
         </CreatorInfo>
       </InfoCard>
     </>

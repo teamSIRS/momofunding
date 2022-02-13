@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { InfoCard, Text } from "../CreatorCard/styles";
+import { InfoCard, Text, CardTitle } from "../CreatorCard/styles";
+import {comma} from '../../../../atoms';
 
 const Card = styled(InfoCard)`
   height: 410px;
@@ -14,26 +15,33 @@ const Title = styled.p`
 
 const Content = styled.p``;
 
-function FundingCard() {
+function FundingCard({project}) {
+  const contriRate = Math.round((project.currentAmount / project.fundingGoal) * 1000) / 10; 
+  const today = new Date();
+  const endDate = new Date(project.expirationDate);
+  const leftDays = Math.ceil((endDate.getTime() - today.getTime())/(1000*60*60*24));
+
   return (
-    <Card>
-      <Text>
-        <Title>상품명</Title>
-        <Content>Jola Mashisseu 2018</Content>
-      </Text>
-      <Text>
-        <Title>남은 기간</Title>
-        <Content>~2/14 34일 남음</Content>
-      </Text>
-      <Text>
-        <Title>달성률</Title>
-        <Content>1083% 달성</Content>
-      </Text>
-      <Text>
-        <Title>펀딩금액</Title>
-        <Content>72,023,456원</Content>
-      </Text>
-    </Card>
+    <>
+      <Card>
+        <Text>
+          <Title>상품</Title>
+          <Content>{project.summary}</Content>
+        </Text>
+        <Text>
+          <Title>남은 기간</Title>
+          <Content>~{endDate.getMonth()+1}/{endDate.getDate()} {leftDays}일 남음</Content>
+        </Text>
+        <Text>
+          <Title>달성률</Title>
+          <Content>{comma(contriRate)}% 달성</Content>
+        </Text>
+        <Text>
+          <Title>펀딩금액</Title>
+          <Content>{comma(project.currentAmount)}원</Content>
+        </Text>
+      </Card>
+    </>
   );
 }
 
