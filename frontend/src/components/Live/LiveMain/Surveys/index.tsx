@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import { baseUrl } from "../../../../App";
+import { sessionState } from "../../LiveAtoms";
 import { ChatProps } from "../Chat";
 import { ChatTop } from "../Chat/styles";
 import { authorizationState, submitState } from "../LiveMain";
@@ -18,11 +19,10 @@ import {
 } from "./styles";
 import SurveyChoice from "./SurveyChoice";
 import SurveyList from "./SurveyList";
+import { SelectedSurveyState } from "./SurveyList/SurveyList";
 import SurveyNarrative from "./SurveyNarrative";
 
 const thankYouMessage = "설문에 참여해주셔서 감사합니다";
-
-const surveyId = 1;
 
 type questionForm = {
   id: number;
@@ -98,10 +98,12 @@ const Survey = ({ show }: ChatProps) => {
   const [questionStates, setQstates] = useRecoilState(submitStates);
   const submitAllDone = useRecoilValue(submitConfirm);
   const [surveyApi, setSurveyApi] = useRecoilState(surveyApiState);
+  const [recoilSession, setSession] = useRecoilState(sessionState);
+  const [curSurvey, setCurSurvey] = useRecoilState(SelectedSurveyState);
 
   const getSurveyInfo = async () => {
     await axios({
-      url: `/surveys/${surveyId}`,
+      url: `/surveys/${curSurvey}`,
       method: "get",
       baseURL: `${baseUrl}`,
     })
@@ -120,7 +122,7 @@ const Survey = ({ show }: ChatProps) => {
 
   useEffect(() => {
     getSurveyInfo();
-  }, []);
+  }, [curSurvey]);
 
   return (
     <SurveyWrapper className={show ? "hide" : ""}>

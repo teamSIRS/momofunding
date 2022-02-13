@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
+import { atom, useRecoilState } from "recoil";
 import { baseUrl } from "../../../../../App";
 import { SurveyItemWrapper, SurveyListWrapper } from "./styles";
 
@@ -13,8 +14,14 @@ type surveysProp = {
   endDate: string;
 };
 
+export const SelectedSurveyState = atom({
+  key: "curSurvey",
+  default: -1,
+});
+
 export const SurveyList = () => {
   const [surveys, setSurveys] = useState([] as surveysProp[]);
+  const [_, setCurSurvey] = useRecoilState(SelectedSurveyState);
   const getSurveyList = async () => {
     await axios({
       url: `/surveys/projects/${projectId}`,
@@ -36,7 +43,15 @@ export const SurveyList = () => {
   return (
     <SurveyListWrapper>
       {surveys.map((survey, idx) => (
-        <SurveyItemWrapper key={idx}>{survey.title}</SurveyItemWrapper>
+        <SurveyItemWrapper
+          key={idx}
+          onClick={() => {
+            console.log(survey.id, "clicked!");
+            setCurSurvey(survey.id);
+          }}
+        >
+          {survey.title}
+        </SurveyItemWrapper>
       ))}
     </SurveyListWrapper>
   );

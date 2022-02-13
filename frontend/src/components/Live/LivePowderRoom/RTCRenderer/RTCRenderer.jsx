@@ -24,11 +24,18 @@ import ImageUploader from "../../../ImageUploader/ImageUploader";
 import { OpenVidu } from "openvidu-browser";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { camState, micState, sessionState, titleState } from "../../LiveAtoms";
-import { selector, useRecoilState, useRecoilValue } from "recoil";
+import {
+  camState,
+  micState,
+  msgsState,
+  sessionState,
+  titleState,
+} from "../../LiveAtoms";
+import { selector, useRecoilState } from "recoil";
 import { baseUrl } from "../../../../App";
 import LiveMain from "../../LiveMain";
 import { userIdState } from "../../../../atoms";
+import { SelectedSurveyState } from "../../LiveMain/Surveys/SurveyList/SurveyList";
 
 const OPENVIDU_SERVER_URL = "https://i6a202.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "9793";
@@ -50,20 +57,28 @@ const pubType = {
   publishAudio: () => true,
 };
 
+const msgType = {
+  nickname: "",
+  message: "",
+};
+
 export const RTCRenderer = () => {
   const [camActive, setCamActive] = useRecoilState(camState);
   const [micActive, setMicActive] = useRecoilState(micState);
   const [publisher, setPublisher] = useState(pubType);
+  const [message, setMessage] = useState(msgType);
   const [recoilSession, setSession] = useRecoilState(sessionState);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [title, setTitle] = useRecoilState(titleState);
+  const [curSurvey, setCurSurvey] = useRecoilState(SelectedSurveyState);
   const [content, setContent] = useState("");
+  const [messages, setMessages] = useRecoilState(msgsState);
 
   var isCreated = false;
 
   let session = undefined;
   // const sessionId = useRecoilValue(sessionIdSelector);
-  const sessionId = "gfbcde1wg1e2";
+  const sessionId = "gfbcde1wg1e2dsad";
 
   const onCamClick = () => {
     setCamActive((now) => !now);
@@ -176,7 +191,14 @@ export const RTCRenderer = () => {
 
     session.on("signal:momo-chat", (event) => {
       console.log(event.data, "수신 성공");
-      // setMessages([...messages, event.data]);
+      console.log("curMsgs:", messages);
+      const data = JSON.parse(event.data);
+      console.log("tobeMsgs:", [...messages, data]);
+      setMessage(data);
+    });
+
+    session.on(`signal:${curSurvey}`, (e) => {
+      console.log(e.data);
     });
 
     getToken(sessionId).then((token) => {
@@ -208,11 +230,10 @@ export const RTCRenderer = () => {
 
   useEffect(() => {
     console.log("session id: ", sessionId);
-    setTimeout(()=>{ 
+    setTimeout(() => {
       console.log("시작 : " + isCreated);
       isCreated = false;
-      joinSession(); 
-      
+      joinSession();
     }, 2000);
 
     return () => leaveSession();
@@ -225,6 +246,14 @@ export const RTCRenderer = () => {
   useEffect(() => {
     toggleMic();
   }, [micActive]);
+
+  // chat 메시지 관련
+  useEffect(() => {
+    if (message.message) {
+      console.log(message, " updated!");
+      setMessages([...messages, message]);
+    }
+  }, [message]);
 
   const onTitleChange = (event) => {
     console.log(event);
@@ -269,9 +298,7 @@ export const RTCRenderer = () => {
       {!isSubmitted ? (
         <>
           <Dashboard id="live-init-form" onSubmit={onSubmit}>
-            <DashboardHeader>
-              라이브 만들기
-            </DashboardHeader>
+            <DashboardHeader>라이브 만들기</DashboardHeader>
             <DashboardContent>
               <DashBoardInputBox>
                 <label>라이브 제목 (필수)</label>
