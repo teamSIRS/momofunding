@@ -29,6 +29,7 @@ import {
   micState,
   msgsState,
   msgState,
+  publisherState,
   sessionState,
   titleState,
 } from "../../LiveAtoms";
@@ -56,7 +57,7 @@ const sessionIdSelector = selector({
 export const RTCRenderer = () => {
   const [camActive, setCamActive] = useRecoilState(camState);
   const [micActive, setMicActive] = useRecoilState(micState);
-  const [publisher, setPublisher] = useState(undefined);
+  const [publisher, setPublisher] = useRecoilState(publisherState);
   const [recoilSession, setSession] = useRecoilState(sessionState);
   // const [isCreated, setIsCreated] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -64,7 +65,7 @@ export const RTCRenderer = () => {
   const [content, setContent] = useState("");
   const [message, setMessage] = useRecoilState(msgState);
   const [messages, setMessages] = useRecoilState(msgsState);
-  
+
   var isCreated = false;
 
   let session = undefined;
@@ -81,7 +82,7 @@ export const RTCRenderer = () => {
     setMicActive((now) => !now);
     publisher.publishAudio(micActive);
   };
-  
+
   const createSession = (sessionId) => {
     console.log("create session. id:", sessionId);
     return new Promise((resolve, reject) => {
@@ -170,7 +171,7 @@ export const RTCRenderer = () => {
   const joinSession = () => {
     const OV = new OpenVidu();
     session = OV.initSession();
-    
+
     session.on("streamCreated", function (event) {
       console.log("들어왔드앙~~~~");
       session.subscribe(event.stream, "creatorVideo");
@@ -193,7 +194,6 @@ export const RTCRenderer = () => {
       session
         .connect(token)
         .then(() => {
-          
           console.log("이즈크리에이티드 : " + isCreated);
           if (!isCreated) {
             console.log("난 개설자얌!!!!");
@@ -223,9 +223,12 @@ export const RTCRenderer = () => {
     console.log("시작 : " + isCreated);
     isCreated = false;
     joinSession();
+
     console.log("session id: ", sessionId);
     return () => leaveSession();
   }, []);
+
+  // toggle 관련
 
   const onTitleChange = (event) => {
     console.log(event);

@@ -5,7 +5,7 @@ import Survey from "./Surveys";
 import { atom, useRecoilState } from "recoil";
 
 const userApi = {
-  isStaff: false,
+  isStaff: true,
   surveySubmitted: false,
 };
 

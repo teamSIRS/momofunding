@@ -17,11 +17,6 @@ export const audioState = atom({
   default: false,
 });
 
-export const publisherState = atom({
-  key: "publisherState",
-  default: undefined,
-});
-
 export const titleState = atom({
   key: "titleState",
   default: "",
@@ -38,12 +33,18 @@ type MessageProps = {
 }[];
 
 export const msgsState = atom({
-  key: "msgState", 
+  key: "msgState",
   default: [] as MessageProps,
 });
 
 export const sessionState = atom({
   key: "sessionState",
   default: OV.initSession(),
+  dangerouslyAllowMutability: true,
+});
+
+export const publisherState = atom({
+  key: "publisherState",
+  default: OV.initPublisher(""),
   dangerouslyAllowMutability: true,
 });
