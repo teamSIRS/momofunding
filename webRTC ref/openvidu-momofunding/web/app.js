@@ -71,7 +71,7 @@ function joinSession() {
   // 아래의 streamCreated 이벤트는 stream을 받을 때 일어난다.
   // ** stream을 받는 시점 **
   // 1. 누군가가 session에 stream을 publish하면, 이와 동시에 세션에 접속하고 있던 모든 사람들이 그 stream을 받는다.
-  // 2. 누군가가 session에 새로 참여하면, 서버에 있던(publish) stream을 모두 받는다.
+  // 2. 누군가가 session에 새로 참여할 때, 새로 참여한 사람은 서버에 있던(= 누군가가 publish한) stream을 모두 받는다.
   // (참고 링크 : https://docs.openvidu.io/en/stable/api/openvidu-browser/classes/streamevent.html)
   session.on("streamCreated", function (event) {
     console.log("이벤트 스트림임");
