@@ -55,7 +55,6 @@ export const RTCRenderer = () => {
   const [micActive, setMicActive] = useRecoilState(micState);
   const [publisher, setPublisher] = useState(pubType);
   const [recoilSession, setSession] = useRecoilState(sessionState);
-  // const [isCreated, setIsCreated] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [title, setTitle] = useRecoilState(titleState);
   const [content, setContent] = useState("");
@@ -63,8 +62,8 @@ export const RTCRenderer = () => {
   var isCreated = false;
 
   let session = undefined;
-  const sessionId = useRecoilValue(sessionIdSelector);
-  // const sessionId = "gfbcde1wg1e";
+  // const sessionId = useRecoilValue(sessionIdSelector);
+  const sessionId = "gfbcde1wg1e2";
 
   const onCamClick = () => {
     setCamActive((now) => !now);
@@ -106,9 +105,7 @@ export const RTCRenderer = () => {
           var error = Object.assign({}, response);
           if (error?.response?.status === 409) {
             console.log(409, "handled");
-            console.log("isCreated를 바꿀게!!");
             isCreated = true;
-            console.log("바뀐결과 : " + isCreated);
             resolve(sessionId);
           } else {
             console.log(error);
@@ -174,16 +171,7 @@ export const RTCRenderer = () => {
     session = OV.initSession();
 
     session.on("streamCreated", function (event) {
-      console.log("들어왔드앙~~~~");
       session.subscribe(event.stream, "creatorVideo");
-    });
-
-    session.on("streamCreated", function (event) {
-      const subscriber = session.subscribe(event.stream, "creatorVideo");
-    });
-
-    session.on("signal:pleaseAlert", (event) => {
-      alert("recoilSession 테스트 성공.");
     });
 
     session.on("signal:momo-chat", (event) => {
@@ -195,9 +183,7 @@ export const RTCRenderer = () => {
       session
         .connect(token)
         .then(() => {
-          console.log("이즈크리에이티드 : " + isCreated);
           if (!isCreated) {
-            console.log("난 개설자얌!!!!");
             console.log("publishing...");
             const host = OV.initPublisher("creatorVideo", {
               resolution: "1280x720",
@@ -207,7 +193,7 @@ export const RTCRenderer = () => {
             setPublisher(host);
             session.publish(host);
           }
-          // setSession(session);
+          setSession(session);
         })
         .catch((error) => {
           console.log(error);
@@ -221,11 +207,14 @@ export const RTCRenderer = () => {
   };
 
   useEffect(() => {
-    console.log("시작 : " + isCreated);
-    isCreated = false;
-    joinSession();
-
     console.log("session id: ", sessionId);
+    setTimeout(()=>{ 
+      console.log("시작 : " + isCreated);
+      isCreated = false;
+      joinSession(); 
+      
+    }, 2000);
+
     return () => leaveSession();
   }, []);
 
@@ -271,14 +260,6 @@ export const RTCRenderer = () => {
       });
   };
 
-  const sendSignalSessionRecoil = (event) => {
-    recoilSession.signal({
-      data: "Test!!!", // Any string (optional)
-      to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
-      type: "pleaseAlert", // The type of message (optional)
-    });
-  };
-
   return (
     <RendererWrapper>
       <TestVideoWrapper
@@ -288,7 +269,7 @@ export const RTCRenderer = () => {
       {!isSubmitted ? (
         <>
           <Dashboard id="live-init-form" onSubmit={onSubmit}>
-            <DashboardHeader onClick={sendSignalSessionRecoil}>
+            <DashboardHeader>
               라이브 만들기
             </DashboardHeader>
             <DashboardContent>
