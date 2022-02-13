@@ -300,8 +300,8 @@ function ProjectManagementContentIntro() {
             </ProjectManagementContentImgLabel>
             <ProjectManagementContentImgBox>
               <ProjectManagementContentImg
-                src="/photo/funding_small.jpg"
-                alt="example-image"
+                src={`http://localhost:8080/images/project/${projectId}_main.jpg`}
+                alt="main-image-example"
               ></ProjectManagementContentImg>
             </ProjectManagementContentImgBox>
           </ProjectManagementContentInputBox>
@@ -324,8 +324,8 @@ function ProjectManagementContentIntro() {
             </ProjectManagementContentImgLabel>
             <ProjectManagementContentImgBox>
               <ProjectManagementContentImg
-                src="/photo/funding_example.png"
-                alt="example-image"
+                src={`http://localhost:8080/images/project/${projectId}_sub.jpg`}
+                alt="sub-image-example"
               ></ProjectManagementContentImg>
             </ProjectManagementContentImgBox>
           </ProjectManagementContentInputBox>
@@ -367,7 +367,7 @@ function ProjectManagementContentIntro() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentDate
               type="date"
-              value={expirationDate ? expirationDate.slice(0, 20) : null}
+              value={expirationDate ? expirationDate.slice(0, 10) : null}
               onChange={onExpirationDateChange}
             />
           </ProjectManagementContentInputBox>

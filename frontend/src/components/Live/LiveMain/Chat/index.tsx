@@ -38,6 +38,7 @@ const Chat = ({ show }: ChatProps) => {
   const [message, setMessage] = useRecoilState(msgState);
   const [messages, setMessages] = useRecoilState(msgsState);
   const [isStaff, _] = useRecoilState(authorizationState);
+  const [recoilSession, setSession] = useRecoilState(sessionState);
 
   const inputToServer = () => {
     if (message === "") return;
@@ -61,6 +62,14 @@ const Chat = ({ show }: ChatProps) => {
     inputToServer();
   };
 
+  const sendSignalSessionRecoil = () => {
+    recoilSession.signal({
+      data: "Test!!!", // Any string (optional)
+      to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
+      type: "pleaseAlert", // The type of message (optional)
+    });
+  };
+
   useEffect(() => {
     setTimeout(() => {
       const element = document.getElementById("chatBody") as HTMLElement;
@@ -71,7 +80,7 @@ const Chat = ({ show }: ChatProps) => {
   return (
     <ChatWrapper className={show ? "hide" : ""}>
       <ChatHeader>
-        <ChatTop>실시간 채팅</ChatTop>
+        <ChatTop onClick={(sendSignalSessionRecoil)}>실시간 채팅</ChatTop>
         {isStaff ? (
           <ProjectClose to="#">
             <LiveBtnRoundDangerSmall>
