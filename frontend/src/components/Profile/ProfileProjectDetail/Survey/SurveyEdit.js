@@ -14,9 +14,9 @@ function SurveyEdit({ survey, onRemove }) {
 
   return (
     <Body>
-      <Container onClick={()=>{console.log(survey.id, survey.title)}}>
+      <Container>
         <SurveyTitle>{survey.title}</SurveyTitle>
-        <SurveyResult>수정</SurveyResult>
+        <SurveyResult onClick={()=>{console.log('우앙~')}}>수정</SurveyResult>
       </Container>
       <EditIcon
         icon={removeCircleOutline}

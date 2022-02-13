@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import LiveList from "./LiveRecord/LiveList";
 import SurveyBasic from "./Survey/SurveyBasic";
@@ -15,9 +15,11 @@ import {
   TitleBox,
   ProjectTitle,
   CreatorName,
+  ProjectContent,
   BtnBox,
   ManageBtn,
   LiveBtn,
+  MyLink,
   MainBox,
   LiveBox,
   Title,
@@ -28,9 +30,8 @@ import {
   SponsorBox,
   SponsorList,
 } from "./styles";
-import styled from "styled-components";
-import { useRecoilValue } from "recoil";
 import setAuthorizationToken from "../../../atoms";
+import styled from "styled-components";
 
 const NoSurvey = styled.div`
   width: 90%;
@@ -106,12 +107,6 @@ function MyProjectDetail() {
       });
     setSurveys(surveys.filter((survey) => survey.id !== id));
   };
-  //////////////////////////////////////////////////////
-  // 프로젝트 관리
-  const navigate = useNavigate();
-  const goToManagePjt = () => {
-    navigate(`/myproject/${id}/management/profile`);
-  };
 
   useEffect(() => {
     Project();
@@ -121,8 +116,8 @@ function MyProjectDetail() {
   useEffect(() => {
     Survey();
   }, [isSurvey]);
+  // Survey();
 
-  console.log(surveys);
   return (
     <Body>
       <ProjectBox>
@@ -135,7 +130,7 @@ function MyProjectDetail() {
         </Card>
         <BtnBox>
           <ManageBtn>
-            <button onClick={goToManagePjt}>프로젝트 관리</button>
+            <MyLink to={`/projects/management`}>프로젝트 관리</MyLink>
           </ManageBtn>
           <LiveBtn>라이브 켜기</LiveBtn>
         </BtnBox>
@@ -144,14 +139,14 @@ function MyProjectDetail() {
       <MainBox>
         <LiveBox>
           <Title>라이브 기록</Title>
-          <LiveList lives={lives} />
+          <LiveList lives={lives} key={lives.id} />
         </LiveBox>
 
         <BottomBox>
           <SurveyBox>
             <Title>설문조사 목록</Title>
             <SurveyTextBox>
-              <SurveyAdd />
+              <SurveyAdd></SurveyAdd>
               {isEdit ? (
                 <SurveyEditText
                   onClick={() => {
@@ -172,6 +167,7 @@ function MyProjectDetail() {
             </SurveyTextBox>
             {isSurvey ? (
               isEdit ? (
+                // 설문조사 수정
                 <>
                   {surveys.map((survey) => (
                     <SurveyEdit
@@ -182,6 +178,7 @@ function MyProjectDetail() {
                   ))}
                 </>
               ) : (
+                // 설문조사 기본
                 <>
                   {surveys.map((survey) => (
                     <SurveyBasic survey={survey} key={survey.id} />

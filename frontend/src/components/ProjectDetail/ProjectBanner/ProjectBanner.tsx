@@ -19,17 +19,6 @@ interface Props {
 export const ProjectBanner:React.FC<Props> = ({...props}) => {
   const params = useParams();
   const [onAir, setOnAir] = useState(false);
-  const api = {
-    title: "뭐시기가 고른 최고의 신예 파티용 샴페인",
-    imgSrc:
-      "http://www.andreclouet.com/wp-content/uploads/2019/03/AC-GR_1920x1080.jpg",
-    subtitle: "Jola Mashisseú 2018",
-    from: "2021/12/25",
-    to: "2022/02/18",
-    progress: 1083,
-    totalContribution: 72023456,
-    goalContribution: 7000000,
-  };
   const contribRate =
     Math.round((props.project.currentAmount / props.project.fundingGoal) * 1000) / 10;
 

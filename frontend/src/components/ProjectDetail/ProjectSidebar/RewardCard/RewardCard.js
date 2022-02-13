@@ -96,9 +96,9 @@ const Space2 = styled.div`
 
 
 function RewardCard(props) {
-  let [amount, setAmount] = useState(0);
-  let [clicked, setClicked] = useState(false);
-
+  const [amount, setAmount] = useState(0);
+  const [clicked, setClicked] = useState(false);
+  const deliveryDate = new Date(props.rewards.deliverStartDate);
   function countUp(){
       setAmount(amount+1);
   }
@@ -122,7 +122,7 @@ function RewardCard(props) {
         <Space />
         <Text>
           <RewardDetail>{ props.rewards.limitedQuantity }개 제한</RewardDetail>
-          <RewardDetail>예상 전달일 { props.rewards.deliverStartDate }</RewardDetail>
+          <RewardDetail>예상 전달일 { deliveryDate.toLocaleDateString() }</RewardDetail>
         </Text>
       </div>
 

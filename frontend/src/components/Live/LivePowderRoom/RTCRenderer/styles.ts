@@ -132,12 +132,12 @@ export const WeakSwitch = styled.div`
   }
 `;
 
-export const ButtonIconActive = styled(IonIcon)`
+export const ButtonIconInactive = styled(IonIcon)`
   color: white;
   font-size: 30px;
 `;
 
-export const ButtonIconInactive = styled(IonIcon)`
+export const ButtonIconActive = styled(IonIcon)`
   color: ${MomoStrongColor};
   font-size: 30px;
 `;

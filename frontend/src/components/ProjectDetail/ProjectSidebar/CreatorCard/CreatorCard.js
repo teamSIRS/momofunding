@@ -36,7 +36,14 @@ function CreatorCard({creator}) {
         <CreatorPic src={creator.creatorImageUrl}/>
         <CreatorInfo>
           <CreatorName>{creator.creatorName}</CreatorName>
-          <SemiTitle>{creator.creatorContent}</SemiTitle>
+          <SemiTitle>
+              {
+                String(creator.creatorContent).split('. ').map(line => {
+                  return (<span>{line}<br/></span>)
+                })
+              }
+              {/* {creator.creatorContent} */}
+          </SemiTitle>
           <Contact>{creator.email}</Contact>
         </CreatorInfo>
       </InfoCard>

@@ -38,6 +38,7 @@ export const PJCommunityQnA = () => {
             username={api.username}
             content={api.content}
             date={api.date}
+            key={api.username}
           />
         ))}
       </QnAWrapper>

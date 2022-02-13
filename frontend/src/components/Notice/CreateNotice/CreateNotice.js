@@ -96,12 +96,12 @@ function CreateNotice() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log("성공");
-          console.log(response.data);
+          // console.log("성공");
+          // console.log(response.data);
           navigate("/notices");
         })
         .catch((error) => {
-          console.log("에러발생");
+          // console.log("에러발생");
           console.log(error);
         });
     };
