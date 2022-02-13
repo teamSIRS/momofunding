@@ -21,12 +21,7 @@ import {
 import { useRecoilState } from "recoil";
 import { authorizationState, sidebarState, submitState } from "../LiveMain";
 import { MouseEventHandler } from "react";
-import {
-  audioState,
-  camState,
-  micState,
-  publisherState,
-} from "../../LiveAtoms";
+import { audioState, camState, micState } from "../../LiveAtoms";
 
 const LiveFooter = () => {
   const [show, setShow] = useRecoilState(sidebarState);
@@ -35,7 +30,6 @@ const LiveFooter = () => {
   const [micOn, setMic] = useRecoilState(micState);
   const [audioOn, setAudio] = useRecoilState(audioState);
   const [surveyState, __] = useRecoilState(submitState);
-  const [publisher, setPublisher] = useRecoilState(publisherState);
 
   const onClick: MouseEventHandler<HTMLDivElement> = () => {
     setShow((now: boolean) => !now);
@@ -43,13 +37,12 @@ const LiveFooter = () => {
 
   const onCamClick: MouseEventHandler<HTMLDivElement> = () => {
     setCam((now: boolean) => !now);
-    publisher.publishVideo(camOn);
     console.log("카메라 스테이트:", camOn);
   };
 
   const onMicClick: MouseEventHandler<HTMLDivElement> = () => {
     setMic((now: boolean) => !now);
-    publisher.publishAudio(micOn);
+    // publisher.publishAudio(micOn);
   };
 
   const onAudioClick: MouseEventHandler<HTMLDivElement> = () => {

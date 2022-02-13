@@ -24,20 +24,11 @@ import ImageUploader from "../../../ImageUploader/ImageUploader";
 import { OpenVidu } from "openvidu-browser";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  camState,
-  micState,
-  msgsState,
-  msgState,
-  publisherState,
-  sessionState,
-  titleState,
-} from "../../LiveAtoms";
+import { camState, micState, sessionState, titleState } from "../../LiveAtoms";
 import { selector, useRecoilState, useRecoilValue } from "recoil";
 import { baseUrl } from "../../../../App";
 import LiveMain from "../../LiveMain";
 import { userIdState } from "../../../../atoms";
-import { SignalEvent } from "openvidu-browser";
 
 const OPENVIDU_SERVER_URL = "https://i6a202.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "9793";
@@ -54,28 +45,37 @@ const sessionIdSelector = selector({
   },
 });
 
+const pubType = {
+  publishVideo: () => true,
+  publishAudio: () => true,
+};
+
 export const RTCRenderer = () => {
   const [camActive, setCamActive] = useRecoilState(camState);
   const [micActive, setMicActive] = useRecoilState(micState);
-  const [publisher, setPublisher] = useRecoilState(publisherState);
+  const [publisher, setPublisher] = useState(pubType);
   const [recoilSession, setSession] = useRecoilState(sessionState);
-  // const [isCreated, setIsCreated] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [title, setTitle] = useRecoilState(titleState);
   const [content, setContent] = useState("");
-  const [message, setMessage] = useRecoilState(msgState);
-  const [messages, setMessages] = useRecoilState(msgsState);
 
   var isCreated = false;
 
   let session = undefined;
   // const sessionId = useRecoilValue(sessionIdSelector);
-  const sessionId = "gfbcde1wg1e";
+  const sessionId = "gfbcde1wg1e2";
 
   const onCamClick = () => {
     setCamActive((now) => !now);
-    publisher.publishVideo(camActive);
     console.log(camActive);
+  };
+
+  const toggleCam = () => {
+    publisher.publishVideo(camActive);
+  };
+
+  const toggleMic = () => {
+    publisher.publishAudio(micActive);
   };
 
   const onMicClick = () => {
@@ -105,9 +105,7 @@ export const RTCRenderer = () => {
           var error = Object.assign({}, response);
           if (error?.response?.status === 409) {
             console.log(409, "handled");
-            console.log("isCreated를 바꿀게!!");
             isCreated = true;
-            console.log("바뀐결과 : " + isCreated);
             resolve(sessionId);
           } else {
             console.log(error);
@@ -173,16 +171,7 @@ export const RTCRenderer = () => {
     session = OV.initSession();
 
     session.on("streamCreated", function (event) {
-      console.log("들어왔드앙~~~~");
       session.subscribe(event.stream, "creatorVideo");
-    });
-
-    session.on("streamCreated", function (event) {
-      const subscriber = session.subscribe(event.stream, "creatorVideo");
-    });
-
-    session.on("signal:pleaseAlert", (event) => {
-      alert("recoilSession 테스트 성공.");
     });
 
     session.on("signal:momo-chat", (event) => {
@@ -194,19 +183,17 @@ export const RTCRenderer = () => {
       session
         .connect(token)
         .then(() => {
-          console.log("이즈크리에이티드 : " + isCreated);
           if (!isCreated) {
-            console.log("난 개설자얌!!!!");
             console.log("publishing...");
             const host = OV.initPublisher("creatorVideo", {
               resolution: "1280x720",
-              publishVideo: !camActive,
+              publishVideo: camActive,
               publishAudio: micActive,
             });
             setPublisher(host);
             session.publish(host);
           }
-          // setSession(session);
+          setSession(session);
         })
         .catch((error) => {
           console.log(error);
@@ -220,15 +207,24 @@ export const RTCRenderer = () => {
   };
 
   useEffect(() => {
-    console.log("시작 : " + isCreated);
-    isCreated = false;
-    joinSession();
-
     console.log("session id: ", sessionId);
+    setTimeout(()=>{ 
+      console.log("시작 : " + isCreated);
+      isCreated = false;
+      joinSession(); 
+      
+    }, 2000);
+
     return () => leaveSession();
   }, []);
 
   // toggle 관련
+  useEffect(() => {
+    toggleCam();
+  }, [camActive]);
+  useEffect(() => {
+    toggleMic();
+  }, [micActive]);
 
   const onTitleChange = (event) => {
     console.log(event);
@@ -264,14 +260,6 @@ export const RTCRenderer = () => {
       });
   };
 
-  const sendSignalSessionRecoil = (event) => {
-    recoilSession.signal({
-      data: "Test!!!", // Any string (optional)
-      to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
-      type: "pleaseAlert", // The type of message (optional)
-    });
-  };
-
   return (
     <RendererWrapper>
       <TestVideoWrapper
@@ -281,7 +269,7 @@ export const RTCRenderer = () => {
       {!isSubmitted ? (
         <>
           <Dashboard id="live-init-form" onSubmit={onSubmit}>
-            <DashboardHeader onClick={sendSignalSessionRecoil}>
+            <DashboardHeader>
               라이브 만들기
             </DashboardHeader>
             <DashboardContent>
@@ -308,25 +296,25 @@ export const RTCRenderer = () => {
               <ImageUploader />
             </DashboardContent>
             <DashBoardFooter>
-              {!camActive ? (
-                <Switch onClick={onCamClick}>
-                  <ButtonIconActive icon={videocamOutline}></ButtonIconActive>
-                </Switch>
-              ) : (
+              {camActive ? (
                 <WeakSwitch onClick={onCamClick}>
+                  <ButtonIconActive icon={videocamOutline}></ButtonIconActive>
+                </WeakSwitch>
+              ) : (
+                <Switch onClick={onCamClick}>
                   <ButtonIconInactive
                     icon={videocamOffOutline}
                   ></ButtonIconInactive>
-                </WeakSwitch>
-              )}
-              {!micActive ? (
-                <Switch onClick={onMicClick}>
-                  <ButtonIconActive icon={micOutline}></ButtonIconActive>
                 </Switch>
-              ) : (
+              )}
+              {micActive ? (
                 <WeakSwitch onClick={onMicClick}>
-                  <ButtonIconInactive icon={micOffOutline}></ButtonIconInactive>
+                  <ButtonIconActive icon={micOutline}></ButtonIconActive>
                 </WeakSwitch>
+              ) : (
+                <Switch onClick={onMicClick}>
+                  <ButtonIconInactive icon={micOffOutline}></ButtonIconInactive>
+                </Switch>
               )}
               <SubmitBtn onClick={leaveSession}>나가기</SubmitBtn>
               <SubmitBtn onClick={onSubmit} type="submit">

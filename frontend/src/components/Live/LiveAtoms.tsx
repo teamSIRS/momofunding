@@ -42,9 +42,3 @@ export const sessionState = atom({
   default: OV.initSession(),
   dangerouslyAllowMutability: true,
 });
-
-export const publisherState = atom({
-  key: "publisherState",
-  default: OV.initPublisher(""),
-  dangerouslyAllowMutability: true,
-});
