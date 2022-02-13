@@ -36,6 +36,7 @@ import { selector, useRecoilState, useRecoilValue } from "recoil";
 import { baseUrl } from "../../../../App";
 import LiveMain from "../../LiveMain";
 import { userIdState } from "../../../../atoms";
+import { SignalEvent } from "openvidu-browser";
 
 const OPENVIDU_SERVER_URL = "https://i6a202.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "9793";
@@ -51,8 +52,6 @@ const sessionIdSelector = selector({
     return randomString(id);
   },
 });
-
-const sessionSelector = selector
 
 export const RTCRenderer = () => {
   const [camActive, setCamActive] = useRecoilState(camState);
@@ -177,8 +176,17 @@ export const RTCRenderer = () => {
       session.subscribe(event.stream, "creatorVideo");
     });
 
+    session.on("streamCreated", function (event) {
+      const subscriber = session.subscribe(event.stream, "creatorVideo");
+    });
+
     session.on("signal:pleaseAlert", (event) => {
       alert("recoilSession 테스트 성공.");
+    });
+
+    session.on("signal:momo-chat", (event) => {
+      console.log(event.data, "수신 성공");
+      // setMessages([...messages, event.data]);
     });
 
     getToken(sessionId).then((token) => {
@@ -254,7 +262,6 @@ export const RTCRenderer = () => {
   };
 
   const sendSignalSessionRecoil = (event) => {
-
     recoilSession.signal({
       data: "Test!!!", // Any string (optional)
       to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
@@ -271,7 +278,9 @@ export const RTCRenderer = () => {
       {!isSubmitted ? (
         <>
           <Dashboard id="live-init-form" onSubmit={onSubmit}>
-            <DashboardHeader onClick={(sendSignalSessionRecoil)}>라이브 만들기</DashboardHeader>
+            <DashboardHeader onClick={sendSignalSessionRecoil}>
+              라이브 만들기
+            </DashboardHeader>
             <DashboardContent>
               <DashBoardInputBox>
                 <label>라이브 제목 (필수)</label>
