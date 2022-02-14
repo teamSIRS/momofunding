@@ -114,10 +114,14 @@ function RewardCard(props) {
         <Text>
           <RewardTitle>{ props.rewards.name }</RewardTitle>
           <Price>{ comma(props.rewards.price) }원</Price>
-          {/* {props.rewards.reward.map((a, i) =>{
-            return <RewardDetail>{props.rewards.reward[i]}</RewardDetail>
-            
-          })} */}
+          {/* <p>
+            {
+              String(props.rewards.content).split('. ').map(line => {
+                return (<span>{line}<br/></span>)
+              })
+            }
+          </p> */}
+          <p>{ props.rewards.content }</p>
         </Text>
         <Space />
         <Text>

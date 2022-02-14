@@ -36,6 +36,7 @@ import { useRecoilState } from "recoil";
 import PaySuccess from "./components/Funding/FundingSidebar/PaySuccess";
 import MyProjectManagement from "./components/Profile/ProfileProjectDetail/MyProjectManagement/MyProjectManagement";
 
+// export const baseUrl = "http://i6a204.p.ssafy.io/";
 export const baseUrl = "http://localhost:8080";
 
 function App() {
