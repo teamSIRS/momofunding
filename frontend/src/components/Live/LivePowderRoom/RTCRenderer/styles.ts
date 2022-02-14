@@ -155,7 +155,7 @@ export const TestVideoWrapper = styled.div`
   &.main {
     width: 100%;
     height: 100%;
-    right: 370px;
+    right: 400px;
     position: relative;
     video {
       width: 100%;

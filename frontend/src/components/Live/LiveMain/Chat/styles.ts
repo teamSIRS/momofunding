@@ -78,10 +78,10 @@ export const ChatIcon = styled(IonIcon)`
 `;
 
 export const MessageBox = styled.div`
-  align-self: flex-start;
+  align-self: flex-end;
   padding: 6px 18px;
   border-radius: 24px;
-  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
   background: var(--primary);
   font-size: 15px;
   font-weight: 400;

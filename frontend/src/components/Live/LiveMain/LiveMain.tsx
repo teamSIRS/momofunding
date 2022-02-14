@@ -5,7 +5,6 @@ import Survey from "./Surveys";
 import { atom, useRecoilState } from "recoil";
 
 const userApi = {
-  isStaff: true,
   surveySubmitted: false,
 };
 
@@ -20,12 +19,12 @@ export const sidebarState = atom({
 
 export const authorizationState = atom({
   key: "authorizationState",
-  default: userApi.isStaff,
+  default: true,
 });
 
 export const submitState = atom({
   key: "submitState",
-  default: userApi.surveySubmitted || userApi.isStaff,
+  default: false,
 });
 
 export const LiveMain = () => {
