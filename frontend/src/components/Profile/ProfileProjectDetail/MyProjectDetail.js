@@ -33,7 +33,7 @@ import {
 } from "./styles";
 import setAuthorizationToken from "../../../atoms";
 import styled from "styled-components";
-
+import SurveyResult from "../ProfileMyPage/SurveyResult";
 const NoSurvey = styled.div`
   width: 90%;
   margin: 15px 0px;
@@ -183,8 +183,11 @@ function MyProjectDetail() {
         <BottomBox>
           <SurveyBox>
             <Title>설문조사 목록</Title>
+
             <SurveyTextBox>
               <SurveyAdd></SurveyAdd>
+              <SurveyResult></SurveyResult>
+
               {isEdit ? (
                 <SurveyEditText
                   onClick={() => {

@@ -6,13 +6,14 @@ import SurveyNum from "./SurveyForm/SurveyNum";
 import SurveyShortAns from "./SurveyForm/SurveyShortAns";
 import SurveySelect from "./SurveyForm/SurveySelect";
 import axios from "axios";
-import { baseUrl } from '../../../App';
+import { baseUrl } from "../../../App";
 
 const SurveyModalBtn = styled.button`
   background-color: #6667ab;
   color: white;
   border: 0;
   outline: 0;
+  margin-right: 10px;
 `;
 const SeparateLineForm = styled.div`
   display: flex;
@@ -60,10 +61,10 @@ function SurveyAdd() {
 
   const [expirationDate, setExpirationDate] = useState("");
   const onExpirationDateChange = (event) =>
-  setExpirationDate(event.target.value);
+    setExpirationDate(event.target.value);
 
-  const AddSurvey= async(data) => {
-    console.log('설문조사 등록');
+  const AddSurvey = async (data) => {
+    console.log("설문조사 등록");
     await axios({
       url: "/survey-questions",
       method: "post",
@@ -73,15 +74,15 @@ function SurveyAdd() {
         title: data.title,
       },
       baseUrl: baseUrl,
-    }).
-    then((res) =>{
-      console.log(res.data);
-      console.log('2', data);
     })
-    .catch((err)=>{
-      console.log(err);
-    })
-  }
+      .then((res) => {
+        console.log(res.data);
+        console.log("2", data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <>
@@ -110,7 +111,7 @@ function SurveyAdd() {
                 </select>
                 <hr />
 
-                    {/* 설문조사 종료일 등록 필! */}
+                {/* 설문조사 종료일 등록 필! */}
 
                 <SurveyAddLabel>
                   질문 내용
@@ -121,7 +122,13 @@ function SurveyAdd() {
               </SurveyAddInputBox>
               <hr />
 
-              <Button onClick={()=>{console.log(selectedNum)}}>등록</Button>
+              <Button
+                onClick={() => {
+                  console.log(selectedNum);
+                }}
+              >
+                등록
+              </Button>
             </SurveyAddDiv>
           </SurveyAddMain>
         </Modal.Body>
