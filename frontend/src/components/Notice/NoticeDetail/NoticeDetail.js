@@ -6,6 +6,7 @@ import styled from "styled-components";
 import setAuthorizationToken from "../../../atoms";
 import { useRecoilValue } from "recoil";
 import { roleState } from "../../../atoms";
+import { baseUrl } from "../../../App";
 
 const NoticeDetailMain = styled.div`
   background-color: whitesmoke;
@@ -68,7 +69,6 @@ const styles = {
 };
 
 function NoticeDetail() {
-  const baseUrl = "http://localhost:8080";
   const navigate = useNavigate();
   const role = useRecoilValue(roleState);
   const isAdmin = role === "ADMIN";
@@ -91,7 +91,7 @@ function NoticeDetail() {
   function getNotice() {
     const getNotice = async () => {
       await axios({
-        url: `/api/notices/${id}`,
+        url: `/notices/${id}`,
         method: "get",
         headers: setAuthorizationToken(),
         baseURL: baseUrl,
