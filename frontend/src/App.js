@@ -35,6 +35,8 @@ import setAuthorizationToken, { isLoginState } from "./atoms";
 import { useRecoilState } from "recoil";
 import PaySuccess from "./components/Funding/FundingSidebar/PaySuccess";
 import MyProjectManagement from "./components/Profile/ProfileProjectDetail/MyProjectManagement/MyProjectManagement";
+import PayFail from "./components/Funding/FundingSidebar/PayFail";
+import PayCancel from "./components/Funding/FundingSidebar/PayCancel";
 
 export const baseUrl = "http://localhost:8080";
 
@@ -100,7 +102,8 @@ function App() {
 
         <Route path="/myproject/:id" element={<MyProjectDetail />}></Route>
         <Route path="/pay/success" element={<PaySuccess />}></Route>
-
+        <Route path="/pay/fail/:token" element={<PayFail />}></Route>
+        <Route path="/pay/cancel/:token" element={<PayCancel />}></Route>
         <Route
           path="/projects/management/*"
           element={<ProjectManagement />}

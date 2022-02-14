@@ -35,6 +35,20 @@ public class JwtService {
         return jwt;
     }
 
+    public <T> String createSmall (String key, T data, String subject) {
+        String jwt = Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .setHeaderParam("regDate", System.currentTimeMillis())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .setSubject(subject)
+                .claim(key, data)
+                .signWith(this.generateKey(), SignatureAlgorithm.HS256)
+                .compact();
+        return jwt;
+    }
+
+
+
     private SecretKey generateKey() {
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SALT));
         return key;
