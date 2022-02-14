@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import setAuthorizationToken, { roleState } from "../../../atoms";
 import { useRecoilValue } from "recoil";
 import { userIdState } from "../../../atoms";
+import { baseUrl } from "../../../App";
 
 const CreateNoticeMain = styled.div`
   background-color: whitesmoke;
@@ -71,7 +72,6 @@ function CreateNotice() {
   const userId = useRecoilValue(userIdState);
   const role = useRecoilValue(roleState);
 
-  const baseUrl = "http://localhost:8080";
   const navigate = useNavigate();
   const {
     register,

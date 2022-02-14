@@ -86,7 +86,6 @@ const ProjectManagementContentProfileBtn = styled.button`
 `;
 
 function ProjectManagementProfile() {
-  const imgBaseUrl = "http://localhost:8080/images/creator/";
   const location = useLocation();
   const { userId } = location.state;
   // const { projectId } = location.state;

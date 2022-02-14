@@ -5,7 +5,8 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import setAuthorizationToken, { nicknameState } from "../../../atoms";
 import { useRecoilState } from "recoil";
-import swal from 'sweetalert';
+import swal from "sweetalert";
+import { baseUrl } from "../../../App";
 
 const ProfileMemberTitle = styled.div`
   margin: 50px;
@@ -142,7 +143,6 @@ function ProfileMember() {
     formState: { errors },
     setError,
   } = useForm();
-  const baseUrl = "http://localhost:8080";
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -185,7 +185,7 @@ function ProfileMember() {
       })
         .then((response) => {
           // console.log("회원 정보 수정 성공!");
-          swal('회원 정보 수정 성공!', {button: false});
+          swal("회원 정보 수정 성공!", { button: false });
           setNickname(response.data.nickname);
           setNname(nickname);
         })
