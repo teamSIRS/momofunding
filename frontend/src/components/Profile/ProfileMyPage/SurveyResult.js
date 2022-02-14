@@ -81,43 +81,58 @@ function SurveyResult() {
           <SurveyResultMain>
             {questions.map((question) =>
               question.questionType.id === 1 ? (
-                <ReactApexCharts
-                  options={{
-                    chart: {
-                      width: 350,
-                      type: "pie",
-                    },
-                    labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
-                    responsive: [
-                      {
-                        breakpoint: 480,
-                        options: {
-                          chart: {
-                            width: 200,
-                          },
-                          legend: {
-                            position: "bottom",
+                <div>
+                  <b>질문[객관식] : {question.title}</b>
+                  <ReactApexCharts
+                    options={{
+                      chart: {
+                        width: 200,
+                        type: "pie",
+                      },
+                      labels: question.answers.map(
+                        (answer) =>
+                          answer.content + " [" + [answer.counts] + "]"
+                      ),
+                      legend: {
+                        position: "right",
+                      },
+
+                      responsive: [
+                        {
+                          breakpoint: 480,
+                          options: {
+                            chart: {
+                              width: 200,
+                            },
+                            legend: {
+                              position: "right",
+                            },
                           },
                         },
-                      },
-                    ],
-                  }}
-                  series={[44, 55, 13, 43, 22]}
-                  type="pie"
-                  width={300}
-                />
+                      ],
+                    }}
+                    series={question.answers.map((answer) => answer.counts)}
+                    type="pie"
+                    width={400}
+                    height={200}
+                  />
+                  <hr />
+                </div>
               ) : (
-                <ul>
-                  질문 : {question.title} .
-                  {question.answers.map((answer) => (
-                    <li>{answer}</li>
-                  ))}
-                </ul>
+                <div>
+                  <b>질문[주관식] : {question.title}</b>
+
+                  <ul>
+                    {question.answers.map((answer) => (
+                      <li>{answer}</li>
+                    ))}
+                  </ul>
+                </div>
               )
             )}
 
             <hr />
-            <button>닫기</button>
+            <button onClick={handleClose}>닫기</button>
           </SurveyResultMain>
         </Modal.Body>
       </Modal>
