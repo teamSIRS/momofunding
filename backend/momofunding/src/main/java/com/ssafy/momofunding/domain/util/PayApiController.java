@@ -4,6 +4,7 @@ package com.ssafy.momofunding.domain.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.momofunding.domain.reward.dto.RewardPayRequestDto;
 import com.ssafy.momofunding.domain.rewardorder.service.RewardOrderService;
+import com.ssafy.momofunding.global.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ import java.util.Map;
 public class PayApiController {
 
     private final RewardOrderService rewardOrderService;
+    private final JwtService jwtService;
 
     //pay
     @Operation(
@@ -38,6 +40,7 @@ public class PayApiController {
         Map<String, Object> responseMap = new HashMap<>();
 
         Long rewardId = rewardOrderService.saveRewardOrder(rewardPayRequestDto);
+        String val2 = jwtService.createSmall("rewardId", rewardId, "Authorization");
 
         URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
         HttpURLConnection serverConnection = (HttpURLConnection) url.openConnection();
@@ -55,8 +58,8 @@ public class PayApiController {
                 "vat_amount=0&" +
                 "tax_free_amount=0&" +
                 "approval_url=http://localhost:3000/pay/success&" +
-                "fail_url=https://localhost:3000/pay/fail/" + rewardId + "&" +
-                "cancel_url=https://localhost:3000/pay/fail/" + rewardId;
+                "fail_url=http://localhost:3000/pay/fail/" + val2 + "&" +
+                "cancel_url=http://localhost:3000/pay/cancel/" + val2;
 
         byte[] utf8 = param.getBytes(StandardCharsets.UTF_8);
 
