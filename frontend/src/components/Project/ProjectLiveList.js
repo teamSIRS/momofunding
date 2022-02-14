@@ -45,7 +45,7 @@ function ProjectLiveList() {
     color: ${MomoStrongColor};
     :hover {
       color: ${MomoColor};
-    }
+    };
   `;
 
   const Categories = async () => {
@@ -174,7 +174,7 @@ function ProjectLiveList() {
             {isExist ? (
               lives.map((live) => (
                 <ProjectLiveLink to={`/lives/${live.sessionId}`}>
-                  <ProjectLiveCard live={live} key={live.id} />
+                  <ProjectLiveCard live={live} key={live.id}/>
                 </ProjectLiveLink>
               ))
             ) : (
