@@ -108,7 +108,7 @@ function SurveyResult() {
                 />
               ) : (
                 <ul>
-                  질문 : {question.title}
+                  질문 : {question.title} .
                   {question.answers.map((answer) => (
                     <li>{answer}</li>
                   ))}
