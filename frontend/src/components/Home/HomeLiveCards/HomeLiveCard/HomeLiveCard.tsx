@@ -15,10 +15,10 @@ export type HomeLiveCardProps = {
 
 export const HomeLiveCard = ({ idx, title, viewer }: HomeLiveCardProps) => {
   return (
-    <StyledCard key={idx} width={"275px"}>
+    <StyledCard key={idx} height={"15.5rem"} width={"275px"}>
       <StyledCardImg
         src={
-          "https://previews.123rf.com/images/inueng/inueng1601/inueng160100068/51082442-stempel-mit-wort-probe-im-inneren-vektor-illustration.jpg?fj=1"
+          "https://cdn.pixabay.com/photo/2020/02/22/18/49/paper-4871355_960_720.jpg"
         }
       ></StyledCardImg>
       <Card.ImgOverlay>
