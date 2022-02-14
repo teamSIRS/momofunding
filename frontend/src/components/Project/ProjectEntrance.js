@@ -9,6 +9,7 @@ import setAuthorizationToken, {
 import axios from "axios";
 import { baseUrl } from "../../App";
 import { useState } from "react";
+import swal from "sweetalert";
 
 const ProjectEntranceBanner = styled.div`
   width: 100%;
@@ -124,6 +125,15 @@ function ProjectEntrance() {
           goToProject(response.data.projectId);
         })
         .catch((error) => {
+          swal(
+            "먼저 로그인을 진행해주세요!",
+            "메인 페이지로 이동합니다.",
+            "warning",
+            {
+              button: false,
+            }
+          );
+          navigate("/");
           console.log(error);
         });
     };
