@@ -90,4 +90,9 @@ public class RewardOrderService {
                 .map(RewardOrderPurchaseResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void deleteRewardOrder(Long id){
+        rewardOrderRepository.deleteById(id);
+    }
 }

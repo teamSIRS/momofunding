@@ -2,6 +2,7 @@ package com.ssafy.momofunding.domain.rewardorder.controller;
 
 import com.ssafy.momofunding.domain.rewardorder.dto.*;
 import com.ssafy.momofunding.domain.rewardorder.service.RewardOrderService;
+import com.ssafy.momofunding.global.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,24 +22,31 @@ import java.util.Map;
 public class RewardOrderApiController {
 
     private final RewardOrderService rewardOrderService;
+    private final JwtService jwtService;
 
-//    @Operation(
-//            summary = "리워드 구매(주문) 내역 저장",
-//            description = "리워드 구매 시 구매 내역이 저장됨"
-//    )
-//    @PostMapping("")
-//    public ResponseEntity<Object> saveRewardOrder(@RequestBody RewardOrderSaveRequestDto rewardOrderSaveRequestDto){
-//        Map<String, Object> responseMap = new HashMap<>();
-//        try {
-//            Long rewardOrderId = rewardOrderService.saveRewardOrder(rewardOrderSaveRequestDto);
-//            responseMap.put("rewardOrderId", rewardOrderId);
-//            return ResponseEntity.status(HttpStatus.OK).body(responseMap);
-//
-//        }catch (IllegalArgumentException e){
-//            responseMap.put("errorMsg", e.getMessage());
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
-//        }
-//    }
+    @Operation(
+            summary = "리워드 구매(주문) 내역 삭제",
+            description = "구매 내역이 삭제됨"
+    )
+    @DeleteMapping("/fail")
+    public ResponseEntity DeleteRewardOrder(@RequestBody Map<String, String> jwt){
+        Map<String, Object> responseMap = new HashMap<>();
+        Long id = Long.parseLong(jwtService.get(jwt.get("token")).get("rewardId").toString());
+
+//        System.out.println("===================================================");
+//        System.out.println(jwt.get("token"));
+//        System.out.println(id);
+//        System.out.println("===================================================");
+
+        try {
+            rewardOrderService.deleteRewardOrder(id);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+
+        }catch (IllegalArgumentException e){
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+    }
 
     @Operation(
             summary = "후원한 후원 목록 다중 조회(참여자)",
@@ -109,4 +117,6 @@ public class RewardOrderApiController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
     }
+
+
 }
