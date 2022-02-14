@@ -1,4 +1,6 @@
+import { useState } from "react";
 import styled from "styled-components";
+import { setTextRange } from "typescript";
 import { Content } from "./styles";
 
 // content 전체 설정
@@ -71,7 +73,22 @@ const styles = {
   },
 };
 
-export const FundingContent = () => (
+const FundingContent = (props) => {
+  const [extra, setExtra] = useState(0);
+  const [name, setName] = useState("");
+  const [tell, setTell] = useState("");
+  const [shippingAddr, setShippingAddr] = useState("");
+  const [email, setEmail] = useState("");
+
+  const setParentExtra = (e) => {
+    setExtra(e.target.value);
+    props.getExtra(extra);
+    console.log(extra);
+  }
+
+  
+
+  return (
   <Content sm={8}>
     <FundingContentBox>
       <FundingContentAddBox>
@@ -80,7 +97,10 @@ export const FundingContent = () => (
           <FundingContentAddLabel as={"label"}>
             추가 금액
           </FundingContentAddLabel>
-          <FundingContentAddInput as={"input"}></FundingContentAddInput>
+          <FundingContentAddInput as={"input"}
+            onChange={setParentExtra}
+            value={extra}
+          ></FundingContentAddInput>
         </FundingContentAddInputBox>
       </FundingContentAddBox>
       <FundingContentInfoBox>
@@ -93,13 +113,17 @@ export const FundingContent = () => (
           <FundingContentInfoLabel as={"label"}>연락처</FundingContentInfoLabel>
           <FundingContentInfoInput as={"input"}></FundingContentInfoInput>
         </FundingContentInfoInputBox>
-        <FundingContentInfoInputBox>
-          <FundingContentInfoLabel as={"label"}>배송지</FundingContentInfoLabel>
-          <FundingContentInfoInput
-            as={"input"}
-            style={styles.input}
-          ></FundingContentInfoInput>
-        </FundingContentInfoInputBox>
+        {props.isDeliver
+          ?
+            <FundingContentInfoInputBox>
+              <FundingContentInfoLabel as={"label"}>배송지</FundingContentInfoLabel>
+              <FundingContentInfoInput
+                as={"input"}
+                style={styles.input}
+              ></FundingContentInfoInput>
+            </FundingContentInfoInputBox>
+          : null
+        }
         <FundingContentInfoInputBox>
           <FundingContentInfoLabel as={"label"}>이메일</FundingContentInfoLabel>
           <FundingContentInfoInput
@@ -143,4 +167,7 @@ export const FundingContent = () => (
       </FundingContentPayBox>
     </FundingContentBox>
   </Content>
-);
+  )
+};
+
+export default FundingContent;
