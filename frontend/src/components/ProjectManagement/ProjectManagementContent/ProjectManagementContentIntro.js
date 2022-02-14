@@ -362,7 +362,7 @@ function ProjectManagementContentIntro() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentDate
               type="date"
-              value={expirationDate ? expirationDate.slice(0, 10)+ "T12:00:00" : null}
+              value={expirationDate ? expirationDate.slice(0, 10)+"T12:00:00" : null}
               onChange={onExpirationDateChange}
             />
           </ProjectManagementContentInputBox>
