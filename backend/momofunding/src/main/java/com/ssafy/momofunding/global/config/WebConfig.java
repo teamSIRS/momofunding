@@ -21,15 +21,12 @@ public class WebConfig implements WebMvcConfigurer {
 
     private static final List<String> methodPatterns = Arrays.asList("/**");
 
-    private static final List<String> addPatterns =
-            Arrays.asList("/creator/*", "/surveys/**", "/users");
     private static final List<String>  excPatterns=
-            Arrays.asList("/users/sign-in", "/users/sign-up", "/users/email", "/users/password",
-                    "/lives/*/viewerCount", "/lives/*/endLive", "/projects/*/complete","/payment/kakao");
+            Arrays.asList("/orders/fail","/users/sign-in", "/users/sign-up", "/users/email", "/users/password",
+                    "/lives/**/viewerCount", "/lives/**/endLive", "/projects/**/complete","/payment/kakao");
 
     private static final List<String> addPatterns2 =
             Arrays.asList("/survey/**/**", "/survey-questions/*", "/orders/**/**");
-
 
     @Autowired
     private JwtInterceptor jwtInterceptor;
@@ -60,7 +57,7 @@ public class WebConfig implements WebMvcConfigurer {
 //		Allow all headers.
 //		Set max age to 1800 seconds (30 minutes).
         registry.addMapping("/**")
-                .allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS")
+                .allowedMethods("GET", "POST", "DELETE", "PUT","OPTIONS")
 //			.allowedOrigins("http://localhost:8080", "http://localhost:8081")
                 .maxAge(18000);
     }

@@ -43,6 +43,14 @@ const NoSurvey = styled.div`
   box-shadow: 2px 2px 7px 0 silver;
 `;
 
+const DeleteBtn = styled(ManageBtn)`
+  background-color: transparent;
+  button {
+    background-color: transparent;
+    color: red;
+  }
+`;
+
 function MyProjectDetail() {
   const { id } = useParams();
   const [project, setProject] = useState("");
@@ -114,6 +122,25 @@ function MyProjectDetail() {
     navigate(`/myproject/${id}/management/profile`);
   };
 
+  function deletePjt() {
+    const deletePjt = async () => {
+      await axios({
+        url: `/projects/${id}`,
+        method: "delete",
+        headers: setAuthorizationToken(),
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log(response.data);
+          navigate("/users/myprojects");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    deletePjt();
+  }
+
   useEffect(() => {
     Project();
     getLiveList();
@@ -141,6 +168,9 @@ function MyProjectDetail() {
           <ToNewLiveLink to={`/lives/${project.id}/new`}>
             <LiveBtn>라이브 켜기</LiveBtn>
           </ToNewLiveLink>
+          <DeleteBtn>
+            <button onClick={deletePjt}>프로젝트 삭제</button>
+          </DeleteBtn>
         </BtnBox>
       </ProjectBox>
 
