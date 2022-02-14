@@ -4,10 +4,10 @@ import styled from "styled-components";
 
 export const StyledCard = styled(Card)<{ height: string; width: string }>`
   position: flex;
-  /* justify-self: center; */
   border-radius: 20px;
   width: ${({ width }) => width};
   margin: auto;
+  margin-bottom: 10px;
   border: 0px;
   height: ${({ height }) => height};
   overflow: hidden;
@@ -15,6 +15,7 @@ export const StyledCard = styled(Card)<{ height: string; width: string }>`
   transition: cubic-bezier(0.86, 0, 0.07, 1);
   &:hover {
     transform: scale(1.05);
+    transition: 0.2s linear;
   }
 `;
 

@@ -7,6 +7,7 @@ export const StyledSpan = styled.span`
   border: 0px;
   border-radius: 12px;
   padding: 3px;
+  margin-right: 10px;
 
   ${({ color }) => {
     switch (color) {
