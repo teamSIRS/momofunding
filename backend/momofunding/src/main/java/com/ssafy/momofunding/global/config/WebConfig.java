@@ -22,11 +22,11 @@ public class WebConfig implements WebMvcConfigurer {
     private static final List<String> methodPatterns = Arrays.asList("/**");
 
     private static final List<String>  excPatterns=
-            Arrays.asList("/orders/fail","/users/sign-in", "/users/sign-up", "/users/email", "/users/password",
-                    "/lives/**/viewerCount", "/lives/**/endLive", "/projects/**/complete","/payment/kakao/*");
+            Arrays.asList("/api/orders/fail","/api/users/sign-in", "/api/users/sign-up", "/api/users/email", "/api/users/password",
+                    "/api/lives/**/viewerCount", "/api/lives/**/endLive", "/api/projects/**/complete","/api/payment/kakao/*");
 
     private static final List<String> addPatterns2 =
-            Arrays.asList("/survey/**/**", "/survey-questions/*", "/orders/**/**");
+            Arrays.asList("/api/survey/**/**", "/api/survey-questions/*", "/api/orders/**/**");
 
     @Autowired
     private JwtInterceptor jwtInterceptor;
