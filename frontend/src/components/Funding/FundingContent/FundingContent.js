@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Content } from "./styles";
 
 // content 전체 설정
@@ -77,7 +77,10 @@ export const FundingContent = (props) => {
   const [name, setName] = useState("");
   const [tel, setTel] = useState("");
   const [shippingAddr, setShippingAddr] = useState("");
+  const [request, setRequest] = useState("");
   const [email, setEmail] = useState("");
+  const [payCheck, setPayCheck] = useState("");
+
   useEffect(()=>{
     props.getExtra(extra);
   }, [extra]);
@@ -95,8 +98,16 @@ export const FundingContent = (props) => {
   }, [shippingAddr]);
 
   useEffect(()=>{
+    props.getRequest(request);
+  }, [request]);
+
+  useEffect(()=>{
     props.getEmail(email);
   }, [email]);
+
+  useEffect(()=>{
+    props.getPaySort(payCheck);
+  }, [payCheck]);
 
   return (
   <Content sm={8}>
@@ -139,6 +150,15 @@ export const FundingContent = (props) => {
               onChange={e => setShippingAddr(e.target.value)}
               value={shippingAddr}
             ></FundingContentInfoInput>
+            <FundingContentInfoInputBox>
+            <FundingContentInfoLabel as={"label"}>요청사항</FundingContentInfoLabel>
+            <FundingContentInfoInput
+              as={"input"}
+              style={styles.input}
+              onChange={e => setRequest(e.target.value)}
+              value = {request}
+            ></FundingContentInfoInput>
+            </FundingContentInfoInputBox>
           </FundingContentInfoInputBox>
         :null
         }
@@ -157,7 +177,7 @@ export const FundingContent = (props) => {
         <FundingContentPayTitle>결제 정보</FundingContentPayTitle>
 
         <FundingContentPayInputBox>
-          <FundingContentPayInput type="radio" name="payment" value="kakao" />
+          <FundingContentPayInput type="radio" name="payment" value="kakao" onChange={e => setPayCheck(e.target.value)}/>
           <FundingContentPayImg
             src="/socialLoginLogo/kakao-talk.png"
             alt="kakao"
@@ -165,7 +185,7 @@ export const FundingContent = (props) => {
           <FundingContentPayLabel>카카오페이로 후원</FundingContentPayLabel>
         </FundingContentPayInputBox>
 
-        <FundingContentPayInputBox>
+        {/* <FundingContentPayInputBox>
           <FundingContentPayInput type="radio" name="payment" value="naver" />
           <FundingContentPayImg src="/socialLoginLogo/naver.png" alt="naver" />
           <FundingContentPayLabel>네이버페이로 후원</FundingContentPayLabel>
@@ -182,7 +202,7 @@ export const FundingContent = (props) => {
             alt="credit"
           />
           <FundingContentPayLabel>신용카드 후원</FundingContentPayLabel>
-        </FundingContentPayInputBox>
+        </FundingContentPayInputBox>*/}
 
       </FundingContentPayBox>
     </FundingContentBox>

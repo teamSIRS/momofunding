@@ -40,19 +40,19 @@ const FundingBannerContentPrice = styled(FundingBannerContentTitle)`
   font-size: 30px;
 `;
 
-export const FundingBanner = () => {
+export const FundingBanner = (props) => {
   const api = {
-    title: "뭐시기가 고른 최고의 신예 파티용 샴페인",
-    subtitle: "Jola Mashisseú 2018",
-    label: "Gold 라벨",
-    price: "244,000원",
+    title: props.project.projectName,
+    subtitle: props.project.summary,
+    label: props.reward.name,
+    price: props.amount+"원",
   };
   return (
     <BannerWrapper>
-      <BannerImg src="/photo/funding.jpg" width="100%" />
+      <BannerImg src={props.project.mainImageUrl} width="100%" />
       <BannerCover>
         <FundingBannerContentBox>
-          <FundingBannerContentImg src="/photo/funding_small.jpg" />
+          <FundingBannerContentImg src={props.project.subImageUrl} />
           <FundingBannerContent>
             <FundingBannerContentTitle>{api.title}</FundingBannerContentTitle>
             <FundingBannerContentSubTitle>
