@@ -2,7 +2,16 @@ import { useEffect } from "react";
 import { Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
+import styled from "styled-components";
 import { isLoginState, nicknameState, userIdState } from "../../../../../atoms";
+
+const MyPageBtn = styled.button`
+  &:hover {
+    color: #c4c4c4;
+    background-color: transparent;
+  }
+`;
+const LogoutBtn = styled(MyPageBtn)``;
 
 function ConfirmedAccountMenu() {
   // 로그인
@@ -28,8 +37,8 @@ function ConfirmedAccountMenu() {
   useEffect(() => {}, [isLogin]);
   return (
     <Nav>
-      <button onClick={onProfileClick}>{nickname} 님</button>
-      <button onClick={onLogoutClick}>로그아웃</button>
+      <MyPageBtn onClick={onProfileClick}>{nickname} 님</MyPageBtn>
+      <LogoutBtn onClick={onLogoutClick}>로그아웃</LogoutBtn>
     </Nav>
   );
 }
