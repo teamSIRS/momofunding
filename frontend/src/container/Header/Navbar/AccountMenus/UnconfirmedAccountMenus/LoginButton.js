@@ -5,7 +5,8 @@ import { Modal } from "react-bootstrap";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { nicknameState, isLoginState, userIdState } from "../../../../../atoms";
-import swal from 'sweetalert';
+import swal from "sweetalert";
+import { baseUrl } from "../../../../../App";
 
 const LoginBackGround = styled.div`
   display: flex;
@@ -150,7 +151,7 @@ function LoginButton() {
     navigate("/signup");
     setShow(false);
   };
-  const baseUrl = "http://localhost:8080";
+  const baseUrl2 = "http://localhost:8080/api";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -173,7 +174,7 @@ function LoginButton() {
           email: email,
           password: password,
         },
-        baseURL: baseUrl,
+        baseURL: baseUrl2,
       })
         .then((response) => {
           console.log(response.data);
@@ -188,7 +189,9 @@ function LoginButton() {
         })
         .catch((error) => {
           console.log(error);
-          swal('로그인 실패',"아이디와 비밀번호를 확인하세요", "warning", {button: false});
+          swal("로그인 실패", "아이디와 비밀번호를 확인하세요", "warning", {
+            button: false,
+          });
         });
     };
     signin();
