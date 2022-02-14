@@ -34,7 +34,7 @@ export const HomeFundingCard = ({
         ></StyledCardImg>
         <Card.ImgOverlay className="d-flex flex-column justify-content-center align-items-center">
           <Card.Title>{title}</Card.Title>
-          <BadgeContainer top="8px" right="20px">
+          <BadgeContainer top="20px" right="10px">
             {isLive ? <LiveBadge content={"Live"} color={"red"} /> : null}
           </BadgeContainer>
           <Card.Text>{progress}</Card.Text>

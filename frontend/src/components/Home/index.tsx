@@ -17,17 +17,6 @@ const StyledStack = styled(ListGroup)`
   margin: 30px 0px;
 `;
 
-const styles = {
-  col: {
-    paddingLeft: 0,
-    paddingRight: 0,
-  },
-  row: {
-    marginLeft: 10,
-    marginRight: 10,
-  },
-};
-
 const Home = () => {
   const [lives, setLives] = useState<any[]>([""]);
   const [isExist, setIsExist] = useState<boolean>(true);
