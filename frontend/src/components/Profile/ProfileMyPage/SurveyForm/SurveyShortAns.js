@@ -12,7 +12,7 @@ import swal from "sweetalert";
 const SurveyShortAnsLabel = styled.label`
   font-size: 20px;
   font-weight: bold;
-  margin: 20px 0px;
+  margin: 0 0 20px 0px;
 `;
 
 const SurveyShortAnsInput = styled.div`
@@ -64,10 +64,12 @@ function SurveyShortAns() {
         swal('양식을 정확히 입력해주세요', {icon:"warning"});
       })
   }
+  
+  const [content, setContent] = useState();
 
   return (
     <div>
-      <SurveyShortAnsLabel>[ 설문조사 종료 일시 ]</SurveyShortAnsLabel>
+      {/* <SurveyShortAnsLabel>[ 설문조사 종료 일시 ]</SurveyShortAnsLabel>
       <form>
         <SurveyShortAnsInput>
           <input
@@ -76,7 +78,7 @@ function SurveyShortAns() {
             onChange={(e) =>{setEndDate(e.target.value);}}
           />
         </SurveyShortAnsInput>
-      </form>
+      </form> */}
       <SurveyShortAnsLabel>[ 주관식 질문 등록 ]</SurveyShortAnsLabel>
       <form onSubmit={handleSubmit(onQuestionValid)}>
         <SurveyShortAnsInput>
@@ -86,7 +88,7 @@ function SurveyShortAns() {
             })}
             placeholder="주관식 질문을 입력하세요."
             onChange={(e) =>{
-              setTitle(e.target.value)
+              setContent(e.target.value)
             }}
           />
         </SurveyShortAnsInput>

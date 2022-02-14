@@ -121,7 +121,6 @@ function MyProjectDetail() {
   useEffect(() => {
     Survey();
   }, [isSurvey]);
-  // Survey();
 
   return (
     <Body>
@@ -151,7 +150,9 @@ function MyProjectDetail() {
           <SurveyBox>
             <Title>설문조사 목록</Title>
             <SurveyTextBox>
+
               <SurveyAdd></SurveyAdd>
+              
               {isEdit ? (
                 <SurveyEditText
                   onClick={() => {

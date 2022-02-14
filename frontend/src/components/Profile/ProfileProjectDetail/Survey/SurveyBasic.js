@@ -9,7 +9,7 @@ import {
 
 function SurveyBasic({ survey }) {
   return (
-    <Body>
+    <Body onClick={()=>{console.log(survey.id)}}>
       <Container>
         <SurveyTitle>{survey.title}</SurveyTitle>
         <SurveyResult>결과 확인</SurveyResult>
