@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import HomeBanners from "../Home/HomeBanners";
-import { Container } from "react-bootstrap";
+import { Col, Container } from "react-bootstrap";
 import ProjectLiveCard from "./ProjectLiveCard";
 import {
   ListNav,
@@ -45,7 +45,7 @@ function ProjectLiveList() {
     color: ${MomoStrongColor};
     :hover {
       color: ${MomoColor};
-    };
+    }
   `;
 
   const Categories = async () => {
@@ -173,9 +173,11 @@ function ProjectLiveList() {
           <div className="row">
             {isExist ? (
               lives.map((live) => (
-                <ProjectLiveLink to={`/lives/${live.sessionId}`}>
-                  <ProjectLiveCard live={live} key={live.id}/>
-                </ProjectLiveLink>
+                <Col sm={6}>
+                  <ProjectLiveLink to={`/lives/${live.sessionId}`}>
+                    <ProjectLiveCard live={live} key={live.id} />
+                  </ProjectLiveLink>
+                </Col>
               ))
             ) : (
               <NonExist ment="검색결과" />

@@ -15,6 +15,7 @@ const SurveyModalBtn = styled.button`
   color: white;
   border: 0;
   outline: 0;
+  margin-right: 10px;
 `;
 const SeparateLineForm = styled.div`
   display: flex;
@@ -83,7 +84,7 @@ function SurveyAdd({surveys, Survey}) {
 
   const [expirationDate, setExpirationDate] = useState("");
   const onExpirationDateChange = (event) =>
-  setExpirationDate(event.target.value);
+    setExpirationDate(event.target.value);
 
   const [endDate, setEndDate] = useState();
   const [title, setTitle] = useState();
