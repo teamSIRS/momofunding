@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import {userIdState} from "../../../atoms"
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
+import swal from "sweetalert";
 
 const Card = styled(InfoCard)`
   height: 440px;
@@ -67,29 +68,23 @@ function PayCard({props}) {
 
     const checkInfo = () => {
       if(!isCheck){
-        alert("약관에 동의해주세요!");
+        swal("후원할 수 없습니다!", "약관에 동의해주세요", "warning");
         return false;
       }
       if(props.paySort !== "kakao"){
-        alert("결제 수단을 선택해주세요!");
+        swal("후원할 수 없습니다!", "결제 수단을 선택해주세요", "warning");
         return false;
       }
-      if(props.name === ""){
-        alert("이름을 입력해주세요!");
+      if(props.name === "" || props.tel === "" || props.email === ""){
+        swal("후원할 수 없습니다!", "후원자 정보를 빠짐없이 입력해주세요.", "warning");
         return false;
       } 
-      if(props.tel === ""){
-        alert("연락처를 입력해주세요!");
-        return false;
-      } 
+
       if(props.reward.isDeliver && props.shippingAddr === ""){
-        alert("배송지 정보를 입력해주세요!");
+        swal("후원할 수 없습니다!", "후원자 정보를 빠짐없이 입력해주세요.", "warning");
         return false;
       } 
-      if(props.email === "") {
-        alert("이메일을 입력해주세요!");
-        return false;
-      }
+
       return true;
     }
 
