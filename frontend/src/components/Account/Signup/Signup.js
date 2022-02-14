@@ -162,7 +162,6 @@ function Signup() {
     formState: { errors },
     setError,
   } = useForm();
-  const baseUrl2 = "http://localhost:8080/api";
   const [check, setCheck] = useState(false);
   const onChecked = () => setCheck((prev) => !prev);
 
@@ -213,7 +212,7 @@ function Signup() {
           nickname: data.nickname,
           password: data.password,
         },
-        baseURL: baseUrl2,
+        baseURL: baseUrl,
       })
         .then((response) => {
           console.log(response.data);
@@ -248,7 +247,7 @@ function Signup() {
       await axios({
         url: `/users/email/duplicate?email=${checkEmailValue}`,
         method: "get",
-        baseURL: baseUrl2,
+        baseURL: baseUrl,
       })
         .then((response) => {
           setEmailShow(true);

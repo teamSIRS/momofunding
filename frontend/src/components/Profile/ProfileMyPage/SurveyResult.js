@@ -107,14 +107,12 @@ function SurveyResult() {
                   width={300}
                 />
               ) : (
-                ((<div>{question.title}</div>),
-                (
-                  <ul>
-                    {question.answers.map((answer) => (
-                      <li>{answer}</li>
-                    ))}
-                  </ul>
-                ))
+                <ul>
+                  질문 : {question.title}
+                  {question.answers.map((answer) => (
+                    <li>{answer}</li>
+                  ))}
+                </ul>
               )
             )}
 

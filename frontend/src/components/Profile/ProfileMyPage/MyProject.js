@@ -5,7 +5,7 @@ const Container = styled.div`
     border: 1px solid #7C7C7C;
     border-radius: 10px;
     padding: 8px;
-    margin: 0px;
+    margin: 10px;
 `;
 
 const ProjectPic = styled.img`

@@ -11,6 +11,7 @@ import {
   roleState,
 } from "../../../../../atoms";
 import swal from "sweetalert";
+import { baseUrl } from "../../../../../App";
 
 const LoginBackGround = styled.div`
   display: flex;
@@ -155,7 +156,6 @@ function LoginButton() {
     navigate("/signup");
     setShow(false);
   };
-  const baseUrl2 = "http://localhost:8080/api";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -179,7 +179,7 @@ function LoginButton() {
           email: email,
           password: password,
         },
-        baseURL: baseUrl2,
+        baseURL: baseUrl,
       })
         .then((response) => {
           console.log(response.data);
