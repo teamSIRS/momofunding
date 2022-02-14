@@ -3,7 +3,7 @@ import { MomoColor, MomoStrongColor } from "../../../shared/global";
 import { InfoCard, Text } from "./CreatorCard/styles";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
-import {userIdState} from "../../../atoms"
+import setAuthorizationToken, {userIdState} from "../../../atoms"
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import swal from "sweetalert";
@@ -109,6 +109,7 @@ function PayCard({props}) {
           requestContent: props.request,
           amount: props.total,
         },
+        headers: setAuthorizationToken(),
         baseURL: baseUrl, // 위에서 말한 baseURL 설정
       }) // 여기까지가 axios 보내는 정보
         .then((response) => {
