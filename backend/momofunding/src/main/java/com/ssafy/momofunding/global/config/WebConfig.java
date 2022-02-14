@@ -73,7 +73,7 @@ public class WebConfig implements WebMvcConfigurer {
         //images 외부 경로
         registry.addResourceHandler("/api/images/project/**")
                 .addResourceLocations("file:///"+ imagePath + "/project/");
-        registry.addResourceHandler("/images/creator/**")
+        registry.addResourceHandler("/api/images/creator/**")
                 .addResourceLocations("file:///"+ imagePath + "/creator/");
     }
 
