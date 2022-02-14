@@ -49,7 +49,7 @@ public class Project extends AuditBaseEntity {
     List<Reward> rewards = new ArrayList<>();
 
 
-    @Column(length=150)
+    @Column(columnDefinition = "varchar(150) default ''")
     String projectName;
 
     @Column
@@ -67,10 +67,10 @@ public class Project extends AuditBaseEntity {
     @Column(columnDefinition = "varchar(500) default ''")
     String subImagePath;
 
-    @Column(length=500)
+    @Column(columnDefinition = "varchar(500) default ''")
     String summary;
 
-    @Column(length=5000)
+    @Column(columnDefinition = "varchar(5000) default ''")
     String projectContent;
 
     @Column(columnDefinition = "integer default 0")
@@ -87,6 +87,9 @@ public class Project extends AuditBaseEntity {
 
     @PrePersist
     public void initializer(){
+        projectName = "";
+        summary = "";
+        projectContent = "";
         mainImageUrl = "";
         mainImagePath = "";
         subImageUrl = "";

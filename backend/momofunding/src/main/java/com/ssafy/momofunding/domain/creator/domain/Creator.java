@@ -22,7 +22,7 @@ public class Creator extends AuditBaseEntity {
     @JoinColumn(name = "project_id")
     Project project;
 
-    @Column(length=20)
+    @Column(columnDefinition = "varchar(20) default ''")
     String creatorName;
 
     @Column(columnDefinition = "varchar(500) default ''")
@@ -31,22 +31,27 @@ public class Creator extends AuditBaseEntity {
     @Column(columnDefinition = "varchar(500) default ''")
     String creatorImagePath;
 
-    @Column(length=100)
+    @Column(columnDefinition = "varchar(100) default ''")
     String creatorContent;
 
-    @Column(length=30)
+    @Column(columnDefinition = "varchar(30) default ''")
     String email;
 
-    @Column(length=30)
+    @Column(columnDefinition = "varchar(30) default ''")
     String tel;
 
-    @Column(length=30)
+    @Column(columnDefinition = "varchar(30) default ''")
     String account;
 
     @PrePersist
     public void initializer(){
+        creatorName = "";
         creatorImageUrl = "http://localhost:8080/creator/default.png";
         creatorImagePath = "C:\\SSAFY\\Temp\\upload\\creator\\default.png";
+        creatorContent = "";
+        email = "";
+        tel = "";
+        account = "";
     }
 
     public void mapProject(Project p){
