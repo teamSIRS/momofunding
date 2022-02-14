@@ -19,7 +19,7 @@ import java.util.Map;
 @Tag(name = "Live API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/lives")
+@RequestMapping("/api/lives")
 public class LiveApiController {
     private final LiveService liveService;
 

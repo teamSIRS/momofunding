@@ -30,7 +30,7 @@ export const HomeFundingCard = ({
   return (
     <StyledCard height={height} width={width}>
       <StyledLink to={projectPath}>
-        <StyledCardImg src={imgSrc}></StyledCardImg>
+        <StyledCardImg src={imgSrc} style={{filter: "brightness(67%)"}}></StyledCardImg>
         <Card.ImgOverlay className="d-flex flex-column justify-content-center align-items-center">
           <Card.Title>{title}</Card.Title>
           <BadgeContainer top="8px" right="20px">
