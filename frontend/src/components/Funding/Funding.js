@@ -38,7 +38,6 @@ function Funding(){
   const getPaySort = (paySort) => {
     setPaySort(paySort);
   }
-  console.log(location.state.data);
 
   return (
     <Container>
