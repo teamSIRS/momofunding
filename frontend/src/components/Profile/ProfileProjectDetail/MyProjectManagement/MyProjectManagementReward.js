@@ -197,8 +197,6 @@ function MyProjectManagementReward() {
     };
 
     const updateRewards = async () => {
-      console.log(rewardId);
-      console.log(data);
       await axios({
         url: `/rewards/${rewardId}`,
         method: "put",

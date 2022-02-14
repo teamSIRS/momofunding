@@ -12,7 +12,9 @@ import ProjectManagementContentIntro from "./ProjectManagementContent/ProjectMan
 import ProjectManagementProfile from "./ProjectManagementContent/ProjectManagementProfile";
 import ProjectManagementContentReward from "./ProjectManagementContent/ProjectManagementContentReward";
 import { useRecoilValue } from "recoil";
-import { createProjectIdState } from "../../atoms";
+import setAuthorizationToken, { createProjectIdState } from "../../atoms";
+import axios from "axios";
+import { baseUrl } from "../../App";
 
 const ProjectManagementSidebarMain = styled.div`
   width: 100%;
@@ -51,6 +53,32 @@ const ProjectManagementSidebarMenu = styled.div`
   margin: 25px;
   font-size: 17px;
   font-weight: bold;
+  button {
+    background-color: transparent;
+    color: black;
+    &: hover {
+      background-color: #6667ab;
+      color: white;
+    }
+    &: focus {
+      background-color: #6668ab;
+      color: white;
+    }
+  }
+`;
+const ProjectManagementSidebarMenuFinal = styled(ProjectManagementSidebarMenu)`
+  button {
+    background-color: transparent;
+    color: black;
+    &: hover {
+      background-color: purple;
+      color: white;
+    }
+    &: focus {
+      background-color: purple;
+      color: white;
+    }
+  }
 `;
 
 const ProjectManagementTitle = styled.h2`
@@ -112,6 +140,32 @@ function ProjectManagement() {
       },
     });
   };
+
+  function startPjt() {
+    // 나중에swal로 변경하자
+    alert("확인을 누르시면 프로젝트가 시작됩니다.");
+    const startPjt = async () => {
+      await axios({
+        url: `/projects/${pjtId}/complete`,
+        method: "put",
+        data: {
+          projectId: pjtId,
+        },
+        headers: setAuthorizationToken(),
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          console.log("프로젝트 시작");
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log("에러발생");
+          console.log(error);
+        });
+    };
+    startPjt();
+  }
+
   const profileMatch = useMatch("/projects/management/profile");
   const introMatch = useMatch("/projects/management/intro");
   const rewardMatch = useMatch("/projects/management/reward");
@@ -138,6 +192,10 @@ function ProjectManagement() {
                 <ProjectManagementSidebarMenu isActive={rewardMatch !== null}>
                   <button onClick={onRewardClick}>리워드 정보 등록</button>
                 </ProjectManagementSidebarMenu>
+
+                <ProjectManagementSidebarMenuFinal>
+                  <button onClick={startPjt}>프로젝트 시작하기</button>
+                </ProjectManagementSidebarMenuFinal>
               </ProjectManagementSidebarBox>
             </ProjectManagementSidebarMain>
           </Col>
