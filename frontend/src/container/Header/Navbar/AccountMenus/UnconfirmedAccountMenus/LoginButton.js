@@ -142,7 +142,8 @@ const LoginModalBtn = styled.button`
   border: 0;
   outline: 0;
   &:hover {
-    color: blue;
+    color: #c4c4c4;
+    background-color: transparent;
   }
 `;
 
@@ -186,6 +187,14 @@ function LoginButton() {
           const token = response.data.token;
           localStorage.setItem("auth-token", token);
 
+          swal(
+            "로그인 성공",
+            `[ ${response.data.nickname} ]님 환영합니다!`,
+            "success",
+            {
+              button: true,
+            }
+          );
           setUserId(response.data.id);
           setNickname(response.data.nickname);
           setIsLogin(true);

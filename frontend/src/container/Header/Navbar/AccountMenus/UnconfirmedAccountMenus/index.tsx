@@ -1,6 +1,13 @@
 import { Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import LoginButton from "./LoginButton";
+
+const SignupBtn = styled.button`
+  &:hover {
+    color: #c4c4c4;
+    background-color: transparent;
+`;
 
 function UnconfirmedAccountMenus() {
   const navigate = useNavigate();
@@ -10,7 +17,7 @@ function UnconfirmedAccountMenus() {
   return (
     <Nav>
       <LoginButton />
-      <button onClick={onSignupClick}>회원가입</button>
+      <SignupBtn onClick={onSignupClick}>회원가입</SignupBtn>
     </Nav>
   );
 }
