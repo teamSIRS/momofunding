@@ -91,7 +91,7 @@ function NoticeDetail() {
   function getNotice() {
     const getNotice = async () => {
       await axios({
-        url: `/notices/${id}`,
+        url: `/api/notices/${id}`,
         method: "get",
         headers: setAuthorizationToken(),
         baseURL: baseUrl,
@@ -173,12 +173,17 @@ function NoticeDetail() {
               <NoticeDetailForm>
                 <NoticeDetailInputBox>
                   <NoticeDetailTitle>제목</NoticeDetailTitle>
-                  <NoticeDetailInput value={title} onChange={onTitleChange} />
+                  <NoticeDetailInput
+                    readOnly={isAdmin ? false : true}
+                    value={title}
+                    onChange={onTitleChange}
+                  />
                 </NoticeDetailInputBox>
 
                 <NoticeDetailInputBox>
                   <NoticeDetailTitle>내용</NoticeDetailTitle>
                   <NoticeDetailTextarea
+                    readOnly={isAdmin ? false : true}
                     as={"textarea"}
                     value={content}
                     onChange={onContentChange}
