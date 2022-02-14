@@ -10,8 +10,6 @@ import setAuthorizationToken, {
 } from "../../../atoms";
 import { baseUrl } from "../../../App";
 
-import { baseUrl } from "../../../App";
-
 const ProjectManagementMain = styled.div`
   width: 100%;
   min-height: 800px;
