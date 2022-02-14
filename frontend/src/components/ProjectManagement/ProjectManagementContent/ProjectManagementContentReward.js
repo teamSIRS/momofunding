@@ -8,6 +8,7 @@ import setAuthorizationToken, {
   createProjectIdState,
   createRewardIdState,
 } from "../../../atoms";
+import { baseUrl } from "../../../App";
 
 const ProjectManagementMain = styled.div`
   width: 100%;
@@ -72,7 +73,6 @@ const ProjectManagementContentProfileRadio = styled.label`
 
 // 수정? 삭제? 기능 추가해야함
 function ProjectManagementContentReward() {
-  const baseUrl = "http://localhost:8080";
   const {
     register,
     handleSubmit,

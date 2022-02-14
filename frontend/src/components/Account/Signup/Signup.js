@@ -4,7 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { baseUrl } from '../../../App';
+import { baseUrl } from "../../../App";
 
 const SignupBackGround = styled.div`
   display: flex;
