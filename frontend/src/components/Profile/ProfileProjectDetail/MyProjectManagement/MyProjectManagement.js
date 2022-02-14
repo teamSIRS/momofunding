@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil";
 import MyProjectManagementProfile from "./MyProjectManagementProfile";
 import MyProjectManagementStory from "./MyProjectManagementStory";
 import MyProjectManagementReward from "./MyProjectManagementReward";
-import { userIdState } from "../../../../atoms";
+import { nicknameState, userIdState } from "../../../../atoms";
 
 const ProjectManagementSidebarMain = styled.div`
   width: 100%;
@@ -45,6 +45,18 @@ const ProjectManagementSidebarMenu = styled.div`
   margin: 25px;
   font-size: 17px;
   font-weight: bold;
+  button {
+    background-color: transparent;
+    color: black;
+    &: hover {
+      background-color: #6667ab;
+      color: white;
+    }
+    &: focus {
+      background-color: #6668ab;
+      color: white;
+    }
+  }
 `;
 
 const ProjectManagementTitle = styled.h2`
@@ -77,7 +89,7 @@ const styles = {
 };
 
 function MyProjectManagement() {
-  const userId = useRecoilValue(userIdState);
+  const nickname = useRecoilValue(nicknameState);
   const { id } = useParams();
   const navigate = useNavigate();
   const onProfileClick = () => {
@@ -87,11 +99,7 @@ function MyProjectManagement() {
     navigate(`/myproject/${id}/management/story`);
   };
   const onRewardClick = () => {
-    navigate(`/myproject/${id}/management/reward`, {
-      state: {
-        userId: userId,
-      },
-    });
+    navigate(`/myproject/${id}/management/reward`);
   };
   const profileMatch = useMatch(`/myproject/${id}/management/profile`);
   const storyMatch = useMatch(`/myproject/${id}/management/story`);
@@ -106,18 +114,18 @@ function MyProjectManagement() {
                 <ProjectManagementSidebarProfileBox>
                   <ProjectManagementSidebarProfileImg src="/photo/profile.png" />
                   <ProjectManagementSidebarProfileTitle>
-                    창작자 님의 프로젝트
+                    {nickname} 님의 프로젝트
                   </ProjectManagementSidebarProfileTitle>
                 </ProjectManagementSidebarProfileBox>
                 <ProjectManagementSidebarMenu isActive={profileMatch !== null}>
-                  <button onClick={onProfileClick}>창작자 프로필 등록</button>
+                  <button onClick={onProfileClick}>창작자 프로필 수정</button>
                 </ProjectManagementSidebarMenu>
                 <ProjectManagementSidebarMenu isActive={storyMatch !== null}>
-                  <button onClick={onStoryClick}>프로젝트 정보 등록</button>
+                  <button onClick={onStoryClick}>프로젝트 정보 수정</button>
                 </ProjectManagementSidebarMenu>
 
                 <ProjectManagementSidebarMenu isActive={rewardMatch !== null}>
-                  <button onClick={onRewardClick}>리워드 정보 등록</button>
+                  <button onClick={onRewardClick}>리워드 정보 수정</button>
                 </ProjectManagementSidebarMenu>
               </ProjectManagementSidebarBox>
             </ProjectManagementSidebarMain>
