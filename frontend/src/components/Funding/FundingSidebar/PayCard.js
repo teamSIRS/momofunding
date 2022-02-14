@@ -53,7 +53,12 @@ const FundingBtn = styled.button`
   }
 `;
 
-function PayCard() {
+function PayCard({rewardData}) {
+  
+
+
+
+
   //후원하기 버튼을 누르면 swagger에 써있는 requestbody의 정보들이 전부 같이 넘어가야함
   function getPayLink(event) {
     const baseUrl = "http://localhost:8080";
