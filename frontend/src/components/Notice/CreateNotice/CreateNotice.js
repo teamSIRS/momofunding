@@ -4,7 +4,7 @@ import { Container, Col, Row } from "react-bootstrap";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import setAuthorizationToken from "../../../atoms";
+import setAuthorizationToken, { roleState } from "../../../atoms";
 import { useRecoilValue } from "recoil";
 import { userIdState } from "../../../atoms";
 
@@ -69,6 +69,7 @@ const styles = {
 
 function CreateNotice() {
   const userId = useRecoilValue(userIdState);
+  const role = useRecoilValue(roleState);
 
   const baseUrl = "http://localhost:8080";
   const navigate = useNavigate();

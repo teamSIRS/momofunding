@@ -4,6 +4,8 @@ import { Container, Col, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import setAuthorizationToken from "../../../atoms";
+import { useRecoilValue } from "recoil";
+import { roleState } from "../../../atoms";
 
 const NoticeDetailMain = styled.div`
   background-color: whitesmoke;
@@ -68,6 +70,8 @@ const styles = {
 function NoticeDetail() {
   const baseUrl = "http://localhost:8080";
   const navigate = useNavigate();
+  const role = useRecoilValue(roleState);
+  const isAdmin = role === "ADMIN";
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -156,7 +160,12 @@ function NoticeDetail() {
   }, []);
   return (
     <div>
-      <NoticeDetailMainTitle>글 수정, 삭제하기</NoticeDetailMainTitle>
+      {isAdmin ? (
+        <NoticeDetailMainTitle>글 수정, 삭제하기</NoticeDetailMainTitle>
+      ) : (
+        <NoticeDetailMainTitle>글 보기</NoticeDetailMainTitle>
+      )}
+
       <Container>
         <Row style={styles.row}>
           <Col style={styles.col}>
@@ -177,12 +186,22 @@ function NoticeDetail() {
                 </NoticeDetailInputBox>
 
                 <NoticeDetailInputBox>
-                  <NoticeDetailBtn onClick={deleteNotice} BtnBgColor={"red"}>
-                    글 삭제
-                  </NoticeDetailBtn>
-                  <NoticeDetailBtn onClick={updateNotice} BtnBgColor={"green"}>
-                    글 수정
-                  </NoticeDetailBtn>
+                  {isAdmin && (
+                    <>
+                      <NoticeDetailBtn
+                        onClick={deleteNotice}
+                        BtnBgColor={"red"}
+                      >
+                        글 삭제
+                      </NoticeDetailBtn>
+                      <NoticeDetailBtn
+                        onClick={updateNotice}
+                        BtnBgColor={"green"}
+                      >
+                        글 수정
+                      </NoticeDetailBtn>
+                    </>
+                  )}
                   <NoticeDetailBtn onClick={goBackToList}>목록</NoticeDetailBtn>
                 </NoticeDetailInputBox>
               </NoticeDetailForm>

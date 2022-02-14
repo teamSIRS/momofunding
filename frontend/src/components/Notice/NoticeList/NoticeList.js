@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import moment from "moment";
 
 const NoticeListMain = styled.div`
   width: 90%;
@@ -10,7 +11,7 @@ const NoticeListMain = styled.div`
 
   align-items: center;
   margin: auto;
-  background-color: gray;
+  background-color: #fffffe;
 `;
 
 const NoticeListContentBox = styled.div`
@@ -22,12 +23,19 @@ const NoticeListContent = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 0px 20px;
+  border-top: solid 1px #000110;
+  border-bottom: solid 1px #000110;
 `;
 
 const NoticeListContentTitle = styled.div`
   font-size: 20px;
   margin-top: 20px;
+  color: black;
 `;
+
+const NoticeListNumber = styled(NoticeListContentTitle)``;
+
+const NoticeListContentWriter = styled(NoticeListContentTitle)``;
 
 const NoticeListContentDate = styled(NoticeListContentTitle)``;
 
@@ -84,14 +92,18 @@ function NoticeList() {
       <NoticeListMain>
         <NoticeListContentBox>
           {data
-            ? data.map((notice) => (
+            ? data.map((notice, index) => (
                 <NoticeListContent key={notice.id}>
+                  <NoticeListNumber>{index + 1}</NoticeListNumber>
                   <Link to={`/notices/${notice.id}`}>
                     <NoticeListContentTitle>
                       {notice.title}
                     </NoticeListContentTitle>
                   </Link>
-                  <NoticeListContentDate>2022.01.11</NoticeListContentDate>
+                  <NoticeListContentWriter>관리자</NoticeListContentWriter>
+                  <NoticeListContentDate>
+                    {moment(notice.registerTime).format("YYYY-MM-DD HH:mm:ss")}
+                  </NoticeListContentDate>
                 </NoticeListContent>
               ))
             : null}

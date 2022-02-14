@@ -40,6 +40,8 @@ const styles = {
 
 function Notice() {
   const navigate = useNavigate();
+  const role = useRecoilValue(roleState);
+  const isAdmin = role === "ADMIN";
   const GoToCreateNotice = () => {
     navigate("/notices/create");
   };
@@ -50,9 +52,11 @@ function Notice() {
         <Row style={styles.row}>
           <Col sm={12} style={styles.col}>
             <NoticeMain>
-              <NoticeMainBtn as={"button"} onClick={GoToCreateNotice}>
-                글 작성
-              </NoticeMainBtn>
+              {isAdmin && (
+                <NoticeMainBtn as={"button"} onClick={GoToCreateNotice}>
+                  글 작성
+                </NoticeMainBtn>
+              )}
               <NoticeList />
             </NoticeMain>
           </Col>
