@@ -10,6 +10,10 @@ export const StyledCard = styled(Card)<{ height: string; width: string }>`
   height: ${({ height }) => height};
   overflow: hidden;
   color: white;
+  transition: cubic-bezier(0.86, 0, 0.07, 1);
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 export const StyledCardImg = styled(Card.Img)`

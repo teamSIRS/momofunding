@@ -5,7 +5,7 @@ export const StyledSpan = styled.span`
   font-weight: 900;
   font-size: 15px;
   border: 0px;
-  border-radius: 15px;
+  border-radius: 12px;
   padding: 3px;
 
   ${({ color }) => {
