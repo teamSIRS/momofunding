@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 @Tag(name = "Survey Answer API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/survey-answers")
+@RequestMapping("/api/survey-answers")
 public class SurveyAnswerApiController {
     private final SurveyAnswerService surveyAnswerService;
 

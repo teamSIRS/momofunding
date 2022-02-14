@@ -22,7 +22,7 @@ import java.util.NoSuchElementException;
 @Tag(name = "Notice API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/notices")
+@RequestMapping("/api/notices")
 public class NoticeApiController {
     private final NoticeService noticeService;
 

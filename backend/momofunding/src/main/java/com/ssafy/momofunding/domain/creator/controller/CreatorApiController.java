@@ -19,7 +19,7 @@ import java.util.Map;
 @Tag(name = "Creator API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/creators")
+@RequestMapping("/api/creators")
 public class CreatorApiController {
 
     private final CreatorService creatorService;

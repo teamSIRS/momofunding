@@ -20,7 +20,7 @@ import java.util.Map;
 @Tag(name = "Reward API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rewards")
+@RequestMapping("/api/rewards")
 public class RewardApiController {
 
     private final RewardService rewardService;

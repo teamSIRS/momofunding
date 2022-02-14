@@ -23,7 +23,7 @@ import java.util.Map;
 @Tag(name = "Pay API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/payment")
+@RequestMapping("/api/payment")
 public class PayApiController {
 
     private final RewardOrderService rewardOrderService;
