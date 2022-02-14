@@ -59,7 +59,7 @@ const ProjectManagementContentTextarea = styled(ProjectManagementContentInput)`
 `;
 
 const ProjectManagementContentProfileBtn = styled.button`
-  margin: 0px 10px;
+  margin-left: 45px;
 `;
 
 const ProjectManagementContentProfileRadio = styled.label`
@@ -146,7 +146,7 @@ function ProjectManagementContentReward() {
     saveRewards();
   }
   //////////////////////////////////////////////////////////////////////
-  function getRewards(data) {
+  function getRewards() {
     const getRewards = async () => {
       await axios({
         url: `/rewards/projects/${projectId}`,
@@ -164,7 +164,7 @@ function ProjectManagementContentReward() {
           setDeliverStartDate(response.data[0].deliverStartDate);
         })
         .catch((error) => {
-          console.log("에러발생");
+          console.log("에러발생가져오기");
           console.log(error);
         });
     };
@@ -383,9 +383,6 @@ function ProjectManagementContentReward() {
             </ProjectManagementContentProfileBtn>
             <ProjectManagementContentProfileBtn onClick={updateRewards}>
               리워드 수정
-            </ProjectManagementContentProfileBtn>
-            <ProjectManagementContentProfileBtn onClick={deleteRewards}>
-              리워드 삭제
             </ProjectManagementContentProfileBtn>
           </div>
         </ProjectManagementContentForm>

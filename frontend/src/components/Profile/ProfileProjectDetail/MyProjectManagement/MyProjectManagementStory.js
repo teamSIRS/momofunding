@@ -88,15 +88,9 @@ const ProjectManagementContentProfileBtn = styled.button`
   background-color: green;
 `;
 
-const ProjectManagementContentProfileDeleteBtn = styled(
-  ProjectManagementContentProfileBtn
-)`
-  margin-left: 20px;
-  background-color: red;
-`;
-
 function MyProjectManagementStory() {
   const [projectCategoryId, setProjectCategoryId] = useState(0);
+  const [projectState, setProjectState] = useState(0);
   const [projectName, setProjectName] = useState("");
   const [fundingGoal, setFundingGoal] = useState(0);
   const [mainImageUrl, setMainImageUrl] = useState("");
@@ -104,7 +98,7 @@ function MyProjectManagementStory() {
   const [summary, setSummary] = useState("");
   const [projectContent, setProjectContent] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
-
+  const [buttonState, setButtonState] = useState(false);
   //////////////////////////////////////////////////////////////////////
   // onChangeEvent...
   const onProjectCategoryIdChange = (event) =>
@@ -136,6 +130,7 @@ function MyProjectManagementStory() {
         .then((response) => {
           console.log(response.data);
           setProjectCategoryId(response.data.projectCategoryId);
+          setProjectState(response.data.projectStateId);
           setProjectName(response.data.projectName);
           setFundingGoal(response.data.fundingGoal);
           setMainImageUrl(response.data.mainImageUrl);
@@ -143,6 +138,15 @@ function MyProjectManagementStory() {
           setSummary(response.data.summary);
           setProjectContent(response.data.projectContent);
           setExpirationDate(response.data.expirationDate);
+
+          console.log("프로젝트 상태");
+          if (
+            response.data.projectStateId === 2 ||
+            response.data.projectStateId === 3
+          ) {
+            setButtonState(true);
+          }
+          console.log(response.data.projectStateId);
         })
         .catch((error) => {
           console.log(error);
@@ -200,27 +204,6 @@ function MyProjectManagementStory() {
     };
     updateProject();
   };
-  //////////////////////////////////////////////////////////////////////
-  // const navigate = useNavigate();
-
-  // function deleteProject() {
-  //   const deleteProject = async () => {
-  //     await axios({
-  //       url: `/projects/${id}`,
-  //       method: "delete",
-  //       headers: setAuthorizationToken(),
-  //       baseURL: baseUrl,
-  //     })
-  //       .then((response) => {
-  //         console.log(response.data);
-  //         navigate("/");
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   };
-  //   deleteProject();
-  // }
 
   //////////////////////////////////////////////////////////////////////
   useEffect(() => {
@@ -380,7 +363,10 @@ function MyProjectManagementStory() {
             />
           </ProjectManagementContentInputBox>
           <div>
-            <ProjectManagementContentProfileBtn onClick={updateProject}>
+            <ProjectManagementContentProfileBtn
+              onClick={updateProject}
+              disabled={buttonState}
+            >
               프로젝트 수정
             </ProjectManagementContentProfileBtn>
           </div>
