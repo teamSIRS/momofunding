@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import setAuthorizationToken from "../../../atoms";
+import { useRecoilValue } from "recoil";
+import { userIdState } from "../../../atoms";
 
 const CreateNoticeMain = styled.div`
   background-color: whitesmoke;
@@ -38,7 +40,7 @@ const CreateNoticeInput = styled.input`
   border-radius: 5px;
   border-color: transparent;
   padding: 5px;
-  background-color: #e3e3ef;
+  background-color: #fffffc;
   &:focus {
     outline: 1px solid #6667ab;
   }
@@ -66,6 +68,8 @@ const styles = {
 };
 
 function CreateNotice() {
+  const userId = useRecoilValue(userIdState);
+
   const baseUrl = "http://localhost:8080";
   const navigate = useNavigate();
   const {
@@ -78,7 +82,6 @@ function CreateNotice() {
 
   //////////////////////////////////////////////////////
   // 나중에 직접 userId로 설정해야함
-  const userId = 17;
   //////////////////////////////////////////////////////
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");

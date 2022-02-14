@@ -4,8 +4,13 @@ import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import { nicknameState, isLoginState, userIdState } from "../../../../../atoms";
-import swal from 'sweetalert';
+import {
+  nicknameState,
+  isLoginState,
+  userIdState,
+  roleState,
+} from "../../../../../atoms";
+import swal from "sweetalert";
 
 const LoginBackGround = styled.div`
   display: flex;
@@ -159,6 +164,7 @@ function LoginButton() {
   // 로그인
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userId, setUserId] = useRecoilState(userIdState);
+  const [role, setRole] = useRecoilState(roleState);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -183,12 +189,15 @@ function LoginButton() {
           setUserId(response.data.id);
           setNickname(response.data.nickname);
           setIsLogin(true);
+          setRole(response.data.role);
           navigate("/");
           setShow(false);
         })
         .catch((error) => {
           console.log(error);
-          swal('로그인 실패',"아이디와 비밀번호를 확인하세요", "warning", {button: false});
+          swal("로그인 실패", "아이디와 비밀번호를 확인하세요", "warning", {
+            button: false,
+          });
         });
     };
     signin();

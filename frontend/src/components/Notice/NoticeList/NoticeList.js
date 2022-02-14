@@ -44,7 +44,7 @@ const NoticeListPage = styled.div`
 `;
 
 function NoticeList() {
-  let active = 2;
+  let active = 1;
   let items = [];
   for (let number = 1; number <= 5; number++) {
     items.push(

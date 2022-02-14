@@ -9,6 +9,12 @@ export const nicknameState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const roleState = atom({
+  key: "role",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
 export const isLoginState = atom({
   key: "isLogin",
   default: false,
@@ -49,7 +55,7 @@ export function setAuthorizationEmailToken(token) {
   return config;
 }
 
-export function comma(str){
+export function comma(str) {
   str = String(str);
-  return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+  return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
 }

@@ -2,6 +2,8 @@ import { Container, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import NoticeList from "./NoticeList/NoticeList";
+import { useRecoilValue } from "recoil";
+import { roleState } from "../../atoms";
 
 const NoticeMain = styled.div`
   background-color: whitesmoke;
