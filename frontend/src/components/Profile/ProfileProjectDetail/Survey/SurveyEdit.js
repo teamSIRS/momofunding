@@ -104,13 +104,13 @@ function SurveyEdit({ survey, onRemove }) {
 
 
   async function getSurvey(surveyId){
-    await axios.get(baseUrl + '/surveys/' + surveyId + '/answers')
+    await axios.get(baseUrl + '/surveys/' + surveyId)
     .then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setSelectedSurvey(res.data);
-      setEndDate(selectedSurvey.endDate);
-      setTitle(selectedSurvey.title);
-      setContent(selectedSurvey.content);
+      setEndDate(res.data.endDate);
+      setTitle(res.data.title);
+      setContent(res.data.content);
     })
     .catch((err) => {
       console.log(err);

@@ -6,6 +6,7 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import { nicknameState, isLoginState, userIdState } from "../../../../../atoms";
 import swal from 'sweetalert';
+import { baseUrl } from '../../../../../App';
 
 const LoginBackGround = styled.div`
   display: flex;
@@ -150,7 +151,6 @@ function LoginButton() {
     navigate("/signup");
     setShow(false);
   };
-  const baseUrl = "http://localhost:8080";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);

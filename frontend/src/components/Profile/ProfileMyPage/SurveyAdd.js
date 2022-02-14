@@ -40,7 +40,7 @@ const SurveyAddInputBox = styled.div``;
 const SurveyAddInput = styled.input``;
 const SurveyAddInputSelect = styled.select``;
 const SurveyAddLabel = styled.label`
-  font-size: 20px;
+  font-size: 16px;
   margin-right: 20px;
 `;
 
@@ -115,12 +115,13 @@ function SurveyAdd({surveys, Survey}) {
   }
 
   const AddSurveyQuest = async(id, type, title) =>{
+    // 설문조사 title 등록
     await axios({
       url: `${baseUrl}/survey-questions`,
       method: "post",
       data:{
         surveyId: id,
-        questionType: type,
+        questionTypeId: type,
         //객관식1 주관식2
         title: title,
       },
@@ -131,9 +132,23 @@ function SurveyAdd({surveys, Survey}) {
     })
     .catch((err) =>{
       console.log(err);
+      swal('질문을 입력해주세요', {icon: "warning"});
     })
   };
 
+  const Test = async() => {
+    await axios({
+      url: 'http://localhost:8080/survey-questions/',
+      method: "get",
+      headers: setAuthorizationToken(),
+    })
+    .then((res)=>{
+      console.log(res.data);
+    })
+    .catch((err) =>{
+      console.log(err);
+    })
+  }
 
   const [selectedNum, setSelectedNum] = useState("선택하세요");
   const selectList = ["선택하세요", "객관식", "주관식"];
@@ -141,8 +156,11 @@ function SurveyAdd({surveys, Survey}) {
     setSelectedNum(event.target.value);
   };
 
+  
+
   return (
     <>
+      <p onClick={Test}>test</p>
       <SurveyModalBtn onClick={handleShow}>추가</SurveyModalBtn>
 
       <Modal show={show} onHide={handleClose}>
@@ -186,7 +204,8 @@ function SurveyAdd({surveys, Survey}) {
                 }}
               />
             </SurveyAnsInput>
-            <Button onClick={()=>{AddSurvey();}}>질문 등록</Button>
+
+            <Button onClick={()=>{AddSurvey();swal('이제 질문을 등록해주세요');}}>설문조사 등록</Button>
           </form>
           <br/> 
         {/*  */}
@@ -206,7 +225,8 @@ function SurveyAdd({surveys, Survey}) {
                   {selectedNum === "선택하세요" ? <SurveySelect /> : null}
                   {selectedNum === "객관식" 
                     ? <SurveyNum 
-
+                        AddSurveyQuest={AddSurveyQuest} 
+                        surveyId={surveys[surveys.length-1].id}
                       /> 
                     : null}
                   {selectedNum === "주관식" 

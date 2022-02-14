@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { Button } from 'react-bootstrap';
 import { shortAnsQuestionSelector, shortAnsQuestionTitleState } from "../atoms";
 import axios from 'axios';
 import { baseUrl } from '../../../../App';
@@ -40,22 +41,12 @@ function SurveyShortAns({ surveyId, AddSurveyQuest }) {
     setValue("shortAnsQuestion", "");
   };
 
-  const[title, setTitle] = useState();
   const [id, setId] = useState(surveyId);
+  const [title, setTitle] = useState();
   const [questionType, setQuestionType] = useState(2);
 
   return (
     <div>
-      {/* <SurveyShortAnsLabel>[ 설문조사 종료 일시 ]</SurveyShortAnsLabel>
-      <form>
-        <SurveyShortAnsInput>
-          <input
-            type="datetime-local"
-            required
-            onChange={(e) =>{setEndDate(e.target.value);}}
-          />
-        </SurveyShortAnsInput>
-      </form> */}
       <SurveyShortAnsLabel>[ 주관식 질문 등록 ]</SurveyShortAnsLabel>
       <form onSubmit={handleSubmit(onQuestionValid)}>
         <SurveyShortAnsInput>
@@ -70,12 +61,13 @@ function SurveyShortAns({ surveyId, AddSurveyQuest }) {
           /> */}
           <input
             required
-            placeholder="주관식 질문"
+            placeholder="주관식 질문을 입력하고 질문 등록을 눌러주세요"
             onChange={(e) => {setTitle(e.target.value);}}
           />
         </SurveyShortAnsInput>
-        <button onClick={()=>{console.log(id, questionType, title);
-          AddSurveyQuest(id, questionType, title);setTitle("");}}>질문 등록</button>
+        <Button onClick={() =>{AddSurveyQuest(id, questionType, title); 
+            swal('질문이 등록되었습니다', {icon: 'success'});
+          }}>질문 등록</Button>
       </form>
       {/* <SurveyShortAnsLabel>[ 등록한 주관식 질문 ]</SurveyShortAnsLabel> */}
       {/* <SurveyShortAnsP>Q : {shortAnsQuestion}</SurveyShortAnsP> */}
