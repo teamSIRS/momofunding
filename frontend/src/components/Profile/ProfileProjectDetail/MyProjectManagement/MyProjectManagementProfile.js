@@ -8,6 +8,8 @@ import setAuthorizationToken, {
   userIdState,
 } from "../../../../atoms";
 import { useRecoilValue } from "recoil";
+import { baseUrl } from "../../../../App";
+
 const ProjectManagementMain = styled.div`
   width: 100%;
   min-height: 800px;
@@ -89,7 +91,6 @@ const ProjectManagementContentProfileBtn = styled.button`
 `;
 
 function MyProjectManagementProfile() {
-  const baseUrl = "http://localhost:8080";
   // 프로젝트 id
   const { id } = useParams();
   // 사용자 id

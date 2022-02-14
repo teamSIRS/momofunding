@@ -6,6 +6,7 @@ import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 
@@ -46,8 +47,6 @@ public class Creator extends AuditBaseEntity {
     @PrePersist
     public void initializer(){
         creatorName = "";
-        creatorImageUrl = "http://localhost:8080/creator/default.png";
-        creatorImagePath = "C:\\SSAFY\\Temp\\upload\\creator\\default.png";
         creatorContent = "";
         email = "";
         tel = "";

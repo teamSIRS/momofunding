@@ -4,6 +4,7 @@ import { Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
+import { baseUrl } from "../../../App";
 
 const NoticeListMain = styled.div`
   width: 90%;
@@ -62,7 +63,6 @@ function NoticeList() {
     );
   }
   //////////////////////////////////////////////////////////////////////
-  const baseUrl = "http://localhost:8080";
   const [data, setData] = useState([]);
 
   //////////////////////////////////////////////////////////////////////

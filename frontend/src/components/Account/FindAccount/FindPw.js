@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Info, InputForm, Input, Btn } from "./styles";
+import { baseUrl } from "../../../App";
 
 const styles = {
   input: {
@@ -11,7 +12,6 @@ const styles = {
 
 function FindPw() {
   const navigate = useNavigate();
-  const baseUrl = "http://localhost:8080";
   const [email, setEmail] = useState("");
   const onEmailChange = (event) => {
     setEmail(event.target.value);
