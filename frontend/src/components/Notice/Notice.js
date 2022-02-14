@@ -2,6 +2,8 @@ import { Container, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import NoticeList from "./NoticeList/NoticeList";
+import { useRecoilValue } from "recoil";
+import { roleState } from "../../atoms";
 
 const NoticeMain = styled.div`
   background-color: whitesmoke;
@@ -38,6 +40,8 @@ const styles = {
 
 function Notice() {
   const navigate = useNavigate();
+  const role = useRecoilValue(roleState);
+  const isAdmin = role === "ADMIN";
   const GoToCreateNotice = () => {
     navigate("/notices/create");
   };
@@ -48,9 +52,11 @@ function Notice() {
         <Row style={styles.row}>
           <Col sm={12} style={styles.col}>
             <NoticeMain>
-              <NoticeMainBtn as={"button"} onClick={GoToCreateNotice}>
-                글 작성
-              </NoticeMainBtn>
+              {isAdmin && (
+                <NoticeMainBtn as={"button"} onClick={GoToCreateNotice}>
+                  글 작성
+                </NoticeMainBtn>
+              )}
               <NoticeList />
             </NoticeMain>
           </Col>

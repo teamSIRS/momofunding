@@ -4,9 +4,19 @@ import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
 import { useRecoilState } from "recoil";
+<<<<<<< HEAD
 import { nicknameState, isLoginState, userIdState } from "../../../../../atoms";
 import swal from "sweetalert";
 import { baseUrl } from "../../../../../App";
+=======
+import {
+  nicknameState,
+  isLoginState,
+  userIdState,
+  roleState,
+} from "../../../../../atoms";
+import swal from "sweetalert";
+>>>>>>> 865422751b1c7e0e46f74321b8c72ab439af715f
 
 const LoginBackGround = styled.div`
   display: flex;
@@ -160,6 +170,7 @@ function LoginButton() {
   // 로그인
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userId, setUserId] = useRecoilState(userIdState);
+  const [role, setRole] = useRecoilState(roleState);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -184,6 +195,7 @@ function LoginButton() {
           setUserId(response.data.id);
           setNickname(response.data.nickname);
           setIsLogin(true);
+          setRole(response.data.role);
           navigate("/");
           setShow(false);
         })
