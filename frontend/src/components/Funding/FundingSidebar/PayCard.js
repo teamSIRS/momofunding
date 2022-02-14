@@ -90,6 +90,7 @@ function PayCard({props}) {
         alert("이메일을 입력해주세요!");
         return false;
       }
+      return true;
     }
 
     event.preventDefault();
@@ -116,7 +117,6 @@ function PayCard({props}) {
         baseURL: baseUrl, // 위에서 말한 baseURL 설정
       }) // 여기까지가 axios 보내는 정보
         .then((response) => {
-          console.log(response);
           const popUp = window.open(
             response.data.url,
             "카카오 페이 결제",

@@ -68,7 +68,7 @@ function Funding(){
           <FundingSidebar
             reward = {location.state.data.reward}
             amount = {location.state.data.amount}
-            projectId = {location.state.data.projectId}
+            projectId = {location.state.data.project.id}
             total = {Number(total)+Number(extra)}
             name = {name}
             tel = {tel}
