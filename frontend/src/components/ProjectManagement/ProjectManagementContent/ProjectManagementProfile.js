@@ -80,7 +80,9 @@ const ProjectManagementContentImgInput = styled.input`
   /* display: none; */
 `;
 
-const ProjectManagementContentProfileBtn = styled.button``;
+const ProjectManagementContentProfileBtn = styled.button`
+  margin-left: 48px;
+`;
 
 function ProjectManagementProfile() {
   const baseUrl = "http://localhost:8080";
@@ -96,6 +98,7 @@ function ProjectManagementProfile() {
   const [tel, setTel] = useState("");
   const [account, setAccount] = useState("");
 
+  const defaultMsg = "http://localhost:8080/creator/default.png";
   //////////////////////////////////////////////////////////////////////
   // onChangeEvent...
   const onCreatorNameChange = (event) => {
@@ -103,12 +106,6 @@ function ProjectManagementProfile() {
   };
   const onCreatorImageUrlChange = (event) => {
     setCreatorImageUrl("");
-    //여기는 창작자가 에디터 화면에서 이미지를 삭제했을 때 "" 값으로 바꿔주는 동작만 되면 됩니다.
-    // console.log(event.target.value.split("\\", 3)[2]);
-    // setCreatorImageUrl(imgBaseUrl + event.target.value.split("\\", 3)[2]);
-    // setCreatorImageUrl(imgBaseUrl + projectId + "_creator.jpg");
-    // console.log(imgBaseUrl + projectId + "_creator.jpg");
-    // src="http://localhost:8080/images/creator/22_creator.jpg"
   };
   const onCreatorContentChange = (event) => {
     setCreatorContent(event.target.value);
@@ -122,9 +119,6 @@ function ProjectManagementProfile() {
   const onAccountChange = (event) => {
     setAccount(event.target.value);
   };
-  //////////////////////////////////////////////////////////////////////
-  // 이거는 나중에 로그인한 회원의 아이디로 바꿔야함
-
   //////////////////////////////////////////////////////////////////////
   // get으로 사용자의 기존정보를 불러오기
   function getCreator() {
@@ -144,7 +138,7 @@ function ProjectManagementProfile() {
           if (response.data.creatorImageUrl) {
             setCreatorImageUrl(response.data.creatorImageUrl);
           } else {
-            setCreatorImageUrl("");
+            setCreatorImageUrl("http://localhost:8080/creator/default.png");
           }
           if (response.data.creatorContent) {
             setCreatorContent(response.data.creatorContent);
@@ -201,7 +195,6 @@ function ProjectManagementProfile() {
       // 위에서 json으로 만든 data를 넣고 new Blob(미디어파일을 보내기 위함)에 넣기 type도 지정
     );
     formData.append("creatorImage", $("#file")[0].files[0]);
-    //formData.append("creatorImage", null);
 
     const updateCreator = async () => {
       await axios({
@@ -216,6 +209,7 @@ function ProjectManagementProfile() {
         .then((response) => {
           console.log("성공");
           console.log(response.data);
+          window.location.reload(true);
         })
         .catch((error) => {
           console.log("에러발생");
@@ -271,7 +265,11 @@ function ProjectManagementProfile() {
             </ProjectManagementContentImgLabel>
             <ProjectManagementContentImgBox>
               <ProjectManagementContentImg
-                src={`http://localhost:8080/images/creator/${projectId}_creator.jpg`}
+                src={
+                  creatorImageUrl === defaultMsg
+                    ? "/photo/profile.png"
+                    : creatorImageUrl
+                }
                 alt="example-image"
               ></ProjectManagementContentImg>
             </ProjectManagementContentImgBox>

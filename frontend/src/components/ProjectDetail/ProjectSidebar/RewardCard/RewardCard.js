@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { IonIcon } from "@ionic/react";
 import { caretUp, caretDown } from "ionicons/icons";
 import { comma } from '../../../../atoms';
+import { useNavigate } from "react-router-dom";
 
 const Card = styled(InfoCard)`
   height: auto;
@@ -99,6 +100,7 @@ function RewardCard(props) {
   const [amount, setAmount] = useState(0);
   const [clicked, setClicked] = useState(false);
   const deliveryDate = new Date(props.rewards.deliverStartDate);
+
   function countUp(){
       setAmount(amount+1);
   }
@@ -106,6 +108,17 @@ function RewardCard(props) {
       if(amount > 0){
           setAmount(amount-1);
       }
+  }
+
+  const navigate = useNavigate();
+
+  const goToPay = () => {
+    const data = {
+      reward: props.rewards,
+      amount: amount
+    };
+    navigate(`/funding`, { state: {data: data} });
+    window.scrollTo(0, 0);
   }
 
   return (
@@ -141,7 +154,7 @@ function RewardCard(props) {
                 <CountDown icon={caretDown} onClick={countDown}/>                  
             </Amount>
             <Space2/>
-            <FundBtn onClick={() => {console.log(amount)}}>후원하기</FundBtn>
+            <FundBtn onClick={() => {goToPay()}}>후원하기</FundBtn>
           </Amounts>
         )
         : null

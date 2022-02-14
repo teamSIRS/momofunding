@@ -36,6 +36,7 @@ import { baseUrl } from "../../../../App";
 import LiveMain from "../../LiveMain";
 import { userIdState } from "../../../../atoms";
 import { SelectedSurveyState } from "../../LiveMain/Surveys/SurveyList/SurveyList";
+import { useParams } from "react-router-dom";
 
 const OPENVIDU_SERVER_URL = "https://i6a202.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "9793";
@@ -52,6 +53,10 @@ const sessionIdSelector = selector({
   },
 });
 
+const sessionType = {
+  on: () => {},
+};
+
 const pubType = {
   publishVideo: () => true,
   publishAudio: () => true,
@@ -63,6 +68,7 @@ const msgType = {
 };
 
 export const RTCRenderer = () => {
+  const projectId = useParams().id;
   const [camActive, setCamActive] = useRecoilState(camState);
   const [micActive, setMicActive] = useRecoilState(micState);
   const [publisher, setPublisher] = useState(pubType);
@@ -76,7 +82,7 @@ export const RTCRenderer = () => {
 
   var isCreated = false;
 
-  let session = undefined;
+  let session = sessionType;
   // const sessionId = useRecoilValue(sessionIdSelector);
   const sessionId = "gfbcde1wg1e2dsad";
 
@@ -197,10 +203,6 @@ export const RTCRenderer = () => {
       setMessage(data);
     });
 
-    session.on(`signal:${curSurvey}`, (e) => {
-      console.log(e.data);
-    });
-
     getToken(sessionId).then((token) => {
       session
         .connect(token)
@@ -255,6 +257,14 @@ export const RTCRenderer = () => {
     }
   }, [message]);
 
+  // survey 관련
+  useEffect(() => {
+    console.log("curSurvey changed!");
+    session.on(`signal:${curSurvey}`, (e) => {
+      console.log(e.data);
+    });
+  }, [curSurvey]);
+
   const onTitleChange = (event) => {
     console.log(event);
     setTitle(event.target.value);
@@ -274,7 +284,7 @@ export const RTCRenderer = () => {
       data: {
         title: title,
         content: content,
-        projectId: 1,
+        projectId: projectId,
         projectCategoryId: 1,
         sessionId: sessionId,
       },
