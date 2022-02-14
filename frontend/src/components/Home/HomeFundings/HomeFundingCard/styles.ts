@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const StyledCard = styled(Card)<{ height: string; width: string }>`
+  position: flex;
+  /* justify-self: center; */
   border-radius: 20px;
   width: ${({ width }) => width};
-  margin: 10px;
+  margin: auto;
   border: 0px;
   height: ${({ height }) => height};
   overflow: hidden;
