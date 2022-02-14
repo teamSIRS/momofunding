@@ -105,8 +105,22 @@ function MyProjectManagementStory() {
     setProjectCategoryId(event.target.value);
   const onProjectNameChange = (event) => setProjectName(event.target.value);
   const onFundingGoalChange = (event) => setFundingGoal(event.target.value);
-  const onMainImageUrlChange = (event) => setMainImageUrl("");
-  const onSubImageUrlChange = (event) => setSubImageUrl("");
+  const onMainImageUrlChange = (event) => {
+    const tempImg = event.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function(e){
+      setMainImageUrl(e.target.result);
+    };
+    reader.readAsDataURL(tempImg);
+  }
+  const onSubImageUrlChange = (event) => {
+    const tempImg = event.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function(e){
+      setSubImageUrl(e.target.result);
+    };
+    reader.readAsDataURL(tempImg);
+  }
   const onSummaryChange = (event) => setSummary(event.target.value);
   const onProjectContentChange = (event) =>
     setProjectContent(event.target.value);
@@ -169,7 +183,7 @@ function MyProjectManagementStory() {
       subImageUrl: subImageUrl,
       summary: summary,
       projectContent: projectContent,
-      expirationDate: expirationDate + "T12:00:00",
+      expirationDate: expirationDate,
     };
 
     const form = formRef[0];
@@ -285,6 +299,7 @@ function MyProjectManagementStory() {
               type="file"
               id="mainFile"
               name="mainFile"
+              onChange={onMainImageUrlChange}
             />
             <ProjectManagementContentImgLabel htmlFor="mainFile">
               파일
@@ -309,6 +324,7 @@ function MyProjectManagementStory() {
               type="file"
               id="subFile"
               name="subFile"
+              onChange={onSubImageUrlChange}
             />
             <ProjectManagementContentImgLabel htmlFor="subFile">
               파일
@@ -358,7 +374,7 @@ function MyProjectManagementStory() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentDate
               type="date"
-              value={expirationDate ? expirationDate.slice(0, 10) : null}
+              value={expirationDate ? expirationDate.slice(0, 10)+"T12:00:00" : null}
               onChange={onExpirationDateChange}
             />
           </ProjectManagementContentInputBox>
