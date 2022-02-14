@@ -1,6 +1,5 @@
-import { useState } from "react";
 import styled from "styled-components";
-import { setTextRange } from "typescript";
+import { useEffect, useState } from "react";
 import { Content } from "./styles";
 
 // content 전체 설정
@@ -27,7 +26,7 @@ const FundingContentAddLabel = styled.div`
   margin: 0px 20px;
   width: 80px;
 `;
-const FundingContentAddInput = styled.div`
+const FundingContentAddInput = styled.input`
   width: 250px;
   border-radius: 5px;
   border-color: transparent;
@@ -73,20 +72,42 @@ const styles = {
   },
 };
 
-const FundingContent = (props) => {
+export const FundingContent = (props) => {
   const [extra, setExtra] = useState(0);
   const [name, setName] = useState("");
-  const [tell, setTell] = useState("");
+  const [tel, setTel] = useState("");
   const [shippingAddr, setShippingAddr] = useState("");
+  const [request, setRequest] = useState("");
   const [email, setEmail] = useState("");
+  const [payCheck, setPayCheck] = useState("");
 
-  const setParentExtra = (e) => {
-    setExtra(e.target.value);
+  useEffect(()=>{
     props.getExtra(extra);
-    console.log(extra);
-  }
+  }, [extra]);
 
-  
+  useEffect(()=>{
+    props.getName(name);
+  }, [name]);
+
+  useEffect(()=>{
+    props.getTel(tel);
+  }, [tel]);
+
+  useEffect(()=>{
+    props.getShippingAddr(shippingAddr);
+  }, [shippingAddr]);
+
+  useEffect(()=>{
+    props.getRequest(request);
+  }, [request]);
+
+  useEffect(()=>{
+    props.getEmail(email);
+  }, [email]);
+
+  useEffect(()=>{
+    props.getPaySort(payCheck);
+  }, [payCheck]);
 
   return (
   <Content sm={8}>
@@ -98,8 +119,8 @@ const FundingContent = (props) => {
             추가 금액
           </FundingContentAddLabel>
           <FundingContentAddInput as={"input"}
-            onChange={setParentExtra}
-            value={extra}
+            onChange={e => setExtra(e.target.value)}
+            value = {extra}
           ></FundingContentAddInput>
         </FundingContentAddInputBox>
       </FundingContentAddBox>
@@ -107,28 +128,47 @@ const FundingContent = (props) => {
         <FundingContentInfoTitle>후원자 정보</FundingContentInfoTitle>
         <FundingContentInfoInputBox>
           <FundingContentInfoLabel as={"label"}>이름</FundingContentInfoLabel>
-          <FundingContentInfoInput as={"input"}></FundingContentInfoInput>
+          <FundingContentInfoInput as={"input"}
+            onChange={e => setName(e.target.value)}
+            value = {name}
+          ></FundingContentInfoInput>
         </FundingContentInfoInputBox>
         <FundingContentInfoInputBox>
           <FundingContentInfoLabel as={"label"}>연락처</FundingContentInfoLabel>
-          <FundingContentInfoInput as={"input"}></FundingContentInfoInput>
+          <FundingContentInfoInput as={"input"}
+            onChange={e => setTel(e.target.value)}
+            value = {tel}
+          ></FundingContentInfoInput>
         </FundingContentInfoInputBox>
-        {props.isDeliver
-          ?
+        { props.isDeliver
+        ?
+          <FundingContentInfoInputBox>
+            <FundingContentInfoLabel as={"label"}>배송지</FundingContentInfoLabel>
+            <FundingContentInfoInput
+              as={"input"}
+              style={styles.input}
+              onChange={e => setShippingAddr(e.target.value)}
+              value={shippingAddr}
+            ></FundingContentInfoInput>
             <FundingContentInfoInputBox>
-              <FundingContentInfoLabel as={"label"}>배송지</FundingContentInfoLabel>
-              <FundingContentInfoInput
-                as={"input"}
-                style={styles.input}
-              ></FundingContentInfoInput>
+            <FundingContentInfoLabel as={"label"}>요청사항</FundingContentInfoLabel>
+            <FundingContentInfoInput
+              as={"input"}
+              style={styles.input}
+              onChange={e => setRequest(e.target.value)}
+              value = {request}
+            ></FundingContentInfoInput>
             </FundingContentInfoInputBox>
-          : null
+          </FundingContentInfoInputBox>
+        :null
         }
         <FundingContentInfoInputBox>
           <FundingContentInfoLabel as={"label"}>이메일</FundingContentInfoLabel>
           <FundingContentInfoInput
             as={"input"}
             style={styles.input}
+            onChange={e => setEmail(e.target.value)}
+            value = {email}
           ></FundingContentInfoInput>
         </FundingContentInfoInputBox>
       </FundingContentInfoBox>
@@ -137,7 +177,7 @@ const FundingContent = (props) => {
         <FundingContentPayTitle>결제 정보</FundingContentPayTitle>
 
         <FundingContentPayInputBox>
-          <FundingContentPayInput type="radio" name="payment" value="kakao" />
+          <FundingContentPayInput type="radio" name="payment" value="kakao" onChange={e => setPayCheck(e.target.value)}/>
           <FundingContentPayImg
             src="/socialLoginLogo/kakao-talk.png"
             alt="kakao"
@@ -145,7 +185,7 @@ const FundingContent = (props) => {
           <FundingContentPayLabel>카카오페이로 후원</FundingContentPayLabel>
         </FundingContentPayInputBox>
 
-        <FundingContentPayInputBox>
+        {/* <FundingContentPayInputBox>
           <FundingContentPayInput type="radio" name="payment" value="naver" />
           <FundingContentPayImg src="/socialLoginLogo/naver.png" alt="naver" />
           <FundingContentPayLabel>네이버페이로 후원</FundingContentPayLabel>
@@ -162,12 +202,10 @@ const FundingContent = (props) => {
             alt="credit"
           />
           <FundingContentPayLabel>신용카드 후원</FundingContentPayLabel>
-        </FundingContentPayInputBox>
+        </FundingContentPayInputBox>*/}
 
       </FundingContentPayBox>
     </FundingContentBox>
   </Content>
-  )
+  );
 };
-
-export default FundingContent;
