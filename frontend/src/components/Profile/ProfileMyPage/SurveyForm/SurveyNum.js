@@ -54,7 +54,6 @@ function SurveyNum() {
   const[title, setTitle] = useState("");
   const[content, setContent] = useState("");
   const[endDate, setEndDate] = useState();
-
   const [numQuestionTitle, numQuestions] = useRecoilValue(numQuestionSelector);
   async function saveSurvey(){
     await axios({
@@ -75,7 +74,10 @@ function SurveyNum() {
         console.log(e);
         swal('양식을 정확히 입력해주세요', {icon:"warning"});
       })
-  }
+    }
+    
+    const[questions, setQuestions] = useState();
+
 
   return (
     <div>
@@ -113,6 +115,7 @@ function SurveyNum() {
           />
         </SurveyNumInput>
         <button onClick={()=>{saveSurvey();setContent("");}}>질문 등록</button>
+        <button onClick={()=>{saveSurvey();setContent("");}}>보기 등록</button>
       </form>
       <SurveyNumLabel>[ 등록한 객관식 질문 ]</SurveyNumLabel>
       <br />Q : {numQuestionTitle}

@@ -35,6 +35,7 @@ import setAuthorizationToken, { isLoginState } from "./atoms";
 import { useRecoilState } from "recoil";
 import PaySuccess from "./components/Funding/FundingSidebar/PaySuccess";
 
+// export const baseUrl = "http://i6a204.p.ssafy.io/";
 export const baseUrl = "http://localhost:8080";
 
 function App() {
