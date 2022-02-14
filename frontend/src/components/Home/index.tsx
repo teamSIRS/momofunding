@@ -47,7 +47,7 @@ const Home = () => {
         {isExist ? (
           <StyledStack horizontal>
             {lives.map((live, idx) => (
-              <Link to={`/lives/${live.id}`}>
+              <Link to={`/lives/${live.sessionId}`}>
                 <HomeLiveCard
                   key={idx}
                   idx={idx}

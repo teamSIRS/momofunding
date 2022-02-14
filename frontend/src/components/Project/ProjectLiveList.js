@@ -173,7 +173,7 @@ function ProjectLiveList() {
           <div className="row">
             {isExist ? (
               lives.map((live) => (
-                <ProjectLiveLink to={`/lives/${live.id}`}>
+                <ProjectLiveLink to={`/lives/${live.sessionId}`}>
                   <ProjectLiveCard live={live} key={live.id} />
                 </ProjectLiveLink>
               ))

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import LiveList from "./LiveRecord/LiveList";
 import SurveyBasic from "./Survey/SurveyBasic";
@@ -29,6 +29,7 @@ import {
   SurveyEditText,
   SponsorBox,
   SponsorList,
+  ToNewLiveLink,
 } from "./styles";
 import setAuthorizationToken from "../../../atoms";
 import styled from "styled-components";
@@ -137,7 +138,9 @@ function MyProjectDetail() {
           <ManageBtn>
             <button onClick={goToManagePjt}>프로젝트 관리</button>
           </ManageBtn>
-          <LiveBtn>라이브 켜기</LiveBtn>
+          <ToNewLiveLink to={`/lives/${project.id}/new`}>
+            <LiveBtn>라이브 켜기</LiveBtn>
+          </ToNewLiveLink>
         </BtnBox>
       </ProjectBox>
 
