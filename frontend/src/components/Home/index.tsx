@@ -47,14 +47,14 @@ const Home = () => {
         {isExist ? (
           <StyledStack horizontal>
             {lives.map((live, idx) => (
-              <Link to={`/lives/${live.sessionId}`}>
-                <HomeLiveCard
-                  key={idx}
-                  idx={idx}
-                  title={live.title}
-                  viewer={live.viewerCount}
-                />
-              </Link>
+                <Link to={`/lives/${live.sessionId}`} style={{float:'left'}}>
+                  <HomeLiveCard
+                    key={idx}
+                    idx={idx}
+                    title={live.title}
+                    viewer={live.viewerCount}
+                  />
+                </Link>
             ))}
           </StyledStack>
         ) : (
