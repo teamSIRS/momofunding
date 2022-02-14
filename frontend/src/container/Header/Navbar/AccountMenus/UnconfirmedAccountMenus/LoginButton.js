@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import { nicknameState, isLoginState, userIdState } from "../../../../../atoms";
+import { nicknameState, isLoginState, userIdState, roleState } from "../../../../../atoms";
 import swal from 'sweetalert';
 import { baseUrl } from '../../../../../App';
 
