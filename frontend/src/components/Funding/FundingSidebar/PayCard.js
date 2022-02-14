@@ -3,10 +3,11 @@ import { MomoColor, MomoStrongColor } from "../../../shared/global";
 import { InfoCard, Text } from "./CreatorCard/styles";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
-import setAuthorizationToken, {userIdState} from "../../../atoms"
+import setAuthorizationToken, { userIdState } from "../../../atoms";
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useState } from "react";
 import swal from "sweetalert";
+import { baseUrl } from "../../../App";
 
 const Card = styled(InfoCard)`
   height: 440px;
@@ -58,39 +59,45 @@ const FundingBtn = styled.button`
   }
 `;
 
-function PayCard({props}) {
+function PayCard({ props }) {
   const userId = useRecoilValue(userIdState);
   const [isCheck, setIsCheck] = useState(false);
 
   //후원하기 버튼을 누르면 swagger에 써있는 requestbody의 정보들이 전부 같이 넘어가야함
   function getPayLink(event) {
-    const baseUrl = "http://localhost:8080";
-
     const checkInfo = () => {
-      if(!isCheck){
+      if (!isCheck) {
         swal("후원할 수 없습니다!", "약관에 동의해주세요", "warning");
         return false;
       }
-      if(props.paySort !== "kakao"){
+      if (props.paySort !== "kakao") {
         swal("후원할 수 없습니다!", "결제 수단을 선택해주세요", "warning");
         return false;
       }
-      if(props.name === "" || props.tel === "" || props.email === ""){
-        swal("후원할 수 없습니다!", "후원자 정보를 빠짐없이 입력해주세요.", "warning");
+      if (props.name === "" || props.tel === "" || props.email === "") {
+        swal(
+          "후원할 수 없습니다!",
+          "후원자 정보를 빠짐없이 입력해주세요.",
+          "warning"
+        );
         return false;
-      } 
+      }
 
-      if(props.reward.isDeliver && props.shippingAddr === ""){
-        swal("후원할 수 없습니다!", "후원자 정보를 빠짐없이 입력해주세요.", "warning");
+      if (props.reward.isDeliver && props.shippingAddr === "") {
+        swal(
+          "후원할 수 없습니다!",
+          "후원자 정보를 빠짐없이 입력해주세요.",
+          "warning"
+        );
         return false;
-      } 
+      }
 
       return true;
-    }
+    };
 
     event.preventDefault();
     const getLink = async () => {
-      if(!checkInfo()) return;
+      if (!checkInfo()) return;
       // axios 요청
       await axios({
         url: "/payment/kakao", // 기본 url에 추가로 붙음 => 							 						http://localhost:8080/users/sign-in
@@ -135,9 +142,10 @@ function PayCard({props}) {
         <TotalPrice>{props.total}원</TotalPrice>
       </Top>
       <Check>
-        <Input type="checkbox" 
-        value={isCheck}
-        onChange={e => setIsCheck(!isCheck)}
+        <Input
+          type="checkbox"
+          value={isCheck}
+          onChange={(e) => setIsCheck(!isCheck)}
         />
         <Info>아래 내용에 동의합니다</Info>
       </Check>
