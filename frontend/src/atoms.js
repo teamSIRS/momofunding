@@ -1,13 +1,16 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
-import { OpenVidu } from "openvidu-browser";
 
 const { persistAtom } = recoilPersist();
-var OV = new OpenVidu();
-var publisher = OV.initPublisher("F");
 
 export const nicknameState = atom({
   key: "nickname",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const roleState = atom({
+  key: "role",
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
@@ -52,13 +55,7 @@ export function setAuthorizationEmailToken(token) {
   return config;
 }
 
-export function comma(str){
+export function comma(str) {
   str = String(str);
-  return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+  return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
 }
-
-
-export const asdf = atom({
-  key: "asdfId",
-  default: publisher,
-});
