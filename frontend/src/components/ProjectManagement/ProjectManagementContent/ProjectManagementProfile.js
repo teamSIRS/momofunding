@@ -6,7 +6,6 @@ import { useLocation } from "react-router-dom";
 import setAuthorizationToken, { createProjectIdState } from "../../../atoms";
 import { useRecoilValue } from "recoil";
 import { baseUrl } from "../../../App";
-
 const ProjectManagementMain = styled.div`
   width: 100%;
   min-height: 800px;

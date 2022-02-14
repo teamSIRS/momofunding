@@ -185,9 +185,8 @@ function MyProjectDetail() {
             <Title>설문조사 목록</Title>
 
             <SurveyTextBox>
-
               <SurveyAdd surveys={surveys} Survey={Survey}></SurveyAdd>
-
+              <SurveyResult></SurveyResult>
               {isEdit ? (
                 <SurveyEditText
                   onClick={() => {

@@ -36,7 +36,8 @@ public class ProjectService {
     @Value("${pathSeparator}")
     private String separator;
 
-    private final String imageUrl = "http://localhost:8080/images/";
+    @Value("${imageUrl}")
+    private String imageUrl;
 
     private final ProjectRepository projectRepository;
     private final ProjectStateRepository projectStateRepository;
@@ -55,8 +56,8 @@ public class ProjectService {
 
         Creator creator = new Creator();
         creator.mapProject(project);
-        creator.updateCreatorImageUrl(imagePath+ separator + "creator" + separator + "default.png");
-        creator.updateCreatorImagePath(imageUrl+"creator/default.png");
+        creator.updateCreatorImagePath(imagePath+ separator + "creator" + separator + "default.png");
+        creator.updateCreatorImageUrl(imageUrl+"creator/default.png");
         creatorRepository.save(creator);
 
         return projectId;

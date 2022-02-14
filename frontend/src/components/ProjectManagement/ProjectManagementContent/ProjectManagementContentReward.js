@@ -8,6 +8,7 @@ import setAuthorizationToken, {
   createProjectIdState,
   createRewardIdState,
 } from "../../../atoms";
+import { baseUrl } from "../../../App";
 
 import { baseUrl } from "../../../App";
 
