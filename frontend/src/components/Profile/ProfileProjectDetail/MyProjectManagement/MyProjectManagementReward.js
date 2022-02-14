@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import setAuthorizationToken, { createRewardIdState } from "../../../../atoms";
+import { baseUrl } from "../../../../App";
 
 const ProjectManagementMain = styled.div`
   width: 100%;
@@ -82,7 +83,6 @@ const ProjectManagementContentProfileRadio = styled.label`
 
 // 수정? 삭제? 기능 추가해야함
 function MyProjectManagementReward() {
-  const baseUrl = "http://localhost:8080";
   const {
     register,
     handleSubmit,
