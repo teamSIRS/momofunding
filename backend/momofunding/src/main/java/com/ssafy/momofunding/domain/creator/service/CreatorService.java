@@ -23,7 +23,8 @@ public class CreatorService {
     @Value("${pathSeparator}")
     private String separator;
 
-    private final String imageUrl = "http://localhost:8080/images/";
+    @Value("${imageUrl}")
+    private String imageUrl;
 
     private final CreatorRepository creatorRepository;
 
@@ -52,7 +53,7 @@ public class CreatorService {
                     String creatorFileName = projectId+"_creator"+imgName.substring(imgName.lastIndexOf("."));
                     File creatorImgFile = new File(imagePath + separator + "creator" + separator +creatorFileName);
                     creatorImg.transferTo(creatorImgFile);
-                    creatorUpdateRequestDto.setCreatorImageUrl(imageUrl+"creator/"+creatorFileName);
+                    creatorUpdateRequestDto.setCreatorImageUrl(imageUrl+"creator/"+creatorFileName);;
                     creator.updateCreatorImagePath(creatorImgFile.getPath());
                 }
             } catch (IOException | NullPointerException e){
