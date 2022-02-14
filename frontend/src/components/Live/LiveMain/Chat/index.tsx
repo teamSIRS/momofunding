@@ -44,9 +44,12 @@ const Chat = ({ show }: ChatProps) => {
 
   // 시그널 보내기
   const sendChat: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+
+    if (message === "") return;
+
     const data = { nickname: nickname, message: message };
 
-    event.preventDefault();
     console.log("보냄!");
     recoilSession
       .signal({
@@ -65,6 +68,7 @@ const Chat = ({ show }: ChatProps) => {
   };
 
   const sendChatByClick: MouseEventHandler<HTMLIonIconElement> = () => {
+    if (message === "") return;
     const data = { nickname: nickname, message: message };
 
     recoilSession
