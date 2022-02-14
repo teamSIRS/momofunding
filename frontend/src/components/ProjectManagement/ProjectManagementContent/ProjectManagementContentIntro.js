@@ -84,7 +84,7 @@ const ProjectManagementContentTextarea = styled(ProjectManagementContentInput)`
 `;
 
 const ProjectManagementContentProfileBtn = styled.button`
-  margin: 0px 10px;
+  margin-left: 48px;
 `;
 
 function ProjectManagementContentIntro() {
@@ -183,6 +183,7 @@ function ProjectManagementContentIntro() {
         .then((response) => {
           console.log("성공");
           console.log(response.data);
+          window.location.reload(true);
         })
         .catch((error) => {
           console.log("에러발생");
@@ -191,27 +192,6 @@ function ProjectManagementContentIntro() {
     };
     updateProject();
   };
-  //////////////////////////////////////////////////////////////////////
-  const navigate = useNavigate();
-
-  function deleteProject() {
-    const deleteProject = async () => {
-      await axios({
-        url: `/projects/${projectId}`,
-        method: "delete",
-        headers: setAuthorizationToken(),
-        baseURL: baseUrl,
-      })
-        .then((response) => {
-          console.log(response.data);
-          navigate("/");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    deleteProject();
-  }
 
   //////////////////////////////////////////////////////////////////////
   useEffect(() => {
@@ -299,7 +279,7 @@ function ProjectManagementContentIntro() {
             </ProjectManagementContentImgLabel>
             <ProjectManagementContentImgBox>
               <ProjectManagementContentImg
-                src={`http://localhost:8080/images/project/${projectId}_main.jpg`}
+                src={mainImageUrl}
                 alt="main-image-example"
               ></ProjectManagementContentImg>
             </ProjectManagementContentImgBox>
@@ -323,7 +303,7 @@ function ProjectManagementContentIntro() {
             </ProjectManagementContentImgLabel>
             <ProjectManagementContentImgBox>
               <ProjectManagementContentImg
-                src={`http://localhost:8080/images/project/${projectId}_sub.jpg`}
+                src={subImageUrl}
                 alt="sub-image-example"
               ></ProjectManagementContentImg>
             </ProjectManagementContentImgBox>
@@ -373,9 +353,6 @@ function ProjectManagementContentIntro() {
           <div>
             <ProjectManagementContentProfileBtn onClick={updateProject}>
               프로젝트 등록
-            </ProjectManagementContentProfileBtn>
-            <ProjectManagementContentProfileBtn onClick={deleteProject}>
-              프로젝트 삭제
             </ProjectManagementContentProfileBtn>
           </div>
         </ProjectManagementContentForm>
