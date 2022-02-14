@@ -8,11 +8,8 @@ import setAuthorizationToken, {
   createProjectIdState,
   createRewardIdState,
 } from "../../../atoms";
+import baseUrl from "../../../App"
 
-const ProjectManagementMain = styled.div`
-  width: 100%;
-  min-height: 800px;
-`;
 
 const ProjectManagementContentForm = styled.form`
   display: flex;
@@ -50,9 +47,6 @@ const ProjectManagementContentInput = styled.div`
 
 const ProjectManagementContentDate = styled.input``;
 
-const ProjectManagementContentRewardTitle = styled.h3`
-  text-align: center;
-`;
 
 const ProjectManagementContentTextarea = styled(ProjectManagementContentInput)`
   height: 120px;
@@ -71,8 +65,8 @@ const ProjectManagementContentProfileRadio = styled.label`
 `;
 
 // 수정? 삭제? 기능 추가해야함
-function ProjectManagementContentReward() {
-  const baseUrl = "http://localhost:8080";
+function ProjectManagementContentReward(reward) {
+  // const baseUrl = "http://localhost:8080/api";
   const {
     register,
     handleSubmit,
@@ -114,6 +108,10 @@ function ProjectManagementContentReward() {
   // 이거는 나중에 로그인한 회원의 프로젝트로 바꿔야함
   const projectId = useRecoilValue(createProjectIdState);
   const [rewardId, setRewardId] = useRecoilState(createRewardIdState);
+  //////////////////////////////////////////////////////////////////////
+  const getData = () => {
+    setName(reward.name);
+  }
   //////////////////////////////////////////////////////////////////////
   function saveRewards(data) {
     console.log(data);
@@ -236,14 +234,10 @@ function ProjectManagementContentReward() {
   };
 
   useEffect(() => {
-    getRewards();
+    getData();
   }, []);
   return (
     <div>
-      <ProjectManagementMain>
-        <ProjectManagementContentRewardTitle>
-          리워드 정보 등록
-        </ProjectManagementContentRewardTitle>
         <ProjectManagementContentForm onSubmit={handleSubmit(onValid)}>
           <ProjectManagementContentInputBox>
             <ProjectManagementContentTitle>
@@ -386,7 +380,6 @@ function ProjectManagementContentReward() {
             </ProjectManagementContentProfileBtn>
           </div>
         </ProjectManagementContentForm>
-      </ProjectManagementMain>
     </div>
   );
 }
