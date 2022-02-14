@@ -56,7 +56,20 @@ const ProjectManagementContentTextarea = styled(ProjectManagementContentInput)`
 `;
 
 const ProjectManagementContentProfileBtn = styled.button`
-  margin: 0px 10px;
+  margin-left: 48px;
+`;
+
+const ProjectManagementContentProfileUpdateBtn = styled(
+  ProjectManagementContentProfileBtn
+)`
+  margin-left: 20px;
+  background-color: green;
+`;
+
+const ProjectManagementContentProfileDeleteBtn = styled(
+  ProjectManagementContentProfileUpdateBtn
+)`
+  background-color: red;
 `;
 
 const ProjectManagementContentProfileRadio = styled.label`
@@ -383,18 +396,18 @@ function MyProjectManagementReward() {
             <ProjectManagementContentProfileBtn>
               리워드 등록 및 추가
             </ProjectManagementContentProfileBtn>
-            <ProjectManagementContentProfileBtn
+            <ProjectManagementContentProfileUpdateBtn
               type="button"
               onClick={updateRewards}
             >
               리워드 수정
-            </ProjectManagementContentProfileBtn>
-            <ProjectManagementContentProfileBtn
+            </ProjectManagementContentProfileUpdateBtn>
+            <ProjectManagementContentProfileDeleteBtn
               type="button"
               onClick={deleteRewards}
             >
               리워드 삭제
-            </ProjectManagementContentProfileBtn>
+            </ProjectManagementContentProfileDeleteBtn>
           </div>
         </ProjectManagementContentForm>
       </ProjectManagementMain>

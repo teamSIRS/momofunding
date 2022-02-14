@@ -84,7 +84,15 @@ const ProjectManagementContentTextarea = styled(ProjectManagementContentInput)`
 `;
 
 const ProjectManagementContentProfileBtn = styled.button`
-  margin: 0px 10px;
+  margin-left: 48px;
+  background-color: green;
+`;
+
+const ProjectManagementContentProfileDeleteBtn = styled(
+  ProjectManagementContentProfileBtn
+)`
+  margin-left: 20px;
+  background-color: red;
 `;
 
 function MyProjectManagementStory() {
@@ -103,8 +111,8 @@ function MyProjectManagementStory() {
     setProjectCategoryId(event.target.value);
   const onProjectNameChange = (event) => setProjectName(event.target.value);
   const onFundingGoalChange = (event) => setFundingGoal(event.target.value);
-  const onMainImageUrlChange = (event) => setMainImageUrl(event.target.value);
-  const onSubImageUrlChange = (event) => setSubImageUrl(event.target.value);
+  const onMainImageUrlChange = (event) => setMainImageUrl("");
+  const onSubImageUrlChange = (event) => setSubImageUrl("");
   const onSummaryChange = (event) => setSummary(event.target.value);
   const onProjectContentChange = (event) =>
     setProjectContent(event.target.value);
@@ -183,6 +191,7 @@ function MyProjectManagementStory() {
         .then((response) => {
           console.log("성공");
           console.log(response.data);
+          window.location.reload(true);
         })
         .catch((error) => {
           console.log("에러발생");
@@ -192,26 +201,26 @@ function MyProjectManagementStory() {
     updateProject();
   };
   //////////////////////////////////////////////////////////////////////
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  function deleteProject() {
-    const deleteProject = async () => {
-      await axios({
-        url: `/projects/${id}`,
-        method: "delete",
-        headers: setAuthorizationToken(),
-        baseURL: baseUrl,
-      })
-        .then((response) => {
-          console.log(response.data);
-          navigate("/");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    deleteProject();
-  }
+  // function deleteProject() {
+  //   const deleteProject = async () => {
+  //     await axios({
+  //       url: `/projects/${id}`,
+  //       method: "delete",
+  //       headers: setAuthorizationToken(),
+  //       baseURL: baseUrl,
+  //     })
+  //       .then((response) => {
+  //         console.log(response.data);
+  //         navigate("/");
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   };
+  //   deleteProject();
+  // }
 
   //////////////////////////////////////////////////////////////////////
   useEffect(() => {
@@ -273,7 +282,7 @@ function MyProjectManagementStory() {
               펀딩 목표 금액
             </ProjectManagementContentTitle>
             <ProjectManagementContentMemo>
-              창작자님의 펀딩 목표 금액을 입력하세요.
+              창작자님의 펀딩 목표 금액을 입력하세요 (숫자만 입력)
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
               value={fundingGoal}
@@ -293,7 +302,6 @@ function MyProjectManagementStory() {
               type="file"
               id="mainFile"
               name="mainFile"
-              onChange={onMainImageUrlChange}
             />
             <ProjectManagementContentImgLabel htmlFor="mainFile">
               파일
@@ -318,7 +326,6 @@ function MyProjectManagementStory() {
               type="file"
               id="subFile"
               name="subFile"
-              onChange={onSubImageUrlChange}
             />
             <ProjectManagementContentImgLabel htmlFor="subFile">
               파일
@@ -375,9 +382,6 @@ function MyProjectManagementStory() {
           <div>
             <ProjectManagementContentProfileBtn onClick={updateProject}>
               프로젝트 수정
-            </ProjectManagementContentProfileBtn>
-            <ProjectManagementContentProfileBtn onClick={deleteProject}>
-              프로젝트 삭제
             </ProjectManagementContentProfileBtn>
           </div>
         </ProjectManagementContentForm>

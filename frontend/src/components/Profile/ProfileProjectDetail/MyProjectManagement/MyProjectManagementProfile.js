@@ -83,7 +83,10 @@ const ProjectManagementContentImgInput = styled.input`
   display: none;
 `;
 
-const ProjectManagementContentProfileBtn = styled.button``;
+const ProjectManagementContentProfileBtn = styled.button`
+  background-color: green;
+  margin-left: 48px;
+`;
 
 function MyProjectManagementProfile() {
   const baseUrl = "http://localhost:8080";
@@ -108,7 +111,7 @@ function MyProjectManagementProfile() {
     setCreatorName(event.target.value);
   };
   const onCreatorImageUrlChange = (event) => {
-    setCreatorImageUrl(event.target.value);
+    setCreatorImageUrl("");
   };
   const onCreatorContentChange = (event) => {
     setCreatorContent(event.target.value);
@@ -216,6 +219,7 @@ function MyProjectManagementProfile() {
         .then((response) => {
           console.log("성공");
           console.log(response.data);
+          window.location.reload(true);
         })
         .catch((error) => {
           console.log("에러발생");
@@ -263,7 +267,6 @@ function MyProjectManagementProfile() {
               type="file"
               id="file"
               name="file"
-              onChange={onCreatorImageUrlChange}
             />
 
             <ProjectManagementContentImgLabel htmlFor="file">
