@@ -58,7 +58,7 @@ const ProjectSidebar = ({project}) => {
         isReward
         ? (
           rewards.map((a, i) =>{
-            return <RewardCard rewards={rewards[i]} i={i} key={i}/>
+            return <RewardCard rewards={rewards[i]} i={i} key={i} project={project}/>
           })
         )
         : null

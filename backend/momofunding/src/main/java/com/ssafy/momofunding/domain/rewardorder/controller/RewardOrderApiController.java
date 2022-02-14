@@ -18,7 +18,7 @@ import java.util.Map;
 @Tag(name = "Reward Order API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api/orders")
 public class RewardOrderApiController {
 
     private final RewardOrderService rewardOrderService;

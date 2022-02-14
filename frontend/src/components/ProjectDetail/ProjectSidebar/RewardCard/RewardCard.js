@@ -109,11 +109,12 @@ function RewardCard(props) {
           setAmount(amount-1);
       }
   }
-
+  
   const navigate = useNavigate();
 
   const goToPay = () => {
     const data = {
+      project: props.project,
       reward: props.rewards,
       amount: amount
     };

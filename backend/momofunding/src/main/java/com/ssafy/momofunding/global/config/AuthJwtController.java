@@ -18,7 +18,7 @@ import java.util.Map;
 @Tag(name = "JwtAuth API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthJwtController {
 
     private final JwtService jwtService;

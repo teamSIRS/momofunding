@@ -38,8 +38,8 @@ import MyProjectManagement from "./components/Profile/ProfileProjectDetail/MyPro
 import PayFail from "./components/Funding/FundingSidebar/PayFail";
 import PayCancel from "./components/Funding/FundingSidebar/PayCancel";
 
-// export const baseUrl = "http://i6a204.p.ssafy.io/";
-export const baseUrl = "http://localhost:8080";
+export const baseUrl = "https://i6a202.p.ssafy.io/api";
+// export const baseUrl = "http://localhost:8080/api";
 
 function App() {
   const [nowLogin, setNowLogin] = useRecoilState(isLoginState);

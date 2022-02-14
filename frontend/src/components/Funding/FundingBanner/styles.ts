@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { BannerBox } from "../../Home/HomeBanners/HomeBanner/styles";
 
-export const BannerImg = styled.img``;
+export const BannerImg = styled.img`
+  filter: brightness(65%);
+`;
 
 export const BannerWrapper = styled(BannerBox)`
   position: relative;

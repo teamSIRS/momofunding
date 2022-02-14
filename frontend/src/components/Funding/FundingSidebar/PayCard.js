@@ -2,6 +2,11 @@ import styled from "styled-components";
 import { MomoColor, MomoStrongColor } from "../../../shared/global";
 import { InfoCard, Text } from "./CreatorCard/styles";
 import axios from "axios";
+import { useRecoilValue } from "recoil";
+import setAuthorizationToken, {userIdState} from "../../../atoms"
+import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import swal from "sweetalert";
 
 const Card = styled(InfoCard)`
   height: 440px;
@@ -53,37 +58,61 @@ const FundingBtn = styled.button`
   }
 `;
 
-function PayCard() {
+function PayCard({props}) {
+  const userId = useRecoilValue(userIdState);
+  const [isCheck, setIsCheck] = useState(false);
+
   //후원하기 버튼을 누르면 swagger에 써있는 requestbody의 정보들이 전부 같이 넘어가야함
   function getPayLink(event) {
     const baseUrl = "http://localhost:8080";
 
+    const checkInfo = () => {
+      if(!isCheck){
+        swal("후원할 수 없습니다!", "약관에 동의해주세요", "warning");
+        return false;
+      }
+      if(props.paySort !== "kakao"){
+        swal("후원할 수 없습니다!", "결제 수단을 선택해주세요", "warning");
+        return false;
+      }
+      if(props.name === "" || props.tel === "" || props.email === ""){
+        swal("후원할 수 없습니다!", "후원자 정보를 빠짐없이 입력해주세요.", "warning");
+        return false;
+      } 
+
+      if(props.reward.isDeliver && props.shippingAddr === ""){
+        swal("후원할 수 없습니다!", "후원자 정보를 빠짐없이 입력해주세요.", "warning");
+        return false;
+      } 
+
+      return true;
+    }
+
     event.preventDefault();
     const getLink = async () => {
+      if(!checkInfo()) return;
       // axios 요청
       await axios({
         url: "/payment/kakao", // 기본 url에 추가로 붙음 => 							 						http://localhost:8080/users/sign-in
         method: "post", // 요청 method => get, post, put, delete 선택
         data: {
-          rewardId: 1,
-          userId: 5,
-          projectId: 2,
-          name: "Gold 리워드2",
-          content: "골드 샴페인, 실버 샴페인233",
-          quantity: 2,
-          optionContent: "2",
-          recipientName: "옆집 철수네",
-          recipientTel: "010-1111-1212",
-          recipientAddress: "서울특별시 싸피동 옆집번지 철수네",
-          requestContent: "개 키워요. 문 앞에 놔주시고 전화주세요.",
-          amount: 50000,
+          rewardId: props.reward.id,
+          userId: userId,
+          projectId: props.projectId,
+          name: props.reward.name,
+          content: props.reward.content,
+          quantity: props.amount,
+          optionContent: props.amount,
+          recipientName: props.name,
+          recipientTel: props.tel,
+          recipientAddress: props.shippingAddr,
+          requestContent: props.request,
+          amount: props.total,
         },
+        headers: setAuthorizationToken(),
         baseURL: baseUrl, // 위에서 말한 baseURL 설정
       }) // 여기까지가 axios 보내는 정보
         .then((response) => {
-          // .then은 axios 요청 성공시 작업
-          // console.log(response.data.url); //카카오 페이 링크 주소값
-
           const popUp = window.open(
             response.data.url,
             "카카오 페이 결제",
@@ -103,10 +132,13 @@ function PayCard() {
       <Top>
         <Title>최종 후원 금액</Title>
         <Space />
-        <TotalPrice>264,000원</TotalPrice>
+        <TotalPrice>{props.total}원</TotalPrice>
       </Top>
       <Check>
-        <Input type="checkbox" />
+        <Input type="checkbox" 
+        value={isCheck}
+        onChange={e => setIsCheck(!isCheck)}
+        />
         <Info>아래 내용에 동의합니다</Info>
       </Check>
       <LongText>

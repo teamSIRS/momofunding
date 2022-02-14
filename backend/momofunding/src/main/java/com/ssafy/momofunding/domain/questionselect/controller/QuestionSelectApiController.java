@@ -19,7 +19,7 @@ import java.util.Map;
 @Tag(name = "Question Select API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("question-select")
+@RequestMapping("/api/question-select")
 public class QuestionSelectApiController {
     private final QuestionSelectService questionSelectService;
 

@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 @Tag(name = "Survey Live Record API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/survey-live-records")
+@RequestMapping("/api/survey-live-records")
 public class SurveyLiveRecordApiController {
     private final SurveyLiveRecordService SurveyLiveRecordService;
 
