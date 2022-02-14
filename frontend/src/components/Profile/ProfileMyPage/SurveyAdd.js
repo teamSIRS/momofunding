@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useParams } from 'react-router-dom';
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button, Fade, Modal } from "react-bootstrap";
 import SurveyNum from "./SurveyForm/SurveyNum";
 import SurveyShortAns from "./SurveyForm/SurveyShortAns";
@@ -74,18 +74,12 @@ const SurveyAnsInput = styled.div`
 //=======================================
 
 
-function SurveyAdd() {
+function SurveyAdd({surveys, Survey}) {
   const {id} = useParams();
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const [selectedNum, setSelectedNum] = useState("선택하세요");
-  const selectList = ["선택하세요", "객관식", "주관식"];
-  const onChange = (event) => {
-    setSelectedNum(event.target.value);
-  };
 
   const [expirationDate, setExpirationDate] = useState("");
   const onExpirationDateChange = (event) =>
@@ -93,8 +87,11 @@ function SurveyAdd() {
 
   const [endDate, setEndDate] = useState();
   const [title, setTitle] = useState();
+  const [content, setContent] = useState();
+  const [type, setType] = useState(0);
+  const [questTitle, setQuestTitle] = useState();
 
-  const AddSurvey= async(data) => {
+  const AddSurvey= async() => {
     // console.log('설문조사 등록');
     await axios({
       url: `${baseUrl}/surveys`,
@@ -102,14 +99,14 @@ function SurveyAdd() {
       data:{
         projectId: id,
         title: title,
-        content: "",
+        content: content,
         endDate: endDate,
       },
       headers: setAuthorizationToken(),
     })
       .then((res)=>{
-        console.log('ok');
-        console.log(id, title, endDate);
+        // console.log('ok');
+        Survey();
       })
       .catch((e) => {
         console.log(e);
@@ -117,7 +114,33 @@ function SurveyAdd() {
       })
   }
 
-  // console.log(id)
+  const AddSurveyQuest = async(id, type, title) =>{
+    await axios({
+      url: `${baseUrl}/survey-questions`,
+      method: "post",
+      data:{
+        surveyId: id,
+        questionType: type,
+        //객관식1 주관식2
+        title: title,
+      },
+      headers: setAuthorizationToken(),
+    })
+    .then((res)=>{
+      console.log('콘텐트 등록');
+    })
+    .catch((err) =>{
+      console.log(err);
+    })
+  };
+
+
+  const [selectedNum, setSelectedNum] = useState("선택하세요");
+  const selectList = ["선택하세요", "객관식", "주관식"];
+  const onChange = (event) => {
+    setSelectedNum(event.target.value);
+  };
+
   return (
     <>
       <SurveyModalBtn onClick={handleShow}>추가</SurveyModalBtn>
@@ -154,11 +177,19 @@ function SurveyAdd() {
                 }}
               />
             </SurveyAnsInput>
-            <Button as='p' onClick={()=>{AddSurvey();}}>질문 등록</Button>
+            <SurveyAnsInput>
+              <input
+                required
+                placeholder="설문조사 설명"
+                onChange={(e) =>{
+                  setContent(e.target.value)
+                }}
+              />
+            </SurveyAnsInput>
+            <Button onClick={()=>{AddSurvey();}}>질문 등록</Button>
           </form>
           <br/> 
         {/*  */}
-
 
               <SurveyAddInputBox>
                 <SurveyAddLabel>질문 양식 선택</SurveyAddLabel>
@@ -173,13 +204,23 @@ function SurveyAdd() {
 
                 <SurveyAddLabel>
                   {selectedNum === "선택하세요" ? <SurveySelect /> : null}
-                  {selectedNum === "객관식" ? <SurveyNum /> : null}
-                  {selectedNum === "주관식" ? <SurveyShortAns/> : null}
+                  {selectedNum === "객관식" 
+                    ? <SurveyNum 
+
+                      /> 
+                    : null}
+                  {selectedNum === "주관식" 
+                    ? <SurveyShortAns 
+                        AddSurveyQuest={AddSurveyQuest} 
+                        surveyId={surveys[surveys.length-1].id}
+                        /> 
+                    : null}
                 </SurveyAddLabel>
               </SurveyAddInputBox>
               <hr />
 
-              <Button onClick={()=>{AddSurvey();console.log(selectedNum)}}>등록</Button>
+              <Button onClick={()=>{console.log('gg')}}>등록</Button>
+              {/* <Button onClick={()=>{QuestionType(); AddSurveyQuest();}}>등록</Button> */}
             </SurveyAddDiv>
           </SurveyAddMain>
         </Modal.Body>

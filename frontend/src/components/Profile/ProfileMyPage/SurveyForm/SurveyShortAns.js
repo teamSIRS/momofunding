@@ -31,7 +31,7 @@ const SurveyShortAnsInput = styled.div`
 
 const SurveyShortAnsP = styled.p``;
 
-function SurveyShortAns() {
+function SurveyShortAns({ surveyId, AddSurveyQuest }) {
   const { register, handleSubmit, setValue, setContentValue } = useForm();
   const setShortAnsQuestion = useSetRecoilState(shortAnsQuestionTitleState);
   const shortAnsQuestion = useRecoilValue(shortAnsQuestionSelector);
@@ -40,32 +40,9 @@ function SurveyShortAns() {
     setValue("shortAnsQuestion", "");
   };
 
-  const {id} = useParams();
   const[title, setTitle] = useState();
-  const[endDate, setEndDate] = useState();
-
-  async function saveSurvey(){
-    await axios({
-      url: `${baseUrl}/surveys`,
-      method: "post",
-      data:{
-        projectId: id,
-        title: title,
-        content: "",
-        endDate: endDate,
-      },
-      headers: setAuthorizationToken(),
-    })
-      .then((res)=>{
-        console.log('ok');
-      })
-      .catch((e) => {
-        console.log(e);
-        swal('양식을 정확히 입력해주세요', {icon:"warning"});
-      })
-  }
-  
-  const [content, setContent] = useState();
+  const [id, setId] = useState(surveyId);
+  const [questionType, setQuestionType] = useState(2);
 
   return (
     <div>
@@ -82,21 +59,27 @@ function SurveyShortAns() {
       <SurveyShortAnsLabel>[ 주관식 질문 등록 ]</SurveyShortAnsLabel>
       <form onSubmit={handleSubmit(onQuestionValid)}>
         <SurveyShortAnsInput>
-          <input
+          {/* <input
             {...register("shortAnsQuestion", {
               required: "Please write a shortAnsQuestion",
             })}
             placeholder="주관식 질문을 입력하세요."
             onChange={(e) =>{
-              setContent(e.target.value)
+              setTitle(e.target.value)
             }}
+          /> */}
+          <input
+            required
+            placeholder="주관식 질문"
+            onChange={(e) => {setTitle(e.target.value);}}
           />
         </SurveyShortAnsInput>
-        <button onClick={()=>{saveSurvey();setTitle("");}}>질문 등록</button>
+        <button onClick={()=>{console.log(id, questionType, title);
+          AddSurveyQuest(id, questionType, title);setTitle("");}}>질문 등록</button>
       </form>
-      <SurveyShortAnsLabel>[ 등록한 주관식 질문 ]</SurveyShortAnsLabel>
+      {/* <SurveyShortAnsLabel>[ 등록한 주관식 질문 ]</SurveyShortAnsLabel> */}
       {/* <SurveyShortAnsP>Q : {shortAnsQuestion}</SurveyShortAnsP> */}
-      <SurveyShortAnsP>Q : {title}</SurveyShortAnsP>
+      {/* <SurveyShortAnsP>Q : {title}</SurveyShortAnsP> */}
     </div>
   );
 }

@@ -94,23 +94,23 @@ function SurveyEdit({ survey, onRemove }) {
 
   const [show, setShow] = useState(false);
   const [endDate, setEndDate] = useState();
-  const [title, setTitle] = useState();
-  const [content, setContent] = useState();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [seuvey, setSurvey] = useState();
+  const [selectedSurvey, setSelectedSurvey] = useState();
   //-----------------이 위로 추가----------------------
 
 
   async function getSurvey(surveyId){
-    await axios.get(baseUrl + '/surveys/' + surveyId)
+    await axios.get(baseUrl + '/surveys/' + surveyId + '/answers')
     .then((res) => {
-      // console.log(res.data);
-      setSurvey(res.data);
-      setEndDate(survey.endDate);
-      setTitle(survey.title);
-      // console.log(survey);
+      console.log(res.data);
+      setSelectedSurvey(res.data);
+      setEndDate(selectedSurvey.endDate);
+      setTitle(selectedSurvey.title);
+      setContent(selectedSurvey.content);
     })
     .catch((err) => {
       console.log(err);
@@ -142,6 +142,7 @@ function SurveyEdit({ survey, onRemove }) {
       <Container>
         <SurveyTitle>{survey.title}</SurveyTitle>
         {/* <SurveyResult onClick={()=>{ getSurvey(survey.id); }}>수정</SurveyResult> */}
+
         {/* 이 아래로 새로 추가한거 */}
         {/* <SurveyModalBtn onClick={handleShow}>추가</SurveyModalBtn> */}
         <SurveyResult onClick={()=>{ getSurvey(survey.id); handleShow();}}>수정</SurveyResult>
@@ -179,6 +180,15 @@ function SurveyEdit({ survey, onRemove }) {
                   }}
                 />
               </SurveyAnsInput>
+              <SurveyAnsInput>
+                <input
+                  required
+                  value={content}
+                  onChange={(e) =>{
+                    setContent(e.target.value)
+                  }}
+                />
+            </SurveyAnsInput>
               <button onClick={()=>{editSurvey();}}>질문 등록</button>
             </form>
             <br/> 
@@ -209,6 +219,7 @@ function SurveyEdit({ survey, onRemove }) {
           </Modal.Body>
         </Modal>
         {/* 이 위로 새로 추가한 것 */}
+
       </Container>
       <EditIcon
         icon={removeCircleOutline}
