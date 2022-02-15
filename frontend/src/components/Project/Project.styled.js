@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const ListNav = styled.div`
   display: flex;
@@ -42,8 +42,7 @@ export const Bar = styled.hr`
   size: 10px;
 `;
 
-export const ListFilter = styled.p`
-`;
+export const ListFilter = styled.p``;
 
 export const ListFilterSelected = styled.p`
   font-weight: bold;
@@ -58,9 +57,9 @@ export const Container = styled.div`
 `;
 
 export const Thumnail = styled.img`
-    width: 100%;
-    height: 219px;
-    object-position: center;
-    object-fit: cover;
-    border-radius: 15px;
+  width: 100%;
+  height: 219px;
+  object-position: center;
+  object-fit: cover;
+  border-radius: 15px;
 `;
