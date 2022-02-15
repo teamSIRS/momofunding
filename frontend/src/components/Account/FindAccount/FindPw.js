@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Info, InputForm, Input, Btn } from "./styles";
 import { baseUrl } from "../../../App";
-
+import Swal from "sweetalert2";
 const styles = {
   input: {
     borderRadius: 5,
@@ -32,6 +32,15 @@ function FindPw() {
         });
     };
     sendEmail();
+    Swal.fire({
+      position: "center",
+      icon: "info",
+      title: "이메일이 성공적으로 발송되었습니다.",
+      text: "메인페이지로 이동합니다.",
+      showConfirmButton: true,
+      width: 750,
+      confirmButtonText: "확인",
+    });
     navigate("/");
   }
   return (
@@ -48,6 +57,7 @@ function FindPw() {
           onChange={onEmailChange}
           placeholder="아이디를 입력하세요"
         />
+
         <Btn onClick={sendEmail}>확인</Btn>
       </InputForm>
     </Container>

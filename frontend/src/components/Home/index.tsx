@@ -7,7 +7,7 @@ import HomeFundings from "./HomeFundings";
 import { NoneExist } from "./HomeLiveCards/HomeLiveCard/NoneExist";
 import { HomeLiveCard } from "./HomeLiveCards/HomeLiveCard/HomeLiveCard";
 import { baseUrl } from "../../App";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 const StyledStack = styled(ListGroup)`
   display: flex;
@@ -50,6 +50,7 @@ const Home = () => {
         {isExist ? (
           <StyledStack horizontal>
             {lives.map((live, idx) => (
+              
               <Link
                 to={`/lives/${live.sessionId}`}
                 style={{ float: "left", marginLeft: 10, marginRight: 10 }}
@@ -59,6 +60,7 @@ const Home = () => {
                   idx={idx}
                   title={live.title}
                   viewer={live.viewerCount}
+                  subImg={live.subImageUrl}
                 />
               </Link>
             ))}

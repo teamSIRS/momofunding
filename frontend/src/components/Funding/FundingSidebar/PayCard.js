@@ -10,17 +10,32 @@ import swal from "sweetalert";
 import { baseUrl } from "../../../App";
 
 const Card = styled(InfoCard)`
-  height: 440px;
+  height: auto;
+  padding: 20px;
   margin: 30px 10px;
+`;
+
+const TopBox = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const Top = styled.div`
   display: flex;
 `;
 
+const SubTop = styled(Top)`
+  justify-content: space-evenly;
+`;
+
 const Title = styled.p`
   font-size: 18px;
   line-height: 36px;
+  margin: 0;
+`;
+
+const SubTitle = styled(Title)`
+  font-size: 16px;
 `;
 
 const Space = styled.div`
@@ -30,10 +45,18 @@ const Space = styled.div`
 const TotalPrice = styled.p`
   font-size: 25px;
   font-weight: bold;
+  margin: 0;
+  float: right;
   color: ${MomoColor};
 `;
 
-const Check = styled.label``;
+const SubTotalPrice = styled(TotalPrice)`
+  font-size: 23px;
+`;
+
+const Check = styled.label`
+  margin-top: 20px;
+`;
 
 const Input = styled.input`
   width: 14px;
@@ -136,11 +159,24 @@ function PayCard({ props }) {
 
   return (
     <Card>
-      <Top>
-        <Title>최종 후원 금액</Title>
-        <Space />
-        <TotalPrice>{props.total}원</TotalPrice>
-      </Top>
+      <TopBox>
+        <SubTop>
+          <SubTitle>기본 후원 금액</SubTitle>
+          <Space></Space>
+          <SubTotalPrice>{props.fund}원</SubTotalPrice>
+        </SubTop>
+        <SubTop>
+          <SubTitle>추가 후원 금액</SubTitle>
+          <Space></Space>
+          <SubTotalPrice>{props.extra}원</SubTotalPrice>
+        </SubTop>
+        <hr/>
+        <Top>
+          <Title>최종 후원 금액</Title>
+          <Space />
+          <TotalPrice>{props.lastTotal}원</TotalPrice>
+        </Top>
+      </TopBox>
       <Check>
         <Input
           type="checkbox"

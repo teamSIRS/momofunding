@@ -4,15 +4,21 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 100px 150px;
+  margin: 50px 150px;
 `;
 
 export const Info = styled.div`
-  width: 470px;
+  width: 500px;
   height: 70px;
 `;
 
 export const InputForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const ChangePwForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;

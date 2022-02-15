@@ -217,8 +217,8 @@ function Signup() {
       })
         .then((response) => {
           swal(
-            "로그인 성공",
-            `[ ${data.nickname} ]님 회원가입을 축하합니다!`,
+            `${data.nickname}님 환영합니다!`,
+            `새로운 아이디로 로그인 해주세요`,
             "success",
             {
               button: true,
@@ -251,6 +251,20 @@ function Signup() {
     setCheckNicknameValue(event.target.value);
   };
   /////////////////////////////////////////////////////////////////////
+
+  const isEmail = (email) => {
+    var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
+    // 형식에 맞는 경우 true 리턴
+    // console.log('이메일 유효성 검사 :: ', regExp.test(email))
+    return regExp.test(email);
+}
+  
+  const duplicateEmailCheck = () => {
+    console.log(isEmail(checkEmailValue));
+    if(isEmail(checkEmailValue)) checkEmail();
+    else swal('이메일 형식을 맞춰주세요');
+  }
+
   function checkEmail() {
     const checkEmail = async () => {
       await axios({
@@ -262,7 +276,7 @@ function Signup() {
           setEmailShow(true);
           console.log(response.data);
           if (response.data.isExist) {
-            return;
+            setEmailResult(false);
           } else {
             setEmailResult(true);
           }
@@ -322,7 +336,7 @@ function Signup() {
                   <ErrorMsg>{errors?.email?.message}</ErrorMsg>
                 </Col>
                 <Col style={styles.col} xs={2}>
-                  <CheckBtns type={"button"} onClick={checkEmail}>
+                  <CheckBtns type={"button"} onClick={duplicateEmailCheck}>
                     중복확인
                   </CheckBtns>
                 </Col>

@@ -112,6 +112,7 @@ public class LiveApiController {
     public ResponseEntity endLive(@PathVariable Long liveId) {
         Map<String, Object> responseMap = new HashMap<>();
 
+
         try {
             liveService.endLive(liveId);
         } catch (IllegalArgumentException e) {

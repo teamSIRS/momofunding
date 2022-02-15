@@ -4,6 +4,8 @@ import { Container, Info, InputForm, Input, Btn } from "./styles";
 import axios from "axios";
 import { baseUrl } from "../../../App";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
+import Swal from "sweetalert2";
 
 const Message = styled.div`
   margin: 30px;
@@ -48,10 +50,27 @@ function FindId() {
           if (response.data.isExist) {
             setIsExist(true);
             setTest(email);
+
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: `[ ${email} ] 은 가입된 회원입니다.`,
+              showConfirmButton: true,
+              width: 750,
+              confirmButtonText: "확인",
+            });
           } else {
             setIsExist(false);
             setTest(email);
             setEmail("");
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: `[ ${email} ] 은 가입되지 않은 회원입니다.`,
+              showConfirmButton: true,
+              width: 750,
+              confirmButtonText: "확인",
+            });
           }
           navigate("/findAccount/findId");
         })
@@ -80,13 +99,6 @@ function FindId() {
         <Btn onClick={checkEmail} type="button">
           확인
         </Btn>
-        {show ? (
-          isExist ? (
-            <Message>[ {test} ]는 가입된 회원입니다.</Message>
-          ) : (
-            <Message>[ {test} ]는 가입된 회원이 아닙니다.</Message>
-          )
-        ) : null}
       </InputForm>
     </Container>
   );
