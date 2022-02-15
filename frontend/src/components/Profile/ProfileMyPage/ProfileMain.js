@@ -20,6 +20,7 @@ const Container = styled.div`
   border-radius: 15px;
   box-shadow: 4px 4px 20px 0px ${MomoColor};
   padding: 15px;
+  /* padding-bottom: 80px; */
 `;
 
 //프로필 상자
@@ -71,7 +72,7 @@ const ProjectMainBox = styled.div`
 const Navbar = styled.div`
   display: flex;
   width: 100%;
-  height: 8%;
+  height: 40px;
 `;
 
 const Menu = styled.p`
