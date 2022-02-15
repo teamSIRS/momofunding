@@ -194,6 +194,10 @@ function ProfileMember() {
           swal("회원 정보 수정 성공!", "", "success", { button: true });
           setNickname(response.data.nickname);
           setNname(nickname);
+
+          setTimeout(() => {
+            navigate("/users/myprojects");
+          }, 2000);
         })
         .catch((error) => {
           console.log(error);
