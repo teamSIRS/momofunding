@@ -109,6 +109,7 @@ const Survey = ({ show }: ChatProps) => {
     })
       .then((res) => {
         const data: apiForm = res.data;
+        console.log("data:", data);
         setSurveyApi(data);
         setQstates(
           data.questions.map((question, idx) => {
@@ -122,7 +123,8 @@ const Survey = ({ show }: ChatProps) => {
 
   useEffect(() => {
     getSurveyInfo();
-  }, [curSurvey]);
+    console.log(surveyApi);
+  }, []);
 
   return (
     <SurveyWrapper className={show ? "hide" : ""}>
@@ -150,7 +152,7 @@ const Survey = ({ show }: ChatProps) => {
           </>
         ) : (
           <div>
-            {surveyApi.questions.map((question, idx) => (
+            {surveyApi?.questions?.map((question, idx) => (
               <div key={idx}>
                 <SurveyCreatorMsgBox>
                   Q{question.id}. {question.title}
