@@ -75,12 +75,16 @@ const ProjectManagementContentProfileRadio = styled.label`
   }
 `;
 
+const ErrorMsg = styled.span`
+  font-size: 12px;
+  color: red;
+`;
+
 // 수정? 삭제? 기능 추가해야함
 function ProjectManagementContentReward(props) {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
     setError,
   } = useForm();
@@ -128,6 +132,34 @@ function ProjectManagementContentReward(props) {
     setLimitedQuantity(props.reward.limitedQuantity);
     const date = props.reward.deliverStartDate.slice(0, 10);
     setDeliverStartDate(date);
+  }
+  const checkUpdateData = (data) => {
+    var canUpdate = true;
+    if(data.name === ""){
+      setError("name", { message: "리워드 명은 필수입니다." });
+      canUpdate = false;
+    }
+    if(data.price === ""){
+      setError("price", { message: "리워드 금액은 필수입니다." });
+      canUpdate = false;
+    }
+    if(data.content === ""){
+      setError("content", { message: "상세 설명은 필수입니다." });
+      canUpdate = false;
+    }
+    if(data.optionDescription === ""){
+      setError("optionDescription", { message: "옵션조건은 필수입니다." });
+      canUpdate = false;
+    }
+    if(data.limitedQuantity === ""){
+      setError("limitedQuantity", { message: "제한수량은 필수입니다." });
+      canUpdate = false;
+    }
+    if(data.deliverStartDate === ""){
+      setError("deliverStartDate", { message: "배송 시작일은 필수입니다." });
+      canUpdate = false;
+    }
+    return canUpdate;
   }
   //////////////////////////////////////////////////////////////////////
   function saveRewards(data) {
@@ -192,6 +224,11 @@ function ProjectManagementContentReward(props) {
         });
     };
 
+    if(!checkUpdateData(data)){
+      swal("리워드를 수정할 수 없습니다! 입력값을 다시 확인해주세요.")
+      return;
+    }
+
     swal({
       title: "리워드를 수정하시겠습니까?",
       text: "리워드 수정 시, 다시 되돌릴 수 없습니다!",
@@ -251,6 +288,7 @@ function ProjectManagementContentReward(props) {
     } else {
       setIsDeliver(false);
     }
+
     saveRewards(data);
   };
 
@@ -280,6 +318,7 @@ function ProjectManagementContentReward(props) {
               value={name}
               onChange={onNameChange}
             ></ProjectManagementContentInput>
+            <ErrorMsg>{errors?.name?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -297,6 +336,7 @@ function ProjectManagementContentReward(props) {
               value={price}
               onChange={onPriceChange}
             ></ProjectManagementContentInput>
+            <ErrorMsg>{errors?.price?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -314,6 +354,7 @@ function ProjectManagementContentReward(props) {
               value={content}
               onChange={onContentChange}
             ></ProjectManagementContentTextarea>
+            <ErrorMsg>{errors?.content?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -331,6 +372,7 @@ function ProjectManagementContentReward(props) {
               value={optionDescription}
               onChange={onOptionDescriptionChange}
             ></ProjectManagementContentTextarea>
+            <ErrorMsg>{errors?.optionDescription?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -362,6 +404,7 @@ function ProjectManagementContentReward(props) {
               />
               배송불가능
             </ProjectManagementContentProfileRadio>
+            <ErrorMsg>{errors?.isDeliver?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -379,6 +422,7 @@ function ProjectManagementContentReward(props) {
               value={limitedQuantity}
               onChange={onLimitedQuantityChange}
             ></ProjectManagementContentInput>
+            <ErrorMsg>{errors?.limitedQuantity?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -396,6 +440,8 @@ function ProjectManagementContentReward(props) {
               value={deliverStartDate}
               onChange={onDeliverStartDateChange}
             ></ProjectManagementContentDate>
+            <br />
+            <ErrorMsg>{errors?.deliverStartDate?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
           <div>
             {
@@ -407,7 +453,10 @@ function ProjectManagementContentReward(props) {
               )
               :(
                 <>
-                <ProjectManagementContentProfileUpdateBtn onClick={updateRewards}>
+                <ProjectManagementContentProfileUpdateBtn
+                  type="button"
+                  onClick={updateRewards}
+                >
                   리워드 수정
                 </ProjectManagementContentProfileUpdateBtn>
                 <ProjectManagementContentProfileDeleteBtn
@@ -419,8 +468,6 @@ function ProjectManagementContentReward(props) {
               </>
               )
             }
-            
-            
           </div>
         </ProjectManagementContentForm>
         )

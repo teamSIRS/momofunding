@@ -2,7 +2,8 @@ import styled from "styled-components";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import $ from "jquery";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import setAuthorizationToken, { createProjectIdState } from "../../../atoms";
 import { useRecoilValue } from "recoil";
 import { baseUrl } from "../../../App";
@@ -85,9 +86,21 @@ const ProjectManagementContentProfileBtn = styled.button`
   margin-left: 48px;
 `;
 
+const ErrorMsg = styled.span`
+  font-size: 12px;
+  color: red;
+`;
+
 function ProjectManagementProfile() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    setValue,
+  } = useForm();
   const location = useLocation();
-  const { userId } = location.state;
+  // const { userId } = location.state;
   // const { projectId } = location.state;
   const projectId = useRecoilValue(createProjectIdState);
   const [creatorName, setCreatorName] = useState("");
@@ -97,7 +110,7 @@ function ProjectManagementProfile() {
   const [tel, setTel] = useState("");
   const [account, setAccount] = useState("");
 
-  const defaultMsg = "http://localhost:8080/creator/default.png";
+  const defaultMsg = baseUrl+"/creator/default.png";
   //////////////////////////////////////////////////////////////////////
   // onChangeEvent...
   const onCreatorNameChange = (event) => {
@@ -136,31 +149,37 @@ function ProjectManagementProfile() {
           console.log(response.data);
           if (response.data.creatorName) {
             setCreatorName(response.data.creatorName);
+            setValue("creatorName", response.data.creatorName);
           } else {
             setCreatorName("");
           }
           if (response.data.creatorImageUrl) {
             setCreatorImageUrl(response.data.creatorImageUrl);
+
           } else {
-            setCreatorImageUrl("http://localhost:8080/creator/default.png");
+            setCreatorImageUrl(defaultMsg);
           }
           if (response.data.creatorContent) {
             setCreatorContent(response.data.creatorContent);
+            setValue("creatorContent", response.data.creatorContent);
           } else {
             setCreatorContent("");
           }
           if (response.data.email) {
             setEmail(response.data.email);
+            setValue("email", response.data.email);
           } else {
             setEmail("");
           }
           if (response.data.tel) {
             setTel(response.data.tel);
+            setValue("tel", response.data.tel);
           } else {
             setTel("");
           }
           if (response.data.account) {
             setAccount(response.data.account);
+            setValue("account", response.data.account);
           } else {
             setAccount("");
           }
@@ -178,11 +197,11 @@ function ProjectManagementProfile() {
   const formRef = useRef(null); // useRef Hook를 통해서 form 태그 잡아오기
 
   const updateCreator = (event) => {
-    event.preventDefault(); // 새로고침 막기
+    // event.preventDefault(); // 새로고침 막기
     const data = {
       // json 데이터 만들기
       creatorName: creatorName,
-      creatorImageUrl: creatorImageUrl,
+      creatorImageUrl: creatorImageUrl.slice(0, 500),
       creatorContent: creatorContent,
       email: email,
       tel: tel,
@@ -221,10 +240,16 @@ function ProjectManagementProfile() {
         });
     };
     updateCreator();
+    // window.location.reload(true);
   };
+
+  const onValid = (data) => {
+    updateCreator();
+  }
 
   useEffect(() => {
     getCreator();
+    window.scrollTo(0, 0);
   }, []);
   return (
     <div>
@@ -235,6 +260,7 @@ function ProjectManagementProfile() {
         <ProjectManagementContentForm
           ref={formRef}
           enctype="multipart/form-data"
+          onSubmit={handleSubmit(onValid)}
         >
           <ProjectManagementContentInputBox>
             <ProjectManagementContentTitle>
@@ -244,9 +270,14 @@ function ProjectManagementProfile() {
               창작자님의 이름을 입력하세요.
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
+              as={"input"}
+              {...register("creatorName", {
+                required: "창작자 이름은 필수입니다.",
+              })}
               value={creatorName}
               onChange={onCreatorNameChange}
             ></ProjectManagementContentInput>
+            <ErrorMsg>{errors?.creatorName?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -264,9 +295,6 @@ function ProjectManagementProfile() {
               onChange={onCreatorImageUrlChange}
             />
 
-            <ProjectManagementContentImgLabel htmlFor="file">
-              파일
-            </ProjectManagementContentImgLabel>
             <ProjectManagementContentImgBox>
               <ProjectManagementContentImg
                 src={
@@ -288,9 +316,13 @@ function ProjectManagementProfile() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentTextarea
               as={"textarea"}
+              {...register("creatorContent", {
+                required: "창작자 소개는 필수입니다.",
+              })}
               value={creatorContent}
               onChange={onCreatorContentChange}
             ></ProjectManagementContentTextarea>
+            <ErrorMsg>{errors?.creatorContent?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -302,9 +334,14 @@ function ProjectManagementProfile() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
               placeholder="example@email.com"
+              as={"input"}
+              {...register("email", {
+                required: "이메일은 필수입니다.",
+              })}
               value={email}
               onChange={onEmailChange}
             ></ProjectManagementContentInput>
+            <ErrorMsg>{errors?.email?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -316,9 +353,14 @@ function ProjectManagementProfile() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
               placeholder="- 없이 입력"
+              as={"input"}
+              {...register("tel", {
+                required: "대표번호는 필수입니다.",
+              })}
               value={tel}
               onChange={onTelChange}
             ></ProjectManagementContentInput>
+            <ErrorMsg>{errors?.tel?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -329,11 +371,16 @@ function ProjectManagementProfile() {
               창작자님의 계좌정보를 입력하세요.
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
+              as={"input"}
+              {...register("account", {
+                required: "계좌번호는 필수입니다.",
+              })}
               value={account}
               onChange={onAccountChange}
             ></ProjectManagementContentInput>
+            <ErrorMsg>{errors?.account?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
-          <ProjectManagementContentProfileBtn onClick={updateCreator}>
+          <ProjectManagementContentProfileBtn>
             창작자 등록
           </ProjectManagementContentProfileBtn>
         </ProjectManagementContentForm>
