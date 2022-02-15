@@ -69,9 +69,7 @@ public class PayApiController {
 
         dataOutput.write(utf8);
         dataOutput.close();
-
         int resultCode = serverConnection.getResponseCode();
-
         InputStream inputStream;
         if (resultCode == 200) inputStream = serverConnection.getInputStream();
         else inputStream = serverConnection.getErrorStream();
