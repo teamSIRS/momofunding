@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
 import { baseUrl } from "../../../App";
+import { createProjectIdState } from "../../../atoms";
+import { useRecoilValue } from "recoil";
 import ProjectManagementContentReward from './ProjectManagementContentReward';
 
 
@@ -52,7 +54,8 @@ const ProjectManagementReward = () => {
     price: 0
   };
   const location = useLocation();
-  const projectId = location.state.projectId;
+  // const projectId = location.state.projectId;
+  const projectId = useRecoilValue(createProjectIdState);
   const [rewards, setRewards] = useState([""]);
   const [reward, setReward] = useState(rewardInit);
   const [selected, setSelected] = useState(0);
