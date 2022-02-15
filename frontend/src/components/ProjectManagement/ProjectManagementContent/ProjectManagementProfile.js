@@ -104,7 +104,12 @@ function ProjectManagementProfile() {
     setCreatorName(event.target.value);
   };
   const onCreatorImageUrlChange = (event) => {
-    setCreatorImageUrl("");
+    const tempImg = event.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function(e){
+      setCreatorImageUrl(e.target.result);
+    };
+    reader.readAsDataURL(tempImg);
   };
   const onCreatorContentChange = (event) => {
     setCreatorContent(event.target.value);

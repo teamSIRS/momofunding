@@ -7,7 +7,6 @@ import {
   StyledLink,
 } from "./styles";
 
-
 export type HomeFundingCardProps = {
   progress?: any;
   height?: any;
@@ -26,18 +25,17 @@ export const HomeFundingCard = ({
   progress,
   isLive,
 }: HomeFundingCardProps) => {
-
   return (
     <StyledCard height={height} width={width}>
       <StyledLink to={projectPath}>
-        <StyledCardImg src={imgSrc} style={{filter: "brightness(67%)"}}></StyledCardImg>
+        <StyledCardImg
+          src={imgSrc}
+          style={{ filter: "brightness(67%)" }}
+        ></StyledCardImg>
         <Card.ImgOverlay className="d-flex flex-column justify-content-center align-items-center">
           <Card.Title>{title}</Card.Title>
-          <BadgeContainer top="8px" right="20px">
-              {isLive
-                  ? <LiveBadge content={"Live"} color={"red"}/> 
-                  : null
-              }
+          <BadgeContainer top="20px" right="10px">
+            {isLive ? <LiveBadge content={"Live"} color={"red"} /> : null}
           </BadgeContainer>
           <Card.Text>{progress}</Card.Text>
         </Card.ImgOverlay>

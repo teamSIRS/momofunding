@@ -14,9 +14,16 @@ const NoticeMain = styled.div`
 `;
 
 const NoticeMainTitle = styled.div`
-  margin: 50px;
+  margin-top: 50px;
+  margin-left: 50px;
   font-size: 30px;
   font-weight: bold;
+`;
+
+const NoticeMainSubTitle = styled(NoticeMainTitle)`
+  margin-top: 20px;
+  margin-left: 55px;
+  font-size: 15px;
 `;
 
 const NoticeMainBtn = styled.div`
@@ -48,6 +55,9 @@ function Notice() {
   return (
     <div>
       <NoticeMainTitle>공지사항</NoticeMainTitle>
+      <NoticeMainSubTitle>
+        공지사항은 관리자만 작성가능합니다.
+      </NoticeMainSubTitle>
       <Container>
         <Row style={styles.row}>
           <Col sm={12} style={styles.col}>

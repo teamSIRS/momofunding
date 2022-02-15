@@ -31,14 +31,15 @@ import {
   sessionState,
   titleState,
 } from "../../LiveAtoms";
-import { selector, useRecoilState } from "recoil";
+import { selector, useRecoilState, useRecoilValue } from "recoil";
 import { baseUrl } from "../../../../App";
 import LiveMain from "../../LiveMain";
 import { userIdState } from "../../../../atoms";
 import { SelectedSurveyState } from "../../LiveMain/Surveys/SurveyList/SurveyList";
 import { useParams } from "react-router-dom";
+import { authorizationState } from "../../LiveMain/LiveMain";
 
-const OPENVIDU_SERVER_URL = "https://i6a202.p.ssafy.io";
+const OPENVIDU_SERVER_URL = "https://i6a202.p.ssafy.io:4431";
 const OPENVIDU_SERVER_SECRET = "9793";
 
 function randomString() {
@@ -68,7 +69,8 @@ const msgType = {
 };
 
 export const RTCRenderer = () => {
-  const projectId = useParams().id;
+  const [isStaff, setIsStaff] = useRecoilState(authorizationState);
+  // const [isCreated, setIsCreated] = useState(false);
   const [camActive, setCamActive] = useRecoilState(camState);
   const [micActive, setMicActive] = useRecoilState(micState);
   const [publisher, setPublisher] = useState(pubType);
@@ -80,11 +82,12 @@ export const RTCRenderer = () => {
   const [content, setContent] = useState("");
   const [messages, setMessages] = useRecoilState(msgsState);
 
-  var isCreated = false;
-
   let session = sessionType;
-  // const sessionId = useRecoilValue(sessionIdSelector);
-  const sessionId = "gfbcde1wg1e2dsad";
+  let isCreated = false;
+  let sessionId;
+
+  const userSideSessionId = useParams().id;
+  const staffSideSessionId = useRecoilValue(sessionIdSelector);
 
   const onCamClick = () => {
     setCamActive((now) => !now);
@@ -127,6 +130,8 @@ export const RTCRenderer = () => {
           if (error?.response?.status === 409) {
             console.log(409, "handled");
             isCreated = true;
+            setIsStaff(false);
+            setIsSubmitted(true);
             resolve(sessionId);
           } else {
             console.log(error);
@@ -192,6 +197,7 @@ export const RTCRenderer = () => {
     session = OV.initSession();
 
     session.on("streamCreated", function (event) {
+      console.log("stream started");
       session.subscribe(event.stream, "creatorVideo");
     });
 
@@ -231,12 +237,26 @@ export const RTCRenderer = () => {
   };
 
   useEffect(() => {
+    console.log("isStaff changed to:", isStaff);
+    console.log("isCreated:", isCreated);
+  }, [isStaff]);
+
+  // 컴포넌트 생성시
+  useEffect(() => {
+    sessionId = userSideSessionId;
+    if (userSideSessionId === "new") {
+      sessionId = staffSideSessionId;
+    } else {
+      console.log("나는 참여자~~~");
+      setIsSubmitted(true);
+      setIsStaff(false);
+    }
     console.log("session id: ", sessionId);
     setTimeout(() => {
-      console.log("시작 : " + isCreated);
-      isCreated = false;
+      console.log("시작 : " + isStaff);
+      // setIsStaff(false);
       joinSession();
-    }, 2000);
+    }, 5000);
 
     return () => leaveSession();
   }, []);
@@ -284,7 +304,7 @@ export const RTCRenderer = () => {
       data: {
         title: title,
         content: content,
-        projectId: projectId,
+        projectId: 1,
         projectCategoryId: 1,
         sessionId: sessionId,
       },

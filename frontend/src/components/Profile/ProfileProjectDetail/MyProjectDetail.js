@@ -15,11 +15,9 @@ import {
   TitleBox,
   ProjectTitle,
   CreatorName,
-  ProjectContent,
   BtnBox,
   ManageBtn,
   LiveBtn,
-  MyLink,
   MainBox,
   LiveBox,
   Title,
@@ -165,7 +163,7 @@ function MyProjectDetail() {
           <ManageBtn>
             <button onClick={goToManagePjt}>프로젝트 관리</button>
           </ManageBtn>
-          <ToNewLiveLink to={`/lives/${project.id}/new`}>
+          <ToNewLiveLink to={`/lives/new`}>
             <LiveBtn>라이브 켜기</LiveBtn>
           </ToNewLiveLink>
           <DeleteBtn>
