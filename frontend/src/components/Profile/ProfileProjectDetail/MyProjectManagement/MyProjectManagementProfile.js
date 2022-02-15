@@ -2,12 +2,8 @@ import styled from "styled-components";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import $ from "jquery";
-import { useLocation, useParams } from "react-router-dom";
-import setAuthorizationToken, {
-  createProjectIdState,
-  userIdState,
-} from "../../../../atoms";
-import { useRecoilValue } from "recoil";
+import { useParams } from "react-router-dom";
+import setAuthorizationToken from "../../../../atoms";
 import { baseUrl } from "../../../../App";
 
 const ProjectManagementMain = styled.div`

@@ -2,8 +2,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import $ from "jquery";
-import { useNavigate, useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useParams } from "react-router-dom";
 import setAuthorizationToken from "../../../../atoms";
 import { baseUrl } from "../../../../App";
 
@@ -151,7 +150,8 @@ function MyProjectManagementStory() {
           setSubImageUrl(response.data.subImageUrl);
           setSummary(response.data.summary);
           setProjectContent(response.data.projectContent);
-          setExpirationDate(response.data.expirationDate);
+          if(response.data.expirationDate != null)
+            setExpirationDate(response.data.expirationDate.slice(0, 10));
 
           console.log("프로젝트 상태");
           if (
@@ -183,7 +183,7 @@ function MyProjectManagementStory() {
       subImageUrl: subImageUrl,
       summary: summary,
       projectContent: projectContent,
-      expirationDate: expirationDate,
+      expirationDate: expirationDate+"T12:00:00",
     };
 
     const form = formRef[0];
@@ -374,7 +374,7 @@ function MyProjectManagementStory() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentDate
               type="date"
-              value={expirationDate ? expirationDate.slice(0, 10)+"T12:00:00" : null}
+              value={expirationDate}
               onChange={onExpirationDateChange}
             />
           </ProjectManagementContentInputBox>
