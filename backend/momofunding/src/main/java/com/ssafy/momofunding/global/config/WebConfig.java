@@ -69,7 +69,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
 
         //server
-//        imagePath.replace('\\', '/');
+        imagePath.replace('\\', '/');
 
         //images 외부 경로
         registry.addResourceHandler("/api/images/project/**")
