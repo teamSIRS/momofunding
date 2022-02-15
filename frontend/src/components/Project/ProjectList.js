@@ -1,14 +1,21 @@
 // // 카드로 여러개 나열되어 있는 페이지
-import axios from 'axios';
+import axios from "axios";
 import { useEffect, useState } from "react";
-import { Container } from 'react-bootstrap';
+import { Container, Form, Select } from "react-bootstrap";
 import HomeBanners from "../Home/HomeBanners";
 import ProjectCard from "./ProjectCard";
-import { ListNav, Category, Search, Bar, ListFilter, ListFilterSelected } from './Project.styled';
-import NonExist from './NonExist';
-import { baseUrl } from '../../App';
+import {
+  ListNav,
+  Category,
+  Search,
+  Bar,
+  ListFilter,
+  ListFilterSelected,
+} from "./Project.styled";
+import NonExist from "./NonExist";
+import { baseUrl } from "../../App";
 
-function ProjectList(){
+function ProjectList() {
   const [isDate, setIsDate] = useState(true);
   const [isPop, setIsPop] = useState(false);
   const [search, setSearch] = useState("");
@@ -19,88 +26,92 @@ function ProjectList(){
   const all = [
     {
       id: 0,
-      name: "전체"
-    }
+      name: "전체",
+    },
   ];
   let orderQuery = "";
   let categoryQuery = "";
   let keywordQuery = "";
 
-  const handleSelect = (e) =>{
+  const handleSelect = (e) => {
     setSelected(Number(e.target.value));
     setSearch("");
-  }
+  };
 
-  const Categories = async() => {
+  const Categories = async () => {
     await axios({
-      url:`/categories`,
-      method:"get",
+      url: `/categories`,
+      method: "get",
       baseURL: baseUrl,
     })
-    .then((response)=>{
-      setCategories([...all, ...response.data]);
-    })
-    .catch((err) =>{
-      console.log(err);
-    })
-  }
+      .then((response) => {
+        setCategories([...all, ...response.data]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  const enterkey = () =>{
-    if(window.event.keyCode === 13) Setlist();
-  }
+  const enterkey = () => {
+    if (window.event.keyCode === 13) Setlist();
+  };
 
-  const Setlist = async() =>{
-    if(isDate){
+  const Setlist = async () => {
+    if (isDate) {
       orderQuery = "?order=date";
-    } else{
+    } else {
       orderQuery = "?order=popularity";
     }
 
-    if(selected !== 0) categoryQuery = "&categoryId="+selected;
+    if (selected !== 0) categoryQuery = "&categoryId=" + selected;
     else categoryQuery = "";
 
-    if(search !== "") keywordQuery = "&keyword="+search;
+    if (search !== "") keywordQuery = "&keyword=" + search;
     else keywordQuery = "";
 
-    
     await axios({
-      url:`/projects/search`+orderQuery+categoryQuery+keywordQuery,
-      method:"get",
+      url: `/projects/search` + orderQuery + categoryQuery + keywordQuery,
+      method: "get",
       baseURL: baseUrl,
     })
-    .then((response)=>{
-      setProjects([...response.data]);
-      if(response.data === "") setIsExist(false);
-      else setIsExist(true);
-    })
-    .catch((err) =>{
-      console.log(err);
-    })
-  }
+      .then((response) => {
+        setProjects([...response.data]);
+        if (response.data === "") setIsExist(false);
+        else setIsExist(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     Categories();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     Setlist();
-  },[ selected, isPop, isDate ]);
+  }, [selected, isPop, isDate]);
 
-  return(
+  return (
     <>
       <HomeBanners />
       <ListNav>
         <Category>
           <span id="category">카테고리</span>
           <select onChange={handleSelect} value={selected}>
-            {categories.map((category) =>(
+            {categories.map((category) => (
               <option value={category.id} key={category.id}>
                 {category.name}
               </option>
             ))}
-            </select>
+          </select>
         </Category>
-
+        <Form.Select aria-label="Default select example">
+          <option>Open this select menu</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </Form.Select>
         <Search>
           <input
             type="text"
@@ -124,16 +135,30 @@ function ProjectList(){
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
           </svg>
 
-          {
-            isPop
-            ?(<ListFilterSelected>인기순</ListFilterSelected>)
-            :(<ListFilter onClick={()=>{setIsPop(true); setIsDate(false); }}>인기순</ListFilter>)
-          }
-          {
-            isDate
-            ?(<ListFilterSelected>최신순</ListFilterSelected>)
-            :(<ListFilter onClick={()=>{setIsDate(true); setIsPop(false);}}>최신순</ListFilter>)
-          }
+          {isPop ? (
+            <ListFilterSelected>인기순</ListFilterSelected>
+          ) : (
+            <ListFilter
+              onClick={() => {
+                setIsPop(true);
+                setIsDate(false);
+              }}
+            >
+              인기순
+            </ListFilter>
+          )}
+          {isDate ? (
+            <ListFilterSelected>최신순</ListFilterSelected>
+          ) : (
+            <ListFilter
+              onClick={() => {
+                setIsDate(true);
+                setIsPop(false);
+              }}
+            >
+              최신순
+            </ListFilter>
+          )}
         </Search>
       </ListNav>
       <Bar />
@@ -141,18 +166,13 @@ function ProjectList(){
       <Container>
         <div className="container">
           <div className="row">
-            {
-             isExist
-             ? (
+            {isExist ? (
               projects.map((project) => (
-                <ProjectCard
-                  project={project}
-                  key={project.id}
-                />
+                <ProjectCard project={project} key={project.id} />
               ))
-             )
-             : <NonExist ment="검색결과"/>
-            }
+            ) : (
+              <NonExist ment="검색결과" />
+            )}
           </div>
         </div>
       </Container>
