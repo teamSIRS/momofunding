@@ -1,6 +1,7 @@
 import { prototype } from "events";
 import React,{ useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import {
   Btn,
   GotoLiveBtn,
@@ -11,14 +12,35 @@ import { BannerSubTitle, BannerTitle, SubTitle } from "./BannerCaption/styles";
 import BannerContribStatus from "./BannerContribStatus";
 import { MomoProgress } from "./BannerProgress/styles";
 import { BannerCover, BannerImg, BannerWrapper } from "./styles";
+import { baseUrl } from "../../../App";
 
 interface Props {
   project: any,
 }
 
-export const ProjectBanner:React.FC<Props> = ({...props}) => {
+export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
   const params = useParams();
   const [onAir, setOnAir] = useState(false);
+  let isLive = false;
+
+  const getLiveState = async () => {
+    await axios({
+      url: "/projects/"+ props.project.id + "/is-play-live", 
+      method: "get", 
+      data: {},
+      baseURL: baseUrl,	
+    })	
+      .then((response) => { 
+        console.log(response.data.isPlayLive); 
+        setOnAir(response.data.isPlayLive);
+      })
+      .catch((error) => { // .catch는 axios 요청 실패시 작업
+        console.log(error); // error 메세지 확인
+      });
+  }
+
+  getLiveState();
+
   const contribRate =
     Math.round((props.project.currentAmount / props.project.fundingGoal) * 1000) / 10;
 
