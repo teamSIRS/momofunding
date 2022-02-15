@@ -16,4 +16,6 @@ public interface SurveyAnswerRepository extends JpaRepository<SurveyAnswer, Long
             "on qs.id = sa.questionSelect.id where qs.surveyQuestion.id = :surveyQuestionId " +
             "group by qs.id")
     List<SurveyAnswerResponseDto> findChoiceAnswerBySurveyQuestionId(Long surveyQuestionId);
+
+    Boolean existsBySurveyQuestionIdAndUserId(Long surveyQuestionId, Long userId);
 }
