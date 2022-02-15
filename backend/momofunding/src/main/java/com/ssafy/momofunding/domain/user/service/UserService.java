@@ -4,6 +4,7 @@ import com.ssafy.momofunding.domain.user.domain.User;
 import com.ssafy.momofunding.domain.user.dto.*;
 import com.ssafy.momofunding.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -28,6 +29,9 @@ public class UserService {
     private static final String EMAILMSG2 =
                     "\n\n=========================================================\n"+
                     "감사합니다.";
+
+    @Value("${serverFrontUrl}")
+    private String serverFrontUrl;
 
 
     //SignIn
@@ -93,7 +97,7 @@ public class UserService {
         message.setTo(email);
         message.setFrom(FROM_ADDRESS);
         message.setSubject("Here is momofunding password reset link!");
-        message.setText(EMAILMSG + "http://localhost:3000/changePw/" + token + EMAILMSG2);
+        message.setText(EMAILMSG + serverFrontUrl + "changePw/" + token + EMAILMSG2);
         mailSender.send(message);
     }
 

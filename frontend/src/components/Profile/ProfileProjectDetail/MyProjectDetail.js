@@ -32,6 +32,8 @@ import {
 import setAuthorizationToken from "../../../atoms";
 import styled from "styled-components";
 import SurveyResult from "../ProfileMyPage/SurveyResult";
+import { useSetRecoilState } from "recoil";
+import { pjtIdState } from "../../Live/LiveAtoms";
 import swal from "sweetalert";
 const NoSurvey = styled.div`
   width: 90%;
@@ -52,6 +54,7 @@ const DeleteBtn = styled(ManageBtn)`
 
 function MyProjectDetail() {
   const { id } = useParams();
+  const setPjtId = useSetRecoilState(pjtIdState);
   const [project, setProject] = useState("");
   const [isEdit, setIsEdit] = useState(false);
   const [surveys, setSurveys] = useState([{ id: 0, title: "test" }]);
@@ -115,6 +118,10 @@ function MyProjectDetail() {
     setSurveys(surveys.filter((survey) => survey.id !== id));
   };
 
+  const onClickPersistParam = () => {
+    setPjtId(id);
+  };
+
   const navigate = useNavigate();
   const goToManagePjt = () => {
     navigate(`/myproject/${id}/management/profile`);
@@ -165,7 +172,7 @@ function MyProjectDetail() {
           <ManageBtn>
             <button onClick={goToManagePjt}>프로젝트 관리</button>
           </ManageBtn>
-          <ToNewLiveLink to={`/lives/new`}>
+          <ToNewLiveLink onClick={onClickPersistParam} to={`/lives/new`}>
             <LiveBtn>라이브 켜기</LiveBtn>
           </ToNewLiveLink>
           <DeleteBtn>
