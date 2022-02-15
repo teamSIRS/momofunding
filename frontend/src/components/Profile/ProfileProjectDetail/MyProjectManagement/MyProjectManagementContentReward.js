@@ -2,13 +2,10 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import setAuthorizationToken, {
-  createProjectIdState,
-  createRewardIdState,
-} from "../../../atoms";
-import { baseUrl } from "../../../App";
+import setAuthorizationToken, { createRewardIdState } from "../../../../atoms";
+import { baseUrl } from "../../../../App";
 import swal from 'sweetalert';
 
 const ProjectManagementContentForm = styled.form`
@@ -47,17 +44,19 @@ const ProjectManagementContentInput = styled.div`
 
 const ProjectManagementContentDate = styled.input``;
 
+
 const ProjectManagementContentTextarea = styled(ProjectManagementContentInput)`
   height: 120px;
 `;
 
 const ProjectManagementContentProfileBtn = styled.button`
-  margin-left: 45px;
+  margin-left: 48px;
 `;
 
 const ProjectManagementContentProfileUpdateBtn = styled(
   ProjectManagementContentProfileBtn
 )`
+  margin-left: 20px;
   background-color: green;
 `;
 
@@ -76,7 +75,7 @@ const ProjectManagementContentProfileRadio = styled.label`
 `;
 
 // 수정? 삭제? 기능 추가해야함
-function ProjectManagementContentReward(props) {
+function MyProjectManagementContentReward(props) {
   const {
     register,
     handleSubmit,
@@ -116,7 +115,8 @@ function ProjectManagementContentReward(props) {
   };
   //////////////////////////////////////////////////////////////////////
   // 이거는 나중에 로그인한 회원의 프로젝트로 바꿔야함
-  const projectId = useRecoilValue(createProjectIdState);
+  const { id } = useParams();
+  // const projectId = useRecoilValue(createProjectIdState);
   const [rewardId, setRewardId] = useRecoilState(createRewardIdState);
   //////////////////////////////////////////////////////////////////////
   const getData = () => {
@@ -137,7 +137,7 @@ function ProjectManagementContentReward(props) {
         url: `/rewards`,
         method: "post",
         data: {
-          projectId: projectId,
+          projectId: id,
           name: data.name,
           price: data.price,
           content: data.content,
@@ -212,6 +212,7 @@ function ProjectManagementContentReward(props) {
   const navigate = useNavigate();
 
   function deleteRewards() {
+    console.log(rewardId);
     const deleteRewards = async () => {
       await axios({
         url: `/rewards/${props.reward.id}`,
@@ -226,7 +227,7 @@ function ProjectManagementContentReward(props) {
           console.log(error);
         });
     };
-
+    
     swal({
       title: "리워드를 삭제하시겠습니까?",
       text: "리워드 삭제 시, 다시 되돌릴 수 없습니다!",
@@ -237,12 +238,13 @@ function ProjectManagementContentReward(props) {
       if(response){
         deleteRewards();
         props.setChangeData();
-        swal("리워드가 삭제되었습니다.").then((response) => {
+        swal("리워드가 삭제되었습니다.").then(() => {
           window.location.reload(true);
         });
       }
     });
   }
+
   //////////////////////////////////////////////////////////////////////
 
   const onValid = (data) => {
@@ -257,7 +259,7 @@ function ProjectManagementContentReward(props) {
   useEffect(() => {
     getData();
   }, [props.reward]);
-
+  
   return (
     <div>
       {
@@ -419,8 +421,6 @@ function ProjectManagementContentReward(props) {
               </>
               )
             }
-            
-            
           </div>
         </ProjectManagementContentForm>
         )
@@ -430,4 +430,4 @@ function ProjectManagementContentReward(props) {
   );
 }
 
-export default ProjectManagementContentReward;
+export default MyProjectManagementContentReward;

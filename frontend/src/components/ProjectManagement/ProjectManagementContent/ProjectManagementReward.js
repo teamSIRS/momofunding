@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
-import { baseUrl } from "../../../../App";
-import MyProjectManagementContentReward from './MyProjectManagementContentReward';
+import { baseUrl } from "../../../App";
+import ProjectManagementContentReward from './ProjectManagementContentReward';
 
 
 const ProjectManagementMain = styled.div`
@@ -51,8 +51,8 @@ const ProjectManagementReward = () => {
     optionDescription: "",
     price: 0
   };
-  const { id } = useParams();
-  const projectId = id;
+  const location = useLocation();
+  const projectId = location.state.projectId;
   const [rewards, setRewards] = useState([""]);
   const [reward, setReward] = useState(rewardInit);
   const [selected, setSelected] = useState(0);
@@ -124,11 +124,11 @@ const ProjectManagementReward = () => {
           </select>
         </ProjectManagementContentRewardSelect>
         <ProjectManagementContentRewardSelectDesc>새 리워드 작성을 원하시면, '신규'를 선택해주세요</ProjectManagementContentRewardSelectDesc>
-        <MyProjectManagementContentReward
+        <ProjectManagementContentReward
           reward = {reward}
           setChangeData = {setChangeData}
         >
-        </MyProjectManagementContentReward>
+        </ProjectManagementContentReward>
       </ProjectManagementMain>
     </div>
   );
