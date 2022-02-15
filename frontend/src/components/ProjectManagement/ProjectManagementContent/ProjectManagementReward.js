@@ -15,14 +15,23 @@ const ProjectManagementContentRewardTitle = styled.h3`
   text-align: center;
 `;
 
-const ProjectManagementReward = () => {
-  const location = useLocation();
-  const projectId = location.state.projectId;
-  const [rewards, setRewards] = useState([""]);
-  const [reward, setReward] = useState("");
-  const [selected, setSelected] = useState("없음");
+const ProjectManagementContentRewardSelect = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: start;
+  padding: 10px;
+`;
 
-  const rewardSample = {
+const ProjectManagementContentRewardSelectMent = styled.h5`
+`;
+
+const ProjectManagementContentRewardSelectDesc = styled.p`
+text-align: center;
+`;
+
+const ProjectManagementReward = () => {
+  const rewardInit = {
     content: "",
     deliverStartDate: "",
     id: 0,
@@ -32,16 +41,42 @@ const ProjectManagementReward = () => {
     optionDescription: "",
     price: 0
   };
+  const rewardNone = {
+    content: "",
+    deliverStartDate: "",
+    id: -1,
+    isDeliver: false,
+    limitedQuantity: 0,
+    name: "",
+    optionDescription: "",
+    price: 0
+  };
+  const location = useLocation();
+  const projectId = location.state.projectId;
+  const [rewards, setRewards] = useState([""]);
+  const [reward, setReward] = useState(rewardInit);
+  const [selected, setSelected] = useState(0);
+  const initSelect = [
+    {
+      id: -1,
+      name: "--선택안함"
+    },
+    {
+      id: 0,
+      name: "신규"
+    }
+  ]
+
+  const setChangeData = () => {
+    getRewards();
+  }
 
   const getRewards = async() => {
     await axios
-    .get(baseUrl + "/rewards/projects/" + projectId)
-    .then((res) =>{
-      setRewards([...res.data]);
-      if(rewards.length === 0) {
-        setSelected("없음");
-        setReward(rewardSample);
-      } else setReward(res.data[0]);
+    .get(baseUrl + `/rewards/projects/` + projectId)
+    .then((response) =>{
+        setRewards([...initSelect, ...response.data]);
+        setSelected(-1);
     })
     .catch((err) =>{
       console.log(err);
@@ -49,13 +84,10 @@ const ProjectManagementReward = () => {
   };
 
   const getReward = async() => {
-    await axios({
-    })
+    await axios
     .get(baseUrl + "/rewards/" + selected)
-    .then((res) =>{
-      console.log(res.data);
-      setReward(res.data);
-
+    .then((response) =>{
+      setReward(response.data);
     })
     .catch((err) =>{
       console.log(err);
@@ -63,12 +95,14 @@ const ProjectManagementReward = () => {
   };
 
   useEffect(()=>{
-    console.log(selected);
-    if(selected!=="없음") getReward();
+    if(selected == -1) setReward(rewardNone);
+    if(selected == 0) setReward(rewardInit);
+    if(selected!=-1 && selected!=0) getReward();
   }, [selected])
 
-  useEffect(() => {
+  useEffect(()=>{
     getRewards();
+    window.scrollTo(0, 0);
   }, [])
   
   return (
@@ -77,7 +111,9 @@ const ProjectManagementReward = () => {
         <ProjectManagementContentRewardTitle>
           리워드 정보 등록
         </ProjectManagementContentRewardTitle>
-        <select onChange={e => {setSelected(e.target.value)}}>
+        <ProjectManagementContentRewardSelect>
+          <ProjectManagementContentRewardSelectMent>작성할 리워드를 선택해주세요!&nbsp;&nbsp;&nbsp;</ProjectManagementContentRewardSelectMent>
+          <select onChange={e => {setSelected(e.target.value)}}>
           {
             rewards.map((reward, idx) => (
               <option value={reward.id} key={idx}>
@@ -85,10 +121,14 @@ const ProjectManagementReward = () => {
               </option>
             ))
           }
-        </select>
+          </select>
+        </ProjectManagementContentRewardSelect>
+        <ProjectManagementContentRewardSelectDesc>새 리워드 작성을 원하시면, '신규'를 선택해주세요</ProjectManagementContentRewardSelectDesc>
         <ProjectManagementContentReward
           reward = {reward}
-        ></ProjectManagementContentReward>
+          setChangeData = {setChangeData}
+        >
+        </ProjectManagementContentReward>
       </ProjectManagementMain>
     </div>
   );

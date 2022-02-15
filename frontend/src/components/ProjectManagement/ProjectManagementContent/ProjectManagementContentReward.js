@@ -9,11 +9,7 @@ import setAuthorizationToken, {
   createRewardIdState,
 } from "../../../atoms";
 import { baseUrl } from "../../../App";
-
-const ProjectManagementMain = styled.div`
-  width: 100%;
-  min-height: 800px;
-`;
+import swal from 'sweetalert';
 
 const ProjectManagementContentForm = styled.form`
   display: flex;
@@ -51,16 +47,24 @@ const ProjectManagementContentInput = styled.div`
 
 const ProjectManagementContentDate = styled.input``;
 
-const ProjectManagementContentRewardTitle = styled.h3`
-  text-align: center;
-`;
-
 const ProjectManagementContentTextarea = styled(ProjectManagementContentInput)`
   height: 120px;
 `;
 
 const ProjectManagementContentProfileBtn = styled.button`
   margin-left: 45px;
+`;
+
+const ProjectManagementContentProfileUpdateBtn = styled(
+  ProjectManagementContentProfileBtn
+)`
+  background-color: green;
+`;
+
+const ProjectManagementContentProfileDeleteBtn = styled(
+  ProjectManagementContentProfileUpdateBtn
+)`
+  background-color: red;
 `;
 
 const ProjectManagementContentProfileRadio = styled.label`
@@ -72,7 +76,7 @@ const ProjectManagementContentProfileRadio = styled.label`
 `;
 
 // 수정? 삭제? 기능 추가해야함
-function ProjectManagementContentReward() {
+function ProjectManagementContentReward(props) {
   const {
     register,
     handleSubmit,
@@ -116,7 +120,30 @@ function ProjectManagementContentReward() {
   const [rewardId, setRewardId] = useRecoilState(createRewardIdState);
   //////////////////////////////////////////////////////////////////////
   const getData = () => {
-    setName(reward.name);
+    setName(props.reward.name);
+    setPrice(props.reward.price);
+    setContent(props.reward.content);
+    setOptionDescription(props.reward.optionDescription);
+    setIsDeliver(props.reward.isDeliver);
+    setLimitedQuantity(props.reward.limitedQuantity);
+    const date = props.reward.deliverStartDate.slice(0, 10);
+    setDeliverStartDate(date);
+  }
+  //////////////////////////////////////////////////////////////////////
+  function alertConfirm(ment){
+    var answer = false;
+    swal({
+      title: "리워드를 "+ment+"하시겠습니까?",
+      text: "리워드 "+ment+" 시, 다시 되돌릴 수 없습니다!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((response) => {
+      if(response){
+        swal("리워드가 수정되었습니다.");
+      }
+    });
+    return answer;
   }
   //////////////////////////////////////////////////////////////////////
   function saveRewards(data) {
@@ -133,7 +160,7 @@ function ProjectManagementContentReward() {
           optionDescription: data.optionDescription,
           isDeliver: isDeliver,
           limitedQuantity: data.limitedQuantity,
-          deliverStartDate: data.deliverStartDate + "T12:00:00",
+          deliverStartDate: data.deliverStartDate+"T12:00:00",
         },
         headers: setAuthorizationToken(),
         baseURL: baseUrl,
@@ -148,33 +175,9 @@ function ProjectManagementContentReward() {
         });
     };
     saveRewards();
+    props.setChangeData();
+    window.location.reload(true);
   }
-  //////////////////////////////////////////////////////////////////////
-  function getRewards() {
-    const getRewards = async () => {
-      await axios({
-        url: `/rewards/projects/${projectId}`,
-        method: "get",
-        baseURL: baseUrl,
-      })
-        .then((response) => {
-          console.log(response.data[0]);
-          setName(response.data[0].name);
-          setPrice(response.data[0].price);
-          setContent(response.data[0].content);
-          setOptionDescription(response.data[0].optionDescription);
-          setIsDeliver(response.data[0].isDeliver);
-          setLimitedQuantity(response.data[0].limitedQuantity);
-          setDeliverStartDate(response.data[0].deliverStartDate);
-        })
-        .catch((error) => {
-          console.log("에러발생가져오기");
-          console.log(error);
-        });
-    };
-    getRewards();
-  }
-
   //////////////////////////////////////////////////////////////////////
   function updateRewards(event) {
     event.preventDefault();
@@ -185,12 +188,12 @@ function ProjectManagementContentReward() {
       optionDescription: optionDescription,
       isDeliver: isDeliver,
       limitedQuantity: limitedQuantity,
-      deliverStartDate: deliverStartDate,
+      deliverStartDate: deliverStartDate+"T12:00:00",
     };
 
     const updateRewards = async () => {
       await axios({
-        url: `/rewards/${rewardId}`,
+        url: `/rewards/${props.reward.id}`,
         method: "put",
         data: data,
         headers: setAuthorizationToken(),
@@ -204,7 +207,23 @@ function ProjectManagementContentReward() {
           console.log(error);
         });
     };
-    updateRewards();
+
+    swal({
+      title: "리워드를 수정하시겠습니까?",
+      text: "리워드 수정 시, 다시 되돌릴 수 없습니다!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((response) => {
+      if(response){
+        updateRewards();
+        props.setChangeData();
+        swal("리워드가 수정되었습니다.");
+        window.location.reload(true);
+      }
+    });
+    // updateRewards();
+    // props.setChangeData();
   }
   //////////////////////////////////////////////////////////////////////
   const navigate = useNavigate();
@@ -212,22 +231,36 @@ function ProjectManagementContentReward() {
   function deleteRewards() {
     const deleteRewards = async () => {
       await axios({
-        url: `/reawrds/${rewardId}`,
+        url: `/rewards/${props.reward.id}`,
         method: "delete",
         headers: setAuthorizationToken(),
         baseURL: baseUrl,
       })
         .then((response) => {
           console.log(response.data);
-          navigate("/");
         })
         .catch((error) => {
           console.log(error);
         });
     };
-    deleteRewards();
-  }
 
+    swal({
+      title: "리워드를 삭제하시겠습니까?",
+      text: "리워드 삭제 시, 다시 되돌릴 수 없습니다!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((response) => {
+      if(response){
+        deleteRewards();
+        props.setChangeData();
+        swal("리워드가 삭제되었습니다.");
+        window.location.reload(true);
+      }
+    });
+    // deleteRewards();
+    // props.setChangeData();
+  }
   //////////////////////////////////////////////////////////////////////
 
   const onValid = (data) => {
@@ -241,13 +274,14 @@ function ProjectManagementContentReward() {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [props.reward]);
+
   return (
     <div>
-      <ProjectManagementMain>
-        <ProjectManagementContentRewardTitle>
-          리워드 정보 등록
-        </ProjectManagementContentRewardTitle>
+      {
+        (props.reward.id !== -1)
+        ?
+        (
         <ProjectManagementContentForm onSubmit={handleSubmit(onValid)}>
           <ProjectManagementContentInputBox>
             <ProjectManagementContentTitle>
@@ -377,19 +411,39 @@ function ProjectManagementContentReward() {
               {...register("deliverStartDate", {
                 required: "배송 시작일은 필수입니다.",
               })}
-              value={deliverStartDate.slice(0, 10)}
+              value={deliverStartDate}
               onChange={onDeliverStartDateChange}
             ></ProjectManagementContentDate>
           </ProjectManagementContentInputBox>
           <div>
-            <ProjectManagementContentProfileBtn>
-              리워드 등록 및 추가
-            </ProjectManagementContentProfileBtn>
-            <ProjectManagementContentProfileBtn onClick={updateRewards}>
-              리워드 수정
-            </ProjectManagementContentProfileBtn>
+            {
+              (props.reward.id === 0)
+              ?(
+                <ProjectManagementContentProfileBtn>
+                  리워드 등록 및 추가
+                </ProjectManagementContentProfileBtn>
+              )
+              :(
+                <>
+                <ProjectManagementContentProfileUpdateBtn onClick={updateRewards}>
+                  리워드 수정
+                </ProjectManagementContentProfileUpdateBtn>
+                <ProjectManagementContentProfileDeleteBtn
+                type="button"
+                onClick={deleteRewards}
+                >
+                리워드 삭제
+                </ProjectManagementContentProfileDeleteBtn>
+              </>
+              )
+            }
+            
+            
           </div>
         </ProjectManagementContentForm>
+        )
+        :null
+      }
     </div>
   );
 }
