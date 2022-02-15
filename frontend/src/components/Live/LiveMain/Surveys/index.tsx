@@ -85,7 +85,7 @@ const submitConfirm = selector({
   get: ({ get }) => {
     const states = get(submitStates);
     let allConfirmed = true;
-    states.forEach((isSubmitted) => {
+    states?.forEach((isSubmitted) => {
       if (!isSubmitted) allConfirmed = false;
     });
     return allConfirmed;
@@ -112,7 +112,7 @@ const Survey = ({ show }: ChatProps) => {
         console.log("data:", data);
         setSurveyApi(data);
         setQstates(
-          data.questions.map((question, idx) => {
+          data?.questions?.map((question, idx) => {
             if (question.questionType.id === 1) return false;
             return true;
           })
