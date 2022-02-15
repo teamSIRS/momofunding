@@ -19,7 +19,7 @@ export const InputForm = styled.div`
 `;
 
 export const Input = styled.input.attrs({ required: true })`
-  width: 470px;
+  width: 500px;
   height: 58px;
   margin-bottom: 15px;
   background-color: #dddeed;
@@ -31,7 +31,7 @@ export const Input = styled.input.attrs({ required: true })`
 `;
 
 export const Btn = styled.button`
-  width: 470px;
+  width: 500px;
   height: 58px;
   margin: 15px;
   color: black;

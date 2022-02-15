@@ -14,6 +14,19 @@ import {
 } from "./Project.styled";
 import NonExist from "./NonExist";
 import { baseUrl } from "../../App";
+import styled from "styled-components";
+
+const SelectCategory = styled.select`
+  width: 80px;
+  height: 35px;
+  border-radius: 5px;
+  border: solid 1.7px black;
+  text-align: center;
+  vertical-align: center;
+  &: focus {
+    border: solid 2.5px #6667ab;
+  }
+`;
 
 function ProjectList() {
   const [isDate, setIsDate] = useState(true);
@@ -98,20 +111,14 @@ function ProjectList() {
       <ListNav>
         <Category>
           <span id="category">카테고리</span>
-          <select onChange={handleSelect} value={selected}>
+          <SelectCategory onChange={handleSelect} value={selected}>
             {categories.map((category) => (
               <option value={category.id} key={category.id}>
                 {category.name}
               </option>
             ))}
-          </select>
+          </SelectCategory>
         </Category>
-        <Form.Select aria-label="Default select example">
-          <option>Open this select menu</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </Form.Select>
         <Search>
           <input
             type="text"
