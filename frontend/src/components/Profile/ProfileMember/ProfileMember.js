@@ -57,9 +57,9 @@ const ProfileMemberNicknameBox = styled.div`
   margin-bottom: 30px;
 `;
 const ProfileMemberNicknameLabel = styled.div`
-  font-size: 15px;
+  font-size: 20px;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 `;
 const ProfileMemberNicknameInput = styled.div`
   display: block;
@@ -264,13 +264,13 @@ function ProfileMember() {
       <ProfileMemberTitle>회원정보 수정 페이지</ProfileMemberTitle>
       <ProfileMemberBox>
         <ProfileMemberForm onSubmit={handleSubmit(onValid)}>
-          <ProfileMemberImgBox>
+          {/* <ProfileMemberImgBox>
             <ProfileMemberImg src="/photo/profile.png" />
             <ProfileMemberImgLabel htmlFor="profile_photo">
               사진변경
             </ProfileMemberImgLabel>
             <ProfileMemberImgInput type="file" id="profile_photo" />
-          </ProfileMemberImgBox>
+          </ProfileMemberImgBox> */}
 
           <ProfileMemberNicknameBox>
             <ProfileMemberNicknameLabel as={"label"}>
