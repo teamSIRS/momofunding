@@ -11,15 +11,14 @@ export type HomeLiveCardProps = {
   idx: number;
   title: string;
   viewer: number;
+  subImg: string;
 };
 
-export const HomeLiveCard = ({ idx, title, viewer }: HomeLiveCardProps) => {
+export const HomeLiveCard = ({ idx, title, viewer, subImg }: HomeLiveCardProps) => {
   return (
     <StyledCard key={idx} height={"15.5rem"} width={"275px"}>
       <StyledCardImg
-        src={
-          "https://cdn.pixabay.com/photo/2020/02/22/18/49/paper-4871355_960_720.jpg"
-        }
+        src={subImg}
       ></StyledCardImg>
       <Card.ImgOverlay>
         <StyledSpan color="rgba(0,0,0,54%)">

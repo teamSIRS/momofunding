@@ -1,7 +1,9 @@
 import { prototype } from "events";
 import React,{ useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
 import axios from "axios";
+
+
 import {
   Btn,
   GotoLiveBtn,
@@ -21,7 +23,7 @@ interface Props {
 export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
   const params = useParams();
   const [onAir, setOnAir] = useState(false);
-  let isLive = false;
+  const navigate = useNavigate();
 
   const getLiveState = async () => {
     await axios({
@@ -38,8 +40,17 @@ export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
         console.log(error); // error 메세지 확인
       });
   }
-
+  
+  
+  
+  
   getLiveState();
+
+
+
+  const route = () => {
+    navigate("/lives/")
+  }
 
   const contribRate =
     Math.round((props.project.currentAmount / props.project.fundingGoal) * 1000) / 10;
@@ -66,9 +77,9 @@ export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
             커밍 쑨
           </NotLiveBtn>
         ) : (
-          <GotoLiveBtn bottom="35px" right="190px">
-            라이브 진행중
-          </GotoLiveBtn>
+          <GotoLiveBtn onClick={route} bottom="35px" right="190px">
+              라이브 진행중
+            </GotoLiveBtn>
         )}
         <Btn bottom="35px" right="30px">
           펀딩하기

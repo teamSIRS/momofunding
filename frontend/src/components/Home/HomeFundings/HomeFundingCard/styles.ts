@@ -2,7 +2,7 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const StyledCard = styled(Card)<{ height: string; width: string }>`
+export const StyledCard = styled(Card) <{ height: string; width: string }>`
   position: flex;
   border-radius: 20px;
   width: ${({ width }) => width};
@@ -21,6 +21,7 @@ export const StyledCard = styled(Card)<{ height: string; width: string }>`
 
 export const StyledCardImg = styled(Card.Img)`
   border-radius: 1rem;
+  
 `;
 
 export const StyledLink = styled(Link)`
