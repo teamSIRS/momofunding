@@ -97,7 +97,6 @@ public class ProjectService {
                 throw new IOException("MainImg 파일 처리에 실패하였습니다.");
             }
         }
-
         if(subImg != null){
             String subName = subImg.getOriginalFilename()+"";
             try{
