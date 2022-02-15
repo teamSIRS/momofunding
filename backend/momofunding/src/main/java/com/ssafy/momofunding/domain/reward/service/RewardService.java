@@ -56,4 +56,11 @@ public class RewardService {
     public void deleteReward(Long rewardId) {
         rewardRepository.deleteById(rewardId);
     }
+
+    @Transactional
+    public RewardResponseDto findRewardById(Long rewardId) {
+        Reward reward = rewardRepository.findById(rewardId)
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 리워드 번호입니다:: rewardId-"+rewardId));
+        return new RewardResponseDto(reward);
+    }
 }
