@@ -106,7 +106,7 @@ function SurveyEdit({ survey, onRemove }) {
   async function getSurvey(surveyId){
     await axios.get(baseUrl + '/surveys/' + surveyId)
     .then((res) => {
-      // console.log(res.data);
+      console.log(res.data);
       setSelectedSurvey(res.data);
       setEndDate(res.data.endDate);
       setTitle(res.data.title);
@@ -117,14 +117,13 @@ function SurveyEdit({ survey, onRemove }) {
     })
   }
 
-
   async function editSurvey(){
     await axios({
       url: `${baseUrl}/surveys/${survey.id}`,
       method: "put",
       data:{
         title: title,
-        content: "",
+        content: content,
         endDate: endDate,
       },
       headers: setAuthorizationToken(),
@@ -137,9 +136,32 @@ function SurveyEdit({ survey, onRemove }) {
     })
   }
 
+  const [questions, setQuestions] = useState("");
+  const Test1 = () =>{
+    axios.get(baseUrl+'/surveys/'+survey.id)
+    .then((res)=>{
+      console.log(res.data.questions);
+      setQuestions([...res.data.questions]);
+    })
+    .catch((err) =>{
+      console.log(err);
+    })
+  }
+
+  const Test2 =()=>{
+    axios.get(`${baseUrl}/survey-questions/1`)
+    .then((res) => {
+      console.log(res.data.questions)
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
+
   return (
     <Body>
-      <Container>
+      <Container onClick={()=>{console.log('서베이id', survey.id)}}>
         <SurveyTitle>{survey.title}</SurveyTitle>
         {/* <SurveyResult onClick={()=>{ getSurvey(survey.id); }}>수정</SurveyResult> */}
 
@@ -149,7 +171,7 @@ function SurveyEdit({ survey, onRemove }) {
 
         <Modal show={show} onHide={handleClose}>
           <Modal.Header style={styles.bgColor} closeButton>
-            <Modal.Title>설문조사 작성</Modal.Title>
+            <Modal.Title>설문조사 수정</Modal.Title>
           </Modal.Header>
 
           <Modal.Body
@@ -193,8 +215,8 @@ function SurveyEdit({ survey, onRemove }) {
             </form>
             <br/> 
 
-
                 <SurveyAddInputBox>
+                  <p onClick={Test1}>Test1</p>
                   <SurveyAddLabel>질문 양식 선택</SurveyAddLabel>
                   <select onChange={onChange} value={selectedNum}>
                     {selectList.map((item) => (
@@ -207,8 +229,8 @@ function SurveyEdit({ survey, onRemove }) {
 
                   <SurveyAddLabel>
                     {selectedNum === "선택하세요" ? <SurveySelect /> : null}
-                    {selectedNum === "객관식" ? <SurveyNum /> : null}
-                    {selectedNum === "주관식" ? <SurveyShortAns/> : null}
+                    {selectedNum === "객관식" ? <SurveyNum/> : null}
+                    {selectedNum === "주관식" ? <SurveyShortAns questions={questions}/> : null}
                   </SurveyAddLabel>
                 </SurveyAddInputBox>
                 <hr />

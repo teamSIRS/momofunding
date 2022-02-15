@@ -79,7 +79,7 @@ function MyProjectDetail() {
     await axios
       .get(baseUrl + "/surveys/projects/" + id)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setSurveys([...res.data]);
         if (surveys.length === 0) setIsSurvey(false);
         else setIsSurvey(true);
@@ -183,8 +183,13 @@ function MyProjectDetail() {
             <Title>설문조사 목록</Title>
 
             <SurveyTextBox>
+
+              {/* 추가 */}
               <SurveyAdd surveys={surveys} Survey={Survey}></SurveyAdd>
+
+              {/* 결과 */}
               <SurveyResult></SurveyResult>
+              
               {isEdit ? (
                 <SurveyEditText
                   onClick={() => {

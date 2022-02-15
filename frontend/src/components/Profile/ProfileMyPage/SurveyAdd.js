@@ -92,6 +92,12 @@ function SurveyAdd({surveys, Survey}) {
   const [type, setType] = useState(0);
   const [questTitle, setQuestTitle] = useState();
 
+  const [selectedNum, setSelectedNum] = useState("선택하세요");
+  const selectList = ["선택하세요", "객관식", "주관식"];
+  const onChange = (event) => {
+    setSelectedNum(event.target.value);
+  };
+
   const AddSurvey= async() => {
     // console.log('설문조사 등록');
     await axios({
@@ -129,39 +135,16 @@ function SurveyAdd({surveys, Survey}) {
       headers: setAuthorizationToken(),
     })
     .then((res)=>{
-      console.log('콘텐트 등록');
+      // console.log('콘텐트 등록');
     })
     .catch((err) =>{
       console.log(err);
       swal('질문을 입력해주세요', {icon: "warning"});
     })
-  };
-
-  const Test = async() => {
-    await axios({
-      url: 'http://localhost:8080/survey-questions/',
-      method: "get",
-      headers: setAuthorizationToken(),
-    })
-    .then((res)=>{
-      console.log(res.data);
-    })
-    .catch((err) =>{
-      console.log(err);
-    })
-  }
-
-  const [selectedNum, setSelectedNum] = useState("선택하세요");
-  const selectList = ["선택하세요", "객관식", "주관식"];
-  const onChange = (event) => {
-    setSelectedNum(event.target.value);
-  };
-
-  
+  };  
 
   return (
     <>
-      <p onClick={Test}>test</p>
       <SurveyModalBtn onClick={handleShow}>추가</SurveyModalBtn>
 
       <Modal show={show} onHide={handleClose}>
@@ -240,8 +223,7 @@ function SurveyAdd({surveys, Survey}) {
               </SurveyAddInputBox>
               <hr />
 
-              <Button onClick={()=>{console.log('gg')}}>등록</Button>
-              {/* <Button onClick={()=>{QuestionType(); AddSurveyQuest();}}>등록</Button> */}
+              <Button onClick={()=>{setShow(!show); Survey();}}>완료</Button>
             </SurveyAddDiv>
           </SurveyAddMain>
         </Modal.Body>
