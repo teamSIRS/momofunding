@@ -204,8 +204,8 @@ function LoginButton() {
         })
         .catch((error) => {
           console.log(error);
-          swal("로그인 실패", "아이디와 비밀번호를 확인하세요", "warning", {
-            button: false,
+          swal("로그인 실패", "아이디와 비밀번호를 확인하세요", "error", {
+            button: true,
           });
         });
     };

@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import setAuthorizationToken, { nicknameState } from "../../../atoms";
+import setAuthorizationToken, {
+  isLoginState,
+  nicknameState,
+} from "../../../atoms";
 import { useRecoilState } from "recoil";
 import swal from "sweetalert";
 import { baseUrl } from "../../../App";
@@ -147,6 +150,7 @@ function ProfileMember() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nName, setNname] = useRecoilState(nicknameState);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const onNickNameChange = (event) => {
     setNickname(event.target.value);
   };
@@ -185,7 +189,7 @@ function ProfileMember() {
       })
         .then((response) => {
           // console.log("회원 정보 수정 성공!");
-          swal("회원 정보 수정 성공!", { button: false });
+          swal("회원 정보 수정 성공!", "", "success", { button: true });
           setNickname(response.data.nickname);
           setNname(nickname);
         })
@@ -196,7 +200,8 @@ function ProfileMember() {
     updateUser();
   }
 
-  function deleteUser(data) {
+  function deleteUser() {
+    console.log(userId);
     const deleteUser = async () => {
       await axios({
         url: `/users/${userId}`,
@@ -206,7 +211,15 @@ function ProfileMember() {
       })
         .then((response) => {
           console.log(response.data);
-          navigate("/");
+          swal("회원탈퇴", "다음에 또 모모펀딩을 찾아주세요", "success", {
+            button: true,
+          });
+          setIsLogin(false);
+          localStorage.removeItem("auth-token");
+          // 로그인
+          localStorage.removeItem("recoil-persist");
+          // navigate("/");
+          window.location.replace("/");
         })
         .catch((error) => {
           console.log(error);
