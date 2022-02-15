@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { useMatch } from "react-router";
 import ProjectManagementContentIntro from "./ProjectManagementContent/ProjectManagementContentIntro";
 import ProjectManagementProfile from "./ProjectManagementContent/ProjectManagementProfile";
-import ProjectManagementContentReward from "./ProjectManagementContent/ProjectManagementContentReward";
+import ProjectManagementReward from "./ProjectManagementContent/ProjectManagementReward";
 import { useRecoilValue } from "recoil";
 import setAuthorizationToken, { createProjectIdState } from "../../atoms";
 import axios from "axios";
@@ -215,7 +215,7 @@ function ProjectManagement() {
 
               <Route
                 path="/reward"
-                element={<ProjectManagementContentReward />}
+                element={<ProjectManagementReward />}
               ></Route>
             </Routes>
           </Col>

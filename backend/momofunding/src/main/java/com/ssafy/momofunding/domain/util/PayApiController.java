@@ -40,6 +40,7 @@ public class PayApiController {
         Map<String, Object> responseMap = new HashMap<>();
 
         Long rewardId = rewardOrderService.saveRewardOrder(rewardPayRequestDto);
+        Long projectId = rewardPayRequestDto.getProjectId();
         String val2 = jwtService.createSmall("rewardId", rewardId, "Authorization");
 
         URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
@@ -57,7 +58,7 @@ public class PayApiController {
                 "total_amount=" + rewardPayRequestDto.getAmount() + "&" +
                 "vat_amount=0&" +
                 "tax_free_amount=0&" +
-                "approval_url=http://localhost:3000/pay/success&" +
+                "approval_url=http://localhost:3000/pay/success/" +projectId+ "&"+
                 "fail_url=http://localhost:3000/pay/fail/" + val2 + "&" +
                 "cancel_url=http://localhost:3000/pay/cancel/" + val2;
 
@@ -68,9 +69,7 @@ public class PayApiController {
 
         dataOutput.write(utf8);
         dataOutput.close();
-
         int resultCode = serverConnection.getResponseCode();
-
         InputStream inputStream;
         if (resultCode == 200) inputStream = serverConnection.getInputStream();
         else inputStream = serverConnection.getErrorStream();

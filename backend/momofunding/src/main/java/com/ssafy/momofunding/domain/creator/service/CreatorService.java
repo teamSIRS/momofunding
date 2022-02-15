@@ -23,8 +23,8 @@ public class CreatorService {
     @Value("${pathSeparator}")
     private String separator;
 
-    @Value("${imageUrl}")
-    private String imageUrl;
+    @Value("${serverApiUrl}")
+    private String serverApiUrl;
 
     private final CreatorRepository creatorRepository;
 
@@ -40,7 +40,7 @@ public class CreatorService {
         }
 
         String curImgUrl = creator.getCreatorImageUrl();
-        String defaultImgUrl = imageUrl+"creator/default.png";
+        String defaultImgUrl = serverApiUrl +"images/creator/default.png";
 
         if(creatorImg != null){
             String imgName = creatorImg.getOriginalFilename()+"";
@@ -53,7 +53,7 @@ public class CreatorService {
                     String creatorFileName = projectId+"_creator"+imgName.substring(imgName.lastIndexOf("."));
                     File creatorImgFile = new File(imagePath + separator + "creator" + separator +creatorFileName);
                     creatorImg.transferTo(creatorImgFile);
-                    creatorUpdateRequestDto.setCreatorImageUrl(imageUrl+"creator/"+creatorFileName);;
+                    creatorUpdateRequestDto.setCreatorImageUrl(serverApiUrl +"images/creator/"+creatorFileName);;
                     creator.updateCreatorImagePath(creatorImgFile.getPath());
                 }
             } catch (IOException | NullPointerException e){

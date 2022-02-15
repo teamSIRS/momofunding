@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 import { baseUrl } from "../../../App";
+import { Container, Row, Col } from "react-bootstrap";
 
 const NoticeListMain = styled.div`
   width: 90%;
@@ -21,24 +22,32 @@ const NoticeListContentBox = styled.div`
 
 const NoticeListContent = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin: 0px 20px;
-  border-top: solid 1px #000110;
-  border-bottom: solid 1px #000110;
+  /* margin: 0px 20px; */
+  margin: auto;
+  /* border-top: solid 1px #000110; */
+  border-bottom: solid 1px gray;
 `;
 
 const NoticeListContentTitle = styled.div`
   font-size: 20px;
-  margin-top: 20px;
+  line-height: 50px;
+  /* margin-top: 20px; */
+  text-align: center;
   color: black;
 `;
 
+const NoticeListContentHead = styled(NoticeListContent)`
+  border-bottom: solid 2px #000110;
+  background-color: #f7f7f7;
+`;
 const NoticeListNumber = styled(NoticeListContentTitle)``;
 
 const NoticeListContentWriter = styled(NoticeListContentTitle)``;
 
 const NoticeListContentDate = styled(NoticeListContentTitle)``;
+const NoticeListContentCount = styled(NoticeListContentTitle)``;
 
 const NoticeListSeparateLine = styled.hr`
   /* width: 100%; */
@@ -47,6 +56,12 @@ const NoticeListSeparateLine = styled.hr`
 
 const NoticeListPage = styled.div`
   margin: 50px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const CustomCol = styled(Col)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,7 +84,7 @@ function NoticeList() {
   function getNoticeList() {
     const getNoticeList = async () => {
       await axios({
-        url: `/notices?sort=na`,
+        url: `/notices?sort=nd`,
         method: "get",
         baseURL: baseUrl,
       })
@@ -89,31 +104,66 @@ function NoticeList() {
   }, []);
   return (
     <div>
-      <NoticeListMain>
-        <NoticeListContentBox>
-          {data
-            ? data.map((notice, index) => (
-                <NoticeListContent key={notice.id}>
-                  <NoticeListNumber>{index + 1}</NoticeListNumber>
-                  <Link to={`/notices/${notice.id}`}>
-                    <NoticeListContentTitle>
-                      {notice.title}
-                    </NoticeListContentTitle>
-                  </Link>
-                  <NoticeListContentWriter>관리자</NoticeListContentWriter>
-                  <NoticeListContentDate>
-                    {moment(notice.registerTime).format("YYYY-MM-DD HH:mm:ss")}
-                  </NoticeListContentDate>
-                </NoticeListContent>
-              ))
-            : null}
+      {/* <NoticeListMain> */}
+      <NoticeListContentBox>
+        <Container>
+          <Row>
+            <NoticeListContentHead>
+              <CustomCol sm={1}>
+                <NoticeListNumber>글 번호</NoticeListNumber>
+              </CustomCol>
+              <CustomCol sm={6}>
+                <NoticeListContentTitle>글 제목</NoticeListContentTitle>
+              </CustomCol>
+              <CustomCol sm={2}>
+                <NoticeListContentWriter>작성자</NoticeListContentWriter>
+              </CustomCol>
+              <CustomCol sm={2}>
+                <NoticeListContentDate>작성일자</NoticeListContentDate>
+              </CustomCol>
+              <CustomCol sm={1}>
+                <NoticeListContentCount>조회수</NoticeListContentCount>
+              </CustomCol>
+              <hr />
+            </NoticeListContentHead>
+            {data
+              ? data.map((notice, index) => (
+                  <NoticeListContent key={notice.id}>
+                    <CustomCol sm={1}>
+                      <NoticeListNumber>{index + 1}</NoticeListNumber>
+                    </CustomCol>
+                    <CustomCol sm={6}>
+                      <Link to={`/notices/${notice.id}`}>
+                        <NoticeListContentTitle>
+                          {notice.title}
+                        </NoticeListContentTitle>
+                      </Link>
+                    </CustomCol>
+                    <CustomCol sm={2}>
+                      <NoticeListContentWriter>관리자</NoticeListContentWriter>
+                    </CustomCol>
+                    <CustomCol sm={2}>
+                      <NoticeListContentDate>
+                        {moment(notice.registerTime).format("YYYY-MM-DD")}
+                      </NoticeListContentDate>
+                    </CustomCol>
+                    <CustomCol sm={1}>
+                      <NoticeListContentCount>
+                        {notice.viewerCount}
+                      </NoticeListContentCount>
+                    </CustomCol>
+                  </NoticeListContent>
+                ))
+              : null}
 
-          <NoticeListPage>
-            <Pagination>{items}</Pagination>
-          </NoticeListPage>
-        </NoticeListContentBox>
-        <NoticeListSeparateLine />
-      </NoticeListMain>
+            <NoticeListPage>
+              <Pagination>{items}</Pagination>
+            </NoticeListPage>
+          </Row>
+        </Container>
+      </NoticeListContentBox>
+      <NoticeListSeparateLine />
+      {/* </NoticeListMain> */}
     </div>
   );
 }

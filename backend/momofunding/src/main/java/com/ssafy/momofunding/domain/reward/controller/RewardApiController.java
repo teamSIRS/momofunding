@@ -96,4 +96,21 @@ public class RewardApiController {
 
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
+
+    @Operation(
+            summary = "리워드 조회",
+            description = "리워드 Id에 해당하는 리워드의 정보 조회"
+    )
+    @Parameter(name = "rewardId", description = "조회할 리워드 Id", required = true)
+    @GetMapping("/{rewardId}")
+    public ResponseEntity<Object> findRewardById(@PathVariable Long rewardId) {
+        try {
+            RewardResponseDto rewardResponseDto = rewardService.findRewardById(rewardId);
+            return ResponseEntity.status(HttpStatus.OK).body(rewardResponseDto);
+        } catch (EmptyResultDataAccessException e) {
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("errorMsg", "잘못된 리워드 번호입니다:: rewardId-" + rewardId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+    }
 }
