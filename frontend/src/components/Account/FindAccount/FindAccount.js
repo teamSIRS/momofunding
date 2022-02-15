@@ -12,7 +12,9 @@ const Tab = styled.span`
   width: 150px;
   text-align: center;
   font-size: 15px;
-  margin-left: 40px;
+  /* margin-left: 40px;
+  margin-right: 40px; */
+  margin: auto;
   margin-top: 30px;
   border-radius: 5px;
   background-color: ${(props) => (props.isActive ? "#6c6db5" : "white")};
@@ -25,13 +27,22 @@ const FindAccountTitle = styled.div`
 `;
 
 const FindAccountSeparateLine = styled.hr`
-  width: 95%;
+  width: 100%;
   margin: 0px auto;
   height: 15px;
   color: gray;
   &:not([size]) {
     height: 5px;
   }
+`;
+
+const FindAccountMain = styled.div`
+  width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const styles = {
@@ -47,24 +58,26 @@ function FindAccount() {
   const pwMatch = useMatch("/findAccount/findPw");
   return (
     <div>
-      <FindAccountTitle>아이디, 비밀번호 찾기</FindAccountTitle>
-      <Tabs>
-        <Tab isActive={idMatch !== null}>
-          <Link style={styles.link} to={`/findAccount/findId`}>
-            아이디 찾기
-          </Link>
-        </Tab>
-        <Tab isActive={pwMatch !== null}>
-          <Link style={styles.link} to={`/findAccount/findPw`}>
-            비밀번호 찾기
-          </Link>
-        </Tab>
-      </Tabs>
-      <FindAccountSeparateLine></FindAccountSeparateLine>
-      <Routes>
-        <Route path="/findId" element={<FindId />}></Route>
-        <Route path="/findPw" element={<FindPw />}></Route>
-      </Routes>
+      <FindAccountMain>
+        <FindAccountTitle>아이디, 비밀번호 찾기</FindAccountTitle>
+        <Tabs>
+          <Tab isActive={idMatch !== null}>
+            <Link style={styles.link} to={`/findAccount/findId`}>
+              아이디 찾기
+            </Link>
+          </Tab>
+          <Tab isActive={pwMatch !== null}>
+            <Link style={styles.link} to={`/findAccount/findPw`}>
+              비밀번호 찾기
+            </Link>
+          </Tab>
+        </Tabs>
+        <FindAccountSeparateLine></FindAccountSeparateLine>
+        <Routes>
+          <Route path="/findId" element={<FindId />}></Route>
+          <Route path="/findPw" element={<FindPw />}></Route>
+        </Routes>
+      </FindAccountMain>
     </div>
   );
 }

@@ -17,6 +17,18 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { MomoColor, MomoStrongColor } from "../../shared/global";
 
+const SelectCategory = styled.select`
+  width: 80px;
+  height: 35px;
+  border-radius: 5px;
+  border: solid 1.7px black;
+  text-align: center;
+  vertical-align: center;
+  &: focus {
+    border: solid 2.5px #6667ab;
+  }
+`;
+
 function ProjectLiveList() {
   const [isDate, setIsDate] = useState(true);
   const [isPop, setIsPop] = useState(false);
@@ -108,13 +120,13 @@ function ProjectLiveList() {
       <ListNav>
         <Category>
           <span id="category">카테고리</span>
-          <select onChange={handleSelect} value={selected}>
+          <SelectCategory onChange={handleSelect} value={selected}>
             {categories.map((category) => (
               <option value={category.id} key={category.id}>
                 {category.name}
               </option>
             ))}
-          </select>
+          </SelectCategory>
         </Category>
 
         <Search>

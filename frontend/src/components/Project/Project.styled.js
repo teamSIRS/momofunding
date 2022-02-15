@@ -54,6 +54,9 @@ export const Container = styled.div`
   justify-content: center;
   position: relative;
   margin: 20px 10px;
+  &: hover {
+    cursor: pointer;
+  }
 `;
 
 export const Thumnail = styled.img`
