@@ -115,6 +115,7 @@ function ProfileMain() {
     await axios
       .get(baseUrl + "/users/" + userId)
       .then((response) => {
+        console.log(response.data);
         setUser(response.data);
       })
       .catch((error) => {
@@ -130,7 +131,7 @@ function ProfileMain() {
         .get(baseUrl + "/projects/users/" + userId + isSelected)
         .then((res) => {
           setProjects([...res.data]);
-          if (res.data == "") setIsExist(false);
+          if (res.data === "") setIsExist(false);
           else setIsExist(true);
         })
         .catch((err) => {

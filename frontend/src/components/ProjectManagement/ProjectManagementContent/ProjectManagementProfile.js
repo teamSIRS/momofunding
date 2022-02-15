@@ -5,6 +5,7 @@ import $ from "jquery";
 import { useLocation } from "react-router-dom";
 import setAuthorizationToken, { createProjectIdState } from "../../../atoms";
 import { useRecoilValue } from "recoil";
+import { baseUrl } from "../../../App";
 const ProjectManagementMain = styled.div`
   width: 100%;
   min-height: 800px;
@@ -85,8 +86,6 @@ const ProjectManagementContentProfileBtn = styled.button`
 `;
 
 function ProjectManagementProfile() {
-  const baseUrl = "http://localhost:8080";
-  const imgBaseUrl = "http://localhost:8080/images/creator/";
   const location = useLocation();
   const { userId } = location.state;
   // const { projectId } = location.state;
@@ -105,7 +104,12 @@ function ProjectManagementProfile() {
     setCreatorName(event.target.value);
   };
   const onCreatorImageUrlChange = (event) => {
-    setCreatorImageUrl("");
+    const tempImg = event.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function(e){
+      setCreatorImageUrl(e.target.result);
+    };
+    reader.readAsDataURL(tempImg);
   };
   const onCreatorContentChange = (event) => {
     setCreatorContent(event.target.value);

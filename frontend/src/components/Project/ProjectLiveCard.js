@@ -39,7 +39,7 @@ const CreatorName = styled.p`
 
 function ProjectLiveCard({ live }) {
   return (
-    <div className="col-lg-6">
+    <div>
       <Container>
         <div className="position-absolute top-0 end-0">
           <LiveBadge content={"Live"} color={"red"} />

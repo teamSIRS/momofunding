@@ -38,7 +38,7 @@ import MyProjectManagement from "./components/Profile/ProfileProjectDetail/MyPro
 import PayFail from "./components/Funding/FundingSidebar/PayFail";
 import PayCancel from "./components/Funding/FundingSidebar/PayCancel";
 
-//export const baseUrl = "https://i6a202.p.ssafy.io/api";
+// export const baseUrl = "https://i6a202.p.ssafy.io/api";
 export const baseUrl = "http://localhost:8080/api";
 
 function App() {
@@ -79,8 +79,8 @@ function App() {
         <Route index element={<Home />}></Route>
         <Route path="/projects" element={<ProjectList />}></Route>
         <Route path="/lives" element={<ProjectLiveList />}></Route>
-        <Route path="/lives/:id" element={<LiveMain />}></Route>
-        <Route path="/lives/:id/new" element={<LivePowderRoom />}></Route>
+        <Route path="/lives/:id" element={<LivePowderRoom />}></Route>
+        {/* <Route path="/lives/:id/new" element={<LivePowderRoom />}></Route> */}
         <Route path="/notices" element={<Notice />}></Route>
         <Route path="/notices/create" element={<CreateNotice />}></Route>
         <Route path="/notices/:id" element={<NoticeDetail />}></Route>

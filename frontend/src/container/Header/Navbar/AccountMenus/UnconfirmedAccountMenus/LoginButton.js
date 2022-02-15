@@ -4,8 +4,14 @@ import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import { nicknameState, isLoginState, userIdState } from "../../../../../atoms";
-import swal from 'sweetalert';
+import {
+  nicknameState,
+  isLoginState,
+  userIdState,
+  roleState,
+} from "../../../../../atoms";
+import swal from "sweetalert";
+import { baseUrl } from "../../../../../App";
 
 const LoginBackGround = styled.div`
   display: flex;
@@ -136,7 +142,8 @@ const LoginModalBtn = styled.button`
   border: 0;
   outline: 0;
   &:hover {
-    color: blue;
+    color: #c4c4c4;
+    background-color: transparent;
   }
 `;
 
@@ -150,7 +157,6 @@ function LoginButton() {
     navigate("/signup");
     setShow(false);
   };
-  const baseUrl = "http://localhost:8080";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -159,6 +165,7 @@ function LoginButton() {
   // 로그인
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userId, setUserId] = useRecoilState(userIdState);
+  const [role, setRole] = useRecoilState(roleState);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -180,15 +187,26 @@ function LoginButton() {
           const token = response.data.token;
           localStorage.setItem("auth-token", token);
 
+          swal(
+            "로그인 성공",
+            `[ ${response.data.nickname} ]님 환영합니다!`,
+            "success",
+            {
+              button: true,
+            }
+          );
           setUserId(response.data.id);
           setNickname(response.data.nickname);
           setIsLogin(true);
+          setRole(response.data.role);
           navigate("/");
           setShow(false);
         })
         .catch((error) => {
           console.log(error);
-          swal('로그인 실패',"아이디와 비밀번호를 확인하세요", "warning", {button: false});
+          swal("로그인 실패", "아이디와 비밀번호를 확인하세요", "warning", {
+            button: false,
+          });
         });
     };
     signin();

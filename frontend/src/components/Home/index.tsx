@@ -10,9 +10,11 @@ import { baseUrl } from "../../App";
 import { Link } from "react-router-dom";
 
 const StyledStack = styled(ListGroup)`
-  display: flexbox;
+  display: flex;
   height: 18rem;
   overflow: auto;
+  justify-content: center;
+  margin: 30px 0px;
 `;
 
 const Home = () => {
@@ -43,18 +45,22 @@ const Home = () => {
     <>
       <HomeBanners />
       <Container>
+        <br />
         <h2>지금 핫한 인기 라이브</h2>
         {isExist ? (
           <StyledStack horizontal>
             {lives.map((live, idx) => (
-                <Link to={`/lives/${live.sessionId}`} style={{float:'left'}}>
-                  <HomeLiveCard
-                    key={idx}
-                    idx={idx}
-                    title={live.title}
-                    viewer={live.viewerCount}
-                  />
-                </Link>
+              <Link
+                to={`/lives/${live.sessionId}`}
+                style={{ float: "left", marginLeft: 10, marginRight: 10 }}
+              >
+                <HomeLiveCard
+                  key={idx}
+                  idx={idx}
+                  title={live.title}
+                  viewer={live.viewerCount}
+                />
+              </Link>
             ))}
           </StyledStack>
         ) : (

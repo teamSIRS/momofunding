@@ -8,8 +8,12 @@ import setAuthorizationToken, {
   createProjectIdState,
   createRewardIdState,
 } from "../../../atoms";
-import baseUrl from "../../../App"
+import { baseUrl } from "../../../App";
 
+const ProjectManagementMain = styled.div`
+  width: 100%;
+  min-height: 800px;
+`;
 
 const ProjectManagementContentForm = styled.form`
   display: flex;
@@ -47,6 +51,9 @@ const ProjectManagementContentInput = styled.div`
 
 const ProjectManagementContentDate = styled.input``;
 
+const ProjectManagementContentRewardTitle = styled.h3`
+  text-align: center;
+`;
 
 const ProjectManagementContentTextarea = styled(ProjectManagementContentInput)`
   height: 120px;
@@ -65,8 +72,7 @@ const ProjectManagementContentProfileRadio = styled.label`
 `;
 
 // 수정? 삭제? 기능 추가해야함
-function ProjectManagementContentReward(reward) {
-  // const baseUrl = "http://localhost:8080/api";
+function ProjectManagementContentReward() {
   const {
     register,
     handleSubmit,
@@ -238,6 +244,10 @@ function ProjectManagementContentReward(reward) {
   }, []);
   return (
     <div>
+      <ProjectManagementMain>
+        <ProjectManagementContentRewardTitle>
+          리워드 정보 등록
+        </ProjectManagementContentRewardTitle>
         <ProjectManagementContentForm onSubmit={handleSubmit(onValid)}>
           <ProjectManagementContentInputBox>
             <ProjectManagementContentTitle>

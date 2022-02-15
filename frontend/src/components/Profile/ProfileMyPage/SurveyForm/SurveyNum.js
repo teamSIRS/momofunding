@@ -13,11 +13,10 @@ import { baseUrl } from '../../../../App';
 import swal from "sweetalert";
 import styled from "styled-components";
 
-
 const SurveyNumLabel = styled.label`
   font-size: 20px;
   font-weight: bold;
-  margin: 20px 0px;
+  margin: 0 0 20px 0px;
 `;
 
 const SurveyNumInput = styled.div`
@@ -34,11 +33,16 @@ const SurveyNumInput = styled.div`
   }
 `;
 
-function SurveyNum() {
+const MyBtn = styled.button`
+  padding: 6px 12px;
+  margin-bottom: 15px;
+`;
+
+function SurveyNum({ surveyId, AddSurveyQuest}) {
   const { register, handleSubmit, setValue } = useForm();
   const setQuestionTitle = useSetRecoilState(numQuestionTitleState);
   const setNumQuestion = useSetRecoilState(numQuestionState);
-  
+  const [numQuestionTitle, numQuestions] = useRecoilValue(numQuestionSelector);   
   const onQuestionValid = ({ questionTitle, question }) => {
     setQuestionTitle(questionTitle);
     
@@ -50,51 +54,38 @@ function SurveyNum() {
     setValue("question", "");
   };
   
-  const { id } = useParams();
-  const[title, setTitle] = useState("");
-  const[content, setContent] = useState("");
-  const[endDate, setEndDate] = useState();
-  const [numQuestionTitle, numQuestions] = useRecoilValue(numQuestionSelector);
-  async function saveSurvey(){
+  const [id, setId] = useState(surveyId);
+  const [title, setTitle] = useState("");
+  const [questionType, setQuestionType] = useState(1);
+  //객관식 문항 content
+  const [content, setContent] = useState("");
+
+
+  const AddSureyNum = async() =>{
     await axios({
-      url: `${baseUrl}/surveys`,
+      url: baseUrl+'/question-select',
       method: "post",
       data:{
-        projectId: id,
-        title: title,
+        surveyQuestionId:0,
         content: content,
-        endDate: endDate,
       },
       headers: setAuthorizationToken(),
     })
-      .then((res)=>{
-        console.log('ok');
-      })
-      .catch((e) => {
-        console.log(e);
-        swal('양식을 정확히 입력해주세요', {icon:"warning"});
-      })
-    }
-    
-    const[questions, setQuestions] = useState();
+    .then((res) =>{
+      console.log('문항등록성공!');
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
 
-
+  console.log()
   return (
     <div>
-      <SurveyNumLabel>[ 설문조사 종료 일시 ]</SurveyNumLabel>
-      <form>
-        <SurveyNumInput>
-          <input
-            type="datetime-local"
-            required
-            onChange={(e) =>{setEndDate(e.target.value);}}
-          />
-        </SurveyNumInput>
-      </form>
       <SurveyNumLabel>[ 객관식 질문 등록 ]</SurveyNumLabel>
       <form onSubmit={handleSubmit(onQuestionValid)}>
         <SurveyNumInput>
-          <input
+          {/* <input
             {...register("questionTitle", {
               required: "Please write a questionTitle",
             })}
@@ -102,9 +93,14 @@ function SurveyNum() {
             onChange={(e) =>{
               setTitle(e.target.value);
             }}
-          />
+          /> */}
 
           <input
+            required
+            placeholder="객관식 질문을 입력하고 질문 등록을 눌러주세요"
+            onChange={(e) => {setTitle(e.target.value);}}
+          />
+          {/* <input
             {...register("question", {
               required: "Please write a question",
             })}
@@ -112,17 +108,31 @@ function SurveyNum() {
             onChange={(e) =>{
               setContent(e.target.value);
             }}
-          />
+          /> */}
         </SurveyNumInput>
-        <button onClick={()=>{saveSurvey();setContent("");}}>질문 등록</button>
-        <button onClick={()=>{saveSurvey();setContent("");}}>보기 등록</button>
+        <MyBtn onClick={()=>{AddSurveyQuest(id, questionType, title); swal("질문이 등록되었습니다", "이제 문항을 등록해주세요")}}>질문 등록</MyBtn>
+        {/* <button onClick={()=>{}}>보기 등록</button> */}
       </form>
-      <SurveyNumLabel>[ 등록한 객관식 질문 ]</SurveyNumLabel>
+      {/* <SurveyNumLabel>[ 등록한 객관식 질문 ]</SurveyNumLabel>
       <br />Q : {numQuestionTitle}
       <ol>
         {numQuestions.map((numQuestion, index) => (
           <li key={index}>{numQuestion.text}</li>
         ))}
+      </ol> */}
+      <form>
+        <SurveyNumLabel>[ 객관식 문항 등록 ]</SurveyNumLabel>
+        <SurveyNumInput>
+          <input 
+            required
+            placeholder='객관식 문항을 등록하고 등록 버튼을 눌러주세요'
+            onChange={(e) => {setContent(e.target.value)}}
+          />
+          <MyBtn onClick={AddSureyNum}>문항 등록</MyBtn>
+        </SurveyNumInput>
+      </form>
+      <ol>
+
       </ol>
     </div>
   );

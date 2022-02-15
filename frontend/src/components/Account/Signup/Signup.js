@@ -4,6 +4,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../../../App";
+import swal from "sweetalert";
 
 const SignupBackGround = styled.div`
   display: flex;
@@ -161,7 +163,6 @@ function Signup() {
     formState: { errors },
     setError,
   } = useForm();
-  const baseUrl = "http://localhost:8080";
   const [check, setCheck] = useState(false);
   const onChecked = () => setCheck((prev) => !prev);
 
@@ -215,6 +216,14 @@ function Signup() {
         baseURL: baseUrl,
       })
         .then((response) => {
+          swal(
+            "로그인 성공",
+            `[ ${data.nickname} ]님 회원가입을 축하합니다!`,
+            "success",
+            {
+              button: true,
+            }
+          );
           console.log(response.data);
         })
         .catch((error) => {

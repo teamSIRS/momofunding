@@ -28,7 +28,7 @@ export const HomeLiveCard = ({ idx, title, viewer }: HomeLiveCardProps) => {
             : String(title)}
         </StyledSpan>
       </Card.ImgOverlay>
-      <BadgeContainer bottom={"15px"} left={"5px"}>
+      <BadgeContainer bottom={"15px"} left={"15px"}>
         <LiveBadge content={"LIVE"} color={"momo"}></LiveBadge>
         <StyledSpan color="rgba(0,0,0,30%)">{viewer}명 시청 중</StyledSpan>
       </BadgeContainer>

@@ -15,11 +15,9 @@ import {
   TitleBox,
   ProjectTitle,
   CreatorName,
-  ProjectContent,
   BtnBox,
   ManageBtn,
   LiveBtn,
-  MyLink,
   MainBox,
   LiveBox,
   Title,
@@ -33,7 +31,7 @@ import {
 } from "./styles";
 import setAuthorizationToken from "../../../atoms";
 import styled from "styled-components";
-
+import SurveyResult from "../ProfileMyPage/SurveyResult";
 const NoSurvey = styled.div`
   width: 90%;
   margin: 15px 0px;
@@ -81,6 +79,7 @@ function MyProjectDetail() {
     await axios
       .get(baseUrl + "/surveys/projects/" + id)
       .then((res) => {
+        console.log(res.data);
         setSurveys([...res.data]);
         if (surveys.length === 0) setIsSurvey(false);
         else setIsSurvey(true);
@@ -149,7 +148,6 @@ function MyProjectDetail() {
   useEffect(() => {
     Survey();
   }, [isSurvey]);
-  // Survey();
 
   return (
     <Body>
@@ -165,7 +163,7 @@ function MyProjectDetail() {
           <ManageBtn>
             <button onClick={goToManagePjt}>프로젝트 관리</button>
           </ManageBtn>
-          <ToNewLiveLink to={`/lives/${project.id}/new`}>
+          <ToNewLiveLink to={`/lives/new`}>
             <LiveBtn>라이브 켜기</LiveBtn>
           </ToNewLiveLink>
           <DeleteBtn>
@@ -183,8 +181,10 @@ function MyProjectDetail() {
         <BottomBox>
           <SurveyBox>
             <Title>설문조사 목록</Title>
+
             <SurveyTextBox>
-              <SurveyAdd></SurveyAdd>
+              <SurveyAdd surveys={surveys} Survey={Survey}></SurveyAdd>
+              <SurveyResult></SurveyResult>
               {isEdit ? (
                 <SurveyEditText
                   onClick={() => {

@@ -2,6 +2,8 @@ import { Container, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import NoticeList from "./NoticeList/NoticeList";
+import { useRecoilValue } from "recoil";
+import { roleState } from "../../atoms";
 
 const NoticeMain = styled.div`
   background-color: whitesmoke;
@@ -12,9 +14,16 @@ const NoticeMain = styled.div`
 `;
 
 const NoticeMainTitle = styled.div`
-  margin: 50px;
+  margin-top: 50px;
+  margin-left: 50px;
   font-size: 30px;
   font-weight: bold;
+`;
+
+const NoticeMainSubTitle = styled(NoticeMainTitle)`
+  margin-top: 20px;
+  margin-left: 55px;
+  font-size: 15px;
 `;
 
 const NoticeMainBtn = styled.div`
@@ -38,19 +47,26 @@ const styles = {
 
 function Notice() {
   const navigate = useNavigate();
+  const role = useRecoilValue(roleState);
+  const isAdmin = role === "ADMIN";
   const GoToCreateNotice = () => {
     navigate("/notices/create");
   };
   return (
     <div>
       <NoticeMainTitle>공지사항</NoticeMainTitle>
+      <NoticeMainSubTitle>
+        공지사항은 관리자만 작성가능합니다.
+      </NoticeMainSubTitle>
       <Container>
         <Row style={styles.row}>
           <Col sm={12} style={styles.col}>
             <NoticeMain>
-              <NoticeMainBtn as={"button"} onClick={GoToCreateNotice}>
-                글 작성
-              </NoticeMainBtn>
+              {isAdmin && (
+                <NoticeMainBtn as={"button"} onClick={GoToCreateNotice}>
+                  글 작성
+                </NoticeMainBtn>
+              )}
               <NoticeList />
             </NoticeMain>
           </Col>

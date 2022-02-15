@@ -8,6 +8,8 @@ import setAuthorizationToken, {
   userIdState,
 } from "../../../../atoms";
 import { useRecoilValue } from "recoil";
+import { baseUrl } from "../../../../App";
+
 const ProjectManagementMain = styled.div`
   width: 100%;
   min-height: 800px;
@@ -89,7 +91,6 @@ const ProjectManagementContentProfileBtn = styled.button`
 `;
 
 function MyProjectManagementProfile() {
-  const baseUrl = "http://localhost:8080";
   // 프로젝트 id
   const { id } = useParams();
   // 사용자 id
@@ -111,7 +112,12 @@ function MyProjectManagementProfile() {
     setCreatorName(event.target.value);
   };
   const onCreatorImageUrlChange = (event) => {
-    setCreatorImageUrl("");
+    const tempImg = event.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function(e){
+      setCreatorImageUrl(e.target.result);
+    };
+    reader.readAsDataURL(tempImg);
   };
   const onCreatorContentChange = (event) => {
     setCreatorContent(event.target.value);
@@ -267,6 +273,7 @@ function MyProjectManagementProfile() {
               type="file"
               id="file"
               name="file"
+              onChange={onCreatorImageUrlChange}
             />
 
             <ProjectManagementContentImgLabel htmlFor="file">
