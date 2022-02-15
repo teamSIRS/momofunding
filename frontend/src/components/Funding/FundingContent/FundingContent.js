@@ -119,6 +119,7 @@ export const FundingContent = (props) => {
             추가 금액
           </FundingContentAddLabel>
           <FundingContentAddInput as={"input"}
+            type="number" min="0" max="2000000000" step="1000"
             onChange={e => setExtra(e.target.value)}
             value = {extra}
           ></FundingContentAddInput>

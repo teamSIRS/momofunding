@@ -7,9 +7,10 @@ export const Container = styled.div`
 `;
 
 export const Body = styled.div`
+  /* border: 1px solid red; */
   display: flex;
   flex-direction: row;
-  margin: 0 180px;
+  margin: 0 260px;
 `;
 
 export const Content = styled.div`
