@@ -6,6 +6,7 @@ import SurveyBasic from "./Survey/SurveyBasic";
 import SurveyEdit from "./Survey/SurveyEdit";
 import MySponsor from "./Sponsor/MySponsor";
 import SurveyAdd from "../ProfileMyPage/SurveyAdd";
+import ProjectSponsorList from "./Sponsor/SponsorList";
 import { baseUrl } from "../../../App";
 import {
   Body,
@@ -246,6 +247,7 @@ function MyProjectDetail() {
           <SponsorBox>
             <Title>참여한 후원자</Title>
             <SponsorList>
+              <ProjectSponsorList />
               {sponsors.map((sponsor) => (
                 <MySponsor sponsor={sponsor} key={sponsor.id} />
               ))}
