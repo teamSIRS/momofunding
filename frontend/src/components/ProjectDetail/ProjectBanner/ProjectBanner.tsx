@@ -24,6 +24,7 @@ export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
   const params = useParams();
   const [onAir, setOnAir] = useState(false);
   const navigate = useNavigate();
+  const [sessionId, setSessionId] = useState("");
 
   const getLiveState = async () => {
     await axios({
@@ -41,15 +42,27 @@ export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
       });
   }
   
-  
-  
-  
+  const getSessionId = async () => {
+    await axios({
+      url: "/projects/live/session-id/"+ props.project.id, 
+      method: "get", 
+      data: {},
+      baseURL: baseUrl,	
+    })	
+      .then((response) => { 
+        console.log(response.data.sessionId); 
+        setSessionId(response.data.sessionId);
+      })
+      .catch((error) => { // .catch는 axios 요청 실패시 작업
+        console.log(error); // error 메세지 확인
+      });
+  }
+
   getLiveState();
-
-
+  getSessionId();
 
   const route = () => {
-    navigate("/lives/")
+    navigate("/lives/" + sessionId);
   }
 
   const contribRate =
