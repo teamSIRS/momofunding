@@ -44,7 +44,7 @@ function ProjectLiveCard({ live }) {
         <div className="position-absolute" style={{ top: 15, right: 0 }}>
           <LiveBadge content={"Live"} color={"red"} />
         </div>
-        <Thumnail src={""} />
+        <Thumnail src={live.subImageUrl} />
         <Detail>
           <Title>{live.title}</Title>
           <Creator>
