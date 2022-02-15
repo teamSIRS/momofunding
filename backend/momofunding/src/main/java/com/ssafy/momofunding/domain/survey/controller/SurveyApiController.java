@@ -141,4 +141,20 @@ public class SurveyApiController {
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 
+    @Operation(
+            summary = "설문조사 중복 체크",
+            description = "설문조사 id와 유저 id를 받아 설문조사 제출 여부를 확인"
+    )
+    @GetMapping("/{surveyId}/users/{userId}")
+    public ResponseEntity checkSurveySubmit(@PathVariable("surveyId") Long surveyId, @PathVariable("userId") Long userId) {
+        Map<String, Object> responseMap = new HashMap<>();
+        try {
+            boolean isSubmitted = surveyService.findSubmitHistory(surveyId, userId);
+            responseMap.put("isSubmitted", isSubmitted);
+        }catch (IllegalArgumentException e){
+            responseMap.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+    }
 }
