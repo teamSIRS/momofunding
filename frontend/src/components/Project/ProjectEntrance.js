@@ -81,7 +81,7 @@ const ProjectContentIconTitle = styled.span`
 
 const ProjectContentTextBox = styled.div`
   width: 70%;
-  height: 550px;
+  height: 570px;
   margin: auto;
   /* background-color: whitesmoke; */
   display: flex;
@@ -204,8 +204,9 @@ function ProjectEntrance() {
         <ProjectContentTextBox>
           <ProjectContentText>
             <h3>
-              <b>지금 도전해 보세요</b>
+              <b>지금 도전해 보세요!</b>
             </h3>
+            <br />
             심사가 진행되기 전에는 누구도
             <b> {nickname ? nickname : "창작자"}</b>님의 프로젝트를 볼 수 없으니
             걱정 마세요! <br />
