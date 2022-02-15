@@ -41,7 +41,7 @@ function ProjectLiveCard({ live }) {
   return (
     <div>
       <Container>
-        <div className="position-absolute top-0 end-0">
+        <div className="position-absolute" style={{ top: 15, right: 0 }}>
           <LiveBadge content={"Live"} color={"red"} />
         </div>
         <Thumnail src={""} />
