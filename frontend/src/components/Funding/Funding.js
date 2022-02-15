@@ -69,7 +69,9 @@ function Funding(){
             reward = {location.state.data.reward}
             amount = {location.state.data.amount}
             projectId = {location.state.data.project.id}
-            total = {Number(total)+Number(extra)}
+            fund={total}
+            extra={extra}
+            lastTotal = {Number(total)+Number(extra)}
             name = {name}
             tel = {tel}
             shippingAddr = {shippingAddr}
