@@ -12,14 +12,12 @@ import swal from "sweetalert";
 import { baseUrl } from "../../../App";
 
 const ProfileMemberTitle = styled.div`
-  text-align: center;
-  margin: 60px 0px;
+  margin: 50px;
   font-size: 30px;
   font-weight: bold;
 `;
 // 회원정보 수정 전체 설정
 const ProfileMemberBox = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -165,10 +163,11 @@ function ProfileMember() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          // console.log(response.data);
           setNickname(response.data.nickname);
           setEmail(response.data.email);
           setPassword(response.data.password);
+
+          setValue("nickname", response.data.nickname);
         })
         .catch((error) => {
           console.log(error);
@@ -217,16 +216,15 @@ function ProfileMember() {
       })
         .then((response) => {
           console.log(response.data);
-
-          swal("회원탈퇴", "다음에 또 모모펀딩을 찾아주세요!", "success", {
+          swal("회원탈퇴", "다음에 또 모모펀딩을 찾아주세요", "success", {
             button: true,
           });
           setIsLogin(false);
           localStorage.removeItem("auth-token");
+          // 로그인
           localStorage.removeItem("recoil-persist");
-          setTimeout(() => {
-            window.location.replace("/");
-          }, 2000);
+          // navigate("/");
+          window.location.replace("/");
         })
         .catch((error) => {
           console.log(error);
@@ -271,6 +269,14 @@ function ProfileMember() {
       <ProfileMemberTitle>회원정보 수정 페이지</ProfileMemberTitle>
       <ProfileMemberBox>
         <ProfileMemberForm onSubmit={handleSubmit(onValid)}>
+          {/* <ProfileMemberImgBox>
+            <ProfileMemberImg src="/photo/profile.png" />
+            <ProfileMemberImgLabel htmlFor="profile_photo">
+              사진변경
+            </ProfileMemberImgLabel>
+            <ProfileMemberImgInput type="file" id="profile_photo" />
+          </ProfileMemberImgBox> */}
+
           <ProfileMemberNicknameBox>
             <ProfileMemberNicknameLabel as={"label"}>
               이메일[아이디]
@@ -333,11 +339,7 @@ function ProfileMember() {
           </ProfileMemberPasswordBox>
           <ProfileMemberBtnBox>
             <ProfileMemberUpdateBtn as={"button"}>수정</ProfileMemberUpdateBtn>
-            <ProfileMemberDeleteBtn
-              type="button"
-              as={"button"}
-              onClick={deleteUser}
-            >
+            <ProfileMemberDeleteBtn as={"button"} onClick={deleteUser}>
               회원탈퇴
             </ProfileMemberDeleteBtn>
           </ProfileMemberBtnBox>
