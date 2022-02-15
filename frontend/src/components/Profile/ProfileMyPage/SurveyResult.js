@@ -29,6 +29,11 @@ const styles = {
     backgroundColor: "#6667ab",
   },
 };
+const ShortAnsResult = styled.span`
+  display: block;
+  /* text-decoration: underline; */
+  margin-bottom: 3px;
+`;
 
 const SurveyResultMain = styled.div``;
 
@@ -122,11 +127,12 @@ function SurveyResult() {
                 <div>
                   <b>질문[주관식] : {question.title}</b>
 
-                  <ul>
-                    {question.answers.map((answer) => (
-                      <li>{answer}</li>
-                    ))}
-                  </ul>
+                  {question.answers.map((answer) => (
+                    <ShortAnsResult>
+                      <hr />
+                      {answer}
+                    </ShortAnsResult>
+                  ))}
                 </div>
               )
             )}
