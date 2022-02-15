@@ -189,7 +189,7 @@ function MyProjectDetail() {
 
               {/* 결과 */}
               <SurveyResult></SurveyResult>
-              
+
               {isEdit ? (
                 <SurveyEditText
                   onClick={() => {
@@ -215,6 +215,7 @@ function MyProjectDetail() {
                   {surveys.map((survey) => (
                     <SurveyEdit
                       survey={survey}
+                      Survey={Survey}
                       key={survey.id}
                       onRemove={onRemove}
                     />

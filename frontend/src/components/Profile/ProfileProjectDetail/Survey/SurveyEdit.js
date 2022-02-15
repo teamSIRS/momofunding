@@ -10,31 +10,9 @@ import {
 import {baseUrl} from '../../../../App';
 import setAuthorizationToken from "../../../../atoms";
 import styled from 'styled-components';
-import React, { useState } from 'react';
-import { Button, Fade, Modal } from "react-bootstrap";
-import SurveyNum from "../../ProfileMyPage/SurveyForm/SurveyNum";
-import SurveyShortAns from "../../ProfileMyPage/SurveyForm/SurveyShortAns";
-import SurveySelect from "../../ProfileMyPage/SurveyForm/SurveySelect";
-import { SubTitle } from "../../../ProjectDetail/ProjectBanner/BannerCaption/styles";
-
-////이 사이가 추가한거/////
-
-const SurveyModalBtn = styled.button`
-  background-color: #6667ab;
-  color: white;
-  border: 0;
-  outline: 0;
-`;
-const SeparateLineForm = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const SeparateLine = styled.hr`
-  display: inline;
-  width: 150px;
-  margin: 10px;
-`;
+import { useState } from 'react';
+import { Button, Modal } from "react-bootstrap";
+import swal from "sweetalert";
 
 const styles = {
   bgColor: {
@@ -46,16 +24,6 @@ const SurveyAddMain = styled.div``;
 const SurveyAddDiv = styled.div``;
 
 const SurveyAddInputBox = styled.div``;
-const SurveyAddInput = styled.input``;
-const SurveyAddInputSelect = styled.select``;
-const SurveyAddLabel = styled.label`
-  font-size: 20px;
-  margin-right: 20px;
-`;
-
-const ExpirationDate = styled.input`
-  margin: 10px 0 20px 0;
-`;
 
 const SurveyAnsLabel = styled.label`
   font-size: 20px;
@@ -77,40 +45,69 @@ const SurveyAnsInput = styled.div`
   }
 `;
 
-/////////////========================////////////
+const SurveyNumInput = styled.div`
+  display: flex;
+  flex-direction:column;
+  margin: 0;
+  input {
+    width: 440px;
+    float: right;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border-color: transparent;
+    padding: 5px;
+    background-color: #e3e3ef;
+    &:focus {
+      outline: 1px solid #6667ab;
+    }
+  }
+`;
 
+const Box = styled.div`
+  display: flex;
+`;
 
+const QBox = styled.p`
+  display:flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin-right: 8px;
+`;
 
+const ShortAns = styled.div`
+  padding-left: 30px;
+`;
 
-function SurveyEdit({ survey, onRemove }) {
+const QList = styled.ol`
+  padding-left: 50px;
+`;
 
-  // -----------------이 아래로 추가-------------------
+function SurveyEdit({ survey, onRemove, Survey }) {
 
   const [selectedNum, setSelectedNum] = useState("선택하세요");
   const selectList = ["선택하세요", "객관식", "주관식"];
   const onChange = (event) => {
     setSelectedNum(event.target.value);
   };
-
   const [show, setShow] = useState(false);
   const [endDate, setEndDate] = useState();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const [selectedSurvey, setSelectedSurvey] = useState();
-  //-----------------이 위로 추가----------------------
-
+  const [selectedSurvey, setSelectedSurvey] = useState();  
+  const [questions, setQuestions] = useState("");
 
   async function getSurvey(surveyId){
     await axios.get(baseUrl + '/surveys/' + surveyId)
     .then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setSelectedSurvey(res.data);
       setEndDate(res.data.endDate);
       setTitle(res.data.title);
       setContent(res.data.content);
+      setQuestions(res.data.questions)
     })
     .catch((err) => {
       console.log(err);
@@ -129,32 +126,11 @@ function SurveyEdit({ survey, onRemove }) {
       headers: setAuthorizationToken(),
     })
     .then((res) =>{
-      console.log('ok');
+      // console.log('ok');
     })
     .catch((err) =>{
       console.log(err);
-    })
-  }
-
-  const [questions, setQuestions] = useState("");
-  const Test1 = () =>{
-    axios.get(baseUrl+'/surveys/'+survey.id)
-    .then((res)=>{
-      console.log(res.data.questions);
-      setQuestions([...res.data.questions]);
-    })
-    .catch((err) =>{
-      console.log(err);
-    })
-  }
-
-  const Test2 =()=>{
-    axios.get(`${baseUrl}/survey-questions/1`)
-    .then((res) => {
-      console.log(res.data.questions)
-    })
-    .catch((err) => {
-      console.log(err);
+      swal('오류가 발생했습니다', {icon: "warning"});
     })
   }
 
@@ -163,10 +139,7 @@ function SurveyEdit({ survey, onRemove }) {
     <Body>
       <Container onClick={()=>{console.log('서베이id', survey.id)}}>
         <SurveyTitle>{survey.title}</SurveyTitle>
-        {/* <SurveyResult onClick={()=>{ getSurvey(survey.id); }}>수정</SurveyResult> */}
 
-        {/* 이 아래로 새로 추가한거 */}
-        {/* <SurveyModalBtn onClick={handleShow}>추가</SurveyModalBtn> */}
         <SurveyResult onClick={()=>{ getSurvey(survey.id); handleShow();}}>수정</SurveyResult>
 
         <Modal show={show} onHide={handleClose}>
@@ -211,37 +184,50 @@ function SurveyEdit({ survey, onRemove }) {
                   }}
                 />
             </SurveyAnsInput>
-              <button onClick={()=>{editSurvey();}}>질문 등록</button>
+              <button onClick={()=>{editSurvey();}}>설문조사 수정</button>
             </form>
-            <br/> 
 
+                <hr/>
+                <SurveyAnsLabel>[ 설문조사 질문 ]</SurveyAnsLabel>
                 <SurveyAddInputBox>
-                  <p onClick={Test1}>Test1</p>
-                  <SurveyAddLabel>질문 양식 선택</SurveyAddLabel>
-                  <select onChange={onChange} value={selectedNum}>
-                    {selectList.map((item) => (
-                      <option value={item} key={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </select>
-                  <hr />
+                  {
+                    questions.length === 0
+                    ? null
+                    : (
+                      questions.map((project)=>{
+                        return(
+                            <SurveyNumInput>
+                              <Box>
+                                <QBox>Q.</QBox>
+                                <input value={project.title}></input>
+                              </Box>
 
-                  <SurveyAddLabel>
-                    {selectedNum === "선택하세요" ? <SurveySelect /> : null}
-                    {selectedNum === "객관식" ? <SurveyNum/> : null}
-                    {selectedNum === "주관식" ? <SurveyShortAns questions={questions}/> : null}
-                  </SurveyAddLabel>
+                              {
+                                project.selectIds.length !== 0
+                                ? (
+                                  <QList>
+                                    {project.selectIds.map((item)=>{
+                                      return <li key={item.id}>{item.content}</li>
+                                    })}
+                                  </QList>
+                                )
+                                : <ShortAns>주관식 질문입니다</ShortAns>
+                              }
+
+                              <br/>
+                            </SurveyNumInput>
+                        )
+                      })
+                    )
+                  }
                 </SurveyAddInputBox>
                 <hr />
 
-                <Button onClick={()=>{console.log(selectedNum)}}>등록</Button>
+                <Button onClick={()=>{setShow(!show); Survey();}}>완료</Button>
               </SurveyAddDiv>
             </SurveyAddMain>
           </Modal.Body>
         </Modal>
-        {/* 이 위로 새로 추가한 것 */}
-
       </Container>
       <EditIcon
         icon={removeCircleOutline}
