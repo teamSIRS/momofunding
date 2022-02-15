@@ -4,17 +4,17 @@ var OV = new OpenVidu();
 
 export const micState = atom({
   key: "micActive",
-  default: false,
+  default: true,
 });
 
 export const camState = atom({
   key: "camActive",
-  default: false,
+  default: true,
 });
 
 export const audioState = atom({
   key: "audioActive",
-  default: false,
+  default: true,
 });
 
 export const titleState = atom({
