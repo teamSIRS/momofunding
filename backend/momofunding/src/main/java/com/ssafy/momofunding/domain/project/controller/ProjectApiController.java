@@ -190,10 +190,27 @@ public class ProjectApiController {
     public ResponseEntity<Object> searchProjectsByConditions(@RequestParam("order") String order,
                                                              @RequestParam(value = "categoryId", required = false) Long categoryId,
                                                              @RequestParam(value = "keyword", required = false) String keyword){
-
         List<ProjectResponseDto> projects = projectService.searchProjectsByCondition(order, categoryId, keyword);
         if(projects.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
+
+    @Operation(
+            summary = "해당 프로젝트의 진행중인 라이브의 세션아이디 반환",
+            description = "프로젝트 id를 입력받아 현재 진행하고 있는 라이브의 세션id를 반환해줌"
+   )
+    @Parameter(name = "projectId" , description = "프로젝트의 id", required = true)
+    @GetMapping("/live/session-id/{projectId}")
+    public ResponseEntity findLiveSessionId(@PathVariable Long projectId){
+        Map<String, Object> responseMap = new HashMap<>();
+        try {
+            responseMap.put("sessionId", projectService.findLiveSessionId(projectId));
+        }catch (IllegalArgumentException e){
+            responseMap.put("errorMsg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+    }
+
 
 }

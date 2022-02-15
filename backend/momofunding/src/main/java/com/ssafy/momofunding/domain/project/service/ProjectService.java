@@ -224,4 +224,9 @@ public class ProjectService {
         projectRepository.updateProjectStateIdToComplete(today);
     }
 
+    @Transactional
+    public String findLiveSessionId(Long projectId){
+        return projectRepository.findSessionIdByProjectId(projectId);
+    }
+
 }
