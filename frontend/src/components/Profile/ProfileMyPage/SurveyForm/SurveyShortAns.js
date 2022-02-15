@@ -30,8 +30,6 @@ const SurveyShortAnsInput = styled.div`
   }
 `;
 
-const SurveyShortAnsP = styled.p``;
-
 function SurveyShortAns({ surveyId, AddSurveyQuest }) {
   const { register, handleSubmit, setValue, setContentValue } = useForm();
   const setShortAnsQuestion = useSetRecoilState(shortAnsQuestionTitleState);

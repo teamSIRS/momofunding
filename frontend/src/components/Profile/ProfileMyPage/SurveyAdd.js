@@ -17,16 +17,6 @@ const SurveyModalBtn = styled.button`
   outline: 0;
   margin-right: 10px;
 `;
-const SeparateLineForm = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const SeparateLine = styled.hr`
-  display: inline;
-  width: 150px;
-  margin: 10px;
-`;
 
 const styles = {
   bgColor: {
@@ -38,19 +28,11 @@ const SurveyAddMain = styled.div``;
 const SurveyAddDiv = styled.div``;
 
 const SurveyAddInputBox = styled.div``;
-const SurveyAddInput = styled.input``;
-const SurveyAddInputSelect = styled.select``;
+
 const SurveyAddLabel = styled.label`
   font-size: 16px;
   margin-right: 20px;
 `;
-
-const ExpirationDate = styled.input`
-  margin: 10px 0 20px 0;
-`;
-
-
-//========================================
 
 const SurveyAnsLabel = styled.label`
   font-size: 20px;
@@ -72,25 +54,30 @@ const SurveyAnsInput = styled.div`
   }
 `;
 
-//=======================================
-
-
 function SurveyAdd({surveys, Survey}) {
   const {id} = useParams();
   const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    Survey();
+    setSelectedNum("선택하세요")
+  }
   const handleShow = () => setShow(true);
-
-  const [expirationDate, setExpirationDate] = useState("");
-  const onExpirationDateChange = (event) =>
-    setExpirationDate(event.target.value);
-
   const [endDate, setEndDate] = useState();
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
-  const [type, setType] = useState(0);
-  const [questTitle, setQuestTitle] = useState();
+  const [selectedNum, setSelectedNum] = useState("선택하세요");
+  const selectList = ["선택하세요", "객관식", "주관식"];
+  const onChange = (event) => {
+    setSelectedNum(event.target.value);
+  };
+
+  const onSubmit = (event) =>{
+    event.preventDefault();
+    AddSurvey();
+    swal('이제 질문을 등록해주세요');
+    setTitle("")
+  }
 
   const AddSurvey= async() => {
     // console.log('설문조사 등록');
@@ -116,7 +103,7 @@ function SurveyAdd({surveys, Survey}) {
   }
 
   const AddSurveyQuest = async(id, type, title) =>{
-    // 설문조사 title 등록
+    // 설문조사 질문 등록
     await axios({
       url: `${baseUrl}/survey-questions`,
       method: "post",
@@ -129,39 +116,16 @@ function SurveyAdd({surveys, Survey}) {
       headers: setAuthorizationToken(),
     })
     .then((res)=>{
-      console.log('콘텐트 등록');
+      // console.log('콘텐트 등록');
     })
     .catch((err) =>{
       console.log(err);
       swal('질문을 입력해주세요', {icon: "warning"});
     })
-  };
-
-  const Test = async() => {
-    await axios({
-      url: 'http://localhost:8080/survey-questions/',
-      method: "get",
-      headers: setAuthorizationToken(),
-    })
-    .then((res)=>{
-      console.log(res.data);
-    })
-    .catch((err) =>{
-      console.log(err);
-    })
-  }
-
-  const [selectedNum, setSelectedNum] = useState("선택하세요");
-  const selectList = ["선택하세요", "객관식", "주관식"];
-  const onChange = (event) => {
-    setSelectedNum(event.target.value);
-  };
-
-  
+  };  
 
   return (
     <>
-      <p onClick={Test}>test</p>
       <SurveyModalBtn onClick={handleShow}>추가</SurveyModalBtn>
 
       <Modal show={show} onHide={handleClose}>
@@ -175,7 +139,6 @@ function SurveyAdd({surveys, Survey}) {
           }}
         >
 
-          {/*  */}
           <SurveyAddMain>
           <SurveyAddDiv>
           <form>
@@ -206,42 +169,40 @@ function SurveyAdd({surveys, Survey}) {
               />
             </SurveyAnsInput>
 
-            <Button onClick={()=>{AddSurvey();swal('이제 질문을 등록해주세요');}}>설문조사 등록</Button>
+            <Button type="submit" onClick={onSubmit}>설문조사 등록</Button>
           </form>
           <br/> 
-        {/*  */}
 
-              <SurveyAddInputBox>
-                <SurveyAddLabel>질문 양식 선택</SurveyAddLabel>
-                <select onChange={onChange} value={selectedNum}>
-                  {selectList.map((item) => (
-                    <option value={item} key={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-                <hr />
-
-                <SurveyAddLabel>
-                  {selectedNum === "선택하세요" ? <SurveySelect /> : null}
-                  {selectedNum === "객관식" 
-                    ? <SurveyNum 
-                        AddSurveyQuest={AddSurveyQuest} 
-                        surveyId={surveys[surveys.length-1].id}
-                      /> 
-                    : null}
-                  {selectedNum === "주관식" 
-                    ? <SurveyShortAns 
-                        AddSurveyQuest={AddSurveyQuest} 
-                        surveyId={surveys[surveys.length-1].id}
-                        /> 
-                    : null}
-                </SurveyAddLabel>
-              </SurveyAddInputBox>
+            <SurveyAddInputBox>
+              <SurveyAddLabel>질문 양식 선택</SurveyAddLabel>
+              <select onChange={onChange} value={selectedNum}>
+                {selectList.map((item) => (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
               <hr />
 
-              <Button onClick={()=>{console.log('gg')}}>등록</Button>
-              {/* <Button onClick={()=>{QuestionType(); AddSurveyQuest();}}>등록</Button> */}
+              <SurveyAddLabel>
+                {selectedNum === "선택하세요" ? <SurveySelect /> : null}
+                {selectedNum === "객관식" 
+                  ? <SurveyNum 
+                      AddSurveyQuest={AddSurveyQuest} 
+                      surveyId={surveys[surveys.length-1].id}
+                    /> 
+                  : null}
+                {selectedNum === "주관식" 
+                  ? <SurveyShortAns 
+                      AddSurveyQuest={AddSurveyQuest} 
+                      surveyId={surveys[surveys.length-1].id}
+                      /> 
+                  : null}
+              </SurveyAddLabel>
+            </SurveyAddInputBox>
+            <hr />
+
+            <Button onClick={()=>{handleClose()}}>닫기</Button>
             </SurveyAddDiv>
           </SurveyAddMain>
         </Modal.Body>

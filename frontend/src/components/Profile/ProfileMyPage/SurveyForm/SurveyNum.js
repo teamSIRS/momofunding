@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { Button } from 'react-bootstrap';
 import {
   numQuestionSelector,
   numQuestionState,
@@ -8,10 +9,10 @@ import {
 } from "../atoms";
 import setAuthorizationToken from '../../../../atoms';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 import { baseUrl } from '../../../../App';
 import swal from "sweetalert";
 import styled from "styled-components";
+import { MomoColor } from '../../../../shared/global';
 
 const SurveyNumLabel = styled.label`
   font-size: 20px;
@@ -33,9 +34,15 @@ const SurveyNumInput = styled.div`
   }
 `;
 
-const MyBtn = styled.button`
+const MyBtn1 = styled.a`
+  color: white;
+  background: ${MomoColor};
+  border-radius: 5px;
   padding: 6px 12px;
-  margin-bottom: 15px;
+`;
+
+const ContentListBox = styled.ol`
+  margin-top: 20px;
 `;
 
 function SurveyNum({ surveyId, AddSurveyQuest}) {
@@ -54,19 +61,22 @@ function SurveyNum({ surveyId, AddSurveyQuest}) {
     setValue("question", "");
   };
   
-  const [id, setId] = useState(surveyId);
   const [title, setTitle] = useState("");
   const [questionType, setQuestionType] = useState(1);
   //객관식 문항 content
   const [content, setContent] = useState("");
+  const [int, setInt] = useState(0);
+  const [questionId, setQuestionId] = useState();
+  const [contentList, setContentList] = useState([]);
+  // const [questions, setQuestion] = useState("");
 
-
-  const AddSureyNum = async() =>{
+  const AddSurveyNum = async() =>{
     await axios({
       url: baseUrl+'/question-select',
       method: "post",
       data:{
-        surveyQuestionId:0,
+        surveyId: surveyId,
+        surveyQuestionId: questionId,
         content: content,
       },
       headers: setAuthorizationToken(),
@@ -76,65 +86,118 @@ function SurveyNum({ surveyId, AddSurveyQuest}) {
     })
     .catch((err) => {
       console.log(err);
+      swal('다시 확인해주세요');
     })
+  }
+
+  //////////??여기 뭔가 잘못되..었을까요?모르겠
+  const getQuestions = async() =>{
+    await axios({
+      url: baseUrl + '/surveys/' + surveyId,
+      method: "get",
+      headers: setAuthorizationToken(),
+    })
+    .then((res) =>{
+      console.log('ok', res.data.questions[0].id);
+      setQuestionId(res.data.questions[0].id);
+      // setInt(int+1);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
+  const getSurvey = async(surveyId) => { //받아서 객관식 문항 리스트 뽑으려고
+    await axios.get(baseUrl + '/surveys/' + surveyId)
+    .then((res) =>{
+      console.log(res.data.questions);
+      // setQuestions(res.data.questions);
+    })
+    .catch((err) =>{
+      console.log(err);
+    })
+  }
+
+  const Test = async() =>{
+    await axios({
+      url: baseUrl + '/surveys/' + surveyId,
+      method: "get",
+      headers: setAuthorizationToken(),
+    })
+    .then((res) =>{
+      console.log(res.data);
+      // setQuestionId(res.data.questions[0].id);
+      // setInt(int+1);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
+  const [openContent, setOpenContent] = useState(false);
+
+  const AddQuestion = (event) => {
+    event.preventDefault();
+    AddSurveyQuest(surveyId, questionType, title);
+    getQuestions();
+    swal("질문이 등록되었습니다", "이제 문항을 등록해주세요");
+    setOpenContent(true);
+  }
+
+  const AddNumContent = () =>{
+    // getSurvey(surveyId);
+    AddSurveyNum();
+    setContentList([...contentList, content]);
+    console.log(contentList);
+    setContent("");
   }
 
   console.log()
   return (
     <div>
+      <p onClick={Test}>test</p>
       <SurveyNumLabel>[ 객관식 질문 등록 ]</SurveyNumLabel>
       <form onSubmit={handleSubmit(onQuestionValid)}>
         <SurveyNumInput>
-          {/* <input
-            {...register("questionTitle", {
-              required: "Please write a questionTitle",
-            })}
-            placeholder="객관식 질문을 입력하세요."
-            onChange={(e) =>{
-              setTitle(e.target.value);
-            }}
-          /> */}
-
           <input
             required
             placeholder="객관식 질문을 입력하고 질문 등록을 눌러주세요"
             onChange={(e) => {setTitle(e.target.value);}}
           />
-          {/* <input
-            {...register("question", {
-              required: "Please write a question",
-            })}
-            placeholder="객관식 보기를 입력하세요."
-            onChange={(e) =>{
-              setContent(e.target.value);
-            }}
-          /> */}
         </SurveyNumInput>
-        <MyBtn onClick={()=>{AddSurveyQuest(id, questionType, title); swal("질문이 등록되었습니다", "이제 문항을 등록해주세요")}}>질문 등록</MyBtn>
-        {/* <button onClick={()=>{}}>보기 등록</button> */}
+        <Button onClick={AddQuestion}>질문 등록</Button>
       </form>
-      {/* <SurveyNumLabel>[ 등록한 객관식 질문 ]</SurveyNumLabel>
-      <br />Q : {numQuestionTitle}
-      <ol>
-        {numQuestions.map((numQuestion, index) => (
-          <li key={index}>{numQuestion.text}</li>
-        ))}
-      </ol> */}
-      <form>
-        <SurveyNumLabel>[ 객관식 문항 등록 ]</SurveyNumLabel>
-        <SurveyNumInput>
-          <input 
-            required
-            placeholder='객관식 문항을 등록하고 등록 버튼을 눌러주세요'
-            onChange={(e) => {setContent(e.target.value)}}
-          />
-          <MyBtn onClick={AddSureyNum}>문항 등록</MyBtn>
-        </SurveyNumInput>
-      </form>
-      <ol>
+      <br/>
+      {
+        openContent
+        ? (
+          <>
+            <form>
+              <SurveyNumLabel>[ 객관식 문항 등록 ]</SurveyNumLabel>
+              <SurveyNumInput>
+                <input 
+                  required
+                  placeholder='객관식 문항을 등록하고 등록 버튼을 눌러주세요'
+                  value={content}
+                  onChange={(e) => {setContent(e.target.value)}}
+                />
+              </SurveyNumInput>
+              <MyBtn1 type="submit" onClick={AddNumContent}>문항 추가</MyBtn1>
+            </form>
 
-      </ol>
+            <ContentListBox>
+              {contentList.map((a, i) =>{
+                return (
+                  <li>{a}</li>
+                )
+              })}
+            </ContentListBox>
+          </>
+        )
+        : null
+      }
+
     </div>
   );
 }
-export default React.memo(SurveyNum);
+export default SurveyNum;
