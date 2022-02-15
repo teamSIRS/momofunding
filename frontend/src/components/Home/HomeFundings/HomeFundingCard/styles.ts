@@ -2,7 +2,7 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const StyledCard = styled(Card) <{ height: string; width: string }>`
+export const StyledCard = styled(Card)<{ height: string; width: string }>`
   position: flex;
   border-radius: 20px;
   width: ${({ width }) => width};
@@ -14,14 +14,14 @@ export const StyledCard = styled(Card) <{ height: string; width: string }>`
   color: white;
   transition: cubic-bezier(0.86, 0, 0.07, 1);
   &:hover {
-    transform: scale(1.05);
-    transition: 0.2s linear;
+    filter: brightness(65%);
+    /* transform: scale(1.05); */
+    transition: 0.3s ease;
   }
 `;
 
 export const StyledCardImg = styled(Card.Img)`
   border-radius: 1rem;
-  
 `;
 
 export const StyledLink = styled(Link)`
