@@ -32,6 +32,9 @@ import {
 import setAuthorizationToken from "../../../atoms";
 import styled from "styled-components";
 import SurveyResult from "../ProfileMyPage/SurveyResult";
+import { useSetRecoilState } from "recoil";
+import { pjtIdState } from "../../Live/LiveAtoms";
+import swal from "sweetalert";
 const NoSurvey = styled.div`
   width: 90%;
   margin: 15px 0px;
@@ -51,6 +54,7 @@ const DeleteBtn = styled(ManageBtn)`
 
 function MyProjectDetail() {
   const { id } = useParams();
+  const setPjtId = useSetRecoilState(pjtIdState);
   const [project, setProject] = useState("");
   const [isEdit, setIsEdit] = useState(false);
   const [surveys, setSurveys] = useState([{ id: 0, title: "test" }]);
@@ -107,13 +111,15 @@ function MyProjectDetail() {
       headers: setAuthorizationToken(),
       baseUrl: baseUrl,
     })
-      .then((res) => {
-        // console.log('삭제완');
-      })
+      .then((res) => {})
       .catch((err) => {
         console.log(err);
       });
     setSurveys(surveys.filter((survey) => survey.id !== id));
+  };
+
+  const onClickPersistParam = () => {
+    setPjtId(id);
   };
 
   const navigate = useNavigate();
@@ -131,6 +137,9 @@ function MyProjectDetail() {
       })
         .then((response) => {
           console.log(response.data);
+          swal("프로젝트 삭제 완료!", "프로젝트를 삭제하였습니다.", "warning", {
+            button: true,
+          });
           navigate("/users/myprojects");
         })
         .catch((error) => {
@@ -163,7 +172,7 @@ function MyProjectDetail() {
           <ManageBtn>
             <button onClick={goToManagePjt}>프로젝트 관리</button>
           </ManageBtn>
-          <ToNewLiveLink to={`/lives/new`}>
+          <ToNewLiveLink onClick={onClickPersistParam} to={`/lives/new`}>
             <LiveBtn>라이브 켜기</LiveBtn>
           </ToNewLiveLink>
           <DeleteBtn>

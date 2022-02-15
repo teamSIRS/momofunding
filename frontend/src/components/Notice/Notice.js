@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil";
 import { roleState } from "../../atoms";
 
 const NoticeMain = styled.div`
-  background-color: whitesmoke;
+  /* background-color: whitesmoke; */
   width: 100%;
   height: 780px;
   padding: 60px 0px;
@@ -14,15 +14,14 @@ const NoticeMain = styled.div`
 `;
 
 const NoticeMainTitle = styled.div`
-  margin-top: 50px;
-  margin-left: 50px;
+  margin-left: 10px;
+  margin-top: 80px;
   font-size: 30px;
   font-weight: bold;
 `;
 
 const NoticeMainSubTitle = styled(NoticeMainTitle)`
   margin-top: 20px;
-  margin-left: 55px;
   font-size: 15px;
 `;
 
@@ -54,11 +53,11 @@ function Notice() {
   };
   return (
     <div>
-      <NoticeMainTitle>공지사항</NoticeMainTitle>
-      <NoticeMainSubTitle>
-        공지사항은 관리자만 작성가능합니다.
-      </NoticeMainSubTitle>
       <Container>
+        <NoticeMainTitle>공지사항</NoticeMainTitle>
+        <NoticeMainSubTitle>
+          공지사항은 관리자만 작성가능합니다.
+        </NoticeMainSubTitle>
         <Row style={styles.row}>
           <Col sm={12} style={styles.col}>
             <NoticeMain>

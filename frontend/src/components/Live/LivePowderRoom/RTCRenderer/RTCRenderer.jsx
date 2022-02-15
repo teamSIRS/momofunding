@@ -28,13 +28,14 @@ import {
   camState,
   micState,
   msgsState,
+  pjtIdState,
   sessionState,
   titleState,
 } from "../../LiveAtoms";
 import { selector, useRecoilState, useRecoilValue } from "recoil";
 import { baseUrl } from "../../../../App";
 import LiveMain from "../../LiveMain";
-import { userIdState } from "../../../../atoms";
+import setAuthorizationToken, { userIdState } from "../../../../atoms";
 import { SelectedSurveyState } from "../../LiveMain/Surveys/SurveyList/SurveyList";
 import { useParams } from "react-router-dom";
 import { authorizationState } from "../../LiveMain/LiveMain";
@@ -81,6 +82,8 @@ export const RTCRenderer = () => {
   const [curSurvey, setCurSurvey] = useRecoilState(SelectedSurveyState);
   const [content, setContent] = useState("");
   const [messages, setMessages] = useRecoilState(msgsState);
+  const [sessionIdToServer, setSessionId] = useState("");
+  const [pjtId, _] = useRecoilState(pjtIdState);
 
   let session = sessionType;
   let isCreated = false;
@@ -251,6 +254,7 @@ export const RTCRenderer = () => {
       setIsSubmitted(true);
       setIsStaff(false);
     }
+    setSessionId(sessionId);
     console.log("session id: ", sessionId);
     setTimeout(() => {
       console.log("시작 : " + isStaff);
@@ -286,28 +290,43 @@ export const RTCRenderer = () => {
   }, [curSurvey]);
 
   const onTitleChange = (event) => {
-    console.log(event);
     setTitle(event.target.value);
   };
 
   const onContentChange = (event) => {
-    console.log(event);
     setContent(event.target.value);
   };
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    let category;
+    await axios({
+      url: `/projects/${pjtId}`,
+      method: "get",
+      baseURL: baseUrl,
+    })
+      .then((response) => {
+        category = response.data.projectCategoryId;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    const data = {
+      title: title,
+      content: content,
+      projectId: pjtId,
+      projectCategoryId: category,
+      sessionId: sessionIdToServer,
+    };
+    console.log("data sending:", data);
+
     await axios({
       url: `/lives`,
       method: "post",
       baseURL: `${baseUrl}`,
-      data: {
-        title: title,
-        content: content,
-        projectId: 1,
-        projectCategoryId: 1,
-        sessionId: sessionId,
-      },
+      headers: setAuthorizationToken(),
+      data: data,
     })
       .then((response) => {
         console.log(response.data);
@@ -319,9 +338,26 @@ export const RTCRenderer = () => {
       });
   };
 
+  const aaa = async () => {
+    let category;
+    await axios({
+      url: `/projects/${pjtId}`,
+      method: "get",
+      baseURL: baseUrl,
+    })
+      .then((response) => {
+        category = response.data.projectCategoryId;
+        console.log(category);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <RendererWrapper>
       <TestVideoWrapper
+        onClick={aaa}
         className={!isSubmitted ? "powderRoom" : "main"}
         id="creatorVideo"
       ></TestVideoWrapper>

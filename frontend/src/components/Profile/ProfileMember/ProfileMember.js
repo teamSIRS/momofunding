@@ -3,18 +3,23 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import setAuthorizationToken, { nicknameState } from "../../../atoms";
+import setAuthorizationToken, {
+  isLoginState,
+  nicknameState,
+} from "../../../atoms";
 import { useRecoilState } from "recoil";
 import swal from "sweetalert";
 import { baseUrl } from "../../../App";
 
 const ProfileMemberTitle = styled.div`
-  margin: 50px;
+  text-align: center;
+  margin: 60px 0px;
   font-size: 30px;
   font-weight: bold;
 `;
 // 회원정보 수정 전체 설정
 const ProfileMemberBox = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -54,9 +59,9 @@ const ProfileMemberNicknameBox = styled.div`
   margin-bottom: 30px;
 `;
 const ProfileMemberNicknameLabel = styled.div`
-  font-size: 15px;
+  font-size: 20px;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 `;
 const ProfileMemberNicknameInput = styled.div`
   display: block;
@@ -147,6 +152,7 @@ function ProfileMember() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nName, setNname] = useRecoilState(nicknameState);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const onNickNameChange = (event) => {
     setNickname(event.target.value);
   };
@@ -185,9 +191,13 @@ function ProfileMember() {
       })
         .then((response) => {
           // console.log("회원 정보 수정 성공!");
-          swal("회원 정보 수정 성공!", { button: false });
+          swal("회원 정보 수정 성공!", "", "success", { button: true });
           setNickname(response.data.nickname);
           setNname(nickname);
+
+          setTimeout(() => {
+            navigate("/users/myprojects");
+          }, 2000);
         })
         .catch((error) => {
           console.log(error);
@@ -196,7 +206,8 @@ function ProfileMember() {
     updateUser();
   }
 
-  function deleteUser(data) {
+  function deleteUser() {
+    console.log(userId);
     const deleteUser = async () => {
       await axios({
         url: `/users/${userId}`,
@@ -206,7 +217,16 @@ function ProfileMember() {
       })
         .then((response) => {
           console.log(response.data);
-          navigate("/");
+
+          swal("회원탈퇴", "다음에 또 모모펀딩을 찾아주세요!", "success", {
+            button: true,
+          });
+          setIsLogin(false);
+          localStorage.removeItem("auth-token");
+          localStorage.removeItem("recoil-persist");
+          setTimeout(() => {
+            window.location.replace("/");
+          }, 2000);
         })
         .catch((error) => {
           console.log(error);
@@ -251,14 +271,6 @@ function ProfileMember() {
       <ProfileMemberTitle>회원정보 수정 페이지</ProfileMemberTitle>
       <ProfileMemberBox>
         <ProfileMemberForm onSubmit={handleSubmit(onValid)}>
-          <ProfileMemberImgBox>
-            <ProfileMemberImg src="/photo/profile.png" />
-            <ProfileMemberImgLabel htmlFor="profile_photo">
-              사진변경
-            </ProfileMemberImgLabel>
-            <ProfileMemberImgInput type="file" id="profile_photo" />
-          </ProfileMemberImgBox>
-
           <ProfileMemberNicknameBox>
             <ProfileMemberNicknameLabel as={"label"}>
               이메일[아이디]
@@ -321,7 +333,11 @@ function ProfileMember() {
           </ProfileMemberPasswordBox>
           <ProfileMemberBtnBox>
             <ProfileMemberUpdateBtn as={"button"}>수정</ProfileMemberUpdateBtn>
-            <ProfileMemberDeleteBtn as={"button"} onClick={deleteUser}>
+            <ProfileMemberDeleteBtn
+              type="button"
+              as={"button"}
+              onClick={deleteUser}
+            >
               회원탈퇴
             </ProfileMemberDeleteBtn>
           </ProfileMemberBtnBox>

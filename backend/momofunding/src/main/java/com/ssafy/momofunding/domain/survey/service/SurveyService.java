@@ -16,6 +16,7 @@ import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionChoiceAnswe
 import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionEssayAnswerResponseDto;
 import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionResponseDto;
 import com.ssafy.momofunding.domain.surveyquestion.dto.SurveyQuestionSelectIdsResponseDto;
+import com.ssafy.momofunding.domain.surveyquestion.repository.SurveyQuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class SurveyService {
     private final SurveyRepository surveyRepository;
     private final ProjectRepository projectRepository;
     private final SurveyAnswerRepository surveyAnswerRepository;
+    private final SurveyQuestionRepository surveyQuestionRepository;
 
     @Transactional
     public Long saveSurvey(SurveySaveRequestDto surveySaveRequestDto) {
@@ -109,8 +111,7 @@ public class SurveyService {
                 List<SurveyAnswerResponseDto> choiceAnswers = surveyAnswerRepository.findChoiceAnswerBySurveyQuestionId(surveyQuestion.getId());
 
                 dto = new SurveyQuestionChoiceAnswerResponseDto(surveyQuestion, choiceAnswers);
-            }
-            else if (surveyQuestion.getQuestionType().getId() == 2) { // 주관식
+            } else if (surveyQuestion.getQuestionType().getId() == 2) { // 주관식
                 List<SurveyAnswer> essayAnswers = surveyAnswerRepository.findAllBySurveyQuestionId(surveyQuestion.getId());
                 List<String> answers = essayAnswers
                         .stream()
@@ -120,13 +121,16 @@ public class SurveyService {
             }
             responseDtos.add(dto);
         }
-
         surveyDetailResponseDto.setQuestions(responseDtos);
-
-
-
         return surveyDetailResponseDto;
     }
 
+    @Transactional
+    public boolean findSubmitHistory(Long surveyId, Long userId) {
+        Long surveyQuestionId = surveyQuestionRepository.findFirstBySurveyId(surveyId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 접근입니다."))
+                .getId();
+        return surveyAnswerRepository.existsBySurveyQuestionIdAndUserId(surveyQuestionId, userId);
+    }
 
 }

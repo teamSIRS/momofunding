@@ -38,8 +38,13 @@ import MyProjectManagement from "./components/Profile/ProfileProjectDetail/MyPro
 import PayFail from "./components/Funding/FundingSidebar/PayFail";
 import PayCancel from "./components/Funding/FundingSidebar/PayCancel";
 
+//서버용
 // export const baseUrl = "https://i6a202.p.ssafy.io/api";
+// export const baseUrlNoApi = "https://i6a202.p.ssafy.io";
+
+//로컬용
 export const baseUrl = "http://localhost:8080/api";
+export const baseUrlNoApi = "http://localhost:3000";
 
 function App() {
   const [nowLogin, setNowLogin] = useRecoilState(isLoginState);
@@ -102,7 +107,7 @@ function App() {
         <Route path="/fundprojects" element={<FundProject />}></Route>
 
         <Route path="/myproject/:id" element={<MyProjectDetail />}></Route>
-        <Route path="/pay/success" element={<PaySuccess />}></Route>
+        <Route path="/pay/success/:id" element={<PaySuccess />}></Route>
         <Route path="/pay/fail/:token" element={<PayFail />}></Route>
         <Route path="/pay/cancel/:token" element={<PayCancel />}></Route>
         <Route

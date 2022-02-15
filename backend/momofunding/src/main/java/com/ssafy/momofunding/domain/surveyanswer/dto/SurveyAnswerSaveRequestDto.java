@@ -3,11 +3,12 @@ package com.ssafy.momofunding.domain.surveyanswer.dto;
 import com.ssafy.momofunding.domain.surveyanswer.domain.SurveyAnswer;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class SurveyAnswerSaveRequestDto {
 
-    private Long surveyAnswerId;
     private Long surveyQuestionId;
     private Long userId;
     private Long questionSelectId;
@@ -24,6 +25,7 @@ public class SurveyAnswerSaveRequestDto {
     public SurveyAnswer toEntity() {
         return SurveyAnswer.builder()
                 .content(content)
+                .userId(userId)
                 .build();
     }
 }

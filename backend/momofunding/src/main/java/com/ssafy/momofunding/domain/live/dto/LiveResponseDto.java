@@ -18,6 +18,7 @@ public class LiveResponseDto {
     private Integer viewerCount;
     private LocalDateTime registerDate;
     private String sessionId;
+    private String subImageUrl;
 
     public LiveResponseDto(Live entity) {
         this.id = entity.getId();
@@ -27,6 +28,7 @@ public class LiveResponseDto {
         this.viewerCount = entity.getViewerCount();
         this.registerDate = entity.getRegisterTime();
         this.sessionId = entity.getSessionId();
+        this.subImageUrl = entity.getProject().getSubImageUrl();
     }
 
     @Builder
@@ -38,5 +40,7 @@ public class LiveResponseDto {
         this.viewerCount = viewerCount;
         this.registerDate = registerDate;
         this.sessionId = getSessionId();
+        this.subImageUrl = getSubImageUrl();
+
     }
 }
