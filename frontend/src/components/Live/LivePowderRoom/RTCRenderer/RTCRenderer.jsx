@@ -34,7 +34,8 @@ import {
 import { selector, useRecoilState, useRecoilValue } from "recoil";
 import { baseUrl } from "../../../../App";
 import LiveMain from "../../LiveMain";
-import { userIdState } from "../../../../atoms";
+import { userIdState,  } from "../../../../atoms";
+import setAuthorizationToken from "../../../../atoms";
 import { SelectedSurveyState } from "../../LiveMain/Surveys/SurveyList/SurveyList";
 import { useParams } from "react-router-dom";
 import { authorizationState } from "../../LiveMain/LiveMain";
@@ -297,25 +298,30 @@ export const RTCRenderer = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    var temp = {
+      title: title,
+      content: content,
+      projectId: 1,
+      projectCategoryId: 1,
+      sessionId: sessionId,
+    };
     await axios({
       url: `/lives`,
       method: "post",
       baseURL: `${baseUrl}`,
-      data: {
-        title: title,
-        content: content,
-        projectId: 1,
-        projectCategoryId: 1,
-        sessionId: sessionId,
-      },
+      headers: setAuthorizationToken(),
+      data: temp,
+
     })
       .then((response) => {
         console.log(response.data);
         setIsSubmitted(true);
       })
       .catch((error) => {
+        console.log("라이브 만들기 오류 발생");
         console.log(error);
-        setIsSubmitted(true); // tmp: 백에서 404를 리턴해서 임시로 해결했습니다.
+        console.log(temp);
+        // setIsSubmitted(true); // tmp: 백에서 404를 리턴해서 임시로 해결했습니다.
       });
   };
 

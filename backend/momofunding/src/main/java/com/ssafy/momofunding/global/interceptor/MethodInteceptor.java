@@ -27,6 +27,7 @@ public class MethodInteceptor implements HandlerInterceptor {
         }
 
         final String token = request.getHeader(HEADER_AUTH);
+        System.out.println("도큰 : " + token);
 
         if (token != null && jwtService.isUsable(token)) {
             return true;

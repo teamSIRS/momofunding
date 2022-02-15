@@ -23,7 +23,7 @@ public class CreatorService {
     @Value("${pathSeparator}")
     private String separator;
 
-    @Value("${imageUrl}")
+    @Value("${serverUrl}")
     private String imageUrl;
 
     private final CreatorRepository creatorRepository;
@@ -40,7 +40,7 @@ public class CreatorService {
         }
 
         String curImgUrl = creator.getCreatorImageUrl();
-        String defaultImgUrl = imageUrl+"creator/default.png";
+        String defaultImgUrl = imageUrl+"api/images/creator/default.png";
 
         if(creatorImg != null){
             String imgName = creatorImg.getOriginalFilename()+"";

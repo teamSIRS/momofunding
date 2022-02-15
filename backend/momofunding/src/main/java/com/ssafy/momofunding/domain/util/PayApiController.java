@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,9 @@ public class PayApiController {
 
     private final RewardOrderService rewardOrderService;
     private final JwtService jwtService;
+
+    @Value("${serverUrl}")
+    private String serverUrl;
 
     //pay
     @Operation(
@@ -57,9 +61,9 @@ public class PayApiController {
                 "total_amount=" + rewardPayRequestDto.getAmount() + "&" +
                 "vat_amount=0&" +
                 "tax_free_amount=0&" +
-                "approval_url=http://localhost:3000/pay/success&" +
-                "fail_url=http://localhost:3000/pay/fail/" + val2 + "&" +
-                "cancel_url=http://localhost:3000/pay/cancel/" + val2;
+                "approval_url=" + serverUrl + "pay/success&" +
+                "fail_url=" + serverUrl + "pay/fail/" + val2 + "&" +
+                "cancel_url=" + serverUrl + "pay/cancel/" + val2;
 
         byte[] utf8 = param.getBytes(StandardCharsets.UTF_8);
 
@@ -74,6 +78,8 @@ public class PayApiController {
         InputStream inputStream;
         if (resultCode == 200) inputStream = serverConnection.getInputStream();
         else inputStream = serverConnection.getErrorStream();
+        System.out.println("끼약");
+        System.out.println(inputStream);
 
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 

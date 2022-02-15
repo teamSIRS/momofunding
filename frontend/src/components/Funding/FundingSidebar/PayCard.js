@@ -120,6 +120,8 @@ function PayCard({ props }) {
         baseURL: baseUrl, // 위에서 말한 baseURL 설정
       }) // 여기까지가 axios 보내는 정보
         .then((response) => {
+          console.log("찍을거야 URl");
+          console.log(response.data.url);
           const popUp = window.open(
             response.data.url,
             "카카오 페이 결제",

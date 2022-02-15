@@ -36,7 +36,7 @@ public class ProjectService {
     @Value("${pathSeparator}")
     private String separator;
 
-    @Value("${imageUrl}")
+    @Value("${serverUrl}")
     private String imageUrl;
 
     private final ProjectRepository projectRepository;
@@ -57,7 +57,7 @@ public class ProjectService {
         Creator creator = new Creator();
         creator.mapProject(project);
         creator.updateCreatorImagePath(imagePath+ separator + "creator" + separator + "default.png");
-        creator.updateCreatorImageUrl(imageUrl+"creator/default.png");
+        creator.updateCreatorImageUrl(imageUrl+"api/images/creator/default.png");
         creatorRepository.save(creator);
 
         return projectId;
@@ -74,7 +74,7 @@ public class ProjectService {
             projectImgPath.mkdir();
         }
 
-        String projectResourcesPath = imageUrl+"project/";
+        String projectResourcesPath = imageUrl+"api/images/project/";
         if(mainImg != null){
             String mainName = mainImg.getOriginalFilename()+"";
             try{
@@ -147,7 +147,7 @@ public class ProjectService {
     public void deleteProject(Long projectId) {
         Creator creator = creatorRepository.findByProjectId(projectId)
                 .orElseThrow(()-> new IllegalArgumentException("창작자를 찾을 수 없습니다.::projectId-"+projectId));
-        if(!creator.getCreatorImageUrl().equals(imageUrl+"creator/default.png")){
+        if(!creator.getCreatorImageUrl().equals(imageUrl+"api/images/creator/default.png")){
             File creatorImgFile = new File(creator.getCreatorImagePath());
             creatorImgFile.delete();
         }
