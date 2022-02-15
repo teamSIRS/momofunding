@@ -2,7 +2,6 @@ package com.ssafy.momofunding.domain.surveyanswer.domain;
 
 import com.ssafy.momofunding.domain.questionselect.domain.QuestionSelect;
 import com.ssafy.momofunding.domain.surveyquestion.domain.SurveyQuestion;
-import com.ssafy.momofunding.domain.user.domain.User;
 import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +18,7 @@ public class SurveyAnswer extends AuditBaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true, length=100)
+    @Column(nullable = true, length = 100)
     private String content;
 
     @ManyToOne(targetEntity = SurveyQuestion.class)
@@ -30,25 +29,20 @@ public class SurveyAnswer extends AuditBaseEntity {
     @JoinColumn(name = "question_select_id", nullable = true)
     private QuestionSelect questionSelect;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private Long userId;
 
-    public void mapSurveyQuestion(SurveyQuestion surveyQuestion){
+    public void mapSurveyQuestion(SurveyQuestion surveyQuestion) {
         this.surveyQuestion = surveyQuestion;
     }
 
-    public void mapQuestionSelect(QuestionSelect questionSelect){
+    public void mapQuestionSelect(QuestionSelect questionSelect) {
         this.questionSelect = questionSelect;
     }
 
-    public void mapUser(User user){
-        this.user = user;
-    }
-
     @Builder
-    public SurveyAnswer(String content){
+    public SurveyAnswer(String content, Long userId) {
         this.content = content;
+        this.userId = userId;
     }
-
 }

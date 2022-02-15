@@ -27,13 +27,11 @@ public class SurveyAnswerService {
     private final SurveyAnswerRepository surveyAnswerRepository;
     private final SurveyQuestionRepository surveyQuestionRepository;
     private final QuestionSelectRepository questionSelectRepository;
-    private final UserRepository userRepository;
 
     @Transactional
     public Long saveSurveyAnswer(SurveyAnswerSaveRequestDto saveRequestDto){
         Long surveyQuestionId = saveRequestDto.getSurveyQuestionId();
         Long questionSelectId = saveRequestDto.getQuestionSelectId();
-        Long userId = saveRequestDto.getUserId();
 
         SurveyAnswer surveyAnswer = saveRequestDto.toEntity();
 
@@ -46,10 +44,6 @@ public class SurveyAnswerService {
                     .orElseThrow(() -> new IllegalArgumentException("잘못된 질문 보기 번호 입니다. questionSelectId : " + questionSelectId));
             surveyAnswer.mapQuestionSelect(questionSelect);
         }
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(()-> new IllegalArgumentException("잘못된 유저 번호 입니다. userId : " + userId));
-        surveyAnswer.mapUser(user);
 
         return surveyAnswerRepository.save(surveyAnswer).getId();
     }
