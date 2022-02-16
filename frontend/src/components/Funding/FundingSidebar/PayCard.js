@@ -137,7 +137,7 @@ function PayCard({ props }) {
           recipientTel: props.tel,
           recipientAddress: props.shippingAddr,
           requestContent: props.request,
-          amount: props.total,
+          amount: props.lastTotal,
         },
         headers: setAuthorizationToken(),
         baseURL: baseUrl, // 위에서 말한 baseURL 설정

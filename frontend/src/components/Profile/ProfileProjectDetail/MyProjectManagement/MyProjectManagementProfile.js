@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import $ from "jquery";
 import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import setAuthorizationToken from "../../../../atoms";
 import { baseUrl } from "../../../../App";
 
@@ -78,7 +79,7 @@ const ProjectManagementContentImgLabel = styled.label`
   float: right;
 `;
 const ProjectManagementContentImgInput = styled.input`
-  display: none;
+  // display: none;
 `;
 
 const ProjectManagementContentProfileBtn = styled.button`
@@ -86,15 +87,22 @@ const ProjectManagementContentProfileBtn = styled.button`
   margin-left: 48px;
 `;
 
+const ErrorMsg = styled.span`
+  font-size: 12px;
+  color: red;
+`;
+
 function MyProjectManagementProfile() {
   // 프로젝트 id
   const { id } = useParams();
   // 사용자 id
   // const userId = useRecoilValue(userIdState);
-
-  // console.log(id);
-  // console.log(userId);
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm();
   const [creatorName, setCreatorName] = useState("");
   const [creatorImageUrl, setCreatorImageUrl] = useState("");
   const [creatorContent, setCreatorContent] = useState("");
@@ -128,9 +136,6 @@ function MyProjectManagementProfile() {
     setAccount(event.target.value);
   };
   //////////////////////////////////////////////////////////////////////
-  // 이거는 나중에 로그인한 회원의 아이디로 바꿔야함
-
-  //////////////////////////////////////////////////////////////////////
   // get으로 사용자의 기존정보를 불러오기
   function getCreator() {
     const getCreator = async () => {
@@ -140,34 +145,39 @@ function MyProjectManagementProfile() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
           if (response.data.creatorName) {
             setCreatorName(response.data.creatorName);
+            setValue("creatorName", response.data.creatorName);
           } else {
             setCreatorName("");
           }
           if (response.data.creatorImageUrl) {
             setCreatorImageUrl(response.data.creatorImageUrl);
+
           } else {
             setCreatorImageUrl("");
           }
           if (response.data.creatorContent) {
             setCreatorContent(response.data.creatorContent);
+            setValue("creatorContent", response.data.creatorContent);
           } else {
             setCreatorContent("");
           }
           if (response.data.email) {
             setEmail(response.data.email);
+            setValue("email", response.data.email);
           } else {
             setEmail("");
           }
           if (response.data.tel) {
             setTel(response.data.tel);
+            setValue("tel", response.data.tel);
           } else {
             setTel("");
           }
           if (response.data.account) {
             setAccount(response.data.account);
+            setValue("account", response.data.account);
           } else {
             setAccount("");
           }
@@ -185,28 +195,25 @@ function MyProjectManagementProfile() {
   const formRef = useRef(null); // useRef Hook를 통해서 form 태그 잡아오기
 
   const updateCreator = (event) => {
-    event.preventDefault(); // 새로고침 막기
+    // event.preventDefault(); // 새로고침 막기
     const data = {
       // json 데이터 만들기
       creatorName: creatorName,
-      creatorImageUrl: creatorImageUrl,
+      creatorImageUrl: creatorImageUrl.slice(0, 500),
       creatorContent: creatorContent,
       email: email,
       tel: tel,
       account: account,
     };
 
-    // const form = $("#form")[0]; =>  input file을 가지고 있는 form
     const form = formRef[0]; // useRef을 통해서 jquery대신 form태그를 잡아오는 방법
     const formData = new FormData(form); // new formData() 만들기 : file을 보내려면 필수!
 
     formData.append(
       "creator",
       new Blob([JSON.stringify(data)], { type: "application/json" })
-      // 위에서 json으로 만든 data를 넣고 new Blob(미디어파일을 보내기 위함)에 넣기 type도 지정
     );
     formData.append("creatorImage", $("#file")[0].files[0]);
-    //formData.append("creatorImage", null);
 
     const updateCreator = async () => {
       await axios({
@@ -231,6 +238,10 @@ function MyProjectManagementProfile() {
     updateCreator();
   };
 
+  const onValid = (data) => {
+    updateCreator();
+  }
+
   useEffect(() => {
     getCreator();
   }, []);
@@ -243,6 +254,7 @@ function MyProjectManagementProfile() {
         <ProjectManagementContentForm
           ref={formRef}
           enctype="multipart/form-data"
+          onSubmit={handleSubmit(onValid)}
         >
           <ProjectManagementContentInputBox>
             <ProjectManagementContentTitle>
@@ -252,9 +264,14 @@ function MyProjectManagementProfile() {
               창작자님의 이름을 입력하세요.
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
+              as={"input"}
+              {...register("creatorName", {
+                required: "창작자 이름은 필수입니다.",
+              })}
               value={creatorName}
               onChange={onCreatorNameChange}
             ></ProjectManagementContentInput>
+            <ErrorMsg>{errors?.creatorName?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -272,13 +289,10 @@ function MyProjectManagementProfile() {
               onChange={onCreatorImageUrlChange}
             />
 
-            <ProjectManagementContentImgLabel htmlFor="file">
-              파일
-            </ProjectManagementContentImgLabel>
             <ProjectManagementContentImgBox>
               <ProjectManagementContentImg
                 src={creatorImageUrl}
-                alt="example-image"
+                alt="No Image Available"
               ></ProjectManagementContentImg>
             </ProjectManagementContentImgBox>
           </ProjectManagementContentInputBox>
@@ -292,9 +306,13 @@ function MyProjectManagementProfile() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentTextarea
               as={"textarea"}
+              {...register("creatorContent", {
+                required: "창작자 소개는 필수입니다.",
+              })}
               value={creatorContent}
               onChange={onCreatorContentChange}
             ></ProjectManagementContentTextarea>
+            <ErrorMsg>{errors?.creatorContent?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -306,9 +324,14 @@ function MyProjectManagementProfile() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
               placeholder="example@email.com"
+              as={"input"}
+              {...register("email", {
+                required: "이메일은 필수입니다.",
+              })}
               value={email}
               onChange={onEmailChange}
             ></ProjectManagementContentInput>
+            <ErrorMsg>{errors?.email?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -320,9 +343,14 @@ function MyProjectManagementProfile() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
               placeholder="- 없이 입력"
+              as={"input"}
+              {...register("tel", {
+                required: "대표번호는 필수입니다.",
+              })}
               value={tel}
               onChange={onTelChange}
             ></ProjectManagementContentInput>
+            <ErrorMsg>{errors?.tel?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -333,11 +361,16 @@ function MyProjectManagementProfile() {
               창작자님의 계좌정보를 입력하세요.
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
+              as={"input"}
+              {...register("account", {
+                required: "계좌번호는 필수입니다.",
+              })}
               value={account}
               onChange={onAccountChange}
             ></ProjectManagementContentInput>
+            <ErrorMsg>{errors?.account?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
-          <ProjectManagementContentProfileBtn onClick={updateCreator}>
+          <ProjectManagementContentProfileBtn>
             창작자 수정
           </ProjectManagementContentProfileBtn>
         </ProjectManagementContentForm>

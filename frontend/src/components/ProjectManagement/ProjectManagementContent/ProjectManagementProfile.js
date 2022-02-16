@@ -146,7 +146,6 @@ function ProjectManagementProfile() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
           if (response.data.creatorName) {
             setCreatorName(response.data.creatorName);
             setValue("creatorName", response.data.creatorName);
@@ -231,7 +230,6 @@ function ProjectManagementProfile() {
       })
         .then((response) => {
           console.log("성공");
-          console.log(response.data);
           window.location.reload(true);
         })
         .catch((error) => {
@@ -240,7 +238,6 @@ function ProjectManagementProfile() {
         });
     };
     updateCreator();
-    // window.location.reload(true);
   };
 
   const onValid = (data) => {
@@ -249,7 +246,7 @@ function ProjectManagementProfile() {
 
   useEffect(() => {
     getCreator();
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   }, []);
   return (
     <div>
@@ -302,7 +299,7 @@ function ProjectManagementProfile() {
                     ? "/photo/profile.png"
                     : creatorImageUrl
                 }
-                alt="example-image"
+                alt="No Image Available"
               ></ProjectManagementContentImg>
             </ProjectManagementContentImgBox>
           </ProjectManagementContentInputBox>

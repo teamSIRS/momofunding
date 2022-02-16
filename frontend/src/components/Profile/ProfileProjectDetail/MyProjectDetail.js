@@ -124,6 +124,14 @@ function MyProjectDetail() {
 
   const navigate = useNavigate();
   const goToManagePjt = () => {
+    if(project.projectStateId === 2){
+      swal("진행 중인 프로젝트는 수정할 수 없습니다!");
+      return;
+    }
+    if(project.projectStateId === 3){
+      swal("종료된 프로젝트는 수정할 수 없습니다!");
+      return;
+    }
     navigate(`/myproject/${id}/management/profile`);
   };
 
