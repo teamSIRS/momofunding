@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import HomeFundingCard from "./HomeFundingCard";
 import { baseUrl } from "../../../App";
+import styled from "styled-components";
 
 export const HomeFundings = () => {
   const [projectLarge, setProjectLarge] = useState<any>("");
@@ -29,7 +30,9 @@ export const HomeFundings = () => {
 
   return (
     <Container>
-      <h2>인기 펀딩 목록</h2>
+      <h2>
+        <b>인기 펀딩 목록</b>
+      </h2>
       <br />
       <Row md={1} lg={2} className="g-4">
         <Col>
@@ -40,7 +43,7 @@ export const HomeFundings = () => {
             projectPath={"projects/" + projectLarge.id}
             isLive={projectLarge.isLivePlaying}
             height={"300px"}
-            width={"500px"}
+            width={"450px"}
           ></HomeFundingCard>
         </Col>
         <Col>
@@ -52,7 +55,7 @@ export const HomeFundings = () => {
               projectPath={"projects/" + project.id}
               isLive={project.isLivePlaying}
               height={"145px"}
-              width={"500px"}
+              width={"450px"}
             />
           ))}
         </Col>
