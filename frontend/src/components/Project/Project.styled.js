@@ -67,7 +67,7 @@ export const Thumnail = styled.img`
   border-radius: 15px;
   &: hover {
     filter: brightness(60%);
-    /* transform: scale(1.05); */
-    transition: 0.4s ease;
+    transform: scale(1.05);
+    transition: 0.4s ease-in-out;
   }
 `;

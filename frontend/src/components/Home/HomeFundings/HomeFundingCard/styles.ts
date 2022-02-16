@@ -16,7 +16,7 @@ export const StyledCard = styled(Card)<{ height: string; width: string }>`
   &:hover {
     filter: brightness(65%);
     /* transform: scale(1.05); */
-    transition: 0.3s ease;
+    transition: 0.3s ease-in-out;
   }
 `;
 
