@@ -1,8 +1,7 @@
 import { prototype } from "events";
-import React,{ useState } from "react";
-import { useParams, useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-
 
 import {
   Btn,
@@ -15,9 +14,10 @@ import BannerContribStatus from "./BannerContribStatus";
 import { MomoProgress } from "./BannerProgress/styles";
 import { BannerCover, BannerImg, BannerWrapper } from "./styles";
 import { baseUrl } from "../../../App";
+import styled from "styled-components";
 
 interface Props {
-  project: any,
+  project: any;
 }
 
 export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
@@ -28,45 +28,49 @@ export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
 
   const getLiveState = async () => {
     await axios({
-      url: "/projects/"+ props.project.id + "/is-play-live", 
-      method: "get", 
+      url: "/projects/" + props.project.id + "/is-play-live",
+      method: "get",
       data: {},
-      baseURL: baseUrl,	
-    })	
-      .then((response) => { 
-        console.log(response.data.isPlayLive); 
+      baseURL: baseUrl,
+    })
+      .then((response) => {
+        console.log(response.data.isPlayLive);
         setOnAir(response.data.isPlayLive);
       })
-      .catch((error) => { // .catch는 axios 요청 실패시 작업
+      .catch((error) => {
+        // .catch는 axios 요청 실패시 작업
         console.log(error); // error 메세지 확인
       });
-  }
-  
+  };
+
   const getSessionId = async () => {
     await axios({
-      url: "/projects/live/session-id/"+ props.project.id, 
-      method: "get", 
+      url: "/projects/live/session-id/" + props.project.id,
+      method: "get",
       data: {},
-      baseURL: baseUrl,	
-    })	
-      .then((response) => { 
-        console.log(response.data.sessionId); 
+      baseURL: baseUrl,
+    })
+      .then((response) => {
+        console.log(response.data.sessionId);
         setSessionId(response.data.sessionId);
       })
-      .catch((error) => { // .catch는 axios 요청 실패시 작업
+      .catch((error) => {
+        // .catch는 axios 요청 실패시 작업
         console.log(error); // error 메세지 확인
       });
-  }
+  };
 
   getLiveState();
   getSessionId();
 
   const route = () => {
     navigate("/lives/" + sessionId);
-  }
+  };
 
   const contribRate =
-    Math.round((props.project.currentAmount / props.project.fundingGoal) * 1000) / 10;
+    Math.round(
+      (props.project.currentAmount / props.project.fundingGoal) * 1000
+    ) / 10;
 
   return (
     <BannerWrapper>
@@ -82,17 +86,17 @@ export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
           total={props.project.currentAmount}
           goal={props.project.fundingGoal}
           contribRate={contribRate}
-          ></BannerContribStatus>
+        ></BannerContribStatus>
 
-        <SocialBtn bottom="31px" right="350px" />
+        {/* <SocialBtn bottom="31px" right="350px" /> */}
         {!onAir ? (
           <NotLiveBtn bottom="35px" right="190px">
             커밍 쑨
           </NotLiveBtn>
         ) : (
           <GotoLiveBtn onClick={route} bottom="35px" right="190px">
-              라이브 진행중
-            </GotoLiveBtn>
+            라이브 진행중
+          </GotoLiveBtn>
         )}
         <Btn bottom="35px" right="30px">
           펀딩하기

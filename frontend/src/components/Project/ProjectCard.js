@@ -98,7 +98,11 @@ function ProjectCard({ project }) {
           </ProjectTitle>
           <ProjectCreator>{project.creatorName}</ProjectCreator>
         </TitleDetail>
-        <ProgressBar variant="warning" now={project.popularity} />
+        <ProgressBar
+          variant="warning"
+          now={project.popularity}
+          style={{ height: 7 }}
+        />
         <FundDetail>
           <span id="percentage">
             {comma(project.popularity)}% · {comma(project.currentAmount)}원

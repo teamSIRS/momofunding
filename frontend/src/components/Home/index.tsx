@@ -14,6 +14,7 @@ const StyledStack = styled(ListGroup)`
   height: 18rem;
   overflow: auto;
   justify-content: center;
+  align-items: center;
   margin: 30px 0px;
 `;
 
@@ -46,11 +47,12 @@ const Home = () => {
       <HomeBanners />
       <Container>
         <br />
+        <br />
+        <br />
         <h2>지금 핫한 인기 라이브</h2>
         {isExist ? (
           <StyledStack horizontal>
             {lives.map((live, idx) => (
-              
               <Link
                 to={`/lives/${live.sessionId}`}
                 style={{ float: "left", marginLeft: 10, marginRight: 10 }}

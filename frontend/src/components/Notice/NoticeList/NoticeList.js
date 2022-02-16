@@ -156,9 +156,9 @@ function NoticeList() {
                 ))
               : null}
 
-            <NoticeListPage>
+            {/* <NoticeListPage>
               <Pagination>{items}</Pagination>
-            </NoticeListPage>
+            </NoticeListPage> */}
           </Row>
         </Container>
       </NoticeListContentBox>
