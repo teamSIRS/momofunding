@@ -33,7 +33,7 @@ const SurveyChoice = ({
     const data = {
       surveyQuestionId: surveyQuestionId,
       userId: userId,
-      questionSelectId: check + 1,
+      questionSelectId: check,
       content: "",
     };
     let updated = [...states];
@@ -50,13 +50,13 @@ const SurveyChoice = ({
       {choose?.map((choice, idx) => (
         <SurveyChoiceLabel
           htmlFor={q_idx + "-" + idx}
-          className={isChecked(idx) ? "checked" : "unchecked"}
+          className={isChecked(choice.id) ? "checked" : "unchecked"}
         >
           {choice.content}
           <SurveyChoiceInput
             type="radio"
             id={q_idx + "-" + idx}
-            value={idx}
+            value={choice.id}
             checked={isChecked(idx)}
             onChange={onChange}
           />
