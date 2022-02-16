@@ -1,7 +1,8 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { FormEventHandler, useEffect } from "react";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import { baseUrl } from "../../../../App";
+import setAuthorizationToken from "../../../../atoms";
 import { sessionState } from "../../LiveAtoms";
 import { ChatProps } from "../Chat";
 import { ChatTop } from "../Chat/styles";
@@ -77,7 +78,7 @@ export const surveyApiState = atom({
 
 export const surveySubmitStates = atom({
   key: "submitStates",
-  default: [] as boolean[],
+  default: [] as any[],
 });
 
 const submitConfirm = selector({
@@ -113,12 +114,34 @@ const Survey = ({ show }: ChatProps) => {
         setSurveyApi(data);
         setQstates(
           data?.questions?.map((question, idx) => {
-            if (question.questionType.id === 1) return false;
-            return true;
+            if (question.questionType.id === 1) return 0;
+            return "";
           })
         );
       })
       .catch((error) => console.log(error));
+  };
+
+  const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    console.log(questionStates);
+    questionStates.map((answer, idx) => {
+      console.log(answer);
+      axios({
+        url: `/lives`,
+        method: "post",
+        baseURL: `${baseUrl}`,
+        headers: setAuthorizationToken(),
+        data: answer,
+      })
+        .then((response) => {
+          console.log("submit done!");
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
   };
 
   useEffect(() => {
@@ -128,10 +151,9 @@ const Survey = ({ show }: ChatProps) => {
     console.log(surveyApi);
   }, [curSurvey]);
 
-  // useEffect(() => {
-  //   console.log("survey now:", curSurvey);
-  //   console.log("survey state:", surveyState);
-  // }, [surveyState]);
+  useEffect(() => {
+    console.log(questionStates);
+  }, [questionStates]);
 
   return (
     <SurveyWrapper className={show ? "hide" : ""}>
@@ -170,9 +192,16 @@ const Survey = ({ show }: ChatProps) => {
                   }
                 >
                   {question.questionType.id === 1 ? (
-                    <SurveyChoice q_idx={idx} choose={question.selectIds} />
+                    <SurveyChoice
+                      surveyQuestionId={question.id}
+                      q_idx={idx}
+                      choose={question.selectIds}
+                    />
                   ) : (
-                    <SurveyNarrative />
+                    <SurveyNarrative
+                      surveyQuestionId={question.id}
+                      q_idx={idx}
+                    />
                   )}
                 </SurveyMessageBox>
               </div>
@@ -180,7 +209,7 @@ const Survey = ({ show }: ChatProps) => {
           </div>
         )}
       </SurveyBody>
-      <SurveyFooter>
+      <SurveyFooter onSubmit={onSubmit}>
         {surveyState ? (
           ""
         ) : (
