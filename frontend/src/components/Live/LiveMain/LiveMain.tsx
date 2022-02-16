@@ -22,7 +22,7 @@ export const authorizationState = atom({
   default: true,
 });
 
-export const submitState = atom({
+export const surveySubmitState = atom({
   key: "submitState",
   default: false,
 });

@@ -12,9 +12,12 @@ import ProjectManagementContentIntro from "./ProjectManagementContent/ProjectMan
 import ProjectManagementProfile from "./ProjectManagementContent/ProjectManagementProfile";
 import ProjectManagementReward from "./ProjectManagementContent/ProjectManagementReward";
 import { useRecoilValue } from "recoil";
-import setAuthorizationToken, { createProjectIdState } from "../../atoms";
+import { useEffect, useState } from "react";
+import setAuthorizationToken, { createProjectIdState, userIdState } from "../../atoms";
 import axios from "axios";
 import { baseUrl } from "../../App";
+import swal from "sweetalert";
+import LoginButton from "../../container/Header/Navbar/AccountMenus/UnconfirmedAccountMenus/LoginButton";
 
 const ProjectManagementSidebarMain = styled.div`
   width: 100%;
@@ -112,12 +115,15 @@ const styles = {
 
 function ProjectManagement() {
   const location = useLocation();
-  const { userId } = location.state;
+  const { userId } = useRecoilValue(userIdState);
   const pjtId = useRecoilValue(createProjectIdState);
-  console.log(userId);
   const navigate = useNavigate();
+  const [isUpdatecreator, setIsUpdateCreator] = useState("");
+  const [isUpdateProject, setIsUpdateProject] = useState("");
+  const [isUpdaterewards, setIsUpdateRewards] = useState([""]);
+
   const onProfileClick = () => {
-    navigate("/projects/management/profile", {
+    navigate(`/projects/management/profile`, {
       state: {
         userId: userId,
         projectId: pjtId,
@@ -141,9 +147,75 @@ function ProjectManagement() {
     });
   };
 
+  const getCreator = async () => {
+    await axios({
+      url: `/creators/`+pjtId,
+      method: "get",
+      baseURL: baseUrl,
+    })
+      .then((response) => {
+        if(response.data.creatorName != "") setIsUpdateCreator(true);
+        else setIsUpdateCreator(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getProject = async () => {
+    await axios({
+      url: `/projects/`+pjtId,
+      method: "get",
+      baseURL: baseUrl,
+    })
+      .then((response) => {
+        if(response.data.projectName != "") setIsUpdateProject(true);
+        else setIsUpdateProject(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getRewards = async () => {
+    await axios({
+      url: `/rewards/projects/`+pjtId,
+      method: "get",
+      baseURL: baseUrl,
+    })
+      .then((response) => {
+        if(response.data.length > 0) setIsUpdateRewards(true);
+        else setIsUpdateRewards(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+
   function startPjt() {
+    getCreator().then(() => {
+      if(!isUpdatecreator){
+        swal("창작자 작성 페이지를 확인해주세요. 작성이 완료되지 않았습니다.");
+        return;
+      }
+    });
+
+    
+
+    getProject();
+    if(!isUpdateProject){
+      swal("프로젝트 작성 페이지를 확인해주세요. 작성이 완료되지 않았습니다.");
+      return;
+    }
+
+    getRewards();
+    if(!isUpdaterewards){
+      swal("리워드 작성 페이지를 확인해주세요. 리워드가 하나도 없습니다.");
+      return;
+    }
     // 나중에swal로 변경하자
-    alert("확인을 누르시면 프로젝트가 시작됩니다.");
+    swal("프로젝트가 시작됩니다!");
     const startPjt = async () => {
       await axios({
         url: `/projects/${pjtId}/complete`,
@@ -165,6 +237,12 @@ function ProjectManagement() {
     };
     startPjt();
   }
+
+  useEffect(()=>{
+    getCreator();
+    getProject();
+    getRewards();
+  }, [])
 
   const profileMatch = useMatch("/projects/management/profile");
   const introMatch = useMatch("/projects/management/intro");

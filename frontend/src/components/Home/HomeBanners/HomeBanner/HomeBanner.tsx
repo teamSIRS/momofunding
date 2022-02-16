@@ -18,9 +18,9 @@ export const HomeBanner = ({
   return (
     <BannerBox>
       <StyledImg src={imgSrc} alt={index.toString()} />
-      <BadgeContainer bottom="18px" left="30px">
-        {/* <LiveBadge color="red" content={"라이브"} /> */}
-      </BadgeContainer>
+      {/* <BadgeContainer bottom="18px" left="30px">
+        <LiveBadge color="red" content={"라이브"} />
+      </BadgeContainer> */}
       <Carousel.Caption>
         <h3>{title}</h3>
         <p>{slogan}</p>

@@ -10,7 +10,7 @@ import swal from "sweetalert";
 const SignupBackGround = styled.div`
   display: flex;
   justify-content: center;
-  margin: 30px 0px;
+  margin-top: 100px;
 `;
 
 const SignupMainForm = styled.div`
@@ -253,17 +253,18 @@ function Signup() {
   /////////////////////////////////////////////////////////////////////
 
   const isEmail = (email) => {
-    var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
+    var regExp =
+      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     // 형식에 맞는 경우 true 리턴
     // console.log('이메일 유효성 검사 :: ', regExp.test(email))
     return regExp.test(email);
-}
-  
+  };
+
   const duplicateEmailCheck = () => {
     console.log(isEmail(checkEmailValue));
-    if(isEmail(checkEmailValue)) checkEmail();
-    else swal('이메일 형식을 맞춰주세요');
-  }
+    if (isEmail(checkEmailValue)) checkEmail();
+    else swal("이메일 형식을 맞춰주세요");
+  };
 
   function checkEmail() {
     const checkEmail = async () => {

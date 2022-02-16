@@ -53,7 +53,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   position: relative;
-  margin: 20px 10px;
+  margin: 30px 15px;
   &: hover {
     cursor: pointer;
   }
@@ -65,4 +65,9 @@ export const Thumnail = styled.img`
   object-position: center;
   object-fit: cover;
   border-radius: 15px;
+  &: hover {
+    filter: brightness(60%);
+    /* transform: scale(1.05); */
+    transition: 0.4s ease;
+  }
 `;

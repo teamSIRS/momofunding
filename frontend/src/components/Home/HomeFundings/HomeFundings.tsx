@@ -40,7 +40,7 @@ export const HomeFundings = () => {
             projectPath={"projects/" + projectLarge.id}
             isLive={projectLarge.isLivePlaying}
             height={"300px"}
-            width={"400px"}
+            width={"500px"}
           ></HomeFundingCard>
         </Col>
         <Col>
@@ -51,8 +51,8 @@ export const HomeFundings = () => {
               imgSrc={project.subImageUrl}
               projectPath={"projects/" + project.id}
               isLive={project.isLivePlaying}
-              height={"130px"}
-              width={"400px"}
+              height={"145px"}
+              width={"500px"}
             />
           ))}
         </Col>
