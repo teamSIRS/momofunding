@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { StyledSpan } from "../../Home/Badge/styles";
 
 const Container = styled.div`
+  position: relative;
   border: 1px solid #7c7c7c;
   border-radius: 10px;
   padding: 8px;
@@ -10,7 +11,6 @@ const Container = styled.div`
   max-height: 280px;
   word-break: break-all;
   text-overflow: "...";
-  /* width: 85%; */
 `;
 
 const ProjectPic = styled.img`
@@ -40,6 +40,13 @@ const Test = styled.div`
   height: 60px;
 `;
 
+const MyProjectStyledSpan = styled(StyledSpan)`
+  display: block;
+  position: absolute;
+  margin: 30px;
+  z-index: 2;
+`;
+
 function MyProject({ project }) {
   const navigate = useNavigate();
 
@@ -49,6 +56,21 @@ function MyProject({ project }) {
   };
   return (
     <div className="col-md-4">
+      {project.projectStateId === 1 ? (
+        <MyProjectStyledSpan color={"red"}>작성 중</MyProjectStyledSpan>
+      ) : (
+        <div>
+          {project.projectStateId === 2 ? (
+            <MyProjectStyledSpan color={"green"}>진행 중</MyProjectStyledSpan>
+          ) : (
+            <div>
+              {project.projectStateId === 3 ? (
+                <MyProjectStyledSpan color={"black"}>종료</MyProjectStyledSpan>
+              ) : null}
+            </div>
+          )}
+        </div>
+      )}
       <Container
         onClick={() => {
           goToProjctSet(project.id);
@@ -57,28 +79,7 @@ function MyProject({ project }) {
         <div
           className="position-absolute top-0 end-0"
           style={{ marginRight: 0, marginTop: 15 }}
-        >
-          {project.projectStateId == 1 ? (
-            <StyledSpan color={"red"} >작성 중</StyledSpan>
-          ) : (
-            <div>
-            {
-              project.projectStateId == 2 ? (
-                <StyledSpan color={"green"}>진행 중</StyledSpan>
-              ) : (
-                <div>
-                  {
-                    project.projectStateId == 3 ? (
-                      <StyledSpan color={"black"}>종료</StyledSpan>
-                    ) : null
-                  }
-                </div>
-              )
-            }
-            </div>
-          )
-        }
-        </div>
+        ></div>
         <ProjectPic src={project.subImageUrl} />
         <Bar />
         <Test>

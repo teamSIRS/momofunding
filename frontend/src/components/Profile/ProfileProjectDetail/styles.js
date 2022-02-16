@@ -7,6 +7,7 @@ export const Body = styled.div`
   padding: 50px;
   width: 85%;
   margin: auto;
+  min-height: 900px;
 `;
 
 export const ProjectBox = styled.div`
