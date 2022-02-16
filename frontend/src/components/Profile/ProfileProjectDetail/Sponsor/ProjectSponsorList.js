@@ -9,11 +9,15 @@ import * as xlsx from 'xlsx';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
+    position: relative;
 `;
 
 const Btn = styled.button`
-    margin: 0 0 5px 10px;
     width: fit-content;
+    padding: 1px 6px;
+    position: absolute;
+    right: 10px;
+    top: -40px;
 `;
 
 function ProjectSponsorList(){
@@ -24,7 +28,6 @@ function ProjectSponsorList(){
     const getSponsors = async() => { 
         await axios.get( baseUrl + '/orders/projects/' + id, {headers: setAuthorizationToken()})
         .then((res) => { 
-            console.log(res.data);
             setSponsors(res.data);
         })
         .catch((err) => {
