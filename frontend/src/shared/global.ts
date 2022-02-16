@@ -12,6 +12,10 @@ export const bodyStyles = css`
   margin: 0px;
   padding: 0px;
   background-color: #f2f2f2;
+  -ms-overflow-style: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const GlobalStyle = createGlobalStyle`

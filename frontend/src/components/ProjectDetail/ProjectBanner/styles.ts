@@ -2,8 +2,14 @@ import styled from "styled-components";
 import { BannerBox } from "../../Home/HomeBanners/HomeBanner/styles";
 
 export const BannerImg = styled.img`
-  object-fit: cover;
-  object-position: center;
+  /* object-fit: cover;
+  object-position: center; */
+  position: absolute;
+  width: 100%;
+  top: -9999px;
+  bottom: -9999px;
+  left: -9999px;
+  right: -9999px;
 `;
 
 export const BannerWrapper = styled(BannerBox)`
