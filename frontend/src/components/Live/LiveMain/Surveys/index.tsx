@@ -18,6 +18,7 @@ import {
   SurveyWrapper,
   SurveySubmitBtn,
 } from "./styles";
+import { SurveysNotExists, SurveyListWrapper } from "./SurveyList/styles";
 import SurveyChoice from "./SurveyChoice";
 import SurveyList from "./SurveyList";
 import { SelectedSurveyState } from "./SurveyList/SurveyList";
@@ -147,7 +148,7 @@ const Survey = ({ show }: ChatProps) => {
   useEffect(() => {
     console.log("survey now:", curSurvey);
     console.log("survey state:", surveyState);
-    getSurveyInfo();
+    if(curSurvey != 0) getSurveyInfo();
     console.log(surveyApi);
   }, [curSurvey]);
 
@@ -180,33 +181,45 @@ const Survey = ({ show }: ChatProps) => {
             <h4>{isStaff ? <SurveyList /> : thankYouMessage}</h4>
           </>
         ) : (
-          <div>
-            {surveyApi?.questions?.map((question, idx) => (
-              <div key={idx}>
-                <SurveyCreatorMsgBox>
-                  Q{question.id}. {question.title}
-                </SurveyCreatorMsgBox>
-                <SurveyMessageBox
-                  className={
-                    questionStates[idx] ? "submitDone" : "submitUnDone"
-                  }
-                >
-                  {question.questionType.id === 1 ? (
-                    <SurveyChoice
-                      surveyQuestionId={question.id}
-                      q_idx={idx}
-                      choose={question.selectIds}
-                    />
-                  ) : (
-                    <SurveyNarrative
-                      surveyQuestionId={question.id}
-                      q_idx={idx}
-                    />
-                  )}
-                </SurveyMessageBox>
-              </div>
-            ))}
-          </div>
+          <>
+            { (curSurvey == -1) ?
+            ( 
+              <SurveyBody className={"done"}>
+                <SurveysNotExists>
+                  진행 중인 설문이 없습니다.
+                </SurveysNotExists>
+              </SurveyBody>
+            ):(
+              <div>
+              {surveyApi?.questions?.map((question, idx) => (
+                <div key={idx}>
+                  <SurveyCreatorMsgBox>
+                    Q{question.id}. {question.title}
+                  </SurveyCreatorMsgBox>
+                  <SurveyMessageBox
+                    className={
+                      questionStates[idx] ? "submitDone" : "submitUnDone"
+                    }
+                  >
+                    {question.questionType.id === 1 ? (
+                      <SurveyChoice
+                        surveyQuestionId={question.id}
+                        q_idx={idx}
+                        choose={question.selectIds}
+                      />
+                    ) : (
+                      <SurveyNarrative
+                        surveyQuestionId={question.id}
+                        q_idx={idx}
+                      />
+                    )}
+                  </SurveyMessageBox>
+                </div>
+              ))}
+            </div>
+            )
+          }
+          </>
         )}
       </SurveyBody>
       <SurveyFooter onSubmit={onSubmit}>
