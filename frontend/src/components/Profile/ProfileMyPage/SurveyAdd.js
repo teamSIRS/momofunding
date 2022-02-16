@@ -15,7 +15,7 @@ const SurveyModalBtn = styled.button`
   color: white;
   border: 0;
   outline: 0;
-  margin-right: 10px;
+  margin: 0 5px 0 10px;
 `;
 
 const styles = {

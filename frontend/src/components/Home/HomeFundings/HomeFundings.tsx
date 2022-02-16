@@ -4,7 +4,6 @@ import { Col, Container, Row } from "react-bootstrap";
 import HomeFundingCard from "./HomeFundingCard";
 import { baseUrl } from "../../../App";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Icon = styled.span`
   margin-left: 20px;

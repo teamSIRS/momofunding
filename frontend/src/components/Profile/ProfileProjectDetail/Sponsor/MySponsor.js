@@ -27,10 +27,12 @@ const SponsorName = styled.p`
 
 function MySponsor({sponsor}){
     return(
-        <Sponsor>
-            <SponsorPic src={sponsor.pic} alt={sponsor.name}/>
-            <SponsorName>{sponsor.name}</SponsorName>
-        </Sponsor>
+        <>        
+            <Sponsor>
+                {/* <SponsorPic src={sponsor.pic} alt={sponsor.name}/> */}
+                {/* <SponsorName>{sponsor.name}</SponsorName> */}
+            </Sponsor>
+        </>
     );
 }
 

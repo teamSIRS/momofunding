@@ -37,11 +37,20 @@ const FundingContentAddInput = styled.input`
 `;
 
 // content - 후원자 정보
-const FundingContentInfoBox = styled.div``;
+const FundingContentInfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 120%;
+  height: auto;
+`;
 const FundingContentInfoTitle = styled(FundingContentAddTitle)``;
-const FundingContentInfoInputBox = styled(FundingContentAddInputBox)``;
+const FundingContentInfoInputBox = styled(FundingContentAddInputBox)`
+  display: flex;
+`;
 const FundingContentInfoLabel = styled(FundingContentAddLabel)``;
-const FundingContentInfoInput = styled(FundingContentAddInput)``;
+const FundingContentInfoInput = styled(FundingContentAddInput)`
+  width: 250px;
+`;
 
 // content - 결제 정보
 const FundingContentPayBox = styled.div``;

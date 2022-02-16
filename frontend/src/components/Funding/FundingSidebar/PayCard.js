@@ -157,6 +157,7 @@ function PayCard({ props }) {
     getLink();
   }
 
+  {console.log(props)}
   return (
     <Card>
       <TopBox>

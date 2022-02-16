@@ -37,7 +37,7 @@ function LiveList(lives){
     }
 
     return(
-        <MyTable>
+        <MyTable className="table">
             <thead>
                 <tr>
                     <th width="20%">날짜</th> 

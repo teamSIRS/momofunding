@@ -80,46 +80,50 @@ function App() {
     <Router>
       <GlobalStyle />
       <Header />
-      <Routes>
-        <Route index element={<Home />}></Route>
-        <Route path="/projects" element={<ProjectList />}></Route>
-        <Route path="/lives" element={<ProjectLiveList />}></Route>
-        <Route path="/lives/:id" element={<LivePowderRoom />}></Route>
-        {/* <Route path="/lives/:id/new" element={<LivePowderRoom />}></Route> */}
-        <Route path="/notices" element={<Notice />}></Route>
-        <Route path="/notices/create" element={<CreateNotice />}></Route>
-        <Route path="/notices/:id" element={<NoticeDetail />}></Route>
-        <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
-        <Route path="projects/:id" element={<ProjectDetail />}>
-          <Route index element={<ProjectStory />} />
-          <Route path="story" element={<ProjectStory />} />
-          <Route path="notices" element={<h1>공지사항</h1>} />
-          <Route path="community" element={<ProjectCommunity />} />
-        </Route>
-        <Route path="/findAccount/*" element={<FindAccount />}></Route>
-        <Route path="/changepw/:token" element={<ChangePw />}></Route>
-        <Route path="/funding" element={<Funding />}></Route>
-        <Route path="/users/member" element={<ProfileMember />}></Route>
 
-        <Route path="/users/*" element={<ProfileMain />}></Route>
-        <Route path="/myprojects" element={<MyProject />}></Route>
-        <Route path="/fundprojects" element={<FundProject />}></Route>
+      <body>
+        <Routes>
+          <Route index element={<Home />}></Route>
+          <Route path="/projects" element={<ProjectList />}></Route>
+          <Route path="/lives" element={<ProjectLiveList />}></Route>
+          <Route path="/lives/:id" element={<LivePowderRoom />}></Route>
+          {/* <Route path="/lives/:id/new" element={<LivePowderRoom />}></Route> */}
+          <Route path="/notices" element={<Notice />}></Route>
+          <Route path="/notices/create" element={<CreateNotice />}></Route>
+          <Route path="/notices/:id" element={<NoticeDetail />}></Route>
+          <Route path="/signup" element={<Signup />}></Route>
+          <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
+          <Route path="projects/:id" element={<ProjectDetail />}>
+            <Route index element={<ProjectStory />} />
+            <Route path="story" element={<ProjectStory />} />
+            <Route path="notices" element={<h1>공지사항</h1>} />
+            <Route path="community" element={<ProjectCommunity />} />
+          </Route>
+          <Route path="/findAccount/*" element={<FindAccount />}></Route>
+          <Route path="/changepw/:token" element={<ChangePw />}></Route>
+          <Route path="/funding" element={<Funding />}></Route>
+          <Route path="/users/member" element={<ProfileMember />}></Route>
 
-        <Route path="/myproject/:id" element={<MyProjectDetail />}></Route>
-        <Route path="/pay/success/:id" element={<PaySuccess />}></Route>
-        <Route path="/pay/fail/:token" element={<PayFail />}></Route>
-        <Route path="/pay/cancel/:token" element={<PayCancel />}></Route>
-        <Route
-          path="/projects/management/*"
-          element={<ProjectManagement />}
-        ></Route>
+          <Route path="/users/*" element={<ProfileMain />}></Route>
+          <Route path="/myprojects" element={<MyProject />}></Route>
+          <Route path="/fundprojects" element={<FundProject />}></Route>
 
-        <Route
-          path="/myproject/:id/management/*"
-          element={<MyProjectManagement />}
-        ></Route>
-      </Routes>
+          <Route path="/myproject/:id" element={<MyProjectDetail />}></Route>
+          <Route path="/pay/success/:id" element={<PaySuccess />}></Route>
+          <Route path="/pay/fail/:token" element={<PayFail />}></Route>
+          <Route path="/pay/cancel/:token" element={<PayCancel />}></Route>
+          <Route
+            path="/projects/management/*"
+            element={<ProjectManagement />}
+          ></Route>
+
+          <Route
+            path="/myproject/:id/management/*"
+            element={<MyProjectManagement />}
+          ></Route>
+        </Routes>
+      </body>
+
       <Footer />
     </Router>
   );
