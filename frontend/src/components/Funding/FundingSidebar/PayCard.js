@@ -137,7 +137,7 @@ function PayCard({ props }) {
           recipientTel: props.tel,
           recipientAddress: props.shippingAddr,
           requestContent: props.request,
-          amount: props.total,
+          amount: props.lastTotal,
         },
         headers: setAuthorizationToken(),
         baseURL: baseUrl, // 위에서 말한 baseURL 설정
@@ -170,7 +170,7 @@ function PayCard({ props }) {
           <Space></Space>
           <SubTotalPrice>{props.extra}원</SubTotalPrice>
         </SubTop>
-        <hr/>
+        <hr />
         <Top>
           <Title>최종 후원 금액</Title>
           <Space />

@@ -1,0 +1,46 @@
+<도커 목록 확인>
+docker ps
+
+<도커 내부 로그 보는 법>
+docker logs 위에서확인한이름
+
+<도커 내부에 명령 내리기>
+docker exec -it
+
+사용 예)
+- 스프링부트 h : docker exec -it springboot /bin/sh
+- mysql bash : docker exec -it mysql /bin/bash
+
+
+<nginx 배포>
+docker stop react-nginx && docker rm react-nginx
+docker rmi $(docker images | grep "nginx-react")
+docker build -t nginx-react:0.1 -f Dockerfile.nginx .
+docker run -d --name react-nginx -p 443:443 -p 80:80 nginx-react:0.1
+
+(nginx 리스타트) - docker exec -it react-nginx service nginx restart
+
+
+<리액트 배포>
+docker stop react-app && docker rm react-app
+docker rmi $(docker images | grep "react-app")
+docker build -t react-app -f Dockerfile .
+docker run --name react-app -d -p 3000:3000 react-app
+
+
+<백엔드 배포>
+docker stop springboot
+docker rm springboot
+docker rmi filezillatest_application
+docker-compose up -d
+(테스트 : curl http://3.36.69.14:8080/api/projects/search?order=popularity )
+
+<포트 죽이기>
+sudo kill $(sudo lsof -t -i:443)
+
+<도커 이미지 관련>
+dokcer images - 도커 이미지 보기
+docker image prune
+
+<로컬에서 도커로 파일 복사>
+cp {로컬 디렉토리/파일 경로} {도커 컨테이너 이름}:{컨테이너 내부 경로}

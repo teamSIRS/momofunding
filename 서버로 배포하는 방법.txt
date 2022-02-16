@@ -1,0 +1,22 @@
+<서버로 배포할 때>
+
+<스프링>
+1. 인텔리제이에서 오른쪽에 Gradle탭 누르기
+2. momofunding->Tasks -> build -> bootJar 더블클릭
+3. 프로젝트 최상단(momofunding) 아래에 build->libs 폴더에 있는 jar파일을
+서버의 /home/ubuntu/filezillaTest/ 에 옮기기
+4. 서버의 /home/ubuntu/filezillaTest/ 에서 제가 준 배포 명령어 실행하시면 댑니다
+
+<리액트>
+1. 리액트 프로젝트에 build 폴더 있으면 지우기 (필수 아닐수도 있음)
+2. npm run build 치기
+3. build폴더가 생기는데, 통째로 /home/ubuntu/reactDocker/dd/ 에 옮기기
+4. 서버의 /home/ubuntu/reactDocker/dd/ 로 가서 build 폴더 지우기 (필수 아닐수도 있음)
+5. 제가 준 명령어 실행하기
+=> 주의 : 서버에 반영이 늦게되는 이상한 현상이 있는데 (5분~10분정도..?)
+build 파일 지웠다가 다시 도커 올리고 nginx 리스타트 하고 한숨 몇번 푹푹쉬고 있으면
+적용댑니다.. 원인과 해결법은 모름
+
+<nginx>
+1. /home/ubuntu/reactDocker/dd/로 가기
+2. 그냥 제가 준 명령어 실행하면 댑니다
