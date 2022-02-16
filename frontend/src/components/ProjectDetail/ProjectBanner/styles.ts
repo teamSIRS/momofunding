@@ -10,6 +10,7 @@ export const BannerImg = styled.img`
   bottom: -9999px;
   left: -9999px;
   right: -9999px;
+  margin: auto;
 `;
 
 export const BannerWrapper = styled(BannerBox)`
