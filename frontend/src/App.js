@@ -39,12 +39,12 @@ import PayFail from "./components/Funding/FundingSidebar/PayFail";
 import PayCancel from "./components/Funding/FundingSidebar/PayCancel";
 
 //서버용
-export const baseUrl = "https://i6a202.p.ssafy.io/api";
-export const baseUrlNoApi = "https://i6a202.p.ssafy.io";
+// export const baseUrl = "https://i6a202.p.ssafy.io/api";
+// export const baseUrlNoApi = "https://i6a202.p.ssafy.io";
 
 //로컬용
-// export const baseUrl = "http://localhost:8080/api";
-// export const baseUrlNoApi = "http://localhost:3000";
+export const baseUrl = "http://localhost:8080/api";
+export const baseUrlNoApi = "http://localhost:3000";
 
 function App() {
   const [nowLogin, setNowLogin] = useRecoilState(isLoginState);
@@ -92,7 +92,10 @@ function App() {
           <Route path="/notices/create" element={<CreateNotice />}></Route>
           <Route path="/notices/:id" element={<NoticeDetail />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
+          <Route
+            path="/projects/entrance"
+            element={<ProjectEntrance />}
+          ></Route>
           <Route path="projects/:id" element={<ProjectDetail />}>
             <Route index element={<ProjectStory />} />
             <Route path="story" element={<ProjectStory />} />
