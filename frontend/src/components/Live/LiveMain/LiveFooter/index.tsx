@@ -19,7 +19,11 @@ import {
   ToggleBtn,
 } from "../styles";
 import { useRecoilState } from "recoil";
-import { authorizationState, sidebarState, submitState } from "../LiveMain";
+import {
+  authorizationState,
+  sidebarState,
+  surveySubmitState,
+} from "../LiveMain";
 import { MouseEventHandler } from "react";
 import { audioState, camState, micState } from "../../LiveAtoms";
 
@@ -29,7 +33,7 @@ const LiveFooter = () => {
   const [camOn, setCam] = useRecoilState(camState);
   const [micOn, setMic] = useRecoilState(micState);
   const [audioOn, setAudio] = useRecoilState(audioState);
-  const [surveyState, __] = useRecoilState(submitState);
+  const [surveyState, __] = useRecoilState(surveySubmitState);
 
   const onClick: MouseEventHandler<HTMLDivElement> = () => {
     setShow((now: boolean) => !now);
