@@ -8,7 +8,7 @@ export const MomoColor: BrandColors = "#6667AB";
 export const MomoStrongColor: BrandColors = "#3C3D8B";
 
 export const bodyStyles = css`
-  font-family: "Gowun Dodum";
+  font-family: "Noto Sans KR";
   margin: 0px;
   padding: 0px;
 `;
