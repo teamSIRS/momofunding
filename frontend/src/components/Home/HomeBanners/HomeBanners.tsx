@@ -42,6 +42,8 @@ export const HomeBanners = () => {
   const BannerCarouselItem = styled(Carousel.Item)`
     &: hover {
       cursor: pointer;
+      /* filter: brightness(65%);
+      transition: 0.4s ease-in-out; */
     }
   `;
 

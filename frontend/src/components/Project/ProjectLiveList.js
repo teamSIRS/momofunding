@@ -101,6 +101,7 @@ function ProjectLiveList() {
       baseURL: baseUrl,
     })
       .then((response) => {
+        console.log(response.data);
         setLives([...response.data]);
         if (response.data === "") setIsExist(false);
         else setIsExist(true);

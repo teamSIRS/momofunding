@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { Button } from 'react-bootstrap';
+import { Button } from "react-bootstrap";
 import {
   numQuestionSelector,
   numQuestionState,
   numQuestionTitleState,
 } from "../atoms";
-import setAuthorizationToken from '../../../../atoms';
-import axios from 'axios';
-import { baseUrl } from '../../../../App';
+import setAuthorizationToken from "../../../../atoms";
+import axios from "axios";
+import { baseUrl } from "../../../../App";
 import swal from "sweetalert";
 import styled from "styled-components";
-import { MomoColor } from '../../../../shared/global';
+import { MomoColor } from "../../../../shared/global";
 
 const SurveyNumLabel = styled.label`
   font-size: 20px;
@@ -34,7 +34,7 @@ const SurveyNumInput = styled.div`
   }
 `;
 
-const MyBtn = styled.a`
+const MyBtn1 = styled.a`
   color: white;
   background: ${MomoColor};
   border-radius: 5px;
@@ -45,22 +45,22 @@ const ContentListBox = styled.ol`
   margin-top: 20px;
 `;
 
-function SurveyNum({ surveyId, AddSurveyQuest}) {
+function SurveyNum({ surveyId, AddSurveyQuest }) {
   const { register, handleSubmit, setValue } = useForm();
   const setQuestionTitle = useSetRecoilState(numQuestionTitleState);
   const setNumQuestion = useSetRecoilState(numQuestionState);
-  const [numQuestionTitle, numQuestions] = useRecoilValue(numQuestionSelector);   
+  const [numQuestionTitle, numQuestions] = useRecoilValue(numQuestionSelector);
   const onQuestionValid = ({ questionTitle, question }) => {
     setQuestionTitle(questionTitle);
-    
+
     setNumQuestion((oldQuestion) => [
       { text: question, id: Date.now() },
       ...oldQuestion,
     ]);
-    
+
     setValue("question", "");
   };
-  
+
   const [title, setTitle] = useState("");
   const [questionType, setQuestionType] = useState(1);
   //객관식 문항 content
@@ -70,61 +70,71 @@ function SurveyNum({ surveyId, AddSurveyQuest}) {
   const [contentList, setContentList] = useState([]);
   // const [questions, setQuestion] = useState("");
 
-  const AddSurveyNum = async() =>{
+  const AddSurveyNum = async () => {
     await axios({
-      url: baseUrl+'/question-select',
+      url: baseUrl + "/question-select",
       method: "post",
-      data:{
+      data: {
+        surveyId: surveyId,
         surveyQuestionId: questionId,
         content: content,
       },
       headers: setAuthorizationToken(),
     })
-    .then((res) =>{
-      console.log('문항등록성공!');
-    })
-    .catch((err) => {
-      console.log(err);
-      swal('다시 확인해주세요');
-    })
-  }
+      .then((res) => {
+        console.log("문항등록성공!");
+      })
+      .catch((err) => {
+        console.log(err);
+        swal("다시 확인해주세요");
+      });
+  };
 
   //////////??여기 뭔가 잘못되..었을까요?모르겠
-  //설문조사 질문 받아옴
-  const getQuestions = async() =>{
+  const getQuestions = async () => {
     await axios({
-      url: baseUrl + '/surveys/' + surveyId,
+      url: baseUrl + "/surveys/" + surveyId,
       method: "get",
       headers: setAuthorizationToken(),
     })
-    .then((res) =>{
-      console.log(res.data.questions[res.data.questions.length-1]);
-      // console.log('ok', res.data.questions[0].id);
-      // console.log(res.data);
-      setQuestionId(res.data.questions[0].id);
-      // setInt(int+1);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }
+      .then((res) => {
+        console.log("ok", res.data.questions[0].id);
+        setQuestionId(res.data.questions[0].id);
+        // setInt(int+1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
+  const getSurvey = async (surveyId) => {
+    //받아서 객관식 문항 리스트 뽑으려고
+    await axios
+      .get(baseUrl + "/surveys/" + surveyId)
+      .then((res) => {
+        console.log(res.data.questions);
+        // setQuestions(res.data.questions);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  // const getOk = async() =>{
-  //   await axios({
-  //     url: baseUrl + '/surveys/' + surveyId,
-  //     method: "get",
-  //     headers: setAuthorizationToken(),
-  //   })
-  //   .then((res) =>{
-  //     console.log(res.data);
-  //     // setQuestionId(res.data.questions[0].id);
-  //     // setInt(int+1);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   })
-  // }
+  const Test = async () => {
+    await axios({
+      url: baseUrl + "/surveys/" + surveyId,
+      method: "get",
+      headers: setAuthorizationToken(),
+    })
+      .then((res) => {
+        console.log(res.data);
+        // setQuestionId(res.data.questions[0].id);
+        // setInt(int+1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const [openContent, setOpenContent] = useState(false);
 
@@ -135,19 +145,18 @@ function SurveyNum({ surveyId, AddSurveyQuest}) {
     getQuestions();
     swal("질문이 등록되었습니다", "이제 문항을 등록해주세요");
     setOpenContent(true);
-    setContentList([]); //얘를 한번 지워서 try
-  }
+  };
 
-  const AddNumContent = () =>{
+  const AddNumContent = () => {
     // getSurvey(surveyId);
     // getQuestions(); //얘가 있어서 안되나?
     AddSurveyNum();
     setContentList([...contentList, content]);
     // console.log(contentList);
     setContent("");
-  }
+  };
 
-  console.log()
+  console.log();
   return (
     <div>
       <p onClick={getQuestions}>test</p>
@@ -157,40 +166,40 @@ function SurveyNum({ surveyId, AddSurveyQuest}) {
           <input
             required
             placeholder="객관식 질문을 입력하고 질문 등록을 눌러주세요"
-            onChange={(e) => {setTitle(e.target.value);}}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
           />
         </SurveyNumInput>
         <MyBtn onClick={AddQuestion}>질문 등록</MyBtn>
       </form>
-      <br/>
-      {
-        openContent
-        ? (
-          <>
-            <form>
-              <SurveyNumLabel>[ 객관식 문항 등록 ]</SurveyNumLabel>
-              <SurveyNumInput>
-                <input 
-                  required
-                  placeholder='객관식 문항을 등록하고 등록 버튼을 눌러주세요'
-                  value={content}
-                  onChange={(e) => {setContent(e.target.value)}}
-                />
-              </SurveyNumInput>
-              <MyBtn type="submit" onClick={AddNumContent}>문항 추가</MyBtn>
-            </form>
+      <br />
+      {openContent ? (
+        <>
+          <form>
+            <SurveyNumLabel>[ 객관식 문항 등록 ]</SurveyNumLabel>
+            <SurveyNumInput>
+              <input
+                required
+                placeholder="객관식 문항을 등록하고 등록 버튼을 눌러주세요"
+                value={content}
+                onChange={(e) => {
+                  setContent(e.target.value);
+                }}
+              />
+            </SurveyNumInput>
+            <MyBtn1 type="submit" onClick={AddNumContent}>
+              문항 추가
+            </MyBtn1>
+          </form>
 
-            <ContentListBox>
-              {contentList.map((a, i) =>{
-                return (
-                  <li>{a}</li>
-                )
-              })}
-            </ContentListBox>
-          </>
-        )
-        : null
-      }
+          <ContentListBox>
+            {contentList.map((a, i) => {
+              return <li>{a}</li>;
+            })}
+          </ContentListBox>
+        </>
+      ) : null}
     </div>
   );
 }

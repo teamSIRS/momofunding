@@ -118,11 +118,11 @@ function MyProjectDetail() {
 
   const navigate = useNavigate();
   const goToManagePjt = () => {
-    if(project.projectStateId === 2){
+    if (project.projectStateId === 2) {
       swal("진행 중인 프로젝트는 수정할 수 없습니다!");
       return;
     }
-    if(project.projectStateId === 3){
+    if (project.projectStateId === 3) {
       swal("종료된 프로젝트는 수정할 수 없습니다!");
       return;
     }
@@ -174,7 +174,7 @@ function MyProjectDetail() {
           <ManageBtn>
             <button onClick={goToManagePjt}>프로젝트 관리</button>
           </ManageBtn>
-          <ToNewLiveLink onClick={onClickPersistParam} to={`/lives/new`}>
+          <ToNewLiveLink to={`/lives/new/${id}`}>
             <LiveBtn>라이브 켜기</LiveBtn>
           </ToNewLiveLink>
           <DeleteBtn>
@@ -194,7 +194,6 @@ function MyProjectDetail() {
             <Title>설문조사 목록</Title>
 
             <SurveyTextBox>
-
               {/* 추가 */}
               <SurveyAdd surveys={surveys} Survey={Survey}></SurveyAdd>
 

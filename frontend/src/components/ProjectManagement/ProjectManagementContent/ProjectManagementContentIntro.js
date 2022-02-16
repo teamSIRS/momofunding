@@ -7,7 +7,7 @@ import { useRecoilValue } from "recoil";
 import { useLocation } from "react-router-dom";
 import setAuthorizationToken, { createProjectIdState } from "../../../atoms";
 import { baseUrl } from "../../../App";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
 const ProjectManagementMain = styled.div`
   width: 100%;
@@ -106,7 +106,7 @@ function ProjectManagementContentIntro() {
     {
       id: 0,
       name: "선택하세요",
-    }
+    },
   ];
   const [categories, setCategories] = useState([""]);
   const location = useLocation();
@@ -128,19 +128,19 @@ function ProjectManagementContentIntro() {
   const onMainImageUrlChange = (event) => {
     const tempImg = event.target.files[0];
     var reader = new FileReader();
-    reader.onload = function(e){
+    reader.onload = function (e) {
       setMainImageUrl(e.target.result);
     };
     reader.readAsDataURL(tempImg);
-  }
+  };
   const onSubImageUrlChange = (event) => {
     const tempImg = event.target.files[0];
     var reader = new FileReader();
-    reader.onload = function(e){
+    reader.onload = function (e) {
       setSubImageUrl(e.target.result);
     };
     reader.readAsDataURL(tempImg);
-  }
+  };
   const onSummaryChange = (event) => setSummary(event.target.value);
   const onProjectContentChange = (event) =>
     setProjectContent(event.target.value);
@@ -152,19 +152,19 @@ function ProjectManagementContentIntro() {
   const projectId = useRecoilValue(createProjectIdState);
   //////////////////////////////////////////////////////////////////////
   function getCategories() {
-    const getCategories = async() => {
+    const getCategories = async () => {
       await axios({
         url: `/categories/`,
         method: "get",
         baseURL: baseUrl,
       })
         .then((response) => {
-          setCategories([...nonCategory, ...response.data])
+          setCategories([...nonCategory, ...response.data]);
         })
         .catch((error) => {
           console.log(error);
         });
-    }
+    };
     getCategories();
   }
   //////////////////////////////////////////////////////////////////////
@@ -186,9 +186,12 @@ function ProjectManagementContentIntro() {
           setSubImageUrl(response.data.subImageUrl);
           setSummary(response.data.summary);
           setProjectContent(response.data.projectContent);
-          if(response.data.expirationDate != null){
+          if (response.data.expirationDate != null) {
             setExpirationDate(response.data.expirationDate.slice(0, 10));
-            setValue("expirationDate", response.data.expirationDate.slice(0, 10));
+            setValue(
+              "expirationDate",
+              response.data.expirationDate.slice(0, 10)
+            );
           }
           setValue("projectCategoryId", response.data.projectCategoryId);
           setValue("projectName", response.data.projectName);
@@ -218,7 +221,7 @@ function ProjectManagementContentIntro() {
       subImageUrl: subImageUrl.slice(0, 500),
       summary: summary,
       projectContent: projectContent,
-      expirationDate: expirationDate+"T12:00:00",
+      expirationDate: expirationDate + "T12:00:00",
     };
     // console.log(data);
     const form = formRef[0];
@@ -256,22 +259,26 @@ function ProjectManagementContentIntro() {
   //////////////////////////////////////////////////////////////////////
   const checkForm = (data) => {
     var canUpdate = true;
-    if(data.projectCategoryId == 0){
+    if (data.projectCategoryId == 0) {
       setError("projectCategoryId", { message: "카테고리 선택은 필수입니다." });
       canUpdate = false;
     }
-    if(mainImageUrl ===""){
+    if (data.fundingGoal <= 0) {
+      setError("fundingGoal", { message: "목표금액은 0원 이상입니다." });
+      canUpdate = false;
+    }
+    if (mainImageUrl === "") {
       setError("mainFile", { message: "대표 사진은 필수입니다." });
       canUpdate = false;
     }
-    if(subImageUrl ===""){
+    if (subImageUrl === "") {
       setError("subFile", { message: "소개 사진은 필수입니다." });
       canUpdate = false;
     }
     return canUpdate;
   };
   const onValid = (data) => {
-    if(!(checkForm(data))) {
+    if (!checkForm(data)) {
       swal("프로젝트를 저장할 수 없어요! 다시 한 번 입력값을 확인해주세요.");
       window.scrollTo(0, 0);
       return;
@@ -330,13 +337,11 @@ function ProjectManagementContentIntro() {
               value={projectCategoryId}
               onChange={onProjectCategoryIdChange}
             >
-              {
-                categories.map((category, idx) => (
-                  <option value={category.id} key={idx}>
-                    {category.name}
-                  </option>
-                ))
-              }
+              {categories.map((category, idx) => (
+                <option value={category.id} key={idx}>
+                  {category.name}
+                </option>
+              ))}
             </select>
             <ErrorMsg>{errors?.projectCategoryId?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
@@ -356,7 +361,7 @@ function ProjectManagementContentIntro() {
               value={fundingGoal}
               onChange={onFundingGoalChange}
             />
-            <ErrorMsg>{errors?.goal?.message}</ErrorMsg>
+            <ErrorMsg>{errors?.fundingGoal?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -366,7 +371,7 @@ function ProjectManagementContentIntro() {
             <ProjectManagementContentMemo>
               창작자님의 프로젝트 대표사진을 업로드하세요. (가로 1000px이상의
               JPG, PNG, BMP 이미지 업로드 가능)
-            <ErrorMsg>{errors?.mainFile?.message}</ErrorMsg>
+              <ErrorMsg>{errors?.mainFile?.message}</ErrorMsg>
             </ProjectManagementContentMemo>
             <ProjectManagementContentImgInput
               as={"input"}
@@ -470,7 +475,7 @@ function ProjectManagementContentIntro() {
           </ProjectManagementContentInputBox>
           <div>
             <ProjectManagementContentProfileBtn
-             //onClick={updateProject}
+            //onClick={updateProject}
             >
               프로젝트 등록
             </ProjectManagementContentProfileBtn>

@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { StyledSpan } from "../../Home/Badge/styles";
 
 const Container = styled.div`
+  position: relative;
   border: 1px solid #7c7c7c;
   border-radius: 10px;
   padding: 8px;
@@ -9,7 +11,6 @@ const Container = styled.div`
   max-height: 280px;
   word-break: break-all;
   text-overflow: "...";
-  /* width: 85%; */
 `;
 
 const ProjectPic = styled.img`
@@ -39,6 +40,13 @@ const Test = styled.div`
   height: 60px;
 `;
 
+const MyProjectStyledSpan = styled(StyledSpan)`
+  display: block;
+  position: absolute;
+  margin: 30px;
+  z-index: 2;
+`;
+
 function MyProject({ project }) {
   const navigate = useNavigate();
 
@@ -46,14 +54,32 @@ function MyProject({ project }) {
     navigate(`/myproject/${projectId}`, { state: projectId });
     window.scrollTo(0, 0);
   };
-
   return (
     <div className="col-md-4">
+      {project.projectStateId === 1 ? (
+        <MyProjectStyledSpan color={"red"}>작성 중</MyProjectStyledSpan>
+      ) : (
+        <div>
+          {project.projectStateId === 2 ? (
+            <MyProjectStyledSpan color={"green"}>진행 중</MyProjectStyledSpan>
+          ) : (
+            <div>
+              {project.projectStateId === 3 ? (
+                <MyProjectStyledSpan color={"black"}>종료</MyProjectStyledSpan>
+              ) : null}
+            </div>
+          )}
+        </div>
+      )}
       <Container
         onClick={() => {
           goToProjctSet(project.id);
         }}
       >
+        <div
+          className="position-absolute top-0 end-0"
+          style={{ marginRight: 0, marginTop: 15 }}
+        ></div>
         <ProjectPic src={project.subImageUrl} />
         <Bar />
         <Test>

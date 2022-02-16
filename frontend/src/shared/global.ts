@@ -11,6 +11,7 @@ export const bodyStyles = css`
   font-family: "Noto Sans KR";
   margin: 0px;
   padding: 0px;
+  background-color: #f2f2f2;
 `;
 
 const GlobalStyle = createGlobalStyle`

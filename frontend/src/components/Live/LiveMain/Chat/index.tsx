@@ -1,10 +1,11 @@
+import axios from "axios";
 import { closeOutline, sendOutline } from "ionicons/icons";
 import { ChangeEventHandler, MouseEventHandler, useEffect } from "react";
 import { FormEventHandler, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import { baseUrl } from "../../../../App";
 import { nicknameState } from "../../../../atoms";
-import { msgsState, msgState, sessionState } from "../../LiveAtoms";
+import { msgsState, pjtIdState, sessionState } from "../../LiveAtoms";
 import { DashboardInput } from "../../LivePowderRoom/RTCRenderer/styles";
 import { authorizationState } from "../LiveMain";
 import {
@@ -31,16 +32,28 @@ export type ChatProps = {
 };
 
 const Chat = ({ show }: ChatProps) => {
-  const param = useParams()["id"];
-  const pjtApi = {
-    title: "Apple iPhone 3GS",
-  };
-  // const [session, setSession] = useRecoilState(sessionState);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useRecoilState(msgsState);
-  const [isStaff, _] = useRecoilState(authorizationState);
+  const [isStaff, _1] = useRecoilState(authorizationState);
   const [recoilSession, setSession] = useRecoilState(sessionState);
   const [nickname, setNickname] = useRecoilState(nicknameState);
+  const [pjtId, _] = useRecoilState(pjtIdState);
+  const [project, setProject] = useState({
+    id: -1,
+    projectStateId: -1,
+    projectCategoryId: -1,
+    userId: -1,
+    projectName: "default pjt name",
+    fundingGoal: -1,
+    mainImageUrl: "#",
+    subImageUrl: "#",
+    summary: "default summary",
+    projectContent: "default content",
+    currentAmount: -1,
+    popularity: -1,
+    expirationDate: "2022-03-05T00:00:00",
+    isLivePlaying: false,
+  });
 
   // 시그널 보내기
   const sendChat: FormEventHandler<HTMLFormElement> = (event) => {
@@ -84,6 +97,30 @@ const Chat = ({ show }: ChatProps) => {
       });
   };
 
+  const onLoad = async (pjtId: number) => {
+    await axios({
+      url: `/projects/${pjtId}`,
+      method: "get",
+      baseURL: baseUrl,
+    })
+      .then((response) => {
+        console.log("PJT DATA:", response.data);
+        setProject(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    onLoad(pjtId);
+  }, []);
+
+  useEffect(() => {
+    console.log("프로젝트 아디 바뀜!!!!!!!!!!", pjtId);
+    onLoad(pjtId);
+  }, [pjtId]);
+
   useEffect(() => {
     setTimeout(() => {
       const element = document.getElementById("chatBody") as HTMLElement;
@@ -103,12 +140,12 @@ const Chat = ({ show }: ChatProps) => {
             <ProjectText>스트림 끝내기</ProjectText>
           </ProjectClose>
         ) : (
-          <ProjectLink to={`/projects/${param}`}>
+          <ProjectLink to={`/projects/${project.id}`}>
             <ProjectBtn>
-              <ImageForBg src="https://image.itmedia.co.jp/mobile/articles/2109/15/si7101-iPhone13S-01.jpg" />
+              <ImageForBg src={project.mainImageUrl} />
             </ProjectBtn>
             <ProjectText>
-              {pjtApi.title}
+              {project.projectName}
               <br />
               {"후원하러 가기"}
             </ProjectText>

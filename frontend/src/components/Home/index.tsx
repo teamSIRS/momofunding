@@ -21,7 +21,7 @@ const StyledStack = styled(ListGroup)`
 `;
 
 const HomeMain = styled.div`
-  background-color: whitesmoke;
+  /* background-color: whitesmoke; */
 `;
 
 const Icon = styled.span`
@@ -73,7 +73,7 @@ const Home = () => {
             <StyledStack horizontal>
               {lives.map((live, idx) => (
                 <Link
-                  to={`/lives/${live.sessionId}`}
+                  to={`/lives/${live.sessionId}/${live.projectId}`}
                   style={{ float: "left", marginLeft: 10, marginRight: 10 }}
                 >
                   <HomeLiveCard
