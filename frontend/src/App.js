@@ -92,7 +92,10 @@ function App() {
           <Route path="/notices/create" element={<CreateNotice />}></Route>
           <Route path="/notices/:id" element={<NoticeDetail />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/projects/entrance" element={<ProjectEntrance />}></Route>
+          <Route
+            path="/projects/entrance"
+            element={<ProjectEntrance />}
+          ></Route>
           <Route path="projects/:id" element={<ProjectDetail />}>
             <Route index element={<ProjectStory />} />
             <Route path="story" element={<ProjectStory />} />

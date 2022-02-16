@@ -61,6 +61,10 @@ public class PayApiController {
                 "approval_url=http://localhost:3000/pay/success/" +projectId+ "&"+
                 "fail_url=http://localhost:3000/pay/fail/" + val2 + "&" +
                 "cancel_url=http://localhost:3000/pay/cancel/" + val2;
+//                "approval_url=https://i6a202.p.ssafy.io/pay/success/" +projectId+ "&"+
+//                "fail_url=https://i6a202.p.ssafy.io/pay/fail/" + val2 + "&" +
+//                "cancel_url=https://i6a202.p.ssafy.io/pay/cancel/" + val2;
+
 
         byte[] utf8 = param.getBytes(StandardCharsets.UTF_8);
 
