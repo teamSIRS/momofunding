@@ -2,15 +2,14 @@ import styled from "styled-components";
 
 export const StyledImg = styled.img`
   filter: brightness(75%);
-  width: 100%;
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
   width: 100%;
-  object-fit: cover;
-  object-position: center;
-  min-width: 100vw;
+  top: -9999px;
+  bottom: -9999px;
+  left: -9999px;
+  right: -9999px;
+  /* height: 100%; */
+  margin: auto;
 `;
 
 export const BannerBox = styled.div`

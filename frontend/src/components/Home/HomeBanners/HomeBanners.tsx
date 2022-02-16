@@ -1,4 +1,5 @@
 import { Carousel } from "react-bootstrap";
+import styled from "styled-components";
 import HomeBanner from "./HomeBanner";
 
 export const HomeBanners = () => {
@@ -22,8 +23,12 @@ export const HomeBanners = () => {
       slogan: "피부가 약하고 예민한 누구나 사용할 수 있는 순한 수건입니다!",
     },
   ];
+
+  const BannerCarousel = styled(Carousel)`
+    min-width: 820px;
+  `;
   return (
-    <Carousel>
+    <BannerCarousel>
       {apis.map((api, idx) => (
         <Carousel.Item key={idx}>
           <HomeBanner
@@ -34,6 +39,6 @@ export const HomeBanners = () => {
           />
         </Carousel.Item>
       ))}
-    </Carousel>
+    </BannerCarousel>
   );
 };

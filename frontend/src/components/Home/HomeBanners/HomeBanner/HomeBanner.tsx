@@ -1,4 +1,5 @@
 import { Carousel } from "react-bootstrap";
+import { ImageForBg } from "../../../Live/LiveMain/Chat/styles";
 import { BadgeContainer } from "../../HomeFundings/HomeFundingCard/styles";
 import { BannerBox, StyledImg } from "./styles";
 

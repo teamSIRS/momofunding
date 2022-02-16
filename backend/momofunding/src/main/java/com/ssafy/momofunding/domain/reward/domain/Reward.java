@@ -2,6 +2,7 @@ package com.ssafy.momofunding.domain.reward.domain;
 
 import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.reward.dto.RewardUpdateRequestDto;
+import com.ssafy.momofunding.domain.rewardorder.domain.RewardOrder;
 import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +11,8 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -24,6 +27,10 @@ public class Reward extends AuditBaseEntity {
     @ManyToOne(targetEntity = Project.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
     Project project;
+
+    @OneToMany(mappedBy = "reward", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    List<RewardOrder> rewardOrders = new ArrayList<>();
+
 
     @Column(length = 50)
     String name;
