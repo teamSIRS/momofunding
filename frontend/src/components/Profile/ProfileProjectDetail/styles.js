@@ -118,7 +118,7 @@ export const BottomBox = styled.div`
 `;
 
 export const SurveyBox = styled(LiveBox)`
-  width: 50%;
+  width: 40%;
 `;
 
 export const SurveyTextBox = styled.div`
@@ -132,7 +132,7 @@ export const SurveyEditText = styled.span`
 `;
 
 export const SponsorBox = styled(LiveBox)`
-  width: 50%;
+  width: 60%;
 `;
 
 export const SponsorList = styled.div`
