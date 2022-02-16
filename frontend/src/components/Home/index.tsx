@@ -20,7 +20,7 @@ const StyledStack = styled(ListGroup)`
 `;
 
 const HomeMain = styled.div`
-  background-color: whitesmoke;
+  /* background-color: whitesmoke; */
 `;
 
 const Icon = styled.span`
@@ -65,7 +65,7 @@ const Home = () => {
           <br />
           <h2>
             <b>
-              지금 핫한 인기 라이브🔥
+              지금 핫한 인기 라이브<Icon>🔥</Icon>
             </b>
           </h2>
           {isExist ? (

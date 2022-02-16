@@ -57,8 +57,8 @@ const ProjectManagementSidebarProfileTitle = styled.div`
 
 const ProjectManagementSidebarMenu = styled.div`
   margin: 25px;
-  margin-left: 80px;
   font-size: 17px;
+
   font-weight: bold;
   button {
     background-color: transparent;
@@ -117,9 +117,17 @@ const styles = {
   },
 };
 
+const ProjectManagementSidebarMenus = styled.div`
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+`;
+
 function ProjectManagement() {
-  const { userId } = useRecoilValue(userIdState);
-  const { nickname } = useRecoilValue(nicknameState);
+  const userId = useRecoilValue(userIdState);
+  const nickname = useRecoilValue(nicknameState);
   const pjtId = useRecoilValue(createProjectIdState);
   const navigate = useNavigate();
   const [isUpdateCreator, setIsUpdateCreator] = useState(false);
@@ -299,26 +307,30 @@ function ProjectManagement() {
                 <ProjectManagementSidebarProfileBox>
                   <ProjectManagementSidebarProfileImg src="/photo/profile.png" />
                   <ProjectManagementSidebarProfileTitle>
-                    창작자님의 프로젝트
+                    {nickname}님의 프로젝트
                   </ProjectManagementSidebarProfileTitle>
                 </ProjectManagementSidebarProfileBox>
-                <ProjectManagementSidebarMenu isActive={profileMatch !== null}>
-                  <button onClick={onProfileClick}>창작자 프로필 등록</button>
-                </ProjectManagementSidebarMenu>
-                <ProjectManagementSidebarMenu isActive={introMatch !== null}>
-                  <button onClick={onIntroClick}>프로젝트 정보 등록</button>
-                </ProjectManagementSidebarMenu>
+                <ProjectManagementSidebarMenus>
+                  <ProjectManagementSidebarMenu
+                    isActive={profileMatch !== null}
+                  >
+                    <button onClick={onProfileClick}>창작자 프로필 등록</button>
+                  </ProjectManagementSidebarMenu>
+                  <ProjectManagementSidebarMenu isActive={introMatch !== null}>
+                    <button onClick={onIntroClick}>프로젝트 정보 등록</button>
+                  </ProjectManagementSidebarMenu>
 
-                <ProjectManagementSidebarMenu isActive={rewardMatch !== null}>
-                  <button onClick={onRewardClick}>리워드 정보 등록</button>
-                </ProjectManagementSidebarMenu>
+                  <ProjectManagementSidebarMenu isActive={rewardMatch !== null}>
+                    <button onClick={onRewardClick}>리워드 정보 등록</button>
+                  </ProjectManagementSidebarMenu>
 
-                <ProjectManagementSidebarMenuFinal>
-                  <button onClick={startPjt}>프로젝트 시작하기</button>
-                </ProjectManagementSidebarMenuFinal>
-                <ProjectManagementSidebarMenuFinal>
-                  <button onClick={backHome}>나중에 시작하기</button>
-                </ProjectManagementSidebarMenuFinal>
+                  <ProjectManagementSidebarMenuFinal>
+                    <button onClick={startPjt}>프로젝트 시작하기</button>
+                  </ProjectManagementSidebarMenuFinal>
+                  <ProjectManagementSidebarMenuFinal>
+                    <button onClick={backHome}>나중에 시작하기</button>
+                  </ProjectManagementSidebarMenuFinal>
+                </ProjectManagementSidebarMenus>
               </ProjectManagementSidebarBox>
             </ProjectManagementSidebarMain>
           </Col>

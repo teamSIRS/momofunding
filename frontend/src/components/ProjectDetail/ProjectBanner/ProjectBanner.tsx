@@ -67,6 +67,10 @@ export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
     navigate("/lives/" + sessionId);
   };
 
+  const GoToReward = () => {
+    window.scrollTo(0, 1200);
+  };
+
   const contribRate =
     Math.round(
       (props.project.currentAmount / props.project.fundingGoal) * 1000
@@ -98,7 +102,7 @@ export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
             라이브 진행중
           </GotoLiveBtn>
         )}
-        <Btn bottom="35px" right="30px">
+        <Btn onClick={GoToReward} bottom="35px" right="30px">
           펀딩하기
         </Btn>
         {/* <MomoProgress width="100%" bottom="0px" animated now={contribRate} /> */}
