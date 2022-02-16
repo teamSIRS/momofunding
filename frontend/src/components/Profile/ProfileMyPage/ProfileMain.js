@@ -20,7 +20,8 @@ const Container = styled.div`
   border-radius: 15px;
   box-shadow: 4px 4px 20px 0px ${MomoColor};
   padding: 15px;
-  /* padding-bottom: 80px; */
+  width: 85%;
+  margin: auto;
 `;
 
 //프로필 상자

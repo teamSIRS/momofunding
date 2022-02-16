@@ -13,15 +13,19 @@ import ProjectManagementProfile from "./ProjectManagementContent/ProjectManageme
 import ProjectManagementReward from "./ProjectManagementContent/ProjectManagementReward";
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
-import setAuthorizationToken, { createProjectIdState, userIdState } from "../../atoms";
+import setAuthorizationToken, {
+  createProjectIdState,
+  nicknameState,
+  userIdState,
+} from "../../atoms";
 import axios from "axios";
 import { baseUrl } from "../../App";
 import swal from "sweetalert";
 
 const ProjectManagementSidebarMain = styled.div`
-  width: 100%;
-  min-height: 1700px;
-  background-color: #f8f4ea;
+  width: 95%;
+  min-height: 100%;
+  background-color: #e3e3ef;
 `;
 
 const ProjectManagementSidebarBox = styled.div`
@@ -53,6 +57,7 @@ const ProjectManagementSidebarProfileTitle = styled.div`
 
 const ProjectManagementSidebarMenu = styled.div`
   margin: 25px;
+  margin-left: 80px;
   font-size: 17px;
   font-weight: bold;
   button {
@@ -114,6 +119,7 @@ const styles = {
 
 function ProjectManagement() {
   const { userId } = useRecoilValue(userIdState);
+  const { nickname } = useRecoilValue(nicknameState);
   const pjtId = useRecoilValue(createProjectIdState);
   const navigate = useNavigate();
   const [isUpdateCreator, setIsUpdateCreator] = useState(false);
@@ -147,12 +153,12 @@ function ProjectManagement() {
 
   const getCreator = async () => {
     await axios({
-      url: `/creators/`+pjtId,
+      url: `/creators/` + pjtId,
       method: "get",
       baseURL: baseUrl,
     })
       .then((response) => {
-        if(response.data.creatorName != "") setIsUpdateCreator(true);
+        if (response.data.creatorName != "") setIsUpdateCreator(true);
         else setIsUpdateCreator(false);
       })
       .catch((error) => {
@@ -162,12 +168,12 @@ function ProjectManagement() {
 
   const getProject = async () => {
     await axios({
-      url: `/projects/`+pjtId,
+      url: `/projects/` + pjtId,
       method: "get",
       baseURL: baseUrl,
     })
       .then((response) => {
-        if(response.data.projectName != "") setIsUpdateProject(true);
+        if (response.data.projectName != "") setIsUpdateProject(true);
         else setIsUpdateProject(false);
       })
       .catch((error) => {
@@ -177,13 +183,13 @@ function ProjectManagement() {
 
   const getRewards = async () => {
     await axios({
-      url: `/rewards/projects/`+pjtId,
+      url: `/rewards/projects/` + pjtId,
       method: "get",
       baseURL: baseUrl,
     })
       .then((response) => {
         console.log(response.data.length);
-        if(response.data.length >= 1) setIsUpdateRewards(true);
+        if (response.data.length >= 1) setIsUpdateRewards(true);
         else setIsUpdateRewards(false);
       })
       .catch((error) => {
@@ -191,26 +197,29 @@ function ProjectManagement() {
       });
   };
 
-
   function startPjt() {
-    if(!isUpdateCreator){
+    if (!isUpdateCreator) {
       getCreator();
-      if(!isUpdateCreator){
+      if (!isUpdateCreator) {
         swal("창작자 작성 페이지를 확인해주세요. 작성이 완료되지 않았습니다.");
         return;
       }
     }
-    if(!isUpdateProject) {
+    if (!isUpdateProject) {
       getProject();
-      if(!isUpdateProject){
-        swal("프로젝트 작성 페이지를 확인해주세요. 작성이 완료되지 않았습니다.");
+      if (!isUpdateProject) {
+        swal(
+          "프로젝트 작성 페이지를 확인해주세요. 작성이 완료되지 않았습니다."
+        );
         return;
       }
     }
-    if(!isUpdateRewards){
+    if (!isUpdateRewards) {
       getRewards();
-      if(!isUpdateRewards){
-        swal("리워드 작성 페이지를 확인해주세요. 리워드가 한 개 이상 필요합니다.");
+      if (!isUpdateRewards) {
+        swal(
+          "리워드 작성 페이지를 확인해주세요. 리워드가 한 개 이상 필요합니다."
+        );
         return;
       }
     }
@@ -243,7 +252,7 @@ function ProjectManagement() {
       buttons: true,
       dangerMode: true,
     }).then((response) => {
-      if(response){
+      if (response) {
         swal("프로젝트가 시작되었습니다.").then((response) => {
           startPjt();
           navigate(`/`);
@@ -260,20 +269,22 @@ function ProjectManagement() {
       buttons: true,
       dangerMode: true,
     }).then((response) => {
-      if(response){
-        swal("프로젝트를 저장하고 메인 화면으로 돌아갑니다.").then((response) => {
-          navigate(`/`);
-        });
+      if (response) {
+        swal("프로젝트를 저장하고 메인 화면으로 돌아갑니다.").then(
+          (response) => {
+            navigate(`/`);
+          }
+        );
       }
     });
-  }
+  };
 
-  useEffect(()=>{
-    if(!isUpdateCreator) getCreator();
-    if(!isUpdateProject) getProject();
-    if(!isUpdateRewards) getRewards();
+  useEffect(() => {
+    if (!isUpdateCreator) getCreator();
+    if (!isUpdateProject) getProject();
+    if (!isUpdateRewards) getRewards();
     window.scrollTo(0, 0);
-  }, [])
+  }, []);
 
   const profileMatch = useMatch("/projects/management/profile");
   const introMatch = useMatch("/projects/management/intro");
@@ -282,13 +293,13 @@ function ProjectManagement() {
     <div>
       <Container>
         <Row>
-          <Col sm={2} style={styles.col}>
+          <Col sm={3} style={styles.col}>
             <ProjectManagementSidebarMain>
               <ProjectManagementSidebarBox>
                 <ProjectManagementSidebarProfileBox>
                   <ProjectManagementSidebarProfileImg src="/photo/profile.png" />
                   <ProjectManagementSidebarProfileTitle>
-                    창작자 님의 프로젝트
+                    창작자님의 프로젝트
                   </ProjectManagementSidebarProfileTitle>
                 </ProjectManagementSidebarProfileBox>
                 <ProjectManagementSidebarMenu isActive={profileMatch !== null}>
@@ -311,7 +322,7 @@ function ProjectManagement() {
               </ProjectManagementSidebarBox>
             </ProjectManagementSidebarMain>
           </Col>
-          <Col sm={10} style={styles.col}>
+          <Col sm={9} style={styles.col}>
             <ProjectManagementTitle>
               프로젝트 생성 페이지
             </ProjectManagementTitle>

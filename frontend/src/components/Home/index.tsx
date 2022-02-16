@@ -27,6 +27,12 @@ const Icon = styled.span`
   margin-left: 20px;
 `;
 
+const ProjectEntranceSeparateLine = styled.hr`
+  background-color: #6667ab;
+  width: 75%;
+  margin: 40px auto;
+`;
+
 const Home = () => {
   const [lives, setLives] = useState<any[]>([""]);
   const [isExist, setIsExist] = useState<boolean>(true);
@@ -83,6 +89,7 @@ const Home = () => {
             <NoneExist ment="진행 중인 라이브" />
           )}
         </Container>
+        <ProjectEntranceSeparateLine />
       </HomeMain>
       <HomeFundings />
     </>

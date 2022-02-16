@@ -3,11 +3,12 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { atom, useRecoilState } from "recoil";
 import { baseUrl } from "../../../../../App";
-import { sessionState } from "../../../LiveAtoms";
-import { SurveyItemWrapper, SurveyListWrapper } from "./styles";
-
-// tmp
-const projectId = 2;
+import { pjtIdState, sessionState } from "../../../LiveAtoms";
+import {
+  SurveyItemWrapper,
+  SurveyListWrapper,
+  SurveysNotExists,
+} from "./styles";
 
 type surveysProp = {
   id: number;
@@ -23,9 +24,11 @@ export const SelectedSurveyState = atom({
 export const SurveyList = () => {
   const [surveys, setSurveys] = useState([] as surveysProp[]);
   const [session, setSession] = useRecoilState(sessionState);
+  const [pjtId, _] = useRecoilState(pjtIdState);
+
   const getSurveyList = async () => {
     await axios({
-      url: `/surveys/projects/${projectId}`,
+      url: `/surveys/projects/${pjtId}`,
       method: "get",
       baseURL: `${baseUrl}`,
     })
@@ -42,19 +45,35 @@ export const SurveyList = () => {
     console.log("surveys:", surveys);
   }, []);
 
+  const isSurveyExists = () => {
+    return surveys.length !== 0;
+  };
+
   return (
     <SurveyListWrapper>
-      {surveys.map((survey, idx) => (
-        <SurveyItemWrapper
-          key={idx}
-          onClick={() => {
-            console.log(survey.id, "clicked!");
-            session.signal({ data: `${survey.id}`, to: [], type: "survey-id" });
-          }}
-        >
-          {survey.title}
-        </SurveyItemWrapper>
-      ))}
+      {isSurveyExists() ? (
+        <>
+          {surveys?.map((survey, idx) => (
+            <SurveyItemWrapper
+              key={idx}
+              onClick={() => {
+                console.log(survey.id, "clicked!");
+                session.signal({
+                  data: `${survey.id}`,
+                  to: [],
+                  type: "survey-id",
+                });
+              }}
+            >
+              {survey.title}
+            </SurveyItemWrapper>
+          ))}
+        </>
+      ) : (
+        <SurveysNotExists>
+          사전에 설정한 설문이 존재하지 않아요. 😥
+        </SurveysNotExists>
+      )}
     </SurveyListWrapper>
   );
 };

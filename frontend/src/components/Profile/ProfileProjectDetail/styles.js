@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 export const Body = styled.div`
   display: flex;
   padding: 50px;
+  width: 85%;
+  margin: auto;
 `;
 
 export const ProjectBox = styled.div`
@@ -21,6 +23,7 @@ export const Card = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
   padding: 10px;
   border-radius: 15px;
   box-shadow: 2px 2px 10px 0px ${MomoColor};

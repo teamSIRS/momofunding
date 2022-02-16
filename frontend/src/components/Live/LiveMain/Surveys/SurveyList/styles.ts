@@ -22,3 +22,9 @@ export const SurveyItemWrapper = styled.div`
     color: whitesmoke;
   }
 `;
+
+export const SurveysNotExists = styled.div`
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+`;
