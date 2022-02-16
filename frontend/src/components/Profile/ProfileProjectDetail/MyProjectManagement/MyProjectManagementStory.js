@@ -3,8 +3,10 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import $ from "jquery";
 import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import setAuthorizationToken from "../../../../atoms";
 import { baseUrl } from "../../../../App";
+import swal from 'sweetalert';
 
 const ProjectManagementMain = styled.div`
   width: 100%;
@@ -71,7 +73,7 @@ const ProjectManagementContentImgLabel = styled.label`
   float: right;
 `;
 const ProjectManagementContentImgInput = styled.input`
-  display: none;
+  // display: none;
 `;
 
 const ProjectManagementContentIntroTitle = styled.h3`
@@ -87,7 +89,27 @@ const ProjectManagementContentProfileBtn = styled.button`
   background-color: green;
 `;
 
+const ErrorMsg = styled.span`
+  font-size: 12px;
+  color: red;
+`;
+
 function MyProjectManagementStory() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    setValue,
+  } = useForm();
+  const nonCategory = [
+    {
+      id: 0,
+      name: "선택하세요",
+    }
+  ];
+  const [categories, setCategories] = useState([""]);
+
   const [projectCategoryId, setProjectCategoryId] = useState(0);
   const [projectState, setProjectState] = useState(0);
   const [projectName, setProjectName] = useState("");
@@ -131,6 +153,22 @@ function MyProjectManagementStory() {
   // 이거는 나중에 로그인한 회원의 아이디로 바꿔야함
   const { id } = useParams();
   //////////////////////////////////////////////////////////////////////
+  function getCategories() {
+    const getCategories = async() => {
+      await axios({
+        url: `/categories/`,
+        method: "get",
+        baseURL: baseUrl,
+      })
+        .then((response) => {
+          setCategories([...nonCategory, ...response.data])
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    getCategories();
+  }
   // get으로 사용자의 기존정보를 불러오기
   function getProject() {
     const getProject = async () => {
@@ -150,8 +188,10 @@ function MyProjectManagementStory() {
           setSubImageUrl(response.data.subImageUrl);
           setSummary(response.data.summary);
           setProjectContent(response.data.projectContent);
-          if(response.data.expirationDate != null)
+          if(response.data.expirationDate != null){
             setExpirationDate(response.data.expirationDate.slice(0, 10));
+            setValue("expirationDate", response.data.expirationDate.slice(0, 10));
+          }
 
           console.log("프로젝트 상태");
           if (
@@ -161,6 +201,14 @@ function MyProjectManagementStory() {
             setButtonState(true);
           }
           console.log(response.data.projectStateId);
+
+          setValue("projectCategoryId", response.data.projectCategoryId);
+          setValue("projectName", response.data.projectName);
+          setValue("fundingGoal", response.data.fundingGoal);
+          setValue("mainFile", "");
+          setValue("subFile", "");
+          setValue("summary", response.data.summary);
+          setValue("content", response.data.projectContent);
         })
         .catch((error) => {
           console.log(error);
@@ -173,14 +221,14 @@ function MyProjectManagementStory() {
   const formRef = useRef(null);
 
   const updateProject = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
 
     const data = {
       projectCategoryId: projectCategoryId,
       projectName: projectName,
       fundingGoal: fundingGoal,
-      mainImageUrl: mainImageUrl,
-      subImageUrl: subImageUrl,
+      mainImageUrl: mainImageUrl.slice(0, 500),
+      subImageUrl: subImageUrl.slice(0, 500),
       summary: summary,
       projectContent: projectContent,
       expirationDate: expirationDate+"T12:00:00",
@@ -208,7 +256,6 @@ function MyProjectManagementStory() {
       })
         .then((response) => {
           console.log("성공");
-          console.log(response.data);
           window.location.reload(true);
         })
         .catch((error) => {
@@ -220,7 +267,33 @@ function MyProjectManagementStory() {
   };
 
   //////////////////////////////////////////////////////////////////////
+  const checkForm = (data) => {
+    var canUpdate = true;
+    if(data.projectCategoryId == 0){
+      setError("projectCategoryId", { message: "카테고리 선택은 필수입니다." });
+      canUpdate = false;
+    }
+    if(mainImageUrl ===""){
+      setError("mainFile", { message: "대표 사진은 필수입니다." });
+      canUpdate = false;
+    }
+    if(subImageUrl ===""){
+      setError("subFile", { message: "소개 사진은 필수입니다." });
+      canUpdate = false;
+    }
+    return canUpdate;
+  };
+  const onValid = (data) => {
+    if(!(checkForm(data))) {
+      swal("프로젝트를 저장할 수 없어요! 다시 한 번 입력값을 확인해주세요.");
+      window.scrollTo(0, 0);
+      return;
+    }
+    updateProject(data);
+  };
+
   useEffect(() => {
+    getCategories();
     getProject();
   }, []);
 
@@ -233,6 +306,7 @@ function MyProjectManagementStory() {
         <ProjectManagementContentForm
           ref={formRef}
           enctype="multipart/form-data"
+          onSubmit={handleSubmit(onValid)}
         >
           <ProjectManagementContentInputBox>
             <ProjectManagementContentTitle>
@@ -242,9 +316,14 @@ function MyProjectManagementStory() {
               창작자님의 프로젝트 제목을 입력하세요.
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
+              as={"input"}
+              {...register("projectName", {
+                required: "프로젝트 제목은 필수입니다.",
+              })}
               value={projectName}
               onChange={onProjectNameChange}
             />
+            <ErrorMsg>{errors?.projectName?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -254,24 +333,24 @@ function MyProjectManagementStory() {
             <ProjectManagementContentMemo>
               창작자님의 프로젝트에 알맞는 카테고리를 골라주세요.
             </ProjectManagementContentMemo>
-
             <select
               id="selectValue"
+              as={"input"}
+              {...register("projectCategoryId", {
+                required: "카테고리 선택은 필수입니다.",
+              })}
               value={projectCategoryId}
               onChange={onProjectCategoryIdChange}
             >
-              <option value="1">푸드</option>
-              <option value="2">리빙</option>
-              <option value="3">가구</option>
-              <option value="4">테크</option>
-              <option value="5">패션</option>
-              <option value="6">뷰티</option>
-              <option value="7">스포츠</option>
-              <option value="8">도서</option>
-              <option value="9">굿즈</option>
-              <option value="10">뮤직</option>
-              <option value="11">게임</option>
+              {
+                categories.map((category, idx) => (
+                  <option value={category.id} key={idx}>
+                    {category.name}
+                  </option>
+                ))
+              }
             </select>
+            <ErrorMsg>{errors?.projectCategoryId?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -282,9 +361,14 @@ function MyProjectManagementStory() {
               창작자님의 펀딩 목표 금액을 입력하세요 (숫자만 입력)
             </ProjectManagementContentMemo>
             <ProjectManagementContentInput
+              as={"input"}
+              {...register("fundingGoal", {
+                required: "목표 금액은 필수입니다.",
+              })}
               value={fundingGoal}
               onChange={onFundingGoalChange}
             />
+            <ErrorMsg>{errors?.goal?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -294,20 +378,23 @@ function MyProjectManagementStory() {
             <ProjectManagementContentMemo>
               창작자님의 프로젝트 대표사진을 업로드하세요. (가로 1000px이상의
               JPG, PNG, BMP 이미지 업로드 가능)
+              <ErrorMsg>{errors?.mainFile?.message}</ErrorMsg>
             </ProjectManagementContentMemo>
             <ProjectManagementContentImgInput
+              as={"input"}
+              {...register("mainFile", {
+                message: "대표 사진은 필수입니다.",
+              })}
               type="file"
               id="mainFile"
               name="mainFile"
               onChange={onMainImageUrlChange}
             />
-            <ProjectManagementContentImgLabel htmlFor="mainFile">
-              파일
-            </ProjectManagementContentImgLabel>
+
             <ProjectManagementContentImgBox>
               <ProjectManagementContentImg
                 src={mainImageUrl}
-                alt="main-image-example"
+                alt="No Image Available"
               ></ProjectManagementContentImg>
             </ProjectManagementContentImgBox>
           </ProjectManagementContentInputBox>
@@ -319,16 +406,19 @@ function MyProjectManagementStory() {
             <ProjectManagementContentMemo>
               창작자님의 프로젝트 소개사진을 업로드하세요. (가로 1000px이상의
               JPG, PNG, BMP 이미지 업로드 가능)
+              <ErrorMsg>{errors?.subFile?.message}</ErrorMsg>
             </ProjectManagementContentMemo>
             <ProjectManagementContentImgInput
+              as={"input"}
+              {...register("subFile", {
+                message: "소개 사진은 필수입니다.",
+              })}
               type="file"
               id="subFile"
               name="subFile"
               onChange={onSubImageUrlChange}
             />
-            <ProjectManagementContentImgLabel htmlFor="subFile">
-              파일
-            </ProjectManagementContentImgLabel>
+
             <ProjectManagementContentImgBox>
               <ProjectManagementContentImg
                 src={subImageUrl}
@@ -346,9 +436,13 @@ function MyProjectManagementStory() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentTextarea
               as={"textarea"}
+              {...register("summary", {
+                required: "프로젝트 요약은 필수입니다.",
+              })}
               value={summary}
               onChange={onSummaryChange}
             ></ProjectManagementContentTextarea>
+            <ErrorMsg>{errors?.summary?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -360,9 +454,13 @@ function MyProjectManagementStory() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentTextarea
               as={"textarea"}
+              {...register("content", {
+                required: "프로젝트 내용은 필수입니다.",
+              })}
               value={projectContent}
               onChange={onProjectContentChange}
             ></ProjectManagementContentTextarea>
+            <ErrorMsg>{errors?.content?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
@@ -374,13 +472,17 @@ function MyProjectManagementStory() {
             </ProjectManagementContentMemo>
             <ProjectManagementContentDate
               type="date"
+              {...register("expirationDate", {
+                required: "프로젝트 종료일은 필수입니다.",
+              })}
               value={expirationDate}
               onChange={onExpirationDateChange}
             />
+            <ErrorMsg>{errors?.expirationDate?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
           <div>
             <ProjectManagementContentProfileBtn
-              onClick={updateProject}
+              // onClick={updateProject}
               disabled={buttonState}
             >
               프로젝트 수정

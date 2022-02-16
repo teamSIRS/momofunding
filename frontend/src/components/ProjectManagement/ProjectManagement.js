@@ -17,7 +17,6 @@ import setAuthorizationToken, { createProjectIdState, userIdState } from "../../
 import axios from "axios";
 import { baseUrl } from "../../App";
 import swal from "sweetalert";
-import LoginButton from "../../container/Header/Navbar/AccountMenus/UnconfirmedAccountMenus/LoginButton";
 
 const ProjectManagementSidebarMain = styled.div`
   width: 100%;
@@ -114,13 +113,12 @@ const styles = {
 };
 
 function ProjectManagement() {
-  const location = useLocation();
   const { userId } = useRecoilValue(userIdState);
   const pjtId = useRecoilValue(createProjectIdState);
   const navigate = useNavigate();
-  const [isUpdatecreator, setIsUpdateCreator] = useState("");
-  const [isUpdateProject, setIsUpdateProject] = useState("");
-  const [isUpdaterewards, setIsUpdateRewards] = useState([""]);
+  const [isUpdateCreator, setIsUpdateCreator] = useState(false);
+  const [isUpdateProject, setIsUpdateProject] = useState(false);
+  const [isUpdateRewards, setIsUpdateRewards] = useState(false);
 
   const onProfileClick = () => {
     navigate(`/projects/management/profile`, {
@@ -184,7 +182,8 @@ function ProjectManagement() {
       baseURL: baseUrl,
     })
       .then((response) => {
-        if(response.data.length > 0) setIsUpdateRewards(true);
+        console.log(response.data.length);
+        if(response.data.length >= 1) setIsUpdateRewards(true);
         else setIsUpdateRewards(false);
       })
       .catch((error) => {
@@ -194,28 +193,28 @@ function ProjectManagement() {
 
 
   function startPjt() {
-    getCreator().then(() => {
-      if(!isUpdatecreator){
+    if(!isUpdateCreator){
+      getCreator();
+      if(!isUpdateCreator){
         swal("창작자 작성 페이지를 확인해주세요. 작성이 완료되지 않았습니다.");
         return;
       }
-    });
-
-    
-
-    getProject();
-    if(!isUpdateProject){
-      swal("프로젝트 작성 페이지를 확인해주세요. 작성이 완료되지 않았습니다.");
-      return;
+    }
+    if(!isUpdateProject) {
+      getProject();
+      if(!isUpdateProject){
+        swal("프로젝트 작성 페이지를 확인해주세요. 작성이 완료되지 않았습니다.");
+        return;
+      }
+    }
+    if(!isUpdateRewards){
+      getRewards();
+      if(!isUpdateRewards){
+        swal("리워드 작성 페이지를 확인해주세요. 리워드가 한 개 이상 필요합니다.");
+        return;
+      }
     }
 
-    getRewards();
-    if(!isUpdaterewards){
-      swal("리워드 작성 페이지를 확인해주세요. 리워드가 하나도 없습니다.");
-      return;
-    }
-    // 나중에swal로 변경하자
-    swal("프로젝트가 시작됩니다!");
     const startPjt = async () => {
       await axios({
         url: `/projects/${pjtId}/complete`,
@@ -229,19 +228,51 @@ function ProjectManagement() {
         .then((response) => {
           console.log("프로젝트 시작");
           console.log(response.data);
+          navigate(`/`);
         })
         .catch((error) => {
           console.log("에러발생");
           console.log(error);
         });
     };
-    startPjt();
+
+    swal({
+      title: "프로젝트를 지금 시작하실래요?",
+      text: "지금 바로 프로젝트를 시작합니다!\n시작 이후에는 프로젝트 편집이 불가능합니다.\n각 화면에서 등록 및 저장을 누르지 않은 경우는 저장되지 않습니다.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((response) => {
+      if(response){
+        swal("프로젝트가 시작되었습니다.").then((response) => {
+          startPjt();
+          navigate(`/`);
+        });
+      }
+    });
+  }
+
+  const backHome = () => {
+    swal({
+      title: "프로젝트를 나중에 시작하실래요?",
+      text: "지금 이상태로 프로필 화면에 저장됩니다.\n시작 전까지 얼마든지 편집하실 수 있습니다!\n각 화면에서 등록 및 저장을 누르지 않은 경우는 저장되지 않습니다.",
+      icon: "success",
+      buttons: true,
+      dangerMode: true,
+    }).then((response) => {
+      if(response){
+        swal("프로젝트를 저장하고 메인 화면으로 돌아갑니다.").then((response) => {
+          navigate(`/`);
+        });
+      }
+    });
   }
 
   useEffect(()=>{
-    getCreator();
-    getProject();
-    getRewards();
+    if(!isUpdateCreator) getCreator();
+    if(!isUpdateProject) getProject();
+    if(!isUpdateRewards) getRewards();
+    window.scrollTo(0, 0);
   }, [])
 
   const profileMatch = useMatch("/projects/management/profile");
@@ -273,6 +304,9 @@ function ProjectManagement() {
 
                 <ProjectManagementSidebarMenuFinal>
                   <button onClick={startPjt}>프로젝트 시작하기</button>
+                </ProjectManagementSidebarMenuFinal>
+                <ProjectManagementSidebarMenuFinal>
+                  <button onClick={backHome}>나중에 시작하기</button>
                 </ProjectManagementSidebarMenuFinal>
               </ProjectManagementSidebarBox>
             </ProjectManagementSidebarMain>

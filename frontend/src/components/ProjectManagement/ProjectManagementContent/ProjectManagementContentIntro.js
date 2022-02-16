@@ -243,7 +243,6 @@ function ProjectManagementContentIntro() {
       })
         .then((response) => {
           console.log("성공");
-          console.log(response.data);
           window.location.reload(true);
         })
         .catch((error) => {
@@ -283,7 +282,7 @@ function ProjectManagementContentIntro() {
   useEffect(() => {
     getCategories();
     getProject();
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   }, []);
 
   return (
