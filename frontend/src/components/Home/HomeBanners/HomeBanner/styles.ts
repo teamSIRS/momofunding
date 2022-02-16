@@ -8,6 +8,9 @@ export const StyledImg = styled.img`
   left: 0;
   height: 100%;
   width: 100%;
+  object-fit: cover;
+  object-position: center;
+  min-width: 100vw;
 `;
 
 export const BannerBox = styled.div`

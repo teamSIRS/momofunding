@@ -37,11 +37,20 @@ const FundingContentAddInput = styled.input`
 `;
 
 // content - 후원자 정보
-const FundingContentInfoBox = styled.div``;
+const FundingContentInfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 120%;
+  height: auto;
+`;
 const FundingContentInfoTitle = styled(FundingContentAddTitle)``;
-const FundingContentInfoInputBox = styled(FundingContentAddInputBox)``;
+const FundingContentInfoInputBox = styled(FundingContentAddInputBox)`
+  display: flex;
+`;
 const FundingContentInfoLabel = styled(FundingContentAddLabel)``;
-const FundingContentInfoInput = styled(FundingContentAddInput)``;
+const FundingContentInfoInput = styled(FundingContentAddInput)`
+  width: 250px;
+`;
 
 // content - 결제 정보
 const FundingContentPayBox = styled.div``;
@@ -112,8 +121,10 @@ export const FundingContent = (props) => {
   return (
   <Content sm={8}>
     <FundingContentBox>
+
       <FundingContentAddBox>
         <FundingContentAddTitle>후원금 추가</FundingContentAddTitle>
+        
         <FundingContentAddInputBox>
           <FundingContentAddLabel as={"label"}>
             추가 금액
@@ -124,9 +135,13 @@ export const FundingContent = (props) => {
             value = {extra}
           ></FundingContentAddInput>
         </FundingContentAddInputBox>
+
       </FundingContentAddBox>
+
+
       <FundingContentInfoBox>
         <FundingContentInfoTitle>후원자 정보</FundingContentInfoTitle>
+        
         <FundingContentInfoInputBox>
           <FundingContentInfoLabel as={"label"}>이름</FundingContentInfoLabel>
           <FundingContentInfoInput as={"input"}
@@ -134,6 +149,7 @@ export const FundingContent = (props) => {
             value = {name}
           ></FundingContentInfoInput>
         </FundingContentInfoInputBox>
+        
         <FundingContentInfoInputBox>
           <FundingContentInfoLabel as={"label"}>연락처</FundingContentInfoLabel>
           <FundingContentInfoInput as={"input"}
@@ -141,16 +157,20 @@ export const FundingContent = (props) => {
             value = {tel}
           ></FundingContentInfoInput>
         </FundingContentInfoInputBox>
+
         { props.isDeliver
         ?
-          <FundingContentInfoInputBox>
-            <FundingContentInfoLabel as={"label"}>배송지</FundingContentInfoLabel>
-            <FundingContentInfoInput
-              as={"input"}
-              style={styles.input}
-              onChange={e => setShippingAddr(e.target.value)}
-              value={shippingAddr}
-            ></FundingContentInfoInput>
+          <>
+            <FundingContentInfoInputBox>
+              <FundingContentInfoLabel as={"label"}>배송지</FundingContentInfoLabel>
+              <FundingContentInfoInput
+                as={"input"}
+                style={styles.input}
+                onChange={e => setShippingAddr(e.target.value)}
+                value={shippingAddr}
+              ></FundingContentInfoInput>
+            </FundingContentInfoInputBox>
+
             <FundingContentInfoInputBox>
             <FundingContentInfoLabel as={"label"}>요청사항</FundingContentInfoLabel>
             <FundingContentInfoInput
@@ -160,7 +180,8 @@ export const FundingContent = (props) => {
               value = {request}
             ></FundingContentInfoInput>
             </FundingContentInfoInputBox>
-          </FundingContentInfoInputBox>
+          </>
+          
         :null
         }
         <FundingContentInfoInputBox>
@@ -173,6 +194,7 @@ export const FundingContent = (props) => {
           ></FundingContentInfoInput>
         </FundingContentInfoInputBox>
       </FundingContentInfoBox>
+
 
       <FundingContentPayBox>
         <FundingContentPayTitle>결제 정보</FundingContentPayTitle>
