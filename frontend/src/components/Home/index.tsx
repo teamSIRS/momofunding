@@ -60,9 +60,6 @@ const Home = () => {
           <h2>
             <b>
               지금 핫한 인기 라이브🔥
-              <Icon>
-                <FontAwesomeIcon icon={faHeadset} />
-              </Icon>
             </b>
           </h2>
           {isExist ? (

@@ -6,7 +6,7 @@ import SurveyBasic from "./Survey/SurveyBasic";
 import SurveyEdit from "./Survey/SurveyEdit";
 import MySponsor from "./Sponsor/MySponsor";
 import SurveyAdd from "../ProfileMyPage/SurveyAdd";
-import ProjectSponsorList from "./Sponsor/SponsorList";
+import ProjectSponsorList from "./Sponsor/ProjectSponsorList";
 import { baseUrl } from "../../../App";
 import {
   Body,
@@ -197,9 +197,6 @@ function MyProjectDetail() {
 
               {/* 추가 */}
               <SurveyAdd surveys={surveys} Survey={Survey}></SurveyAdd>
-
-              {/* 결과 */}
-              <SurveyResult></SurveyResult>
 
               {isEdit ? (
                 <SurveyEditText

@@ -38,9 +38,6 @@ export const HomeFundings = () => {
     <Container>
       <h2>
         <b>인기 펀딩 목록💵</b>
-        <Icon>
-          <FontAwesomeIcon icon={faCoins} />
-        </Icon>
       </h2>
       <br />
       <Row md={1} lg={2} className="g-4">
