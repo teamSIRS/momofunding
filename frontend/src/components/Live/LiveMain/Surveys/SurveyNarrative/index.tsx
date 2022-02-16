@@ -2,10 +2,6 @@ import { ChangeEventHandler, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { surveySubmitStates } from "..";
 import { userIdState } from "../../../../../atoms";
-import {
-  TextArea,
-  TextAreaWrapper,
-} from "../../../../ProjectDetail/ProjectContent/ProjectCommunity/PjCommunityQnA/PjCommunityInput/styles";
 import { SurveyFormWrapper, SurveyText, SurveyTextWrapper } from "../styles";
 
 type SurveyNarrativeProps = {
@@ -25,7 +21,7 @@ const SurveyNarrative = ({ surveyQuestionId, q_idx }: SurveyNarrativeProps) => {
     const data = {
       surveyQuestionId: surveyQuestionId,
       userId: userId,
-      questionSelectId: 0,
+      questionSelectId: null,
       content: answer,
     };
     let updated = [...states];

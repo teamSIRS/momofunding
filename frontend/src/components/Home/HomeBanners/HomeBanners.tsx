@@ -42,7 +42,7 @@ export const HomeBanners = () => {
   return (
     <BannerCarousel>
       {apis.map((api, idx) => (
-        <BannerCarouselItem key={idx} onClick={GoToPjt(api.id)}>
+        <BannerCarouselItem key={idx} onClick={() => GoToPjt(api.id)}>
           <HomeBanner
             index={idx}
             title={api.title}
