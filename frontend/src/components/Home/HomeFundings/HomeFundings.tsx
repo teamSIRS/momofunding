@@ -6,9 +6,12 @@ import { baseUrl } from "../../../App";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { faCoins } from "@fortawesome/free-solid-svg-icons";
 const Icon = styled.span`
   margin-left: 20px;
+`;
+
+const HomeFundingsMain = styled.div`
+  margin-bottom: 60px;
 `;
 
 export const HomeFundings = () => {
@@ -35,39 +38,41 @@ export const HomeFundings = () => {
   }, []);
 
   return (
-    <Container>
-      <h2>
-        <b>
-          인기 펀딩 목록<Icon>💵</Icon>
-        </b>
-      </h2>
-      <br />
-      <Row md={1} lg={2} className="g-4">
-        <Col>
-          <HomeFundingCard
-            progress={projectLarge.popularity + "% 진행 중!"}
-            title={projectLarge.projectName}
-            imgSrc={projectLarge.subImageUrl}
-            projectPath={"projects/" + projectLarge.id}
-            isLive={projectLarge.isLivePlaying}
-            height={"300px"}
-            width={"450px"}
-          ></HomeFundingCard>
-        </Col>
-        <Col>
-          {projectSmall.map((project, idx) => (
+    <HomeFundingsMain>
+      <Container>
+        <h2>
+          <b>
+            인기 펀딩 목록<Icon>💵</Icon>
+          </b>
+        </h2>
+        <br />
+        <Row md={1} lg={2} className="g-4">
+          <Col>
             <HomeFundingCard
-              key={idx}
-              title={project.projectName}
-              imgSrc={project.subImageUrl}
-              projectPath={"projects/" + project.id}
-              isLive={project.isLivePlaying}
-              height={"145px"}
+              progress={projectLarge.popularity + "% 진행 중!"}
+              title={projectLarge.projectName}
+              imgSrc={projectLarge.subImageUrl}
+              projectPath={"projects/" + projectLarge.id}
+              isLive={projectLarge.isLivePlaying}
+              height={"300px"}
               width={"450px"}
-            />
-          ))}
-        </Col>
-      </Row>
-    </Container>
+            ></HomeFundingCard>
+          </Col>
+          <Col>
+            {projectSmall.map((project, idx) => (
+              <HomeFundingCard
+                key={idx}
+                title={project.projectName}
+                imgSrc={project.subImageUrl}
+                projectPath={"projects/" + project.id}
+                isLive={project.isLivePlaying}
+                height={"145px"}
+                width={"450px"}
+              />
+            ))}
+          </Col>
+        </Row>
+      </Container>
+    </HomeFundingsMain>
   );
 };

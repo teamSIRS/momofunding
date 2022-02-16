@@ -9,8 +9,9 @@ const FooterMain = styled.footer`
   align-items: center;
   justify-content: space-evenly;
   flex-wrap: nowrap;
-  bottom: 0px;
-  margin-top: 150px;
+  bottom: 0;
+
+  /* margin-top: 150px; */
   /* position: fixed; */
 `;
 
