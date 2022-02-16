@@ -5,7 +5,7 @@ import { baseUrl } from "../../../../App";
 import { sessionState } from "../../LiveAtoms";
 import { ChatProps } from "../Chat";
 import { ChatTop } from "../Chat/styles";
-import { authorizationState, submitState } from "../LiveMain";
+import { authorizationState, surveySubmitState } from "../LiveMain";
 import {
   SurveyBody,
   SurveyCreatorMsgBox,
@@ -75,7 +75,7 @@ export const surveyApiState = atom({
   default: defaultApi,
 });
 
-export const submitStates = atom({
+export const surveySubmitStates = atom({
   key: "submitStates",
   default: [] as boolean[],
 });
@@ -83,7 +83,7 @@ export const submitStates = atom({
 const submitConfirm = selector({
   key: "submitConfirm",
   get: ({ get }) => {
-    const states = get(submitStates);
+    const states = get(surveySubmitStates);
     let allConfirmed = true;
     states?.forEach((isSubmitted) => {
       if (!isSubmitted) allConfirmed = false;
@@ -93,9 +93,9 @@ const submitConfirm = selector({
 });
 
 const Survey = ({ show }: ChatProps) => {
-  const [surveyState, _0] = useRecoilState(submitState);
+  const [surveyState, _0] = useRecoilState(surveySubmitState);
   const [isStaff, _1] = useRecoilState(authorizationState);
-  const [questionStates, setQstates] = useRecoilState(submitStates);
+  const [questionStates, setQstates] = useRecoilState(surveySubmitStates);
   const submitAllDone = useRecoilValue(submitConfirm);
   const [surveyApi, setSurveyApi] = useRecoilState(surveyApiState);
   const [recoilSession, setSession] = useRecoilState(sessionState);
@@ -122,9 +122,16 @@ const Survey = ({ show }: ChatProps) => {
   };
 
   useEffect(() => {
+    console.log("survey now:", curSurvey);
+    console.log("survey state:", surveyState);
     getSurveyInfo();
     console.log(surveyApi);
-  }, []);
+  }, [curSurvey]);
+
+  // useEffect(() => {
+  //   console.log("survey now:", curSurvey);
+  //   console.log("survey state:", surveyState);
+  // }, [surveyState]);
 
   return (
     <SurveyWrapper className={show ? "hide" : ""}>

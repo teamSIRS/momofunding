@@ -1,6 +1,6 @@
 import { ChangeEventHandler, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { submitStates } from "..";
+import { surveySubmitStates } from "..";
 import {
   SurveyChoiceInput,
   SurveyChoiceLabel,
@@ -16,7 +16,7 @@ const defaultChoice = -1;
 
 const SurveyChoice = ({ q_idx, choose }: SurveyChoiceProps) => {
   const [check, setCheck] = useState(defaultChoice);
-  const [states, setStates] = useRecoilState(submitStates);
+  const [states, setStates] = useRecoilState(surveySubmitStates);
 
   const isChecked = (target: number): boolean => target === check;
   const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -33,7 +33,7 @@ const SurveyChoice = ({ q_idx, choose }: SurveyChoiceProps) => {
 
   useEffect(onUpdate, [check]);
   return (
-    <SurveyFormWrapper>
+    <SurveyFormWrapper onSubmit={() => console.log(q_idx, "나를 제출했음")}>
       {choose?.map((choice, idx) => (
         <SurveyChoiceLabel
           htmlFor={q_idx + "-" + idx}
