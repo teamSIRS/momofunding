@@ -170,7 +170,7 @@ function PayCard({ props }) {
           <Space></Space>
           <SubTotalPrice>{props.extra}원</SubTotalPrice>
         </SubTop>
-        <hr/>
+        <hr />
         <Top>
           <Title>최종 후원 금액</Title>
           <Space />
