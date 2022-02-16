@@ -3,17 +3,17 @@ package com.ssafy.momofunding.domain.surveyanswer.controller;
 import com.ssafy.momofunding.domain.surveyanswer.dto.SurveyAnswerSaveRequestDto;
 import com.ssafy.momofunding.domain.surveyanswer.service.SurveyAnswerService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @Tag(name = "Survey Answer API")
 @RequiredArgsConstructor
@@ -28,7 +28,8 @@ public class SurveyAnswerApiController {
     )
     @PostMapping("")
     public ResponseEntity saveSurveyAnswer(@RequestBody SurveyAnswerSaveRequestDto saveRequestDto) {
-
+        System.out.println("받긴 받아?");
+        System.out.println(saveRequestDto.toString());
         Map<String, Object> responseMap = new HashMap<>();
         try {
             Long surveyAnswerId = surveyAnswerService.saveSurveyAnswer(saveRequestDto);
