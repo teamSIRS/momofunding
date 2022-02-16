@@ -128,7 +128,7 @@ const Survey = ({ show }: ChatProps) => {
     questionStates.map((answer, idx) => {
       console.log(answer);
       axios({
-        url: `/lives`,
+        url: `/survey-answers`,
         method: "post",
         baseURL: `${baseUrl}`,
         headers: setAuthorizationToken(),
