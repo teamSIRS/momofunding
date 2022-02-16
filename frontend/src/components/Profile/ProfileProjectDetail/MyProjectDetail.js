@@ -174,7 +174,7 @@ function MyProjectDetail() {
           <ManageBtn>
             <button onClick={goToManagePjt}>프로젝트 관리</button>
           </ManageBtn>
-          <ToNewLiveLink onClick={onClickPersistParam} to={`/lives/new`}>
+          <ToNewLiveLink to={`/lives/new/${id}`}>
             <LiveBtn>라이브 켜기</LiveBtn>
           </ToNewLiveLink>
           <DeleteBtn>

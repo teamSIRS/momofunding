@@ -76,7 +76,6 @@ const msgType = {
 
 export const RTCRenderer = () => {
   const [isStaff, setIsStaff] = useRecoilState(authorizationState);
-  // const [isCreated, setIsCreated] = useState(false);
   const [camActive, setCamActive] = useRecoilState(camState);
   const [micActive, setMicActive] = useRecoilState(micState);
   const [publisher, setPublisher] = useState(pubType);
@@ -88,14 +87,16 @@ export const RTCRenderer = () => {
   const [content, setContent] = useState("");
   const [messages, setMessages] = useRecoilState(msgsState);
   const [sessionIdToServer, setSessionId] = useState("");
-  const [pjtId, _] = useRecoilState(pjtIdState);
+  const [pjtId, setProjectId] = useRecoilState(pjtIdState);
   const setSurveySubmit = useSetRecoilState(surveySubmitState);
   const [liveId, setLiveID] = useState("default");
   let session = sessionType;
   let isCreated = false;
   let sessionId;
 
-  const userSideSessionId = useParams().id;
+  const params = useParams();
+  const userSideSessionId = params.sessionId;
+  const projectId = params.projectId;
   const staffSideSessionId = useRecoilValue(sessionIdSelector);
 
   const onCamClick = () => {
@@ -251,6 +252,13 @@ export const RTCRenderer = () => {
     session.disconnect();
   };
 
+  const cleanUp = () => {
+    setTitle("");
+    setContent("");
+    leaveSession();
+    setPublisher(pubType);
+  };
+
   useEffect(() => {
     console.log("isStaff changed to:", isStaff);
     console.log("isCreated:", isCreated);
@@ -266,7 +274,7 @@ export const RTCRenderer = () => {
       setIsSubmitted(true);
       setIsStaff(false);
     }
-
+    setProjectId(projectId);
     setSessionId(sessionId);
     console.log("session id: ", sessionId);
     setTimeout(() => {
@@ -275,7 +283,7 @@ export const RTCRenderer = () => {
     }, 2000);
 
     return () => {
-      leaveSession();
+      cleanUp();
     };
   }, []);
 
@@ -335,11 +343,12 @@ export const RTCRenderer = () => {
     event.preventDefault();
     let category;
     await axios({
-      url: `/projects/${pjtId}`,
+      url: `/projects/${projectId}`,
       method: "get",
       baseURL: baseUrl,
     })
       .then((response) => {
+        console.log("PJT DATA:", response.data);
         category = response.data.projectCategoryId;
       })
       .catch((err) => {
@@ -349,7 +358,7 @@ export const RTCRenderer = () => {
     const data = {
       title: title,
       content: content,
-      projectId: pjtId,
+      projectId: projectId,
       projectCategoryId: category,
       sessionId: sessionIdToServer,
     };
