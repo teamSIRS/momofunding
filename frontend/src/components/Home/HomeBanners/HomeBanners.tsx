@@ -30,11 +30,20 @@ export const HomeBanners = () => {
 
   const navigate = useNavigate();
   const GoToPjt = (idx: string) => {
-    console.log("dd");
-    console.log(idx);
+    if (idx == "1") {
+      navigate("/projects/12");
+    } else if (idx === "2") {
+      navigate("/projects/14");
+    } else {
+      navigate("/projects/17");
+    }
   };
 
-  const BannerCarouselItem = styled(Carousel.Item)``;
+  const BannerCarouselItem = styled(Carousel.Item)`
+    &: hover {
+      cursor: pointer;
+    }
+  `;
 
   const BannerCarousel = styled(Carousel)`
     min-width: 820px;
