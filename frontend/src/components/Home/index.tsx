@@ -18,6 +18,10 @@ const StyledStack = styled(ListGroup)`
   margin: 30px 0px;
 `;
 
+const HomeMain = styled.div`
+  background-color: whitesmoke;
+`;
+
 const Home = () => {
   const [lives, setLives] = useState<any[]>([""]);
   const [isExist, setIsExist] = useState<boolean>(true);
@@ -45,32 +49,36 @@ const Home = () => {
   return (
     <>
       <HomeBanners />
-      <Container>
-        <br />
-        <br />
-        <br />
-        <h2>지금 핫한 인기 라이브</h2>
-        {isExist ? (
-          <StyledStack horizontal>
-            {lives.map((live, idx) => (
-              <Link
-                to={`/lives/${live.sessionId}`}
-                style={{ float: "left", marginLeft: 10, marginRight: 10 }}
-              >
-                <HomeLiveCard
-                  key={idx}
-                  idx={idx}
-                  title={live.title}
-                  viewer={live.viewerCount}
-                  subImg={live.subImageUrl}
-                />
-              </Link>
-            ))}
-          </StyledStack>
-        ) : (
-          <NoneExist ment="진행 중인 라이브" />
-        )}
-      </Container>
+      <HomeMain>
+        <Container>
+          <br />
+          <br />
+          <br />
+          <h2>
+            <b>지금 핫한 인기 라이브</b>
+          </h2>
+          {isExist ? (
+            <StyledStack horizontal>
+              {lives.map((live, idx) => (
+                <Link
+                  to={`/lives/${live.sessionId}`}
+                  style={{ float: "left", marginLeft: 10, marginRight: 10 }}
+                >
+                  <HomeLiveCard
+                    key={idx}
+                    idx={idx}
+                    title={live.title}
+                    viewer={live.viewerCount}
+                    subImg={live.subImageUrl}
+                  />
+                </Link>
+              ))}
+            </StyledStack>
+          ) : (
+            <NoneExist ment="진행 중인 라이브" />
+          )}
+        </Container>
+      </HomeMain>
       <HomeFundings />
     </>
   );

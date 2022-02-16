@@ -79,6 +79,8 @@ export const ManageBtn = styled.div`
 
 export const LiveBtn = styled(ManageBtn)`
   background-color: red;
+  &:hover {
+    color: #c4c4c4;
 `;
 
 export const ToNewLiveLink = styled(Link)`
