@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import setAuthorizationToken from "../../../../atoms";
 import { baseUrl } from "../../../../App";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
 const ProjectManagementMain = styled.div`
   width: 100%;
@@ -106,7 +106,7 @@ function MyProjectManagementStory() {
     {
       id: 0,
       name: "선택하세요",
-    }
+    },
   ];
   const [categories, setCategories] = useState([""]);
 
@@ -129,19 +129,19 @@ function MyProjectManagementStory() {
   const onMainImageUrlChange = (event) => {
     const tempImg = event.target.files[0];
     var reader = new FileReader();
-    reader.onload = function(e){
+    reader.onload = function (e) {
       setMainImageUrl(e.target.result);
     };
     reader.readAsDataURL(tempImg);
-  }
+  };
   const onSubImageUrlChange = (event) => {
     const tempImg = event.target.files[0];
     var reader = new FileReader();
-    reader.onload = function(e){
+    reader.onload = function (e) {
       setSubImageUrl(e.target.result);
     };
     reader.readAsDataURL(tempImg);
-  }
+  };
   const onSummaryChange = (event) => setSummary(event.target.value);
   const onProjectContentChange = (event) =>
     setProjectContent(event.target.value);
@@ -154,19 +154,19 @@ function MyProjectManagementStory() {
   const { id } = useParams();
   //////////////////////////////////////////////////////////////////////
   function getCategories() {
-    const getCategories = async() => {
+    const getCategories = async () => {
       await axios({
         url: `/categories/`,
         method: "get",
         baseURL: baseUrl,
       })
         .then((response) => {
-          setCategories([...nonCategory, ...response.data])
+          setCategories([...nonCategory, ...response.data]);
         })
         .catch((error) => {
           console.log(error);
         });
-    }
+    };
     getCategories();
   }
   // get으로 사용자의 기존정보를 불러오기
@@ -188,9 +188,12 @@ function MyProjectManagementStory() {
           setSubImageUrl(response.data.subImageUrl);
           setSummary(response.data.summary);
           setProjectContent(response.data.projectContent);
-          if(response.data.expirationDate != null){
+          if (response.data.expirationDate != null) {
             setExpirationDate(response.data.expirationDate.slice(0, 10));
-            setValue("expirationDate", response.data.expirationDate.slice(0, 10));
+            setValue(
+              "expirationDate",
+              response.data.expirationDate.slice(0, 10)
+            );
           }
 
           console.log("프로젝트 상태");
@@ -231,7 +234,7 @@ function MyProjectManagementStory() {
       subImageUrl: subImageUrl.slice(0, 500),
       summary: summary,
       projectContent: projectContent,
-      expirationDate: expirationDate+"T12:00:00",
+      expirationDate: expirationDate + "T12:00:00",
     };
 
     const form = formRef[0];
@@ -269,22 +272,26 @@ function MyProjectManagementStory() {
   //////////////////////////////////////////////////////////////////////
   const checkForm = (data) => {
     var canUpdate = true;
-    if(data.projectCategoryId == 0){
+    if (data.projectCategoryId == 0) {
       setError("projectCategoryId", { message: "카테고리 선택은 필수입니다." });
       canUpdate = false;
     }
-    if(mainImageUrl ===""){
+    if (data.fundingGoal <= 0) {
+      setError("fundingGoal", { message: "목표금액은 0원 이상입니다." });
+      canUpdate = false;
+    }
+    if (mainImageUrl === "") {
       setError("mainFile", { message: "대표 사진은 필수입니다." });
       canUpdate = false;
     }
-    if(subImageUrl ===""){
+    if (subImageUrl === "") {
       setError("subFile", { message: "소개 사진은 필수입니다." });
       canUpdate = false;
     }
     return canUpdate;
   };
   const onValid = (data) => {
-    if(!(checkForm(data))) {
+    if (!checkForm(data)) {
       swal("프로젝트를 저장할 수 없어요! 다시 한 번 입력값을 확인해주세요.");
       window.scrollTo(0, 0);
       return;
@@ -342,13 +349,11 @@ function MyProjectManagementStory() {
               value={projectCategoryId}
               onChange={onProjectCategoryIdChange}
             >
-              {
-                categories.map((category, idx) => (
-                  <option value={category.id} key={idx}>
-                    {category.name}
-                  </option>
-                ))
-              }
+              {categories.map((category, idx) => (
+                <option value={category.id} key={idx}>
+                  {category.name}
+                </option>
+              ))}
             </select>
             <ErrorMsg>{errors?.projectCategoryId?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
@@ -368,7 +373,7 @@ function MyProjectManagementStory() {
               value={fundingGoal}
               onChange={onFundingGoalChange}
             />
-            <ErrorMsg>{errors?.goal?.message}</ErrorMsg>
+            <ErrorMsg>{errors?.fundingGoal?.message}</ErrorMsg>
           </ProjectManagementContentInputBox>
 
           <ProjectManagementContentInputBox>
