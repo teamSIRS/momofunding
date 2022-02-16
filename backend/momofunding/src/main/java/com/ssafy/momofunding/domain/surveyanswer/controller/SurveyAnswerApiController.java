@@ -28,8 +28,7 @@ public class SurveyAnswerApiController {
     )
     @PostMapping("")
     public ResponseEntity saveSurveyAnswer(@RequestBody SurveyAnswerSaveRequestDto saveRequestDto) {
-        System.out.println("받긴 받아?");
-        System.out.println(saveRequestDto.toString());
+
         Map<String, Object> responseMap = new HashMap<>();
         try {
             Long surveyAnswerId = surveyAnswerService.saveSurveyAnswer(saveRequestDto);
