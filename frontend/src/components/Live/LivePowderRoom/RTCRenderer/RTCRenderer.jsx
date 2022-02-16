@@ -38,7 +38,7 @@ import LiveMain from "../../LiveMain";
 import setAuthorizationToken, { userIdState } from "../../../../atoms";
 import { SelectedSurveyState } from "../../LiveMain/Surveys/SurveyList/SurveyList";
 import { useParams } from "react-router-dom";
-import { authorizationState } from "../../LiveMain/LiveMain";
+import { authorizationState, surveySubmitState } from "../../LiveMain/LiveMain";
 
 const OPENVIDU_SERVER_URL = "https://i6a202.p.ssafy.io:4431";
 const OPENVIDU_SERVER_SECRET = "9793";
@@ -84,6 +84,8 @@ export const RTCRenderer = () => {
   const [messages, setMessages] = useRecoilState(msgsState);
   const [sessionIdToServer, setSessionId] = useState("");
   const [pjtId, _] = useRecoilState(pjtIdState);
+  const [isSurveySubmitted, setSurveySubmit] =
+    useRecoilState(surveySubmitState);
 
   let session = sessionType;
   let isCreated = false;
@@ -125,6 +127,7 @@ export const RTCRenderer = () => {
         })
         .then((response) => {
           console.log("CREATE SESION", response);
+          setSurveySubmit(true);
           resolve(response.data.id);
         })
         .catch((response) => {
@@ -212,6 +215,11 @@ export const RTCRenderer = () => {
       setMessage(data);
     });
 
+    session.on("signal:survey-id", (event) => {
+      console.log("received this:", event.data);
+      setCurSurvey(Number(event.data));
+    });
+
     getToken(sessionId).then((token) => {
       session
         .connect(token)
@@ -254,6 +262,7 @@ export const RTCRenderer = () => {
       setIsSubmitted(true);
       setIsStaff(false);
     }
+
     setSessionId(sessionId);
     console.log("session id: ", sessionId);
     setTimeout(() => {
@@ -283,10 +292,7 @@ export const RTCRenderer = () => {
 
   // survey 관련
   useEffect(() => {
-    console.log("curSurvey changed!");
-    session.on(`signal:${curSurvey}`, (e) => {
-      console.log(e.data);
-    });
+    console.log("curSurvey changed to:", curSurvey);
   }, [curSurvey]);
 
   const onTitleChange = (event) => {
@@ -338,26 +344,9 @@ export const RTCRenderer = () => {
       });
   };
 
-  const aaa = async () => {
-    let category;
-    await axios({
-      url: `/projects/${pjtId}`,
-      method: "get",
-      baseURL: baseUrl,
-    })
-      .then((response) => {
-        category = response.data.projectCategoryId;
-        console.log(category);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   return (
     <RendererWrapper>
       <TestVideoWrapper
-        onClick={aaa}
         className={!isSubmitted ? "powderRoom" : "main"}
         id="creatorVideo"
       ></TestVideoWrapper>

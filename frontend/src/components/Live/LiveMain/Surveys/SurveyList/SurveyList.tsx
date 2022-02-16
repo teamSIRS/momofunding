@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { atom, useRecoilState } from "recoil";
 import { baseUrl } from "../../../../../App";
+import { sessionState } from "../../../LiveAtoms";
 import { SurveyItemWrapper, SurveyListWrapper } from "./styles";
 
 // tmp
@@ -21,7 +22,7 @@ export const SelectedSurveyState = atom({
 
 export const SurveyList = () => {
   const [surveys, setSurveys] = useState([] as surveysProp[]);
-  const [_, setCurSurvey] = useRecoilState(SelectedSurveyState);
+  const [session, setSession] = useRecoilState(sessionState);
   const getSurveyList = async () => {
     await axios({
       url: `/surveys/projects/${projectId}`,
@@ -38,6 +39,7 @@ export const SurveyList = () => {
   // constructor
   useEffect(() => {
     getSurveyList();
+    console.log("surveys:", surveys);
   }, []);
 
   return (
@@ -47,7 +49,7 @@ export const SurveyList = () => {
           key={idx}
           onClick={() => {
             console.log(survey.id, "clicked!");
-            setCurSurvey(survey.id);
+            session.signal({ data: `${survey.id}`, to: [], type: "survey-id" });
           }}
         >
           {survey.title}
