@@ -7,8 +7,9 @@ import HomeFundings from "./HomeFundings";
 import { NoneExist } from "./HomeLiveCards/HomeLiveCard/NoneExist";
 import { HomeLiveCard } from "./HomeLiveCards/HomeLiveCard/HomeLiveCard";
 import { baseUrl } from "../../App";
-import { Link, Navigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeadset } from "@fortawesome/free-solid-svg-icons";
 const StyledStack = styled(ListGroup)`
   display: flex;
   height: 18rem;
@@ -20,6 +21,10 @@ const StyledStack = styled(ListGroup)`
 
 const HomeMain = styled.div`
   background-color: whitesmoke;
+`;
+
+const Icon = styled.span`
+  margin-left: 20px;
 `;
 
 const Home = () => {
@@ -52,10 +57,13 @@ const Home = () => {
       <HomeMain>
         <Container>
           <br />
-          <br />
-          <br />
           <h2>
-            <b>지금 핫한 인기 라이브</b>
+            <b>
+              지금 핫한 인기 라이브🔥
+              <Icon>
+                <FontAwesomeIcon icon={faHeadset} />
+              </Icon>
+            </b>
           </h2>
           {isExist ? (
             <StyledStack horizontal>

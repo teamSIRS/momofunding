@@ -4,6 +4,12 @@ import { Col, Container, Row } from "react-bootstrap";
 import HomeFundingCard from "./HomeFundingCard";
 import { baseUrl } from "../../../App";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { faCoins } from "@fortawesome/free-solid-svg-icons";
+const Icon = styled.span`
+  margin-left: 20px;
+`;
 
 export const HomeFundings = () => {
   const [projectLarge, setProjectLarge] = useState<any>("");
@@ -31,7 +37,10 @@ export const HomeFundings = () => {
   return (
     <Container>
       <h2>
-        <b>인기 펀딩 목록</b>
+        <b>인기 펀딩 목록💵</b>
+        <Icon>
+          <FontAwesomeIcon icon={faCoins} />
+        </Icon>
       </h2>
       <br />
       <Row md={1} lg={2} className="g-4">

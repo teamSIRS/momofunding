@@ -1,9 +1,10 @@
 import { Col, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
+import { MomoWeakColor } from "../../shared/global";
 
 const FooterMain = styled.footer`
   width: 100%;
-  background-color: #f7f7f7;
+  background-color: ${MomoWeakColor};
   display: flex;
   align-items: center;
   justify-content: space-evenly;
