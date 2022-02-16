@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 export const Body = styled.div`
   display: flex;
   padding: 50px;
+  width: 85%;
+  margin: auto;
 `;
 
 export const ProjectBox = styled.div`
