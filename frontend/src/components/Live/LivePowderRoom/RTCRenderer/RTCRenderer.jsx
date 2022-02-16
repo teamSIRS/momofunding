@@ -32,7 +32,12 @@ import {
   sessionState,
   titleState,
 } from "../../LiveAtoms";
-import { selector, useRecoilState, useRecoilValue } from "recoil";
+import {
+  selector,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 import { baseUrl } from "../../../../App";
 import LiveMain from "../../LiveMain";
 import setAuthorizationToken, { userIdState } from "../../../../atoms";
@@ -76,7 +81,7 @@ export const RTCRenderer = () => {
   const [micActive, setMicActive] = useRecoilState(micState);
   const [publisher, setPublisher] = useState(pubType);
   const [message, setMessage] = useState(msgType);
-  const [recoilSession, setSession] = useRecoilState(sessionState);
+  const setSession = useSetRecoilState(sessionState);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [title, setTitle] = useRecoilState(titleState);
   const [curSurvey, setCurSurvey] = useRecoilState(SelectedSurveyState);
@@ -84,9 +89,8 @@ export const RTCRenderer = () => {
   const [messages, setMessages] = useRecoilState(msgsState);
   const [sessionIdToServer, setSessionId] = useState("");
   const [pjtId, _] = useRecoilState(pjtIdState);
-  const [isSurveySubmitted, setSurveySubmit] =
-    useRecoilState(surveySubmitState);
-
+  const setSurveySubmit = useSetRecoilState(surveySubmitState);
+  const [liveId, setLiveID] = useState("default");
   let session = sessionType;
   let isCreated = false;
   let sessionId;
@@ -267,11 +271,12 @@ export const RTCRenderer = () => {
     console.log("session id: ", sessionId);
     setTimeout(() => {
       console.log("시작 : " + isStaff);
-      // setIsStaff(false);
       joinSession();
-    }, 5000);
+    }, 2000);
 
-    return () => leaveSession();
+    return () => {
+      leaveSession();
+    };
   }, []);
 
   // toggle 관련
@@ -295,12 +300,35 @@ export const RTCRenderer = () => {
     console.log("curSurvey changed to:", curSurvey);
   }, [curSurvey]);
 
+  useEffect(() => {
+    console.log("LIVE ID", liveId);
+    if (userSideSessionId === "new") {
+      return () => putEndLiveToServer();
+    }
+  }, [liveId]);
+
   const onTitleChange = (event) => {
     setTitle(event.target.value);
   };
 
   const onContentChange = (event) => {
     setContent(event.target.value);
+  };
+
+  const putEndLiveToServer = () => {
+    axios({
+      url: `/lives/${liveId}/endLive`,
+      method: "put",
+      baseURL: `${baseUrl}`,
+      headers: setAuthorizationToken(),
+    })
+      .then((response) => {
+        console.log("end request successfully done.");
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const onSubmit = async (event) => {
@@ -336,6 +364,7 @@ export const RTCRenderer = () => {
     })
       .then((response) => {
         console.log(response.data);
+        setLiveID(response.data.liveId);
         setIsSubmitted(true);
       })
       .catch((error) => {
