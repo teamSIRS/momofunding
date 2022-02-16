@@ -1,7 +1,8 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { FormEventHandler, useEffect } from "react";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import { baseUrl } from "../../../../App";
+import setAuthorizationToken from "../../../../atoms";
 import { sessionState } from "../../LiveAtoms";
 import { ChatProps } from "../Chat";
 import { ChatTop } from "../Chat/styles";
@@ -17,6 +18,7 @@ import {
   SurveyWrapper,
   SurveySubmitBtn,
 } from "./styles";
+import { SurveysNotExists, SurveyListWrapper } from "./SurveyList/styles";
 import SurveyChoice from "./SurveyChoice";
 import SurveyList from "./SurveyList";
 import { SelectedSurveyState } from "./SurveyList/SurveyList";
@@ -77,7 +79,7 @@ export const surveyApiState = atom({
 
 export const surveySubmitStates = atom({
   key: "submitStates",
-  default: [] as boolean[],
+  default: [] as any[],
 });
 
 const submitConfirm = selector({
@@ -113,25 +115,46 @@ const Survey = ({ show }: ChatProps) => {
         setSurveyApi(data);
         setQstates(
           data?.questions?.map((question, idx) => {
-            if (question.questionType.id === 1) return false;
-            return true;
+            if (question.questionType.id === 1) return 0;
+            return "";
           })
         );
       })
       .catch((error) => console.log(error));
   };
 
+  const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    console.log(questionStates);
+    questionStates.map((answer, idx) => {
+      console.log(answer);
+      axios({
+        url: `/survey-answers`,
+        method: "post",
+        baseURL: `${baseUrl}`,
+        headers: setAuthorizationToken(),
+        data: answer,
+      })
+        .then((response) => {
+          console.log("submit done!");
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  };
+
   useEffect(() => {
     console.log("survey now:", curSurvey);
     console.log("survey state:", surveyState);
-    getSurveyInfo();
+    if(curSurvey != 0) getSurveyInfo();
     console.log(surveyApi);
   }, [curSurvey]);
 
-  // useEffect(() => {
-  //   console.log("survey now:", curSurvey);
-  //   console.log("survey state:", surveyState);
-  // }, [surveyState]);
+  useEffect(() => {
+    console.log(questionStates);
+  }, [questionStates]);
 
   return (
     <SurveyWrapper className={show ? "hide" : ""}>
@@ -158,29 +181,48 @@ const Survey = ({ show }: ChatProps) => {
             <h4>{isStaff ? <SurveyList /> : thankYouMessage}</h4>
           </>
         ) : (
-          <div>
-            {surveyApi?.questions?.map((question, idx) => (
-              <div key={idx}>
-                <SurveyCreatorMsgBox>
-                  Q{question.id}. {question.title}
-                </SurveyCreatorMsgBox>
-                <SurveyMessageBox
-                  className={
-                    questionStates[idx] ? "submitDone" : "submitUnDone"
-                  }
-                >
-                  {question.questionType.id === 1 ? (
-                    <SurveyChoice q_idx={idx} choose={question.selectIds} />
-                  ) : (
-                    <SurveyNarrative />
-                  )}
-                </SurveyMessageBox>
-              </div>
-            ))}
-          </div>
+          <>
+            { (curSurvey == -1) ?
+            ( 
+              <SurveyBody className={"done"}>
+                <SurveysNotExists>
+                  진행 중인 설문이 없습니다.
+                </SurveysNotExists>
+              </SurveyBody>
+            ):(
+              <div>
+              {surveyApi?.questions?.map((question, idx) => (
+                <div key={idx}>
+                  <SurveyCreatorMsgBox>
+                    Q{question.id}. {question.title}
+                  </SurveyCreatorMsgBox>
+                  <SurveyMessageBox
+                    className={
+                      questionStates[idx] ? "submitDone" : "submitUnDone"
+                    }
+                  >
+                    {question.questionType.id === 1 ? (
+                      <SurveyChoice
+                        surveyQuestionId={question.id}
+                        q_idx={idx}
+                        choose={question.selectIds}
+                      />
+                    ) : (
+                      <SurveyNarrative
+                        surveyQuestionId={question.id}
+                        q_idx={idx}
+                      />
+                    )}
+                  </SurveyMessageBox>
+                </div>
+              ))}
+            </div>
+            )
+          }
+          </>
         )}
       </SurveyBody>
-      <SurveyFooter>
+      <SurveyFooter onSubmit={onSubmit}>
         {surveyState ? (
           ""
         ) : (

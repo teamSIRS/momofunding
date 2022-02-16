@@ -110,7 +110,7 @@ function ProjectManagementProfile() {
   const [tel, setTel] = useState("");
   const [account, setAccount] = useState("");
 
-  const defaultMsg = baseUrl+"/creator/default.png";
+  const defaultMsg = baseUrl + "/creator/default.png";
   //////////////////////////////////////////////////////////////////////
   // onChangeEvent...
   const onCreatorNameChange = (event) => {
@@ -119,7 +119,7 @@ function ProjectManagementProfile() {
   const onCreatorImageUrlChange = (event) => {
     const tempImg = event.target.files[0];
     var reader = new FileReader();
-    reader.onload = function(e){
+    reader.onload = function (e) {
       setCreatorImageUrl(e.target.result);
     };
     reader.readAsDataURL(tempImg);
@@ -154,7 +154,6 @@ function ProjectManagementProfile() {
           }
           if (response.data.creatorImageUrl) {
             setCreatorImageUrl(response.data.creatorImageUrl);
-
           } else {
             setCreatorImageUrl(defaultMsg);
           }
@@ -242,7 +241,7 @@ function ProjectManagementProfile() {
 
   const onValid = (data) => {
     updateCreator();
-  }
+  };
 
   useEffect(() => {
     getCreator();

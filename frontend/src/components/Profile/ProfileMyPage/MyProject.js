@@ -9,6 +9,7 @@ const Container = styled.div`
   max-height: 280px;
   word-break: break-all;
   text-overflow: "...";
+  /* width: 85%; */
 `;
 
 const ProjectPic = styled.img`
