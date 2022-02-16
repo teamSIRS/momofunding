@@ -51,7 +51,7 @@ function SurveyResult({ surveyId }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {setShow(true); getResults();}
   const [data, setData] = useState("");
   const [questions, setQuestions] = useState([]);
   //////////////////////////////////////////////////////////////////////
@@ -76,9 +76,6 @@ function SurveyResult({ surveyId }) {
     getResults();
   }
 
-  useEffect(() => {
-    getResults();
-  }, []);
   return (
     <>
       <SurveyModalResultBtn onClick={handleShow}>결과보기</SurveyModalResultBtn>

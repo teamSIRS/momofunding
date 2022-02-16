@@ -40,6 +40,7 @@ function ProjectSponsorList(){
     }, []);
 
     const excelDownload = (columns) => {
+        if(sponsors.length===0) return;
         const ws = xlsx.utils.json_to_sheet(columns);
         const wb = xlsx.utils.book_new();
 
@@ -89,7 +90,6 @@ function ProjectSponsorList(){
                     }
                 </tbody>
             </table>
-            {/* <Btn onClick={() => excelDownload(sponsors)}>엑셀 파일 다운로드</Btn> */}
         </Container>
     );
 }

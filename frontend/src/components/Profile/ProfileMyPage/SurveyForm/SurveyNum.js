@@ -34,7 +34,7 @@ const SurveyNumInput = styled.div`
   }
 `;
 
-const MyBtn1 = styled.a`
+const MyBtn = styled.a`
   color: white;
   background: ${MomoColor};
   border-radius: 5px;
@@ -75,7 +75,6 @@ function SurveyNum({ surveyId, AddSurveyQuest}) {
       url: baseUrl+'/question-select',
       method: "post",
       data:{
-        surveyId: surveyId,
         surveyQuestionId: questionId,
         content: content,
       },
@@ -91,6 +90,7 @@ function SurveyNum({ surveyId, AddSurveyQuest}) {
   }
 
   //////////??여기 뭔가 잘못되..었을까요?모르겠
+  //설문조사 질문 받아옴
   const getQuestions = async() =>{
     await axios({
       url: baseUrl + '/surveys/' + surveyId,
@@ -98,7 +98,9 @@ function SurveyNum({ surveyId, AddSurveyQuest}) {
       headers: setAuthorizationToken(),
     })
     .then((res) =>{
-      console.log('ok', res.data.questions[0].id);
+      console.log(res.data.questions[res.data.questions.length-1]);
+      // console.log('ok', res.data.questions[0].id);
+      // console.log(res.data);
       setQuestionId(res.data.questions[0].id);
       // setInt(int+1);
     })
@@ -107,55 +109,48 @@ function SurveyNum({ surveyId, AddSurveyQuest}) {
     })
   }
 
-  const getSurvey = async(surveyId) => { //받아서 객관식 문항 리스트 뽑으려고
-    await axios.get(baseUrl + '/surveys/' + surveyId)
-    .then((res) =>{
-      console.log(res.data.questions);
-      // setQuestions(res.data.questions);
-    })
-    .catch((err) =>{
-      console.log(err);
-    })
-  }
 
-  const Test = async() =>{
-    await axios({
-      url: baseUrl + '/surveys/' + surveyId,
-      method: "get",
-      headers: setAuthorizationToken(),
-    })
-    .then((res) =>{
-      console.log(res.data);
-      // setQuestionId(res.data.questions[0].id);
-      // setInt(int+1);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }
+  // const getOk = async() =>{
+  //   await axios({
+  //     url: baseUrl + '/surveys/' + surveyId,
+  //     method: "get",
+  //     headers: setAuthorizationToken(),
+  //   })
+  //   .then((res) =>{
+  //     console.log(res.data);
+  //     // setQuestionId(res.data.questions[0].id);
+  //     // setInt(int+1);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   })
+  // }
 
   const [openContent, setOpenContent] = useState(false);
 
   const AddQuestion = (event) => {
     event.preventDefault();
-    AddSurveyQuest(surveyId, questionType, title);
+    AddSurveyQuest(surveyId, questionType, title); //서베이에 질문 추가
+    getQuestions();
     getQuestions();
     swal("질문이 등록되었습니다", "이제 문항을 등록해주세요");
     setOpenContent(true);
+    setContentList([]); //얘를 한번 지워서 try
   }
 
   const AddNumContent = () =>{
     // getSurvey(surveyId);
+    // getQuestions(); //얘가 있어서 안되나?
     AddSurveyNum();
     setContentList([...contentList, content]);
-    console.log(contentList);
+    // console.log(contentList);
     setContent("");
   }
 
   console.log()
   return (
     <div>
-      <p onClick={Test}>test</p>
+      <p onClick={getQuestions}>test</p>
       <SurveyNumLabel>[ 객관식 질문 등록 ]</SurveyNumLabel>
       <form onSubmit={handleSubmit(onQuestionValid)}>
         <SurveyNumInput>
@@ -165,7 +160,7 @@ function SurveyNum({ surveyId, AddSurveyQuest}) {
             onChange={(e) => {setTitle(e.target.value);}}
           />
         </SurveyNumInput>
-        <Button onClick={AddQuestion}>질문 등록</Button>
+        <MyBtn onClick={AddQuestion}>질문 등록</MyBtn>
       </form>
       <br/>
       {
@@ -182,7 +177,7 @@ function SurveyNum({ surveyId, AddSurveyQuest}) {
                   onChange={(e) => {setContent(e.target.value)}}
                 />
               </SurveyNumInput>
-              <MyBtn1 type="submit" onClick={AddNumContent}>문항 추가</MyBtn1>
+              <MyBtn type="submit" onClick={AddNumContent}>문항 추가</MyBtn>
             </form>
 
             <ContentListBox>
@@ -196,7 +191,6 @@ function SurveyNum({ surveyId, AddSurveyQuest}) {
         )
         : null
       }
-
     </div>
   );
 }

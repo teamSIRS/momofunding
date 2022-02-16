@@ -10,6 +10,7 @@ import { baseUrl } from "../../App";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeadset } from "@fortawesome/free-solid-svg-icons";
+
 const StyledStack = styled(ListGroup)`
   display: flex;
   height: 18rem;
@@ -65,7 +66,7 @@ const Home = () => {
           <br />
           <h2>
             <b>
-              지금 핫한 인기 라이브🔥
+              지금 핫한 인기 라이브<Icon>🔥</Icon>
             </b>
           </h2>
           {isExist ? (
