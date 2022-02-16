@@ -53,12 +53,6 @@ const DeleteBtn = styled(ManageBtn)`
   }
 `;
 
-const PjtManageBtn = styled.button`
-  &:hover {
-    color: #c4c4c4;
-    background-color: transparent;
-`;
-
 function MyProjectDetail() {
   const { id } = useParams();
   const setPjtId = useSetRecoilState(pjtIdState);
@@ -67,13 +61,6 @@ function MyProjectDetail() {
   const [surveys, setSurveys] = useState([{ id: 0, title: "test" }]);
   const [isSurvey, setIsSurvey] = useState(false);
   const [lives, setLives] = useState("");
-  const [sponsors, setSponsors] = useState([
-    {
-      id: 0,
-      pic: "https://image.newdaily.co.kr/site/data/img/2011/02/10/2011021000033_0.jpg",
-      name: "test",
-    },
-  ]);
 
   const Project = async () => {
     await axios
@@ -131,11 +118,11 @@ function MyProjectDetail() {
 
   const navigate = useNavigate();
   const goToManagePjt = () => {
-    if (project.projectStateId === 2) {
+    if(project.projectStateId === 2){
       swal("진행 중인 프로젝트는 수정할 수 없습니다!");
       return;
     }
-    if (project.projectStateId === 3) {
+    if(project.projectStateId === 3){
       swal("종료된 프로젝트는 수정할 수 없습니다!");
       return;
     }
@@ -185,7 +172,7 @@ function MyProjectDetail() {
         </Card>
         <BtnBox>
           <ManageBtn>
-            <PjtManageBtn onClick={goToManagePjt}>프로젝트 관리</PjtManageBtn>
+            <button onClick={goToManagePjt}>프로젝트 관리</button>
           </ManageBtn>
           <ToNewLiveLink onClick={onClickPersistParam} to={`/lives/new`}>
             <LiveBtn>라이브 켜기</LiveBtn>
@@ -207,8 +194,12 @@ function MyProjectDetail() {
             <Title>설문조사 목록</Title>
 
             <SurveyTextBox>
+
               {/* 추가 */}
               <SurveyAdd surveys={surveys} Survey={Survey}></SurveyAdd>
+
+              {/* 결과 */}
+              <SurveyResult></SurveyResult>
 
               {isEdit ? (
                 <SurveyEditText
@@ -257,10 +248,8 @@ function MyProjectDetail() {
           <SponsorBox>
             <Title>참여한 후원자</Title>
             <SponsorList>
+              {/* 후원자 목록 */}
               <ProjectSponsorList />
-              {sponsors.map((sponsor) => (
-                <MySponsor sponsor={sponsor} key={sponsor.id} />
-              ))}
             </SponsorList>
           </SponsorBox>
         </BottomBox>
