@@ -12,7 +12,8 @@ import swal from "sweetalert";
 import { baseUrl } from "../../../App";
 
 const ProfileMemberTitle = styled.div`
-  margin: 50px;
+  margin-top: 100px;
+  margin-bottom: 80px;
   font-size: 30px;
   font-weight: bold;
 `;
@@ -54,7 +55,7 @@ const ProfileMemberImgInput = styled.input`
 
 // 닉네임
 const ProfileMemberNicknameBox = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 70px;
 `;
 const ProfileMemberNicknameLabel = styled.div`
   font-size: 20px;
@@ -132,6 +133,14 @@ const ErrorMsg = styled.span`
   display: block;
   margin-left: 135px;
   margin-top: 5px;
+`;
+
+const ProfileMemberMain = styled.div`
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 function ProfileMember() {
@@ -266,10 +275,11 @@ function ProfileMember() {
 
   return (
     <div>
-      <ProfileMemberTitle>회원정보 수정 페이지</ProfileMemberTitle>
-      <ProfileMemberBox>
-        <ProfileMemberForm onSubmit={handleSubmit(onValid)}>
-          {/* <ProfileMemberImgBox>
+      <ProfileMemberMain>
+        <ProfileMemberTitle>회원정보 수정 페이지</ProfileMemberTitle>
+        <ProfileMemberBox>
+          <ProfileMemberForm onSubmit={handleSubmit(onValid)}>
+            {/* <ProfileMemberImgBox>
             <ProfileMemberImg src="/photo/profile.png" />
             <ProfileMemberImgLabel htmlFor="profile_photo">
               사진변경
@@ -277,74 +287,77 @@ function ProfileMember() {
             <ProfileMemberImgInput type="file" id="profile_photo" />
           </ProfileMemberImgBox> */}
 
-          <ProfileMemberNicknameBox>
-            <ProfileMemberNicknameLabel as={"label"}>
-              이메일[아이디]
-            </ProfileMemberNicknameLabel>
-            <ProfileMemberNicknameInput
-              as={"input"}
-              value={email}
-              disabled
-            ></ProfileMemberNicknameInput>
-          </ProfileMemberNicknameBox>
-          <ProfileMemberNicknameBox>
-            <ProfileMemberNicknameLabel as={"label"}>
-              닉네임
-            </ProfileMemberNicknameLabel>
-            <ProfileMemberNicknameInput
-              as={"input"}
-              {...register("nickname")}
-              onChange={onNickNameChange}
-              value={nickname}
-            />
-          </ProfileMemberNicknameBox>
+            <ProfileMemberNicknameBox>
+              <ProfileMemberNicknameLabel as={"label"}>
+                이메일[아이디]
+              </ProfileMemberNicknameLabel>
+              <ProfileMemberNicknameInput
+                as={"input"}
+                value={email}
+                disabled
+              ></ProfileMemberNicknameInput>
+            </ProfileMemberNicknameBox>
+            <ProfileMemberNicknameBox>
+              <ProfileMemberNicknameLabel as={"label"}>
+                닉네임
+              </ProfileMemberNicknameLabel>
+              <ProfileMemberNicknameInput
+                as={"input"}
+                {...register("nickname")}
+                onChange={onNickNameChange}
+                value={nickname}
+              />
+            </ProfileMemberNicknameBox>
 
-          <ProfileMemberPasswordBox>
-            <ProfileMemberPasswordInputBox>
-              <ProfileMemberPasswordLabel as={"label"}>
-                현재 비밀번호
-              </ProfileMemberPasswordLabel>
-              <ProfileMemberPasswordInput
-                as="input"
-                type="password"
-                {...register("passwordNow", {
-                  required: "현재비밀번호를 확인하세요.",
-                })}
-              />
-              <br />
-              <ErrorMsg>{errors?.passwordNow?.message}</ErrorMsg>
-            </ProfileMemberPasswordInputBox>
-            <ProfileMemberPasswordInputBox>
-              <ProfileMemberPasswordLabel as={"label"}>
-                비밀번호 변경
-              </ProfileMemberPasswordLabel>
-              <ProfileMemberPasswordInput
-                as="input"
-                type="password"
-                {...register("changePassword")}
-              />
-            </ProfileMemberPasswordInputBox>
-            <ProfileMemberPasswordInputBox>
-              <ProfileMemberPasswordLabel as={"label"}>
-                비밀번호 변경 확인
-              </ProfileMemberPasswordLabel>
-              <ProfileMemberPasswordInput
-                as="input"
-                type="password"
-                {...register("changePasswordCheck")}
-              />
-              <br />
-              <ErrorMsg>{errors?.changePasswordCheck?.message}</ErrorMsg>
-            </ProfileMemberPasswordInputBox>
-          </ProfileMemberPasswordBox>
-          <ProfileMemberBtnBox>
-            <ProfileMemberUpdateBtn as={"button"}>수정</ProfileMemberUpdateBtn>
-            <ProfileMemberDeleteBtn as={"button"} onClick={deleteUser}>
-              회원탈퇴
-            </ProfileMemberDeleteBtn>
-          </ProfileMemberBtnBox>
-        </ProfileMemberForm>
-      </ProfileMemberBox>
+            <ProfileMemberPasswordBox>
+              <ProfileMemberPasswordInputBox>
+                <ProfileMemberPasswordLabel as={"label"}>
+                  현재 비밀번호
+                </ProfileMemberPasswordLabel>
+                <ProfileMemberPasswordInput
+                  as="input"
+                  type="password"
+                  {...register("passwordNow", {
+                    required: "현재비밀번호를 확인하세요.",
+                  })}
+                />
+                <br />
+                <ErrorMsg>{errors?.passwordNow?.message}</ErrorMsg>
+              </ProfileMemberPasswordInputBox>
+              <ProfileMemberPasswordInputBox>
+                <ProfileMemberPasswordLabel as={"label"}>
+                  비밀번호 변경
+                </ProfileMemberPasswordLabel>
+                <ProfileMemberPasswordInput
+                  as="input"
+                  type="password"
+                  {...register("changePassword")}
+                />
+              </ProfileMemberPasswordInputBox>
+              <ProfileMemberPasswordInputBox>
+                <ProfileMemberPasswordLabel as={"label"}>
+                  비밀번호 변경 확인
+                </ProfileMemberPasswordLabel>
+                <ProfileMemberPasswordInput
+                  as="input"
+                  type="password"
+                  {...register("changePasswordCheck")}
+                />
+                <br />
+                <ErrorMsg>{errors?.changePasswordCheck?.message}</ErrorMsg>
+              </ProfileMemberPasswordInputBox>
+            </ProfileMemberPasswordBox>
+            <ProfileMemberBtnBox>
+              <ProfileMemberUpdateBtn as={"button"}>
+                수정
+              </ProfileMemberUpdateBtn>
+              <ProfileMemberDeleteBtn as={"button"} onClick={deleteUser}>
+                회원탈퇴
+              </ProfileMemberDeleteBtn>
+            </ProfileMemberBtnBox>
+          </ProfileMemberForm>
+        </ProfileMemberBox>
+      </ProfileMemberMain>
     </div>
   );
 }

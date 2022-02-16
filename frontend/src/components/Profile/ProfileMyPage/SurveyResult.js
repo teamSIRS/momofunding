@@ -13,6 +13,16 @@ const SurveyModalBtn = styled.button`
   outline: 0;
   margin-right: 10px;
 `;
+
+const SurveyModalResultBtn = styled.button`
+  /* background-color: transparent; */
+  color: white;
+  border: 0;
+  outline: 0;
+  height: 27px;
+  /* margin-right: 10px; */
+`;
+
 const SeparateLineForm = styled.div`
   display: flex;
   align-items: center;
@@ -37,7 +47,7 @@ const ShortAnsResult = styled.span`
 
 const SurveyResultMain = styled.div``;
 
-function SurveyResult() {
+function SurveyResult({ surveyId }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -49,7 +59,7 @@ function SurveyResult() {
   function getResults() {
     const getResults = async () => {
       await axios({
-        url: `/surveys/1/answers`,
+        url: `/surveys/${surveyId}/answers`,
         method: "get",
         baseURL: baseUrl,
       })
@@ -71,7 +81,7 @@ function SurveyResult() {
   }, []);
   return (
     <>
-      <SurveyModalBtn onClick={handleShow}>결과보기</SurveyModalBtn>
+      <SurveyModalResultBtn onClick={handleShow}>결과보기</SurveyModalResultBtn>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header style={styles.bgColor} closeButton>
