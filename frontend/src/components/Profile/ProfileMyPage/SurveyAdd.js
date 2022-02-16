@@ -1,14 +1,14 @@
 import styled from "styled-components";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import React, { useState } from "react";
 import { Button, Fade, Modal } from "react-bootstrap";
 import SurveyNum from "./SurveyForm/SurveyNum";
 import SurveyShortAns from "./SurveyForm/SurveyShortAns";
 import SurveySelect from "./SurveyForm/SurveySelect";
 import axios from "axios";
-import { baseUrl } from '../../../App';
-import setAuthorizationToken from '../../../atoms';
-import swal from 'sweetalert';
+import { baseUrl } from "../../../App";
+import setAuthorizationToken from "../../../atoms";
+import swal from "sweetalert";
 
 const SurveyModalBtn = styled.button`
   background-color: #6667ab;
@@ -54,37 +54,42 @@ const SurveyAnsInput = styled.div`
   }
 `;
 
-function SurveyAdd({surveys, Survey}) {
-  const {id} = useParams();
+function SurveyAdd({ surveys, Survey }) {
+  const { id } = useParams();
   const [show, setShow] = useState(false);
   const handleClose = () => {
     setShow(false);
     Survey();
-    setSelectedNum("선택하세요")
-  }
+    setSelectedNum("선택하세요");
+    setActive(false);
+  };
   const handleShow = () => setShow(true);
   const [endDate, setEndDate] = useState();
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
   const [selectedNum, setSelectedNum] = useState("선택하세요");
   const selectList = ["선택하세요", "객관식", "주관식"];
+
+  const [active, setActive] = useState(false);
+
   const onChange = (event) => {
     setSelectedNum(event.target.value);
   };
 
-  const onSubmit = (event) =>{
+  const onSubmit = (event) => {
     event.preventDefault();
     AddSurvey();
-    swal('이제 질문을 등록해주세요');
-    setTitle("")
-  }
+    swal("이제 질문을 등록해주세요");
+    setActive(true);
+    setTitle("");
+  };
 
-  const AddSurvey= async() => {
+  const AddSurvey = async () => {
     // console.log('설문조사 등록');
     await axios({
       url: `${baseUrl}/surveys`,
       method: "post",
-      data:{
+      data: {
         projectId: id,
         title: title,
         content: content,
@@ -92,22 +97,22 @@ function SurveyAdd({surveys, Survey}) {
       },
       headers: setAuthorizationToken(),
     })
-      .then((res)=>{
+      .then((res) => {
         // console.log('ok');
         Survey();
       })
       .catch((e) => {
         console.log(e);
-        swal('양식을 정확히 입력해주세요', {icon:"warning"});
-      })
-  }
+        swal("양식을 정확히 입력해주세요", { icon: "warning" });
+      });
+  };
 
-  const AddSurveyQuest = async(id, type, title) =>{
+  const AddSurveyQuest = async (id, type, title) => {
     // 설문조사 질문 등록
     await axios({
       url: `${baseUrl}/survey-questions`,
       method: "post",
-      data:{
+      data: {
         surveyId: id,
         questionTypeId: type,
         //객관식1 주관식2
@@ -115,14 +120,14 @@ function SurveyAdd({surveys, Survey}) {
       },
       headers: setAuthorizationToken(),
     })
-    .then((res)=>{
-      // console.log('콘텐트 등록');
-    })
-    .catch((err) =>{
-      console.log(err);
-      swal('질문을 입력해주세요', {icon: "warning"});
-    })
-  };  
+      .then((res) => {
+        // console.log('콘텐트 등록');
+      })
+      .catch((err) => {
+        console.log(err);
+        swal("질문을 입력해주세요", { icon: "warning" });
+      });
+  };
 
   return (
     <>
@@ -138,71 +143,83 @@ function SurveyAdd({surveys, Survey}) {
             backgroundColor: "whitesmoke",
           }}
         >
-
           <SurveyAddMain>
-          <SurveyAddDiv>
-          <form>
-            <SurveyAnsLabel>[ 설문조사 종료 일시 및 제목 ]</SurveyAnsLabel>
-            <SurveyAnsInput>
-              <input
-                type="datetime-local"
-                required
-                onChange={(e) =>{setEndDate(e.target.value);}}
-              />
-            </SurveyAnsInput>
-            <SurveyAnsInput>
-              <input
-                required
-                placeholder="설문조사 제목"
-                onChange={(e) =>{
-                  setTitle(e.target.value)
-                }}
-              />
-            </SurveyAnsInput>
-            <SurveyAnsInput>
-              <input
-                required
-                placeholder="설문조사 설명"
-                onChange={(e) =>{
-                  setContent(e.target.value)
-                }}
-              />
-            </SurveyAnsInput>
+            <SurveyAddDiv>
+              <form onSubmit={onSubmit}>
+                <SurveyAnsLabel>[ 설문조사 종료 일시 및 제목 ]</SurveyAnsLabel>
+                <SurveyAnsInput>
+                  <input
+                    type="datetime-local"
+                    required
+                    onChange={(e) => {
+                      setEndDate(e.target.value);
+                    }}
+                    disabled={active}
+                  />
+                </SurveyAnsInput>
+                <SurveyAnsInput>
+                  <input
+                    required
+                    placeholder="설문조사 제목"
+                    onChange={(e) => {
+                      setTitle(e.target.value);
+                    }}
+                    disabled={active}
+                  />
+                </SurveyAnsInput>
+                <SurveyAnsInput>
+                  <input
+                    required
+                    placeholder="설문조사 설명"
+                    onChange={(e) => {
+                      setContent(e.target.value);
+                    }}
+                    disabled={active}
+                  />
+                </SurveyAnsInput>
 
-            <Button type="submit" onClick={onSubmit}>설문조사 등록</Button>
-          </form>
-          <br/> 
+                <Button type="submit" disabled={active}>
+                  설문조사 등록
+                </Button>
+              </form>
+              <br />
 
-            <SurveyAddInputBox>
-              <SurveyAddLabel>질문 양식 선택</SurveyAddLabel>
-              <select onChange={onChange} value={selectedNum}>
-                {selectList.map((item) => (
-                  <option value={item} key={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
+              <SurveyAddInputBox>
+                <SurveyAddLabel>질문 양식 선택</SurveyAddLabel>
+                <select onChange={onChange} value={selectedNum}>
+                  {selectList.map((item) => (
+                    <option value={item} key={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+                <hr />
+
+                <SurveyAddLabel>
+                  {selectedNum === "선택하세요" ? <SurveySelect /> : null}
+                  {selectedNum === "객관식" ? (
+                    <SurveyNum
+                      AddSurveyQuest={AddSurveyQuest}
+                      surveyId={surveys[surveys.length - 1].id}
+                    />
+                  ) : null}
+                  {selectedNum === "주관식" ? (
+                    <SurveyShortAns
+                      AddSurveyQuest={AddSurveyQuest}
+                      surveyId={surveys[surveys.length - 1].id}
+                    />
+                  ) : null}
+                </SurveyAddLabel>
+              </SurveyAddInputBox>
               <hr />
 
-              <SurveyAddLabel>
-                {selectedNum === "선택하세요" ? <SurveySelect /> : null}
-                {selectedNum === "객관식" 
-                  ? <SurveyNum 
-                      AddSurveyQuest={AddSurveyQuest} 
-                      surveyId={surveys[surveys.length-1].id}
-                    /> 
-                  : null}
-                {selectedNum === "주관식" 
-                  ? <SurveyShortAns 
-                      AddSurveyQuest={AddSurveyQuest} 
-                      surveyId={surveys[surveys.length-1].id}
-                      /> 
-                  : null}
-              </SurveyAddLabel>
-            </SurveyAddInputBox>
-            <hr />
-
-            <Button onClick={()=>{handleClose()}}>닫기</Button>
+              <Button
+                onClick={() => {
+                  handleClose();
+                }}
+              >
+                닫기
+              </Button>
             </SurveyAddDiv>
           </SurveyAddMain>
         </Modal.Body>
