@@ -21,6 +21,7 @@ export const Card = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
   padding: 10px;
   border-radius: 15px;
   box-shadow: 2px 2px 10px 0px ${MomoColor};
