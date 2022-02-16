@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { StyledSpan } from "../../Home/Badge/styles";
 
 const Container = styled.div`
   border: 1px solid #7c7c7c;
@@ -46,7 +47,6 @@ function MyProject({ project }) {
     navigate(`/myproject/${projectId}`, { state: projectId });
     window.scrollTo(0, 0);
   };
-
   return (
     <div className="col-md-4">
       <Container
@@ -54,6 +54,31 @@ function MyProject({ project }) {
           goToProjctSet(project.id);
         }}
       >
+        <div
+          className="position-absolute top-0 end-0"
+          style={{ marginRight: 0, marginTop: 15 }}
+        >
+          {project.projectStateId == 1 ? (
+            <StyledSpan color={"red"} >작성 중</StyledSpan>
+          ) : (
+            <div>
+            {
+              project.projectStateId == 2 ? (
+                <StyledSpan color={"green"}>진행 중</StyledSpan>
+              ) : (
+                <div>
+                  {
+                    project.projectStateId == 3 ? (
+                      <StyledSpan color={"black"}>종료</StyledSpan>
+                    ) : null
+                  }
+                </div>
+              )
+            }
+            </div>
+          )
+        }
+        </div>
         <ProjectPic src={project.subImageUrl} />
         <Bar />
         <Test>

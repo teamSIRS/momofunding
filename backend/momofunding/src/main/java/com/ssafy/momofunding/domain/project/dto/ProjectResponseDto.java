@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -14,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 public class ProjectResponseDto {
     private Long id;
+    private Long projectStateId;
     private String projectName;
     private Integer fundingGoal;
     private String subImageUrl;
@@ -25,10 +25,11 @@ public class ProjectResponseDto {
     private String creatorName;
 
     @Builder
-    public ProjectResponseDto(Long id, String projectName, Integer fundingGoal, String subImageUrl,
-                              Integer currentAmount, Integer popularity, LocalDateTime expirationDate,
-                              String creatorName, Boolean isLivePlaying){
+    public ProjectResponseDto(Long id, Long projectStateId, String projectName, Integer fundingGoal,
+                              String subImageUrl, Integer currentAmount, Integer popularity,
+                              LocalDateTime expirationDate, String creatorName, Boolean isLivePlaying){
         this.id = id;
+        this.projectStateId = projectStateId;
         this.projectName = projectName;
         this.fundingGoal = fundingGoal;
         this.subImageUrl = subImageUrl;
@@ -41,6 +42,7 @@ public class ProjectResponseDto {
 
     public ProjectResponseDto(Project projectEntity){
         this.id = projectEntity.getId();
+        this.projectStateId = projectEntity.getProjectState().getId();
         this.projectName = projectEntity.getProjectName();
         this.fundingGoal = projectEntity.getFundingGoal();
         this.subImageUrl = projectEntity.getSubImageUrl();
