@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { baseUrl } from "../../../App";
+import Swal from "sweetalert2";
 
 const Content = styled.p`
   font-weight: bold;
@@ -9,6 +10,12 @@ const Content = styled.p`
 `;
 
 function PayCancel() {
+  Swal.fire({
+    title: "결제가 취소되었습니다.",
+    icon: "error",
+    showConfirmButton: false,
+    timer: 1200,
+  });
   const { token } = useParams();
   console.log(token);
   const deleteRewardOrder = async () => {
@@ -33,7 +40,7 @@ function PayCancel() {
   deleteRewardOrder();
   setTimeout(() => {
     window.close();
-  }, 10000);
+  }, 7000);
 
   return (
     <>
