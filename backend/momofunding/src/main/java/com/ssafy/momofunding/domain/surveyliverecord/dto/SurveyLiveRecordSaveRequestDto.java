@@ -1,10 +1,11 @@
 package com.ssafy.momofunding.domain.surveyliverecord.dto;
 
-import com.ssafy.momofunding.domain.surveyliverecord.domain.SurveyLiveRecord;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class SurveyLiveRecordSaveRequestDto {
 
     private Long liveId;
