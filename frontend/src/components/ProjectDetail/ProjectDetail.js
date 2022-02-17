@@ -4,10 +4,9 @@ import ProjectSidebar from "./ProjectSidebar";
 import { Container, Row } from "react-bootstrap";
 import { ProjectDetailWrapper, SetCenter } from "./styles";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { baseUrl } from "../../App";
-import styled from "styled-components";
 
 export const ProjectDetail = () => {
   const { id } = useParams();
