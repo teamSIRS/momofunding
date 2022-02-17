@@ -44,7 +44,7 @@ import { baseUrl } from "../../../../App";
 import LiveMain from "../../LiveMain";
 import setAuthorizationToken, { userIdState } from "../../../../atoms";
 import { SelectedSurveyState } from "../../LiveMain/Surveys/SurveyList/SurveyList";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { authorizationState, surveySubmitState } from "../../LiveMain/LiveMain";
 
 const OPENVIDU_SERVER_URL = "https://i6a202.p.ssafy.io:4431";
@@ -397,9 +397,10 @@ export const RTCRenderer = () => {
   };
 
   useEffect(() => {
-    setInterval(() => {
+    const cntView = setInterval(() => {
       getConnections();
     }, 10000);
+    return () => clearInterval(cntView);
   }, []);
 
   return (
@@ -456,7 +457,9 @@ export const RTCRenderer = () => {
                   <ButtonIconInactive icon={micOffOutline}></ButtonIconInactive>
                 </Switch>
               )}
-              <SubmitBtn onClick={leaveSession}>나가기</SubmitBtn>
+              <Link to={`/myproject/${pjtId}`}>
+                <SubmitBtn onClick={leaveSession}>나가기</SubmitBtn>
+              </Link>
               <SubmitBtn onClick={onSubmit} type="submit">
                 라이브 열기
               </SubmitBtn>
