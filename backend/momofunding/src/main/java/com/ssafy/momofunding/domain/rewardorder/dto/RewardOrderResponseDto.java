@@ -14,27 +14,22 @@ import lombok.Setter;
 public class RewardOrderResponseDto {
     private Long id;
     private Integer quantity;
-    private String optionContent;
     private Integer amount;
 
     private RewardSimpleResponseDto rewardSimple;
 
     @Builder
-    public RewardOrderResponseDto(Long id, Integer quantity, String optionContent, Integer amount, Reward reward){
+    public RewardOrderResponseDto(Long id, Integer quantity, Integer amount, Reward reward){
         this.id = id;
         this.quantity = quantity;
-        this.optionContent = optionContent;
         this.amount = amount;
-
         this.rewardSimple = new RewardSimpleResponseDto(reward);
     }
 
     public RewardOrderResponseDto(RewardOrder rewardOrder){
         this.id = rewardOrder.getId();
         this.quantity = rewardOrder.getQuantity();
-        this.optionContent = rewardOrder.getOptionContent();
         this.amount = rewardOrder.getAmount();
-
         this.rewardSimple = new RewardSimpleResponseDto(rewardOrder.getReward());
     }
 
