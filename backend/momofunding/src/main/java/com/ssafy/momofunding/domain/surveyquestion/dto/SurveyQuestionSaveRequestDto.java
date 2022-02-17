@@ -3,8 +3,10 @@ package com.ssafy.momofunding.domain.surveyquestion.dto;
 import com.ssafy.momofunding.domain.surveyquestion.domain.SurveyQuestion;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class SurveyQuestionSaveRequestDto {
 
     private Long surveyId;
