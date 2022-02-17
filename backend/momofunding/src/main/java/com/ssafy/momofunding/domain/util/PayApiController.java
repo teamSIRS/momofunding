@@ -8,6 +8,7 @@ import com.ssafy.momofunding.global.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,9 @@ public class PayApiController {
 
     private final RewardOrderService rewardOrderService;
     private final JwtService jwtService;
+
+    @Value("${serverFrontUrl}")
+    private String serverFrontUrl;
 
     //pay
     @Operation(
@@ -59,12 +63,9 @@ public class PayApiController {
                 "total_amount=" + rewardPayRequestDto.getAmount() + "&" +
                 "vat_amount=0&" +
                 "tax_free_amount=0&" +
-                "approval_url=http://localhost:3000/pay/success/" +projectId+ "&"+
-                "fail_url=http://localhost:3000/pay/fail/" + val2 + "&" +
-                "cancel_url=http://localhost:3000/pay/cancel/" + val2;
-//                "approval_url=https://i6a202.p.ssafy.io/pay/success/" + projectId + "&" +
-//                "fail_url=https://i6a202.p.ssafy.io/pay/fail/" + val2 + "&" +
-//                "cancel_url=https://i6a202.p.ssafy.io/pay/cancel/" + val2;
+                "approval_url=" + serverFrontUrl + "pay/success/" + projectId + "&" +
+                "fail_url=" + serverFrontUrl + "pay/fail/" + val2 + "&" +
+                "cancel_url=" + serverFrontUrl + "pay/cancel/" + val2;
 
 
         byte[] utf8 = param.getBytes(StandardCharsets.UTF_8);
