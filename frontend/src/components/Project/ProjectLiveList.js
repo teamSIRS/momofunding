@@ -58,9 +58,9 @@ function ProjectLiveList() {
   };
 
   const ProjectLiveLink = styled(Link)`
-    color: ${MomoStrongColor};
+    color: black;
     :hover {
-      color: ${MomoColor};
+      color: ${MomoStrongColor};
     }
   `;
 
@@ -192,7 +192,9 @@ function ProjectLiveList() {
               {isExist ? (
                 lives.map((live) => (
                   <Col sm={6}>
-                    <ProjectLiveLink to={`/lives/${live.sessionId}`}>
+                    <ProjectLiveLink
+                      to={`/lives/${live.sessionId}/${live.projectId}`}
+                    >
                       <ProjectLiveCard live={live} key={live.id} />
                     </ProjectLiveLink>
                   </Col>
