@@ -98,7 +98,7 @@ export const RTCRenderer = () => {
   const setSession = useSetRecoilState(sessionState);
   const setCurSurvey = useSetRecoilState(SelectedSurveyState);
   const setSurveySubmit = useSetRecoilState(surveySubmitState);
-  const setViewerCnt = useSetRecoilState(viewrsCntState);
+  const [viewerCnt, setViewerCnt] = useRecoilState(viewrsCntState);
 
   let session = sessionType;
   let isCreated = false;
@@ -127,7 +127,7 @@ export const RTCRenderer = () => {
   };
 
   const createSession = (sessionId) => {
-    // console.log("create session. id:", sessionId);
+    console.log("create session. id:", sessionId);
     return new Promise((resolve, reject) => {
       var data = JSON.stringify({ customSessionId: sessionId });
       axios
@@ -272,8 +272,9 @@ export const RTCRenderer = () => {
   }, [message]);
 
   useEffect(() => {
-    if (userSideSessionId === "new") {
-      return () => putEndLiveToServer();
+    console.log("LIVE ID:", liveId);
+    if (isPublisher()) {
+      return () => putEndLiveToServer(liveId);
     }
   }, [liveId]);
 
@@ -285,7 +286,7 @@ export const RTCRenderer = () => {
     setContent(event.target.value);
   };
 
-  const putEndLiveToServer = () => {
+  const putEndLiveToServer = (liveId) => {
     axios({
       url: `/lives/${liveId}/endLive`,
       method: "put",
@@ -293,7 +294,7 @@ export const RTCRenderer = () => {
       headers: setAuthorizationToken(),
     })
       .then((response) => {
-        // console.log("end request successfully done.");
+        console.log("end request successfully done.");
         // console.log(response.data);
       })
       .catch((error) => {
@@ -358,11 +359,33 @@ export const RTCRenderer = () => {
       });
   };
 
+  const putViewerCntToServer = async (liveId) => {
+    await axios({
+      url: `/lives/${liveId}/viewerCount`,
+      method: "put",
+      baseURL: `${baseUrl}`,
+      headers: setAuthorizationToken(),
+      data: { viewerCount: viewerCnt },
+    })
+      .then(() => {
+        console.log("viewerCnt Updated to", liveId);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    putViewerCntToServer(liveId);
+  }, [viewerCnt]);
+
   const cleanUp = () => {
     setTitle("");
     setContent("");
     leaveSession();
     setPublisher(pubType);
+    setLiveID(-1);
+    setProjectId(-1);
   };
 
   const isPublisher = () => {
