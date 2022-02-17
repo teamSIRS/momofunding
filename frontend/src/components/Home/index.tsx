@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Container, ListGroup } from "react-bootstrap";
+import { Container, ListGroup, Navbar } from "react-bootstrap";
 import styled from "styled-components";
 import HomeBanners from "./HomeBanners";
 import HomeFundings from "./HomeFundings";
@@ -8,8 +8,7 @@ import { NoneExist } from "./HomeLiveCards/HomeLiveCard/NoneExist";
 import { HomeLiveCard } from "./HomeLiveCards/HomeLiveCard/HomeLiveCard";
 import { baseUrl } from "../../App";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeadset } from "@fortawesome/free-solid-svg-icons";
+import { MomoColor } from "../../shared/global";
 
 const StyledStack = styled(ListGroup)`
   display: flex;
@@ -17,7 +16,7 @@ const StyledStack = styled(ListGroup)`
   overflow: auto;
   justify-content: center;
   align-items: center;
-  margin: 30px 0px;
+  margin: 20px 0px;
 `;
 
 const HomeMain = styled.div`
@@ -32,6 +31,10 @@ const ProjectEntranceSeparateLine = styled.hr`
   background-color: #6667ab;
   width: 75%;
   margin: 40px auto;
+`;
+
+const MiniText = styled.span`
+  font-size: 15px;
 `;
 
 const Home = () => {
@@ -69,6 +72,7 @@ const Home = () => {
               지금 핫한 인기 라이브<Icon>🔥</Icon>
             </b>
           </h2>
+          <MiniText>다른 사람들은 지금 어떤 상품을 보고 있을까?</MiniText>
           {isExist ? (
             <StyledStack horizontal>
               {lives.map((live, idx) => (

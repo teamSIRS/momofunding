@@ -13,6 +13,12 @@ const HomeFundingsMain = styled.div`
   margin-bottom: 60px;
 `;
 
+const MiniText = styled.span`
+  display: block;
+  font-size: 15px;
+  margin-bottom: 20px;
+`;
+
 export const HomeFundings = () => {
   const [projectLarge, setProjectLarge] = useState<any>("");
   const [projectSmall, setProjectSmall] = useState<any[]>([""]);
@@ -44,6 +50,7 @@ export const HomeFundings = () => {
             인기 펀딩 목록<Icon>💵</Icon>
           </b>
         </h2>
+        <MiniText>가장 잘 팔리는 상품은 뭘까?</MiniText>
         <br />
         <Row md={1} lg={2} className="g-4">
           <Col>
