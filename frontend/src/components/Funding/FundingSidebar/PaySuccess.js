@@ -10,7 +10,7 @@ const Content = styled.p`
 
 function PaySuccess() {
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
 
   setTimeout(() => {
     window.close();

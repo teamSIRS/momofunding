@@ -226,8 +226,7 @@ function MyProjectManagementProfile() {
         contentType: false,
       })
         .then((response) => {
-          console.log("성공");
-          console.log(response.data);
+          // console.log("성공");
           window.location.reload(true);
         })
         .catch((error) => {

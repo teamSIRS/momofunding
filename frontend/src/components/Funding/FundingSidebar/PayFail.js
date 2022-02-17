@@ -18,7 +18,7 @@ function PayFail() {
   });
 
   const { token } = useParams();
-  console.log(token);
+  // console.log(token);
   const deleteRewardOrder = async () => {
     // axios 요청
     await axios({
@@ -32,7 +32,7 @@ function PayFail() {
     })
       .then((response) => {
         // console.log("결제에 실패한거야 나는");
-        console.log(response);
+        // console.log(response);
         // console.log("결제에 실패한거야 나는");
       })
       .catch((error) => {

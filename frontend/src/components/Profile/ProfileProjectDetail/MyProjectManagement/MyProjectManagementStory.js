@@ -146,7 +146,6 @@ function MyProjectManagementStory() {
   const onProjectContentChange = (event) =>
     setProjectContent(event.target.value);
   const onExpirationDateChange = (event) => {
-    console.log(event.target.value);
     setExpirationDate(event.target.value);
   };
   //////////////////////////////////////////////////////////////////////
@@ -179,7 +178,6 @@ function MyProjectManagementStory() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
           setProjectCategoryId(response.data.projectCategoryId);
           setProjectState(response.data.projectStateId);
           setProjectName(response.data.projectName);
@@ -196,14 +194,12 @@ function MyProjectManagementStory() {
             );
           }
 
-          console.log("프로젝트 상태");
           if (
             response.data.projectStateId === 2 ||
             response.data.projectStateId === 3
           ) {
             setButtonState(true);
           }
-          console.log(response.data.projectStateId);
 
           setValue("projectCategoryId", response.data.projectCategoryId);
           setValue("projectName", response.data.projectName);
@@ -258,7 +254,7 @@ function MyProjectManagementStory() {
         contentType: false,
       })
         .then((response) => {
-          console.log("성공");
+          // console.log("성공");
           window.location.reload(true);
         })
         .catch((error) => {
