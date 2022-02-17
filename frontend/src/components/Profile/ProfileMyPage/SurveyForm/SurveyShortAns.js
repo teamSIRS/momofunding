@@ -40,6 +40,7 @@ function SurveyShortAns({ surveyId, AddSurveyQuest }) {
   const [questionType, setQuestionType] = useState(2);
   
   const addSurveyQuest=()=>{
+    if(title === "") return;
     AddSurveyQuest(id, questionType, title); 
     swal('질문이 등록되었습니다', {icon: 'success'});
   }

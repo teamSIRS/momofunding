@@ -85,7 +85,7 @@ function SurveyNum({ surveyId, AddSurveyQuest }) {
       })
       .catch((err) => {
         console.log(err);
-        swal("다시 확인해주세요");
+        swal("문제가 발생했습니다");
       });
   };
 
@@ -129,7 +129,8 @@ function SurveyNum({ surveyId, AddSurveyQuest }) {
 
   //적용이 안됨ㅠ
   const enterkey2 = () => {
-    if (window.event.keyCode === 13) AddNumContent();
+    if (window.event.keyCode === 13) {
+      AddNumContent();}
   }
 
   console.log();
