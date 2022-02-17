@@ -12,7 +12,6 @@ import lombok.Setter;
 public class RewardOrderPurchaseResponseDto {
     private Long id;
     private Integer quantity;
-    private String option_content;
     private Integer amount;
     private String recipientName;
     private String recipientTel;
@@ -22,12 +21,11 @@ public class RewardOrderPurchaseResponseDto {
     private String rewardName;
 
     @Builder
-    public RewardOrderPurchaseResponseDto(Long id, Integer quantity, String option_content, Integer amount,
+    public RewardOrderPurchaseResponseDto(Long id, Integer quantity, Integer amount,
                                           String recipientName, String recipientTel, String recipientAddress,
                                           String requestContent, String rewardName) {
         this.id = id;
         this.quantity = quantity;
-        this.option_content = option_content;
         this.amount = amount;
         this.recipientName = recipientName;
         this.recipientTel = recipientTel;
@@ -40,7 +38,6 @@ public class RewardOrderPurchaseResponseDto {
     public RewardOrderPurchaseResponseDto(RewardOrder rewardOrder){
         this.id = rewardOrder.getId();
         this.quantity = rewardOrder.getQuantity();
-        this.option_content = rewardOrder.getOptionContent();
         this.amount = rewardOrder.getAmount();
         this.recipientName = rewardOrder.getRecipientName();
         this.recipientTel = rewardOrder.getRecipientTel();

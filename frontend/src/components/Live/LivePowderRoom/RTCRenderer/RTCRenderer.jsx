@@ -31,6 +31,7 @@ import {
   pjtIdState,
   sessionState,
   titleState,
+  viewrsCntState,
 } from "../../LiveAtoms";
 import {
   selector,
@@ -90,6 +91,7 @@ export const RTCRenderer = () => {
   const [pjtId, setProjectId] = useRecoilState(pjtIdState);
   const setSurveySubmit = useSetRecoilState(surveySubmitState);
   const [liveId, setLiveID] = useState("default");
+  const [viewersCnt, setViewerCnt] = useRecoilState(viewrsCntState);
   let session = sessionType;
   let isCreated = false;
   let sessionId;
@@ -385,28 +387,28 @@ export const RTCRenderer = () => {
   const getConnections = async () => {
     // https://YOUR_OPENVIDUSERVER_IP/openvidu/api/sessions/SESSION_ID/connection
     await axios({
-      url: `/openvidu/api/sessions/`+sessionId+`/connection`,
+      url: `/openvidu/api/sessions/` + sessionId + `/connection`,
       method: "get",
       // baseURL: baseUrl,
       baseURL: OPENVIDU_SERVER_URL,
       headers: {
-        Authorization:
-        "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
+        Authorization: "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
         "Content-Type": "application/json",
       },
     })
       .then((response) => {
         console.log("call connections");
         console.log(response.data);
-        console.log("인원수: "+response.data.numberOfElements);
+        console.log("인원수: " + response.data.numberOfElements);
+        setViewerCnt(response.data.numberOfElements);
       })
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   useEffect(() => {
-    setTimeout(() => {
+    setInterval(() => {
       console.log("================================connections");
       getConnections();
     }, 10000);

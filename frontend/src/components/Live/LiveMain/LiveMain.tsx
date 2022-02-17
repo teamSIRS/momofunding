@@ -3,6 +3,8 @@ import Viewers from "./Viewers";
 import LiveFooter from "./LiveFooter";
 import Survey from "./Surveys";
 import { atom, useRecoilState } from "recoil";
+import { viewrsCntState } from "../LiveAtoms";
+import { useEffect } from "react";
 
 const userApi = {
   surveySubmitted: false,
@@ -29,13 +31,15 @@ export const surveySubmitState = atom({
 
 export const LiveMain = () => {
   const [show, setShow] = useRecoilState(sidebarState);
+  const [viewrsCnt, _] = useRecoilState(viewrsCntState);
+
   return (
     <>
       {/* <VideoWrapper id="creatorVideo"></VideoWrapper> */}
       <Chat show={show} />
       <Survey show={!show} />
 
-      <Viewers viewers={api.viewers}></Viewers>
+      <Viewers viewers={viewrsCnt}></Viewers>
 
       <LiveFooter />
     </>
