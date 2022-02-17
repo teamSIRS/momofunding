@@ -47,3 +47,8 @@ export const sessionState = atom({
   default: OV.initSession(),
   dangerouslyAllowMutability: true,
 });
+
+export const viewrsCntState = atom({
+  key: "viewrsCntState",
+  default: 0,
+});
