@@ -16,15 +16,12 @@ const CreateNoticeMain = styled.div`
   padding: 60px 0px;
   position: relative;
 `;
-
 const CreateNoticeMainTitle = styled.div`
   margin: 50px;
   font-size: 30px;
   font-weight: bold;
 `;
-
 const CreateNoticeForm = styled.form``;
-
 const CreateNoticeInputBox = styled.div`
   width: 90%;
   margin: auto;
@@ -46,17 +43,14 @@ const CreateNoticeInput = styled.input`
     outline: 1px solid #6667ab;
   }
 `;
-
 const CreateNoticeTextarea = styled(CreateNoticeInput)`
   height: 200px;
 `;
-
 const CreateNoticeBtn = styled.button`
   float: right;
   padding: 5px 10px;
   margin-left: 10px;
 `;
-
 const styles = {
   col: {
     paddingLeft: 0,
@@ -69,23 +63,31 @@ const styles = {
 };
 
 function CreateNotice() {
-  const userId = useRecoilValue(userIdState);
-  const role = useRecoilValue(roleState);
-
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
-    setError,
   } = useForm();
 
-  //////////////////////////////////////////////////////
-  // 나중에 직접 userId로 설정해야함
-  //////////////////////////////////////////////////////
+  const userId = useRecoilValue(userIdState);
+  const role = useRecoilValue(roleState);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+  const onTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+  const onContentChange = (event) => {
+    setContent(event.target.value);
+  };
+  const goBackToList = () => {
+    navigate("/notices");
+  };
+  const onValid = (data) => {
+    createNotice(data);
+  };
+
   function createNotice(data) {
     const createNotice = async () => {
       await axios({
@@ -100,33 +102,15 @@ function CreateNotice() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          // console.log("성공");
-          // console.log(response.data);
           navigate("/notices");
         })
         .catch((error) => {
-          // console.log("에러발생");
           console.log(error);
         });
     };
     createNotice();
   }
 
-  //////////////////////////////////////////////////////////////////////
-  const onTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-  const onContentChange = (event) => {
-    setContent(event.target.value);
-  };
-
-  const goBackToList = () => {
-    navigate("/notices");
-  };
-  //////////////////////////////////////////////////////////////////////
-  const onValid = (data) => {
-    createNotice(data);
-  };
   return (
     <div>
       <CreateNoticeMainTitle>글 작성하기</CreateNoticeMainTitle>

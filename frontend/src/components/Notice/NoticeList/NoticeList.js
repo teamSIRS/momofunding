@@ -7,60 +7,33 @@ import moment from "moment";
 import { baseUrl } from "../../../App";
 import { Container, Row, Col } from "react-bootstrap";
 
-const NoticeListMain = styled.div`
-  width: 90%;
-  height: 90%;
-
-  align-items: center;
-  margin: auto;
-  background-color: #fffffe;
-`;
-
 const NoticeListContentBox = styled.div`
   list-style: none;
 `;
-
 const NoticeListContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* margin: 0px 20px; */
   margin: auto;
-  /* border-top: solid 1px #000110; */
   border-bottom: solid 1px gray;
 `;
-
 const NoticeListContentTitle = styled.div`
   font-size: 20px;
   line-height: 50px;
-  /* margin-top: 20px; */
   text-align: center;
   color: black;
 `;
-
 const NoticeListContentHead = styled(NoticeListContent)`
   border-bottom: solid 2px #000110;
   background-color: #f7f7f7;
 `;
 const NoticeListNumber = styled(NoticeListContentTitle)``;
-
 const NoticeListContentWriter = styled(NoticeListContentTitle)``;
-
 const NoticeListContentDate = styled(NoticeListContentTitle)``;
 const NoticeListContentCount = styled(NoticeListContentTitle)``;
-
 const NoticeListSeparateLine = styled.hr`
-  /* width: 100%; */
   color: white;
 `;
-
-const NoticeListPage = styled.div`
-  margin: 50px 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const CustomCol = styled(Col)`
   display: flex;
   justify-content: center;
@@ -77,10 +50,9 @@ function NoticeList() {
       </Pagination.Item>
     );
   }
-  //////////////////////////////////////////////////////////////////////
+
   const [data, setData] = useState([]);
 
-  //////////////////////////////////////////////////////////////////////
   function getNoticeList() {
     const getNoticeList = async () => {
       await axios({
@@ -89,22 +61,21 @@ function NoticeList() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
           setData(response.data);
         })
         .catch((error) => {
-          console.log("에러발생");
           console.log(error);
         });
     };
     getNoticeList();
   }
+
   useEffect(() => {
     getNoticeList();
   }, []);
+
   return (
     <div>
-      {/* <NoticeListMain> */}
       <NoticeListContentBox>
         <Container>
           <Row>
@@ -155,15 +126,10 @@ function NoticeList() {
                   </NoticeListContent>
                 ))
               : null}
-
-            {/* <NoticeListPage>
-              <Pagination>{items}</Pagination>
-            </NoticeListPage> */}
           </Row>
         </Container>
       </NoticeListContentBox>
       <NoticeListSeparateLine />
-      {/* </NoticeListMain> */}
     </div>
   );
 }

@@ -6,25 +6,21 @@ import { useRecoilValue } from "recoil";
 import { roleState } from "../../atoms";
 
 const NoticeMain = styled.div`
-  /* background-color: whitesmoke; */
   width: 100%;
   height: 780px;
   padding: 60px 0px;
   position: relative;
 `;
-
 const NoticeMainTitle = styled.div`
   margin-left: 10px;
   margin-top: 80px;
   font-size: 30px;
   font-weight: bold;
 `;
-
 const NoticeMainSubTitle = styled(NoticeMainTitle)`
   margin-top: 20px;
   font-size: 15px;
 `;
-
 const NoticeMainBtn = styled.div`
   margin: 10px;
   position: absolute;
@@ -32,7 +28,6 @@ const NoticeMainBtn = styled.div`
   right: 5px;
   padding: 5px 10px;
 `;
-
 const styles = {
   col: {
     paddingLeft: 0,
@@ -51,6 +46,7 @@ function Notice() {
   const GoToCreateNotice = () => {
     navigate("/notices/create");
   };
+
   return (
     <div>
       <Container>

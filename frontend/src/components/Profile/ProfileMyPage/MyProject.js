@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useMatch, useNavigate } from "react-router-dom";
 import { StyledSpan } from "../../Home/Badge/styles";
-import { useEffect } from "react";
 
 const Container = styled.div`
   position: relative;
