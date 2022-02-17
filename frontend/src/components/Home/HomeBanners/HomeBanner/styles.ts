@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const StyledImg = styled.img`
-  filter: brightness(75%);
   position: absolute;
   width: 100%;
   top: -9999px;
@@ -9,6 +8,7 @@ export const StyledImg = styled.img`
   left: -9999px;
   right: -9999px;
   /* height: 100%; */
+  filter: brightness(55%);
   margin: auto;
 `;
 
