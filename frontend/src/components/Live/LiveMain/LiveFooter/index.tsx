@@ -32,7 +32,7 @@ const LiveFooter = () => {
   const [isCreator, _] = useRecoilState(authorizationState);
   const [camOn, setCam] = useRecoilState(camState);
   const [micOn, setMic] = useRecoilState(micState);
-  // const [audioOn, setAudio] = useRecoilState(audioState);
+  const [audioOn, setAudio] = useRecoilState(audioState);
   const [surveyState, __] = useRecoilState(surveySubmitState);
 
   const onClick: MouseEventHandler<HTMLDivElement> = () => {
@@ -41,17 +41,15 @@ const LiveFooter = () => {
 
   const onCamClick: MouseEventHandler<HTMLDivElement> = () => {
     setCam((now: boolean) => !now);
-    console.log("카메라 스테이트:", camOn);
   };
 
   const onMicClick: MouseEventHandler<HTMLDivElement> = () => {
     setMic((now: boolean) => !now);
-    // publisher.publishAudio(micOn);
   };
 
-  // const onAudioClick: MouseEventHandler<HTMLDivElement> = () => {
-  //   setAudio((now: boolean) => !now);
-  // };
+  const onAudioClick: MouseEventHandler<HTMLDivElement> = () => {
+    setAudio((now: boolean) => !now);
+  };
 
   const surveyDone = () => {
     if (!surveyState) {
@@ -87,13 +85,13 @@ const LiveFooter = () => {
             </LiveBtnRoundDanger>
           </Link>
         )}
-        {/* <ControlBtn onClick={onAudioClick} className={audioOn ? "on" : "off"}>
+        <ControlBtn onClick={onAudioClick} className={audioOn ? "on" : "off"}>
           {audioOn ? (
             <ChatIcon icon={volumeHighOutline} className="survey" />
           ) : (
             <ChatIcon icon={volumeMuteOutline} />
           )}
-        </ControlBtn> */}
+        </ControlBtn>
       </LiveController>
       <LiveToggle className={show ? "" : "survey"} onClick={onClick}>
         <ToggleBtn className={show ? "" : surveyDone()}>
