@@ -1,8 +1,8 @@
 import axios from "axios";
-import { FormEventHandler, useEffect } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import { baseUrl } from "../../../../App";
-import setAuthorizationToken from "../../../../atoms";
+import setAuthorizationToken, { userIdState } from "../../../../atoms";
 import { sessionState } from "../../LiveAtoms";
 import { ChatProps } from "../Chat";
 import { ChatTop } from "../Chat/styles";
@@ -95,13 +95,22 @@ const submitConfirm = selector({
 });
 
 const Survey = ({ show }: ChatProps) => {
-  const [surveyState, _0] = useRecoilState(surveySubmitState);
+  // isSurveySubmitted: 유저의 제출 여부를 저장하는 state.
+  // 디폴트는 false이고, 창작자가 서베이 아이디를 세션을 통해 보내면
+  // curSurvey에 변동이 생기게 되도록 설계 돼 있는데,
+  // 173번째 줄에서 curSurvey에 변동이 생길 때 (=== 창작자가 서베이를 뿌릴 때)
+  // 서버에 유저 A가 curSurvey를 냈는지 확인해 보라는 요청을 보내고
+  // 요청의 결과를 setSurveySubmitState로 저장합니다.
+  // 그리고 컴포넌트는 isSurveySubmitted의 결과에 따라 유동적으로 움직입니다.
+  const [isSurveySubmitted, setSurveySubmitState] =
+    useRecoilState(surveySubmitState);
   const [isStaff, _1] = useRecoilState(authorizationState);
   const [questionStates, setQstates] = useRecoilState(surveySubmitStates);
   const submitAllDone = useRecoilValue(submitConfirm);
   const [surveyApi, setSurveyApi] = useRecoilState(surveyApiState);
   const [recoilSession, setSession] = useRecoilState(sessionState);
   const [curSurvey, setCurSurvey] = useRecoilState(SelectedSurveyState);
+  const [userId, _2] = useRecoilState(userIdState);
 
   const getSurveyInfo = async () => {
     await axios({
@@ -133,8 +142,9 @@ const Survey = ({ show }: ChatProps) => {
         data: answer,
       })
         .then((response) => {
-          // console.log("submit done!");
-          // console.log(response.data);
+          console.log("submit done!");
+          console.log(response.data);
+          getSurveySubmitted();
         })
         .catch((error) => {
           console.log(error);
@@ -144,13 +154,27 @@ const Survey = ({ show }: ChatProps) => {
 
   const isSurveyEmpty = () => curSurvey === -1;
 
-  useEffect(() => {
-    if (curSurvey != 0) getSurveyInfo();
-  }, [curSurvey]);
+  const getSurveySubmitted = async () => {
+    const surveyNotYetGiven = curSurvey === -1;
+    if (surveyNotYetGiven) return;
+    await axios({
+      url: `/surveys/${curSurvey}/users/${userId}`,
+      method: "get",
+      baseURL: baseUrl,
+    })
+      .then((response) => {
+        console.log(response.data.isSubmitted);
+        setSurveySubmitState(response.data.isSubmitted);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
-    // console.log(questionStates);
-  }, [questionStates]);
+    getSurveySubmitted();
+    if (curSurvey != 0) getSurveyInfo();
+  }, [curSurvey]);
 
   return (
     <SurveyWrapper className={show ? "hide" : ""}>
@@ -177,8 +201,10 @@ const Survey = ({ show }: ChatProps) => {
           </>
         )}
       </SurveyHeader>
-      <SurveyBody className={surveyState || isSurveyEmpty() ? "done" : ""}>
-        {surveyState ? (
+      <SurveyBody
+        className={isSurveySubmitted || isSurveyEmpty() ? "done" : ""}
+      >
+        {isSurveySubmitted ? (
           <>
             <h4>{isStaff ? <SurveyList /> : thankYouMessage}</h4>
           </>
@@ -221,7 +247,7 @@ const Survey = ({ show }: ChatProps) => {
         )}
       </SurveyBody>
       <SurveyFooter onSubmit={onSubmit}>
-        {surveyState ? (
+        {isSurveySubmitted ? (
           ""
         ) : (
           <SurveySubmitBtn
