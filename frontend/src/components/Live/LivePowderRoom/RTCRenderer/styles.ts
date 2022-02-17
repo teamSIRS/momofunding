@@ -149,16 +149,13 @@ export const TmpImage = styled.img`
 
 export const TestVideoWrapper = styled.div`
   display: flex;
-  width: 100%;
-  height: 100%;
 
   &.main {
-    width: 100%;
-    height: 100%;
-    right: 400px;
-    position: relative;
+    position: absolute;
+    margin-left: 15px;
+    margin-bottom: 45px;
+    margin-right: 430px;
     video {
-      width: 100%;
       filter: none;
     }
   }
