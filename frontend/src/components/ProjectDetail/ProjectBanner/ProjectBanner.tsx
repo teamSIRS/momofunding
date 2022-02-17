@@ -64,7 +64,7 @@ export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
   getSessionId();
 
   const route = () => {
-    navigate("/lives/" + sessionId);
+    navigate("/lives/" + sessionId + "/" +  props.project.id);
   };
 
   const GoToReward = () => {
@@ -95,11 +95,11 @@ export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
         {/* <SocialBtn bottom="31px" right="350px" /> */}
         {!onAir ? (
           <NotLiveBtn bottom="35px" right="190px">
-            커밍 쑨
+           라이브 커밍 쑨
           </NotLiveBtn>
         ) : (
           <GotoLiveBtn onClick={route} bottom="35px" right="190px">
-            라이브 진행중
+            라이브 진행 중
           </GotoLiveBtn>
         )}
         <Btn onClick={GoToReward} bottom="35px" right="30px">
