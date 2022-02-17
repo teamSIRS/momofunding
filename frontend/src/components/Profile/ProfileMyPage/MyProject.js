@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 import { StyledSpan } from "../../Home/Badge/styles";
+import { useEffect } from "react";
 
 const Container = styled.div`
   position: relative;
@@ -49,10 +50,16 @@ const MyProjectStyledSpan = styled(StyledSpan)`
 
 function MyProject({ project }) {
   const navigate = useNavigate();
+  const projectMatch = useMatch("/users/myprojects");
 
   const goToProjctSet = (projectId) => {
-    navigate(`/myproject/${projectId}`, { state: projectId });
-    window.scrollTo(0, 0);
+    if (projectMatch) {
+      navigate(`/myproject/${projectId}`, { state: projectId });
+      window.scrollTo(0, 0);
+    } else {
+      navigate(`/projects/${projectId}`);
+      window.scrollTo(0, 0);
+    }
   };
   return (
     <div className="col-md-4">

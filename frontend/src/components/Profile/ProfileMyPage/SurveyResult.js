@@ -20,6 +20,7 @@ const SurveyModalResultBtn = styled.button`
   border: 0;
   outline: 0;
   height: 27px;
+  min-width: 75px;
   /* margin-right: 10px; */
 `;
 
@@ -51,7 +52,10 @@ function SurveyResult({ surveyId }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => {setShow(true); getResults();}
+  const handleShow = () => {
+    setShow(true);
+    getResults();
+  };
   const [data, setData] = useState("");
   const [questions, setQuestions] = useState([]);
   //////////////////////////////////////////////////////////////////////

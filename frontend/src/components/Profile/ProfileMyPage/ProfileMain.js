@@ -117,7 +117,7 @@ function ProfileMain() {
     await axios
       .get(baseUrl + "/users/" + userId)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setUser(response.data);
       })
       .catch((error) => {
