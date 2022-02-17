@@ -1,5 +1,5 @@
 import { prototype } from "events";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -18,51 +18,19 @@ import styled from "styled-components";
 
 interface Props {
   project: any;
+  sessionId: any;
+  onAir: any;
 }
 
-export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
+export const ProjectBanner: React.FC<Props> = ({...props}) => {
   const params = useParams();
-  const [onAir, setOnAir] = useState(false);
+  // const [onAir, setOnAir] = useState(false);
   const navigate = useNavigate();
-  const [sessionId, setSessionId] = useState("");
-
-  const getLiveState = async () => {
-    await axios({
-      url: "/projects/" + props.project.id + "/is-play-live",
-      method: "get",
-      data: {},
-      baseURL: baseUrl,
-    })
-      .then((response) => {
-        setOnAir(response.data.isPlayLive);
-      })
-      .catch((error) => {
-        // .catch는 axios 요청 실패시 작업
-        console.log(error); // error 메세지 확인
-      });
-  };
-
-  const getSessionId = async () => {
-    await axios({
-      url: "/projects/live/session-id/" + props.project.id,
-      method: "get",
-      data: {},
-      baseURL: baseUrl,
-    })
-      .then((response) => {
-        setSessionId(response.data.sessionId);
-      })
-      .catch((error) => {
-        // .catch는 axios 요청 실패시 작업
-        console.log(error); // error 메세지 확인
-      });
-  };
-
-  getLiveState();
-  getSessionId();
+  // const [sessionId, setSessionId] = useState("");
+  
 
   const route = () => {
-    navigate("/lives/" + sessionId + "/" +  props.project.id);
+    navigate("/lives/" + props.sessionId + "/" +  props.project.id);
   };
 
   const GoToReward = () => {
@@ -91,7 +59,7 @@ export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
         ></BannerContribStatus>
 
         {/* <SocialBtn bottom="31px" right="350px" /> */}
-        {!onAir ? (
+        {!props.onAir ? (
           <NotLiveBtn bottom="35px" right="190px">
            라이브 커밍 쑨
           </NotLiveBtn>
