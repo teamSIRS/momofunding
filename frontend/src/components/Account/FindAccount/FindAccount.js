@@ -12,7 +12,6 @@ const Tab = styled.span`
   width: 150px;
   text-align: center;
   font-size: 15px;
-
   margin: auto;
   margin-top: 30px;
   border-radius: 5px;
