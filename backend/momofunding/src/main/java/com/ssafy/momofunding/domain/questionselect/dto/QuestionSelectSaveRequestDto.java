@@ -3,7 +3,9 @@ package com.ssafy.momofunding.domain.questionselect.dto;
 import com.ssafy.momofunding.domain.questionselect.domain.QuestionSelect;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Getter
 public class QuestionSelectSaveRequestDto {
 
