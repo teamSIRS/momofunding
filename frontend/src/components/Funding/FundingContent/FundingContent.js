@@ -4,12 +4,18 @@ import { Content } from "./styles";
 
 // content 전체 설정
 const FundingContentBox = styled.div`
-  margin-top: 50px;
+  margin-top: 20px;
   padding-left: 0px;
+  width: 120%;
 `;
 
 // content - 후원금 추가
-const FundingContentAddBox = styled.div``;
+const FundingContentAddBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 120%;
+  height: auto;
+`;
 const FundingContentAddTitle = styled.div`
   font-size: 20px;
   font-weight: bold;
@@ -28,6 +34,7 @@ const FundingContentAddLabel = styled.div`
 `;
 const FundingContentAddInput = styled.input`
   width: 300px;
+
   border-radius: 5px;
   border-color: transparent;
   background-color: #e3e3ef;
@@ -40,7 +47,7 @@ const FundingContentAddInput = styled.input`
 const FundingContentInfoBox = styled.div`
   display: flex;
   flex-direction: column;
-  width: 120%;
+  width: 100%;
   height: auto;
 `;
 const FundingContentInfoTitle = styled(FundingContentAddTitle)``;
@@ -49,7 +56,7 @@ const FundingContentInfoInputBox = styled(FundingContentAddInputBox)`
 `;
 const FundingContentInfoLabel = styled(FundingContentAddLabel)``;
 const FundingContentInfoInput = styled(FundingContentAddInput)`
-  width: 250px;
+  width: 300px;
 `;
 
 // content - 결제 정보
@@ -168,16 +175,18 @@ export const FundingContent = (props) => {
                 onChange={(e) => setShippingAddr(e.target.value)}
                 value={shippingAddr}
               ></FundingContentInfoInput>
-              <FundingContentInfoInputBox>
-                <FundingContentInfoLabel as={"label"}>
-                  요청사항
-                </FundingContentInfoLabel>
-                <FundingContentInfoInput
-                  as={"input"}
-                  onChange={(e) => setRequest(e.target.value)}
-                  value={request}
-                ></FundingContentInfoInput>
-              </FundingContentInfoInputBox>
+            </FundingContentInfoInputBox>
+          ) : null}
+          {props.isDeliver ? (
+            <FundingContentInfoInputBox>
+              <FundingContentInfoLabel as={"label"}>
+                요청사항
+              </FundingContentInfoLabel>
+              <FundingContentInfoInput
+                as={"input"}
+                onChange={(e) => setRequest(e.target.value)}
+                value={request}
+              ></FundingContentInfoInput>
             </FundingContentInfoInputBox>
           ) : null}
           <FundingContentInfoInputBox>

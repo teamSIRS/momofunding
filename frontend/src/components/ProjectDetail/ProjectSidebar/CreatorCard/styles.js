@@ -3,6 +3,7 @@ import { MomoColor } from "../../../../shared/global";
 
 export const Text = styled.div`
   margin-left: 30px;
+  padding-right: 10px;
 `;
 
 export const InfoCard = styled.div`
