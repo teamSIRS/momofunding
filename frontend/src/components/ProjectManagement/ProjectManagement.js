@@ -181,7 +181,7 @@ function ProjectManagement() {
       baseURL: baseUrl,
     })
       .then((response) => {
-        if (response.data.projectName != "") setIsUpdateProject(true);
+        if (response.data.projectName !== "") setIsUpdateProject(true);
         else setIsUpdateProject(false);
       })
       .catch((error) => {
@@ -196,7 +196,6 @@ function ProjectManagement() {
       baseURL: baseUrl,
     })
       .then((response) => {
-        console.log(response.data.length);
         if (response.data.length >= 1) setIsUpdateRewards(true);
         else setIsUpdateRewards(false);
       })
@@ -243,12 +242,9 @@ function ProjectManagement() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log("프로젝트 시작");
-          console.log(response.data);
           navigate(`/`);
         })
         .catch((error) => {
-          console.log("에러발생");
           console.log(error);
         });
     };

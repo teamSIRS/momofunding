@@ -163,7 +163,6 @@ function ProjectManagementContentReward(props) {
   }
   //////////////////////////////////////////////////////////////////////
   function saveRewards(data) {
-    console.log(data);
     const saveRewards = async () => {
       await axios({
         url: `/rewards`,
@@ -182,11 +181,9 @@ function ProjectManagementContentReward(props) {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
           setRewardId(response.data.id);
         })
         .catch((error) => {
-          console.log("에러발생");
           console.log(error);
         });
     };
@@ -216,10 +213,8 @@ function ProjectManagementContentReward(props) {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
         })
         .catch((error) => {
-          console.log("에러발생");
           console.log(error);
         });
     };
@@ -257,7 +252,6 @@ function ProjectManagementContentReward(props) {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
         })
         .catch((error) => {
           console.log(error);

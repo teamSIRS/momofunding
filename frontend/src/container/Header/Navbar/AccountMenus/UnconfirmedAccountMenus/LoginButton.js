@@ -180,7 +180,6 @@ function LoginButton() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
           const token = response.data.token;
           localStorage.setItem("auth-token", token);
 

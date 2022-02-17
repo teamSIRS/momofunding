@@ -34,7 +34,6 @@ export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
       baseURL: baseUrl,
     })
       .then((response) => {
-        console.log(response.data.isPlayLive);
         setOnAir(response.data.isPlayLive);
       })
       .catch((error) => {
@@ -51,7 +50,6 @@ export const ProjectBanner: React.FC<Props> = ({ ...props }) => {
       baseURL: baseUrl,
     })
       .then((response) => {
-        console.log(response.data.sessionId);
         setSessionId(response.data.sessionId);
       })
       .catch((error) => {
