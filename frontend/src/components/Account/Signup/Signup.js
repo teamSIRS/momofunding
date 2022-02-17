@@ -15,7 +15,7 @@ const SignupBackGround = styled.div`
 
 const SignupMainForm = styled.div`
   width: 600px;
-  height: 700px;
+  min-height: 800px;
   background-color: whitesmoke;
   border-radius: 10px;
 `;
@@ -95,43 +95,6 @@ const SignupBtn = styled(SignupInputs)`
   &:hover {
     background-color: #3c3d8b;
   }
-`;
-
-const SignupBtn2 = styled.input`
-  background-color: #6667ab;
-  color: white;
-  &:hover {
-    background-color: #3c3d8b;
-  }
-`;
-
-const SeparateLineForm = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 30px 0px;
-`;
-
-const SeparateLine = styled.hr`
-  display: inline;
-  align-self: center;
-  width: 40%;
-  margin: auto;
-`;
-
-const SeparateLabel = styled.label``;
-
-const SocialLoginForm = styled.div``;
-
-const SocialLoginBtns = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const SocialLoginLogo = styled.img`
-  width: 50px;
-  height: 50px;
-  margin: 0px 15px;
 `;
 
 const ErrorMsg = styled.span`
@@ -428,30 +391,6 @@ function Signup() {
             </CheckBoxForm>
 
             <SignupBtn as="button">회원가입</SignupBtn>
-            <Col style={styles.col} xs={12}>
-              <SeparateLineForm>
-                <SeparateLine></SeparateLine>
-                <SeparateLabel>또는</SeparateLabel>
-                <SeparateLine></SeparateLine>
-              </SeparateLineForm>
-            </Col>
-            <SocialLoginForm>
-              <SocialLoginBtns>
-                <SocialLoginLogo
-                  src="/socialLoginLogo/facebook.png"
-                  alt="fackbook-image"
-                />
-                <SocialLoginLogo
-                  src="/socialLoginLogo/kakao-talk.png"
-                  alt="kakao-talk-image"
-                />
-                <SocialLoginLogo
-                  src="/socialLoginLogo/google.png"
-                  alt="google-image"
-                />
-                <SocialLoginBtns />
-              </SocialLoginBtns>
-            </SocialLoginForm>
           </Container>
         </SignupForm>
       </SignupMainForm>
