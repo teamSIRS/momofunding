@@ -6,6 +6,7 @@ import { IonIcon } from "@ionic/react";
 import { caretUp, caretDown } from "ionicons/icons";
 import { comma } from "../../../../atoms";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 const Card = styled(InfoCard)`
   height: auto;
@@ -120,6 +121,8 @@ function RewardCard(props) {
       reward: props.rewards,
       amount: amount,
     };
+    if(amount > props.rewards.limitedQuantity || props.rewards.limitedQuantity <= 0) {swal("남은 수량을 확인해주세요", {icon: "warning"}); return;}
+    
     navigate(`/funding`, { state: { data: data } });
     window.scrollTo(0, 0);
   };
