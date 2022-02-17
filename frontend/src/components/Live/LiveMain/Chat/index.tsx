@@ -133,7 +133,7 @@ const Chat = ({ show }: ChatProps) => {
       <ChatHeader>
         <ChatTop>실시간 채팅</ChatTop>
         {isStaff ? (
-          <ProjectClose to="#">
+          <ProjectClose to={`/myproject/${pjtId}`}>
             <LiveBtnRoundDangerSmall>
               <ChatIcon icon={closeOutline}></ChatIcon>
             </LiveBtnRoundDangerSmall>
