@@ -73,6 +73,7 @@ function ProjectCard({ project }) {
         onClick={() => {
           goToProjct(project.id);
         }}
+        key={project.id}
       >
         <div
           className="position-absolute top-0 end-0"
