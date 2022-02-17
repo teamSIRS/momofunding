@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { baseUrl } from "../../../App";
+import Swal from "sweetalert2";
 
 const Content = styled.p`
   font-weight: bold;
@@ -9,6 +10,13 @@ const Content = styled.p`
 `;
 
 function PayFail() {
+  Swal.fire({
+    title: "결제에 실패하였습니다.",
+    icon: "error",
+    showConfirmButton: false,
+    timer: 1200,
+  });
+
   const { token } = useParams();
   console.log(token);
   const deleteRewardOrder = async () => {
@@ -23,7 +31,9 @@ function PayFail() {
       baseURL: baseUrl,
     })
       .then((response) => {
+        // console.log("결제에 실패한거야 나는");
         console.log(response);
+        // console.log("결제에 실패한거야 나는");
       })
       .catch((error) => {
         // .catch는 axios 요청 실패시 작업
@@ -31,9 +41,9 @@ function PayFail() {
       });
   };
   deleteRewardOrder();
-  setTimeout(() => {
-    window.close();
-  }, 10000);
+  // setTimeout(() => {
+  //   window.close();
+  // }, 7000);
 
   return (
     <>
