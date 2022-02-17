@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
 import { useRecoilState } from "recoil";
@@ -20,7 +20,7 @@ const LoginBackGround = styled.div`
 
 const LoginMainForm = styled.div`
   width: 500px;
-  height: 500px;
+  height: 470px;
   background-color: whitesmoke;
   border-radius: 10px;
 `;
@@ -36,8 +36,6 @@ const GeneralLoginForm = styled.div`
   width: 350px;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: center; */
 `;
 
 const InputIdAndPw = styled.input`
@@ -78,8 +76,6 @@ const FindIdOrPw = styled.input`
   margin-left: auto;
   color: black;
   background-color: transparent;
-  /* color: black;
-  text-decoration: none; */
 `;
 
 const LoginBtn = styled(InputIdAndPw)`
@@ -101,7 +97,9 @@ const SeparateLine = styled.hr`
   margin: 10px;
 `;
 
-const SocialLoginForm = styled.div``;
+const SocialLoginForm = styled.div`
+  margin-top: 30px;
+`;
 
 const SocialLoginBtns = styled.div`
   display: flex;
@@ -130,12 +128,6 @@ const GoToSignup = styled.a`
   }
 `;
 
-const styles = {
-  bgColor: {
-    backgroundColor: "whitesmoke",
-  },
-};
-
 const LoginModalBtn = styled.button`
   background-color: #6667ab;
   color: white;
@@ -146,6 +138,11 @@ const LoginModalBtn = styled.button`
     background-color: transparent;
   }
 `;
+const styles = {
+  bgColor: {
+    backgroundColor: "whitesmoke",
+  },
+};
 
 function LoginButton() {
   const navigate = useNavigate();
@@ -223,7 +220,6 @@ function LoginButton() {
 
   const onKeyDown = (e) => {
     if (e.key === "Enter") {
-      console.log("엔터나와랏!");
       signin();
     }
   };
@@ -260,10 +256,6 @@ function LoginButton() {
                     onKeyDown={onKeyDown}
                   />
                   <CheckBoxAndLink>
-                    <CheckBox>
-                      <input id="check" type="checkbox" />
-                      <CheckBoxLabel htmlFor="check">아이디 저장</CheckBoxLabel>
-                    </CheckBox>
                     <FindIdOrPw as="a" onClick={goToFind}>
                       아이디, 비밀번호 찾기
                     </FindIdOrPw>
@@ -273,26 +265,7 @@ function LoginButton() {
                     로그인
                   </LoginBtn>
                 </GeneralLoginForm>
-                <SeparateLineForm>
-                  <SeparateLine></SeparateLine> 또는
-                  <SeparateLine></SeparateLine>
-                </SeparateLineForm>
                 <SocialLoginForm>
-                  <SocialLoginBtns>
-                    <SocialLoginLogo
-                      src="/socialLoginLogo/facebook.png"
-                      alt="fackbook-image"
-                    />
-                    <SocialLoginLogo
-                      src="/socialLoginLogo/kakao-talk.png"
-                      alt="kakao-talk-image"
-                    />
-                    <SocialLoginLogo
-                      src="/socialLoginLogo/google.png"
-                      alt="google-image"
-                    />
-                    <SocialLoginBtns />
-                  </SocialLoginBtns>
                   <GoToSiginupForm>
                     <GoToSignupMessage>
                       아직 회원이 아니신가요?
