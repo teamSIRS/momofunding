@@ -14,13 +14,11 @@ export const Body = styled.div`
 `;
 
 export const Content = styled.div`
-  /* border: 1px solid blue; */
   flex-direction: column;
   padding: 0 0 150px 0px;
 `;
 
 export const Side = styled.div`
-  /* border: 1px solid purple; */
   display: inline-block;
   padding: 50px 0;
 `;

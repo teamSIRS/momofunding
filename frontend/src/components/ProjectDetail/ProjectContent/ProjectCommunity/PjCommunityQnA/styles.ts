@@ -1,4 +1,4 @@
-import { Card, CardGroup } from "react-bootstrap";
+import { CardGroup } from "react-bootstrap";
 import styled from "styled-components";
 
 export const QnAWrapper = styled(CardGroup)`

@@ -16,9 +16,3 @@ const Template: ComponentStory<typeof Menu> = (args: MenuProps) => (
 );
 
 export const Selected = (args: MenuProps) => <Menu {...args}></Menu>;
-
-// export const Selected = Template.bind({});
-// Selected.args = {
-//   children: "선택",
-//   path: "https://momofunding.com/selected",
-// };
