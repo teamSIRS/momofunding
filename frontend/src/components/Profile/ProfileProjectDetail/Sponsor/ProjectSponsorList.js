@@ -53,7 +53,6 @@ function ProjectSponsorList() {
       [
         "주문번호",
         "수량",
-        "수량",
         "결제금액",
         "이름",
         "연락처",
