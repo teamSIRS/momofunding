@@ -31,7 +31,7 @@ export const ProjectStory = () => {
     <Container>
       {
           content.split('\n').map(line => {
-            return (<span>{line}<br/></span>)
+            return (<span key={line}>{line}<br/></span>)
           })
       } 
     </Container>

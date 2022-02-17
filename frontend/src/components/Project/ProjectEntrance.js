@@ -90,13 +90,17 @@ const ProjectContentTextBox = styled.div`
   align-items: center;
 `;
 
-const ProjectContentText = styled.p`
+const ProjectContentText = styled.div`
   margin: 20px;
   font-size: 20px;
 `;
 
 const ProjectEntranceMain = styled.div`
   margin-bottom: 60px;
+`;
+
+const Title = styled.h3`
+  font-weight: bold;
 `;
 
 function ProjectEntrance() {
@@ -208,9 +212,7 @@ function ProjectEntrance() {
           <ProjectEntranceSeparateLine />
           <ProjectContentTextBox>
             <ProjectContentText>
-              <h3>
-                <b>지금 도전해 보세요!</b>
-              </h3>
+              <Title>지금 도전해 보세요!</Title>
               <br />
               심사가 진행되기 전에는 누구도
               <b> {nickname ? nickname : "창작자"}</b>님의 프로젝트를 볼 수

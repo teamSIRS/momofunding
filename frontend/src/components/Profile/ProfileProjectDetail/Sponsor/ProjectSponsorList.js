@@ -44,7 +44,6 @@ function ProjectSponsorList() {
     const ws = xlsx.utils.json_to_sheet(columns);
     const wb = xlsx.utils.book_new();
     
-    //수량 결제금액 이름 연락처 주소 배송요청사항 선택옵션
     [
       "주문번호",
       "수량",
@@ -84,7 +83,8 @@ function ProjectSponsorList() {
           </thead>
           <tbody>
               {
-                  sponsors && sponsors.map((sponsor, i) =>{
+                  sponsors 
+                  ? sponsors.map((sponsor, i) =>{
                       return(
                           <tr>
                           <th>{i+1}</th>
@@ -96,6 +96,16 @@ function ProjectSponsorList() {
                           </tr>
                       )
                   })
+                  : (
+                    <tr>
+                          <th>-</th>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          </tr>
+                  )
               }
           </tbody>
       </table>

@@ -202,7 +202,7 @@ function SurveyAdd({ surveys, Survey }) {
                         </option>
                       ))}
                     </select>
-                    <Info>❔ 복수개의 질문을 등록하려면 질문 등록을 다시 눌러주세요</Info>
+                    <Info>❔ 복수개의 질문을 등록하려면 질문 등록을 다시 해주세요</Info>
 
                     <hr />
 
