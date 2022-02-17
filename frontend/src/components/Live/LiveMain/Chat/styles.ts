@@ -185,7 +185,7 @@ export const LiveBtnRoundDangerSmall = styled(LiveBtnRoundDanger)`
 `;
 
 export const ProjectClose = styled(ProjectLink)`
-  width: 42%;
+  width: 48%;
   font-size: 16px;
   background: ${MomoWeakColor};
   align-self: flex-end;
