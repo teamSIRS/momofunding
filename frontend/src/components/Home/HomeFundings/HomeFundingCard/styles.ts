@@ -15,7 +15,7 @@ export const StyledCard = styled(Card)<{ height: string; width: string }>`
   transition: cubic-bezier(0.86, 0, 0.07, 1);
   &:hover {
     filter: brightness(65%);
-    /* transform: scale(1.05); */
+    transform: scale(1.05);
     transition: 0.3s ease-in-out;
   }
 `;

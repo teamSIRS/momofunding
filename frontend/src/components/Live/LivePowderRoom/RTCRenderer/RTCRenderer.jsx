@@ -382,6 +382,36 @@ export const RTCRenderer = () => {
       });
   };
 
+  const getConnections = async () => {
+    // https://YOUR_OPENVIDUSERVER_IP/openvidu/api/sessions/SESSION_ID/connection
+    await axios({
+      url: `/openvidu/api/sessions/`+sessionId+`/connection`,
+      method: "get",
+      // baseURL: baseUrl,
+      baseURL: OPENVIDU_SERVER_URL,
+      headers: {
+        Authorization:
+        "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        console.log("call connections");
+        console.log(response.data);
+        console.log("인원수: "+response.data.numberOfElements);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log("================================connections");
+      getConnections();
+    }, 10000);
+  }, []);
+
   return (
     <RendererWrapper>
       <TestVideoWrapper
