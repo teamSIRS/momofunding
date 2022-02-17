@@ -11,27 +11,21 @@ export type HomeBannerProps = {
   slogan: string;
 };
 
-export const HomeBanner = ({
-  index,
-  imgSrc,
-  title,
-  slogan,
-}: HomeBannerProps) => {
-  const MessageTitle = styled.div`
-    font-size: 25px;
-    color: white;
-    position: absolute;
-    top: 30%;
-    left: 20%;
-  `;
+const MessageTitle = styled.div`
+  font-size: 25px;
+  color: white;
+  position: absolute;
+  top: 30%;
+  left: 20%;
+`;
 
-  const Message = styled(MessageTitle)`
-    font-size: 35px;
-    font-weight: bold;
-    top: 35%;
-    margin-top: 20px;
-  `;
-
+const Message = styled(MessageTitle)`
+  font-size: 35px;
+  font-weight: bold;
+  top: 35%;
+  margin-top: 20px;
+`;
+function HomeBanner({ index, imgSrc, title, slogan }: HomeBannerProps) {
   return (
     <BannerBox>
       <StyledImg src={imgSrc} alt={index.toString()} />
@@ -47,4 +41,5 @@ export const HomeBanner = ({
       </Carousel.Caption>
     </BannerBox>
   );
-};
+}
+export default HomeBanner;
