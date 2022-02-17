@@ -35,14 +35,14 @@ export const SurveyList = () => {
       .then((res) => {
         const data: surveysProp[] = res.data;
         setSurveys(data);
-        console.log(data);
+        // console.log(data);
       })
       .catch((error) => console.log(error));
   };
   // constructor
   useEffect(() => {
     getSurveyList();
-    console.log("surveys:", surveys);
+    // console.log("surveys:", surveys);
   }, []);
 
   const isSurveyExists = () => {
@@ -57,7 +57,7 @@ export const SurveyList = () => {
             <SurveyItemWrapper
               key={idx}
               onClick={() => {
-                console.log(survey.id, "clicked!");
+                // console.log(survey.id, "clicked!");
                 session.signal({
                   data: `${survey.id}`,
                   to: [],

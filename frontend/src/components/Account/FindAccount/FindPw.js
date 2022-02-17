@@ -24,10 +24,10 @@ function FindPw() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
         })
         .catch((error) => {
-          console.log("에러발생");
+          // console.log("에러발생");
           console.log(error);
         });
     };

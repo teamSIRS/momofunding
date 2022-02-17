@@ -70,14 +70,13 @@ function SurveyResult({ surveyId }) {
         .then((response) => {
           setData(response.data);
           setQuestions(response.data.questions);
-          console.log(response.data.questions);
         })
         .catch((error) => {
           console.log("에러발생");
           console.log(error);
         });
     };
-    getResults();
+    getResults(); 
   }
 
   return (

@@ -63,7 +63,7 @@ const Chat = ({ show }: ChatProps) => {
 
     const data = { nickname: nickname, message: message };
 
-    console.log("보냄!");
+    // console.log("보냄!");
     recoilSession
       .signal({
         data: JSON.stringify(data),
