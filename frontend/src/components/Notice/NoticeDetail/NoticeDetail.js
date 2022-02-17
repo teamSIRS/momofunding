@@ -15,15 +15,12 @@ const NoticeDetailMain = styled.div`
   padding: 60px 0px;
   position: relative;
 `;
-
 const NoticeDetailMainTitle = styled.div`
   margin: 50px;
   font-size: 30px;
   font-weight: bold;
 `;
-
 const NoticeDetailForm = styled.div``;
-
 const NoticeDetailInputBox = styled.div`
   width: 90%;
   margin: auto;
@@ -45,18 +42,15 @@ const NoticeDetailInput = styled.input`
     outline: 1px solid #6667ab;
   }
 `;
-
 const NoticeDetailTextarea = styled(NoticeDetailInput)`
   height: 200px;
 `;
-
 const NoticeDetailBtn = styled.button`
   float: right;
   padding: 5px 10px;
   margin-left: 10px;
   background-color: ${(props) => props.BtnBgColor};
 `;
-
 const styles = {
   col: {
     paddingLeft: 0,
@@ -72,22 +66,20 @@ function NoticeDetail() {
   const navigate = useNavigate();
   const role = useRecoilValue(roleState);
   const isAdmin = role === "ADMIN";
-
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { id } = useParams();
-  //////////////////////////////////////////////////////////////////////
+
   const onTitleChange = (event) => {
     setTitle(event.target.value);
   };
   const onContentChange = (event) => {
     setContent(event.target.value);
   };
-
   const goBackToList = () => {
     navigate("/notices");
   };
-  //////////////////////////////////////////////////////////////////////
+
   function getNotice() {
     const getNotice = async () => {
       await axios({
@@ -97,18 +89,15 @@ function NoticeDetail() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
           setTitle(response.data.title);
           setContent(response.data.content);
         })
         .catch((error) => {
-          console.log("에러발생");
           console.log(error);
         });
     };
     getNotice();
   }
-  //////////////////////////////////////////////////////////////////////
   function updateNotice(event) {
     event.preventDefault();
     const data = {
@@ -124,17 +113,15 @@ function NoticeDetail() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
           navigate("/notices");
         })
         .catch((error) => {
-          console.log("에러발생");
           console.log(error);
         });
     };
     updateNotice();
   }
-  //////////////////////////////////////////////////////////////////////
+
   function deleteNotice() {
     const deleteNotice = async () => {
       await axios({
@@ -144,7 +131,6 @@ function NoticeDetail() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
           navigate("/notices");
         })
         .catch((error) => {
@@ -154,7 +140,6 @@ function NoticeDetail() {
     deleteNotice();
   }
 
-  //////////////////////////////////////////////////////////////////////
   useEffect(() => {
     getNotice();
   }, []);
