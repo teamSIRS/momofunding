@@ -130,6 +130,10 @@ function MyProjectDetail() {
   };
 
   function deletePjtCheck(){
+    if (project.projectStateId === 2) {
+      swal("진행 중인 프로젝트는 삭제할 수 없습니다!");
+      return;
+    }
     swal({
       title: "프로젝트를 삭제하시겠습니까?",
       text: "프로젝트 삭제 시, 다시 되돌릴 수 없습니다!",
@@ -204,10 +208,10 @@ function MyProjectDetail() {
           <ManageBtn>
             <button onClick={goToManagePjt}>프로젝트 관리</button>
           </ManageBtn>
-          {/* <ToNewLiveLink to={`/lives/new/${id}`}> */}
-            {/* <LiveBtn>라이브 켜기</LiveBtn> */}
-            <LiveBtn onClick={createLive}>라이브 켜기</LiveBtn>
-          {/* </ToNewLiveLink> */}
+          <ToNewLiveLink to={`/lives/new/${id}`}>
+            <LiveBtn>라이브 켜기</LiveBtn>
+            {/* <LiveBtn onClick={createLive}>라이브 켜기</LiveBtn> */}
+          </ToNewLiveLink>
           <DeleteBtn>
             <button onClick={deletePjtCheck}>프로젝트 삭제</button>
           </DeleteBtn>
