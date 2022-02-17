@@ -213,7 +213,7 @@ function SurveyEdit({ survey, onRemove, Survey }) {
                           <SurveyNumInput>
                             <Box>
                               <QBox>Q.</QBox>
-                              <input value={project.title}></input>
+                              <input value={project.title} readOnly></input>
                             </Box>
 
                             {project.selectIds.length !== 0 ? (

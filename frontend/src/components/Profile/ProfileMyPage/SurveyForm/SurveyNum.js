@@ -107,9 +107,7 @@ function SurveyNum({ surveyId, AddSurveyQuest }) {
 
   const AddQuestion = () => {
     if(title === "") return;
-    AddSurveyQuest(surveyId, questionType, title); //서베이에 질문 추가
-    getQuestions();
-    getQuestions();
+    AddSurveyQuest(surveyId, questionType, title).then(getQuestions); //서베이에 질문 추가 후 확인
     swal("질문이 등록되었습니다", "이제 문항을 등록해주세요");
     setOpenContent(true);
     setContentList([]);
