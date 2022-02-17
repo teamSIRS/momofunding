@@ -27,32 +27,6 @@ const ProfileMemberBox = styled.div`
 `;
 const ProfileMemberForm = styled.form``;
 
-// 프로필 사진
-const ProfileMemberImgBox = styled.div`
-  height: 230px;
-`;
-const ProfileMemberImg = styled.img`
-  display: block;
-  width: 150px;
-  height: 150px;
-  border: solid 3px #6667ab;
-  border-radius: 50%;
-  margin: auto;
-  margin-bottom: 20px;
-`;
-
-const ProfileMemberImgLabel = styled.label`
-  background-color: #6667ab;
-  color: white;
-  border-radius: 5px;
-  padding: 3px;
-  cursor: pointer;
-  float: right;
-`;
-const ProfileMemberImgInput = styled.input`
-  display: none;
-`;
-
 // 닉네임
 const ProfileMemberNicknameBox = styled.div`
   margin-bottom: 70px;
@@ -72,19 +46,7 @@ const ProfileMemberNicknameInput = styled.div`
     outline: 1px solid #6667ab;
   }
 `;
-// 자기소개
-const ProfileMemberIntroduceBox = styled(ProfileMemberNicknameBox)``;
-const ProfileMemberIntroduceLabel = styled(ProfileMemberNicknameLabel)``;
-const ProfileMemberIntroduceInput = styled.div`
-  display: block;
-  width: 360px;
-  border-radius: 5px;
-  border-color: transparent;
-  background-color: #e3e3ef;
-  &:focus {
-    outline: 1px solid #6667ab;
-  }
-`;
+
 // 비밀번호 수정
 const ProfileMemberPasswordBox = styled(ProfileMemberNicknameBox)``;
 const ProfileMemberPasswordInputBox = styled.div`
@@ -124,7 +86,7 @@ const ProfileMemberDeleteBtn = styled.div`
   height: 30px;
   right: 0px;
   color: gray;
-  background-color: white;
+  background-color: #f2f2f2;
   font-size: 15px;
 `;
 const ErrorMsg = styled.span`
@@ -141,6 +103,7 @@ const ProfileMemberMain = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 900px;
 `;
 
 function ProfileMember() {
@@ -279,14 +242,6 @@ function ProfileMember() {
         <ProfileMemberTitle>회원정보 수정 페이지</ProfileMemberTitle>
         <ProfileMemberBox>
           <ProfileMemberForm onSubmit={handleSubmit(onValid)}>
-            {/* <ProfileMemberImgBox>
-            <ProfileMemberImg src="/photo/profile.png" />
-            <ProfileMemberImgLabel htmlFor="profile_photo">
-              사진변경
-            </ProfileMemberImgLabel>
-            <ProfileMemberImgInput type="file" id="profile_photo" />
-          </ProfileMemberImgBox> */}
-
             <ProfileMemberNicknameBox>
               <ProfileMemberNicknameLabel as={"label"}>
                 이메일[아이디]
