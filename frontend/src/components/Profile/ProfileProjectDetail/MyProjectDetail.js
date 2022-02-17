@@ -77,7 +77,6 @@ function MyProjectDetail() {
     await axios
       .get(baseUrl + "/surveys/projects/" + id)
       .then((res) => {
-        // console.log(res.data);
         setSurveys([...res.data]);
         if (surveys.length === 0) setIsSurvey(false);
         else setIsSurvey(true);
@@ -129,7 +128,7 @@ function MyProjectDetail() {
     navigate(`/myproject/${id}/management/profile`);
   };
 
-  function deletePjtCheck(){
+  function deletePjtCheck() {
     if (project.projectStateId === 2) {
       swal("진행 중인 프로젝트는 삭제할 수 없습니다!");
       return;
@@ -140,18 +139,15 @@ function MyProjectDetail() {
       icon: "warning",
       buttons: true,
       dangerMode: true,
-    })
-    .then((willDelete) =>{
-      if(willDelete){
+    }).then((willDelete) => {
+      if (willDelete) {
         deletePjt();
+      } else {
       }
-      else{
-        
-      }
-    })
+    });
   }
 
-  function createLive(){
+  function createLive() {
     if (project.projectStateId === 1) {
       swal("작성 중인 프로젝트에서는 라이브를 켤 수 없습니다!");
       return;
@@ -172,7 +168,7 @@ function MyProjectDetail() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           swal("프로젝트 삭제 완료!", "프로젝트를 삭제하였습니다.", "success", {
             button: true,
           });
