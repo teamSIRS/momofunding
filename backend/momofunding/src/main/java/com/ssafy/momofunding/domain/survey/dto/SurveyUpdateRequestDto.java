@@ -3,9 +3,11 @@ package com.ssafy.momofunding.domain.survey.dto;
 import com.ssafy.momofunding.domain.survey.domain.Survey;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
 @Getter
 public class SurveyUpdateRequestDto {
 

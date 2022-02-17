@@ -3,6 +3,7 @@ package com.ssafy.momofunding.domain.surveyquestion.domain;
 import com.ssafy.momofunding.domain.questionselect.domain.QuestionSelect;
 import com.ssafy.momofunding.domain.questiontype.domain.QuestionType;
 import com.ssafy.momofunding.domain.survey.domain.Survey;
+import com.ssafy.momofunding.domain.surveyanswer.domain.SurveyAnswer;
 import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,6 +34,9 @@ public class SurveyQuestion extends AuditBaseEntity {
 
     @OneToMany(mappedBy = "surveyQuestion", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<QuestionSelect> questionSelects;
+
+    @OneToMany(mappedBy = "surveyQuestion", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<SurveyAnswer> surveyAnswers;
 
     public void mapSurvey(Survey survey){
         this.survey = survey;

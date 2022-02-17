@@ -2,8 +2,10 @@ package com.ssafy.momofunding.domain.live.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class LiveSummaryUpdateRequestDto {
 
     private String title;
