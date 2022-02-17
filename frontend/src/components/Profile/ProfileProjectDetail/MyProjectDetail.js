@@ -204,10 +204,10 @@ function MyProjectDetail() {
           <ManageBtn>
             <button onClick={goToManagePjt}>프로젝트 관리</button>
           </ManageBtn>
-          <ToNewLiveLink to={`/lives/new/${id}`}>
+          <LiveBtn onClick={createLive}>라이브 켜기</LiveBtn>
+          {/* <ToNewLiveLink to={`/lives/new/${id}`}>
             <LiveBtn>라이브 켜기</LiveBtn>
-            {/* <LiveBtn onClick={createLive}>라이브 켜기</LiveBtn> */}
-          </ToNewLiveLink>
+          </ToNewLiveLink> */}
           <DeleteBtn>
             <button onClick={deletePjtCheck}>프로젝트 삭제</button>
           </DeleteBtn>

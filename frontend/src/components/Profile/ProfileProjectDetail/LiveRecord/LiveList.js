@@ -1,15 +1,9 @@
 import styled from 'styled-components';
 import { Table } from 'react-bootstrap';
-import { IonIcon } from '@ionic/react';
-import { downloadOutline } from 'ionicons/icons';
 
 const MyTable = styled(Table)`
     text-align: center;
     background-color: #F9F9F9;
-`;
-
-const Icon = styled(IonIcon)`
-    font-size: 18px;
 `;
 
 function LiveList(lives){
@@ -17,7 +11,7 @@ function LiveList(lives){
         let list=[];
         if(lives.lives.length === 0){
             list.push(
-                <tr>
+                <tr key={list}>
                     <td>-</td>
                     <td>라이브 기록 없음</td>
                 </tr>
@@ -26,7 +20,7 @@ function LiveList(lives){
         else{
             for(let i=0; i<lives.lives.length; i++){
                 list.push(
-                    <tr>
+                    <tr key={lives.id}>
                         <td>{lives.lives[i].registerDate.slice(0,10)}</td>
                         <td>{lives.lives[i].title}</td>
                     </tr>
