@@ -20,7 +20,6 @@ import ProjectCommunity from "./components/ProjectDetail/ProjectContent/ProjectC
 import LivePowderRoom from "./components/Live/LivePowderRoom";
 import CreateNotice from "./components/Notice/CreateNotice/CreateNotice";
 import NoticeDetail from "./components/Notice/NoticeDetail/NoticeDetail";
-import LiveMain from "./components/Live/LiveMain";
 import FundProject from "./components/Profile/ProfileMyPage/FundProject";
 import MyProject from "./components/Profile/ProfileMyPage/MyProject";
 import MyProjectDetail from "./components/Profile/ProfileProjectDetail/MyProjectDetail";
@@ -81,7 +80,6 @@ function App() {
           path="/lives/:sessionId/:projectId"
           element={<LivePowderRoom />}
         ></Route>
-        {/* <Route path="/lives/:id/new" element={<LivePowderRoom />}></Route> */}
         <Route path="/notices" element={<Notice />}></Route>
         <Route path="/notices/create" element={<CreateNotice />}></Route>
         <Route path="/notices/:id" element={<NoticeDetail />}></Route>
