@@ -81,24 +81,25 @@ const msgType = {
 };
 
 export const RTCRenderer = () => {
-  const [isStaff, setIsStaff] = useRecoilState(authorizationState);
   const [camOn, setCamActive] = useRecoilState(camState);
   const [micOn, setMicActive] = useRecoilState(micState);
   const [publisher, setPublisher] = useState(pubType);
   const [subscriber, setSubscriber] = useState(subType);
   const [message, setMessage] = useState(msgType);
-  const setSession = useSetRecoilState(sessionState);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [title, setTitle] = useRecoilState(titleState);
-  const [curSurvey, setCurSurvey] = useRecoilState(SelectedSurveyState);
   const [content, setContent] = useState("");
   const [messages, setMessages] = useRecoilState(msgsState);
   const [sessionIdToServer, setSessionId] = useState("");
   const [pjtId, setProjectId] = useRecoilState(pjtIdState);
-  const setSurveySubmit = useSetRecoilState(surveySubmitState);
   const [liveId, setLiveID] = useState("default");
-  const [viewersCnt, setViewerCnt] = useRecoilState(viewrsCntState);
-  const [audioOn, setAudio] = useRecoilState(audioState);
+  const [audioOn, _] = useRecoilState(audioState);
+  const setIsStaff = useSetRecoilState(authorizationState);
+  const setSession = useSetRecoilState(sessionState);
+  const setCurSurvey = useSetRecoilState(SelectedSurveyState);
+  const setSurveySubmit = useSetRecoilState(surveySubmitState);
+  const setViewerCnt = useSetRecoilState(viewrsCntState);
+
   let session = sessionType;
   let isCreated = false;
   let sessionId;
@@ -111,22 +112,18 @@ export const RTCRenderer = () => {
   const onCamClick = () => {
     setCamActive((now) => !now);
   };
+  const onMicClick = () => {
+    setMicActive((now) => !now);
+  };
 
   const toggleCam = () => {
     publisher.publishVideo(camOn);
   };
-
   const toggleMic = () => {
     publisher.publishAudio(micOn);
   };
-
   const toggleAudio = () => {
     subscriber.subscribeToAudio(audioOn);
-  };
-
-  const onMicClick = () => {
-    setMicActive((now) => !now);
-    publisher.publishAudio(micOn);
   };
 
   const createSession = (sessionId) => {
@@ -256,37 +253,6 @@ export const RTCRenderer = () => {
     session.disconnect();
   };
 
-  const cleanUp = () => {
-    setTitle("");
-    setContent("");
-    leaveSession();
-    setPublisher(pubType);
-  };
-
-  const isPublisher = () => {
-    return userSideSessionId === "new";
-  };
-
-  // 컴포넌트 생성시
-  useEffect(() => {
-    sessionId = userSideSessionId;
-    if (isPublisher()) {
-      sessionId = staffSideSessionId;
-    } else {
-      setIsSubmitted(true);
-      setIsStaff(false);
-    }
-    setProjectId(projectId);
-    setSessionId(sessionId);
-    setTimeout(() => {
-      joinSession();
-    }, 2000);
-
-    return () => {
-      cleanUp();
-    };
-  }, []);
-
   // toggle 관련
   useEffect(() => {
     toggleCam();
@@ -371,16 +337,13 @@ export const RTCRenderer = () => {
       })
       .catch((error) => {
         console.log(error);
-        setIsSubmitted(true); // tmp: 백에서 404를 리턴해서 임시로 해결했습니다.
       });
   };
 
   const getConnections = async () => {
-    // https://YOUR_OPENVIDUSERVER_IP/openvidu/api/sessions/SESSION_ID/connection
     await axios({
       url: `/openvidu/api/sessions/` + sessionId + `/connection`,
       method: "get",
-      // baseURL: baseUrl,
       baseURL: OPENVIDU_SERVER_URL,
       headers: {
         Authorization: "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
@@ -396,11 +359,39 @@ export const RTCRenderer = () => {
       });
   };
 
+  const cleanUp = () => {
+    setTitle("");
+    setContent("");
+    leaveSession();
+    setPublisher(pubType);
+  };
+
+  const isPublisher = () => {
+    return userSideSessionId === "new";
+  };
+
+  // 컴포넌트 before mount, unmount
   useEffect(() => {
+    sessionId = userSideSessionId;
+    if (isPublisher()) {
+      sessionId = staffSideSessionId;
+    } else {
+      setIsSubmitted(true);
+      setIsStaff(false);
+    }
+    setProjectId(projectId);
+    setSessionId(sessionId);
+    setTimeout(() => {
+      joinSession();
+    }, 1200);
     const cntView = setInterval(() => {
       getConnections();
     }, 10000);
-    return () => clearInterval(cntView);
+
+    return () => {
+      clearInterval(cntView);
+      cleanUp();
+    };
   }, []);
 
   return (
