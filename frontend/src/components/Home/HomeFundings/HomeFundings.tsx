@@ -6,7 +6,7 @@ import { baseUrl } from "../../../App";
 import styled from "styled-components";
 
 const Icon = styled.span`
-  margin-left: 20px;
+  margin-left: 5px;
 `;
 
 const HomeFundingsMain = styled.div`
