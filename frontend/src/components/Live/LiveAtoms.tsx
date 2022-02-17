@@ -38,7 +38,7 @@ type MessageProps = {
 }[];
 
 export const msgsState = atom({
-  key: "msgState",
+  key: "msgsState",
   default: [] as MessageProps,
 });
 

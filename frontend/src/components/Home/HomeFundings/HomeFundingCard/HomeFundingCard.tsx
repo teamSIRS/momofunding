@@ -1,4 +1,5 @@
 import { Card } from "react-bootstrap";
+import styled from "styled-components";
 import LiveBadge from "../../Badge";
 import {
   BadgeContainer,
