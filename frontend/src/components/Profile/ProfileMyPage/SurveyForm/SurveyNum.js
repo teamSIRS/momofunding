@@ -113,8 +113,7 @@ function SurveyNum({ surveyId, AddSurveyQuest }) {
     setContentList([]);
   };
 
-  const AddNumContent = (event) => {
-    event.preventDefault();
+  const AddNumContent = () => {
     if(content === "") return;
     AddSurveyNum();
     setContentList([...contentList, content]);
@@ -125,10 +124,8 @@ function SurveyNum({ surveyId, AddSurveyQuest }) {
     if (window.event.keyCode === 13) AddQuestion();
   };
 
-  //적용이 안됨ㅠ
   const enterkey2 = () => {
-    if (window.event.keyCode === 13) {
-      AddNumContent();}
+    if (window.event.keyCode === 13) AddNumContent();
   }
 
   console.log();
@@ -151,7 +148,7 @@ function SurveyNum({ surveyId, AddSurveyQuest }) {
       <br />
       {openContent ? (
         <>
-          <form>
+          <div>
             <SurveyNumLabel>[ 객관식 문항 등록 ]</SurveyNumLabel>
             <SurveyNumInput>
               <input
@@ -165,11 +162,11 @@ function SurveyNum({ surveyId, AddSurveyQuest }) {
               />
             </SurveyNumInput>
             <MyBtn onClick={AddNumContent}>문항 추가</MyBtn>
-          </form>
+          </div>
 
           <ContentListBox>
             {contentList.map((a, i) => {
-              return <li>{a}</li>;
+              return <li key={i}>{a}</li>;
             })}
           </ContentListBox>
         </>

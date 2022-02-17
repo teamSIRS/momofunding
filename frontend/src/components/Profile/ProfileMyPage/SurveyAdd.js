@@ -88,6 +88,7 @@ function SurveyAdd({ surveys, Survey }) {
     swal("설문조사가 등록되었습니다!", "이제 질문을 등록해주세요");
     setActive(true);
     setTitle("");
+    setIsSurvey(true);
   };
 
   const AddSurvey = async () => {
@@ -183,8 +184,7 @@ function SurveyAdd({ surveys, Survey }) {
                     disabled={active}
                   />
                 </SurveyAnsInput>
-
-                <Button type="submit" disabled={active} onClick={()=>{setIsSurvey(true)}}>
+                <Button type="submit" disabled={active}>
                   설문조사 등록
                 </Button>
               </form>
