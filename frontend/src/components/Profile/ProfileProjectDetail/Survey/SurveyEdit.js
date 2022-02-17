@@ -137,11 +137,7 @@ function SurveyEdit({ survey, onRemove, Survey }) {
 
   return (
     <Body>
-      <Container
-        onClick={() => {
-          console.log("서베이id", survey.id);
-        }}
-      >
+      <Container>
         <SurveyTitle>{survey.title}</SurveyTitle>
 
         <SurveyResult
