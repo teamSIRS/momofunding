@@ -8,7 +8,6 @@ import { NoneExist } from "./HomeLiveCards/HomeLiveCard/NoneExist";
 import { HomeLiveCard } from "./HomeLiveCards/HomeLiveCard/HomeLiveCard";
 import { baseUrl } from "../../App";
 import { Link } from "react-router-dom";
-import { MomoColor } from "../../shared/global";
 
 const StyledStack = styled(ListGroup)`
   display: flex;
@@ -19,9 +18,7 @@ const StyledStack = styled(ListGroup)`
   margin: 20px 0px;
 `;
 
-const HomeMain = styled.div`
-  /* background-color: whitesmoke; */
-`;
+const HomeMain = styled.div``;
 
 const Icon = styled.span`
   margin-left: 20px;
@@ -79,6 +76,7 @@ const Home = () => {
                 <Link
                   to={`/lives/${live.sessionId}/${live.projectId}`}
                   style={{ float: "left", marginLeft: 10, marginRight: 10 }}
+                  key={idx}
                 >
                   <HomeLiveCard
                     key={idx}

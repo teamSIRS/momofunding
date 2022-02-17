@@ -1,7 +1,6 @@
-// // 카드로 여러개 나열되어 있는 페이지
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Container, Form, Select } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import HomeBanners from "../Home/HomeBanners";
 import ProjectCard from "./ProjectCard";
 import {
