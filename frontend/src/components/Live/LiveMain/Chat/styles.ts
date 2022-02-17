@@ -44,6 +44,7 @@ export const ChatBody = styled.div`
   display: flex;
   flex-direction: column;
   scroll-behavior: smooth;
+  background: rgba(212, 212, 212, 10%);
   ::-webkit-scrollbar {
     display: none;
   }
