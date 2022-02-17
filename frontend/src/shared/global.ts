@@ -12,9 +12,10 @@ export const bodyStyles = css`
   margin: 0px;
   padding: 0px;
   background-color: #f2f2f2;
-  -ms-overflow-style: none;
+  scrollbar-width: 0;
+  /* -ms-overflow-style: none; */
   ::-webkit-scrollbar {
-    display: none;
+    display: none; /* Chrome, Safari, Opera*/
   }
 `;
 
@@ -32,7 +33,7 @@ const GlobalStyle = createGlobalStyle`
     --successGradientStrong: linear-gradient(93.12deg, var(--successHeavy), var(--successStrong))
   }
   body {
-    ${bodyStyles}
+    ${bodyStyles};
   }
   a {
     text-decoration: none;
