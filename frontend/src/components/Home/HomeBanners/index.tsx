@@ -1,3 +1,2 @@
-import { HomeBanners } from "./HomeBanners";
-
+import HomeBanners from "./HomeBanners";
 export default HomeBanners;
