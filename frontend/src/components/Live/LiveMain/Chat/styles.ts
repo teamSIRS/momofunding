@@ -44,6 +44,9 @@ export const ChatBody = styled.div`
   display: flex;
   flex-direction: column;
   scroll-behavior: smooth;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const ChatHeader = styled.header`
