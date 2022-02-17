@@ -30,7 +30,9 @@ function PayCancel() {
       baseURL: baseUrl,
     })
       .then((response) => {
+        // console.log("결제를 취소한거야 나는");
         console.log(response);
+        // console.log("결제를 취소한거야 나는");
       })
       .catch((error) => {
         // .catch는 axios 요청 실패시 작업
@@ -38,9 +40,9 @@ function PayCancel() {
       });
   };
   deleteRewardOrder();
-  setTimeout(() => {
-    window.close();
-  }, 7000);
+  // setTimeout(() => {
+  //   window.close();
+  // }, 7000);
 
   return (
     <>

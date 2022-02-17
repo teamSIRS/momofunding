@@ -31,7 +31,9 @@ function PayFail() {
       baseURL: baseUrl,
     })
       .then((response) => {
+        // console.log("결제에 실패한거야 나는");
         console.log(response);
+        // console.log("결제에 실패한거야 나는");
       })
       .catch((error) => {
         // .catch는 axios 요청 실패시 작업
@@ -39,9 +41,9 @@ function PayFail() {
       });
   };
   deleteRewardOrder();
-  setTimeout(() => {
-    window.close();
-  }, 7000);
+  // setTimeout(() => {
+  //   window.close();
+  // }, 7000);
 
   return (
     <>
