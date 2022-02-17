@@ -16,7 +16,6 @@ export const ProjectStory = () => {
   const getApi = async() =>{
     await axios.get(baseUrl + '/projects/'+id)
     .then((res)=>{
-      console.log(res.data.projectContent);
       setContent(res.data.projectContent);
     })
     .catch((err) =>{

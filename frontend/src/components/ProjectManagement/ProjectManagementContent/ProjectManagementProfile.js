@@ -228,11 +228,9 @@ function ProjectManagementProfile() {
         contentType: false,
       })
         .then((response) => {
-          console.log("성공");
           window.location.reload(true);
         })
         .catch((error) => {
-          console.log("에러발생");
           console.log(error);
         });
     };

@@ -178,7 +178,6 @@ function ProjectManagementContentIntro() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
           setProjectCategoryId(response.data.projectCategoryId);
           setProjectName(response.data.projectName);
           setFundingGoal(response.data.fundingGoal);
@@ -223,7 +222,6 @@ function ProjectManagementContentIntro() {
       projectContent: projectContent,
       expirationDate: expirationDate + "T12:00:00",
     };
-    // console.log(data);
     const form = formRef[0];
     const formData = new FormData(form);
 
@@ -245,11 +243,9 @@ function ProjectManagementContentIntro() {
         contentType: false,
       })
         .then((response) => {
-          console.log("성공");
           window.location.reload(true);
         })
         .catch((error) => {
-          console.log("에러발생");
           console.log(error);
         });
     };
