@@ -147,6 +147,18 @@ function MyProjectDetail() {
     })
   }
 
+  function createLive(){
+    if (project.projectStateId === 1) {
+      swal("작성 중인 프로젝트에서는 라이브를 켤 수 없습니다!");
+      return;
+    }
+    if (project.projectStateId === 3) {
+      swal("종료된 프로젝트에서는 라이브를 켤 수 없습니다!");
+      return;
+    }
+    navigate(`/lives/new/${id}`);
+  }
+
   function deletePjt() {
     const deletePjt = async () => {
       await axios({
@@ -192,9 +204,10 @@ function MyProjectDetail() {
           <ManageBtn>
             <button onClick={goToManagePjt}>프로젝트 관리</button>
           </ManageBtn>
-          <ToNewLiveLink to={`/lives/new/${id}`}>
-            <LiveBtn>라이브 켜기</LiveBtn>
-          </ToNewLiveLink>
+          {/* <ToNewLiveLink to={`/lives/new/${id}`}> */}
+            {/* <LiveBtn>라이브 켜기</LiveBtn> */}
+            <LiveBtn onClick={createLive}>라이브 켜기</LiveBtn>
+          {/* </ToNewLiveLink> */}
           <DeleteBtn>
             <button onClick={deletePjtCheck}>프로젝트 삭제</button>
           </DeleteBtn>

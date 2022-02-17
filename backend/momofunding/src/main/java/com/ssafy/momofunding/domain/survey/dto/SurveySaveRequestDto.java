@@ -3,10 +3,12 @@ package com.ssafy.momofunding.domain.survey.dto;
 import com.ssafy.momofunding.domain.survey.domain.Survey;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class SurveySaveRequestDto {
 
     private Long projectId;
