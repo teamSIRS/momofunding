@@ -156,7 +156,8 @@ function MyProjectDetail() {
       swal("종료된 프로젝트에서는 라이브를 켤 수 없습니다!");
       return;
     }
-    navigate(`/lives/new/${id}`);
+    window.location.replace(`/lives/new/${id}`);
+    // navigate(`/lives/new/${id}`);
   }
 
   function deletePjt() {
