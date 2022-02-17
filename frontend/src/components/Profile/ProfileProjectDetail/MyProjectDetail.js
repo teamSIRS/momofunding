@@ -129,6 +129,24 @@ function MyProjectDetail() {
     navigate(`/myproject/${id}/management/profile`);
   };
 
+  function deletePjtCheck(){
+    swal({
+      title: "프로젝트를 삭제하시겠습니까?",
+      text: "프로젝트 삭제 시, 다시 되돌릴 수 없습니다!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) =>{
+      if(willDelete){
+        deletePjt();
+      }
+      else{
+        
+      }
+    })
+  }
+
   function deletePjt() {
     const deletePjt = async () => {
       await axios({
@@ -139,7 +157,7 @@ function MyProjectDetail() {
       })
         .then((response) => {
           console.log(response.data);
-          swal("프로젝트 삭제 완료!", "프로젝트를 삭제하였습니다.", "warning", {
+          swal("프로젝트 삭제 완료!", "프로젝트를 삭제하였습니다.", "success", {
             button: true,
           });
           navigate("/users/myprojects");
@@ -178,7 +196,7 @@ function MyProjectDetail() {
             <LiveBtn>라이브 켜기</LiveBtn>
           </ToNewLiveLink>
           <DeleteBtn>
-            <button onClick={deletePjt}>프로젝트 삭제</button>
+            <button onClick={deletePjtCheck}>프로젝트 삭제</button>
           </DeleteBtn>
         </BtnBox>
       </ProjectBox>

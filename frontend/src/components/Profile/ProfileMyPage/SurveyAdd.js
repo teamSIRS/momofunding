@@ -54,6 +54,10 @@ const SurveyAnsInput = styled.div`
   }
 `;
 
+const Info = styled.p`
+  margin: 6px 0 0 0;
+`;
+
 function SurveyAdd({ surveys, Survey }) {
   const { id } = useParams();
   const [show, setShow] = useState(false);
@@ -62,6 +66,7 @@ function SurveyAdd({ surveys, Survey }) {
     Survey();
     setSelectedNum("선택하세요");
     setActive(false);
+    setIsSurvey(false);
   };
   const handleShow = () => setShow(true);
   const [endDate, setEndDate] = useState();
@@ -71,6 +76,7 @@ function SurveyAdd({ surveys, Survey }) {
   const selectList = ["선택하세요", "객관식", "주관식"];
 
   const [active, setActive] = useState(false);
+  const [isSurvey, setIsSurvey] = useState(false);
 
   const onChange = (event) => {
     setSelectedNum(event.target.value);
@@ -79,7 +85,7 @@ function SurveyAdd({ surveys, Survey }) {
   const onSubmit = (event) => {
     event.preventDefault();
     AddSurvey();
-    swal("이제 질문을 등록해주세요");
+    swal("설문조사가 등록되었습니다!", "이제 질문을 등록해주세요");
     setActive(true);
     setTitle("");
   };
@@ -178,39 +184,47 @@ function SurveyAdd({ surveys, Survey }) {
                   />
                 </SurveyAnsInput>
 
-                <Button type="submit" disabled={active}>
+                <Button type="submit" disabled={active} onClick={()=>{setIsSurvey(true)}}>
                   설문조사 등록
                 </Button>
               </form>
               <br />
 
-              <SurveyAddInputBox>
-                <SurveyAddLabel>질문 양식 선택</SurveyAddLabel>
-                <select onChange={onChange} value={selectedNum}>
-                  {selectList.map((item) => (
-                    <option value={item} key={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-                <hr />
+              {
+                isSurvey
+                ? (
+                  <SurveyAddInputBox>
+                    <SurveyAddLabel>질문 양식 선택</SurveyAddLabel>
+                    <select onChange={onChange} value={selectedNum}>
+                      {selectList.map((item) => (
+                        <option value={item} key={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                    <Info>❔ 복수개의 질문을 등록하려면 질문 등록을 다시 눌러주세요</Info>
 
-                <SurveyAddLabel>
-                  {selectedNum === "선택하세요" ? <SurveySelect /> : null}
-                  {selectedNum === "객관식" ? (
-                    <SurveyNum
-                      AddSurveyQuest={AddSurveyQuest}
-                      surveyId={surveys[surveys.length - 1].id}
-                    />
-                  ) : null}
-                  {selectedNum === "주관식" ? (
-                    <SurveyShortAns
-                      AddSurveyQuest={AddSurveyQuest}
-                      surveyId={surveys[surveys.length - 1].id}
-                    />
-                  ) : null}
-                </SurveyAddLabel>
-              </SurveyAddInputBox>
+                    <hr />
+
+                    <SurveyAddLabel>
+                      {selectedNum === "선택하세요" ? <SurveySelect /> : null}
+                      {selectedNum === "객관식" ? (
+                        <SurveyNum
+                          AddSurveyQuest={AddSurveyQuest}
+                          surveyId={surveys[surveys.length - 1].id}
+                        />
+                      ) : null}
+                      {selectedNum === "주관식" ? (
+                        <SurveyShortAns
+                          AddSurveyQuest={AddSurveyQuest}
+                          surveyId={surveys[surveys.length - 1].id}
+                        />
+                      ) : null}
+                    </SurveyAddLabel>
+                  </SurveyAddInputBox>
+                )
+                : null
+              }
               <hr />
 
               <Button

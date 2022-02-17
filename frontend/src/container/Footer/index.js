@@ -73,7 +73,7 @@ function Footer() {
               <FooterContent>admin@momo_funding.com</FooterContent>
               <br />
               <FooterContentTitle>
-                ssadiz는 통신판매중개자이며 통신판매 당사자가 아닙니다. 상품,
+                모모펀딩은 통신판매중개자이며 통신판매 당사자가 아닙니다. 상품,
                 상품정보, 거래에 관한 의무와 책임은 판매자에게 있습니다.
               </FooterContentTitle>
             </FooterContentForm>

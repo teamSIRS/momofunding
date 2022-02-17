@@ -1,13 +1,9 @@
+import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { Button } from 'react-bootstrap';
-import { shortAnsQuestionSelector, shortAnsQuestionTitleState } from "../atoms";
-import axios from 'axios';
-import { baseUrl } from '../../../../App';
-import setAuthorizationToken from '../../../../atoms';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { shortAnsQuestionTitleState } from "../atoms";
 import swal from "sweetalert";
 
 const SurveyShortAnsLabel = styled.label`
@@ -30,46 +26,42 @@ const SurveyShortAnsInput = styled.div`
   }
 `;
 
+
+
 function SurveyShortAns({ surveyId, AddSurveyQuest }) {
-  const { register, handleSubmit, setValue, setContentValue } = useForm();
+  const { handleSubmit, setValue } = useForm();
   const setShortAnsQuestion = useSetRecoilState(shortAnsQuestionTitleState);
-  const shortAnsQuestion = useRecoilValue(shortAnsQuestionSelector);
   const onQuestionValid = ({ shortAnsQuestion }) => {
     setShortAnsQuestion(shortAnsQuestion);
     setValue("shortAnsQuestion", "");
   };
-
   const [id, setId] = useState(surveyId);
   const [title, setTitle] = useState();
   const [questionType, setQuestionType] = useState(2);
+  
+  const addSurveyQuest=()=>{
+    AddSurveyQuest(id, questionType, title); 
+    swal('질문이 등록되었습니다', {icon: 'success'});
+  }
+  
+  const enterkey = () => {
+    if (window.event.keyCode === 13) addSurveyQuest();
+  };
 
   return (
     <div>
       <SurveyShortAnsLabel>[ 주관식 질문 등록 ]</SurveyShortAnsLabel>
       <form onSubmit={handleSubmit(onQuestionValid)}>
         <SurveyShortAnsInput>
-          {/* <input
-            {...register("shortAnsQuestion", {
-              required: "Please write a shortAnsQuestion",
-            })}
-            placeholder="주관식 질문을 입력하세요."
-            onChange={(e) =>{
-              setTitle(e.target.value)
-            }}
-          /> */}
           <input
             required
             placeholder="주관식 질문을 입력하고 질문 등록을 눌러주세요"
             onChange={(e) => {setTitle(e.target.value);}}
+            onKeyUp={enterkey}
           />
         </SurveyShortAnsInput>
-        <Button onClick={() =>{AddSurveyQuest(id, questionType, title); 
-            swal('질문이 등록되었습니다', {icon: 'success'});
-          }}>질문 등록</Button>
+        <Button onClick={addSurveyQuest}>질문 등록</Button>
       </form>
-      {/* <SurveyShortAnsLabel>[ 등록한 주관식 질문 ]</SurveyShortAnsLabel> */}
-      {/* <SurveyShortAnsP>Q : {shortAnsQuestion}</SurveyShortAnsP> */}
-      {/* <SurveyShortAnsP>Q : {title}</SurveyShortAnsP> */}
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { Button } from "react-bootstrap";
 import {
   numQuestionSelector,
   numQuestionState,
@@ -34,7 +33,7 @@ const SurveyNumInput = styled.div`
   }
 `;
 
-const MyBtn1 = styled.a`
+const MyBtn = styled.a`
   color: white;
   background: ${MomoColor};
   border-radius: 5px;
@@ -65,9 +64,10 @@ function SurveyNum({ surveyId, AddSurveyQuest }) {
   const [questionType, setQuestionType] = useState(1);
   //객관식 문항 content
   const [content, setContent] = useState("");
-  const [int, setInt] = useState(0);
   const [questionId, setQuestionId] = useState();
   const [contentList, setContentList] = useState([]);
+  const [openContent, setOpenContent] = useState(false);
+
   // const [questions, setQuestion] = useState("");
 
   const AddSurveyNum = async () => {
@@ -75,14 +75,13 @@ function SurveyNum({ surveyId, AddSurveyQuest }) {
       url: baseUrl + "/question-select",
       method: "post",
       data: {
-        surveyId: surveyId,
         surveyQuestionId: questionId,
         content: content,
       },
       headers: setAuthorizationToken(),
     })
       .then((res) => {
-        console.log("문항등록성공!");
+        // console.log("문항등록성공!");
       })
       .catch((err) => {
         console.log(err);
@@ -90,7 +89,7 @@ function SurveyNum({ surveyId, AddSurveyQuest }) {
       });
   };
 
-  //////////??여기 뭔가 잘못되..었을까요?모르겠
+  //설문조사 질문 받아옴
   const getQuestions = async () => {
     await axios({
       url: baseUrl + "/surveys/" + surveyId,
@@ -98,74 +97,51 @@ function SurveyNum({ surveyId, AddSurveyQuest }) {
       headers: setAuthorizationToken(),
     })
       .then((res) => {
-        console.log("ok", res.data.questions[0].id);
-        setQuestionId(res.data.questions[0].id);
-        // setInt(int+1);
+        setQuestionId(res.data.questions[res.data.questions.length-1].id);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const getSurvey = async (surveyId) => {
-    //받아서 객관식 문항 리스트 뽑으려고
-    await axios
-      .get(baseUrl + "/surveys/" + surveyId)
-      .then((res) => {
-        console.log(res.data.questions);
-        // setQuestions(res.data.questions);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
-  const Test = async () => {
-    await axios({
-      url: baseUrl + "/surveys/" + surveyId,
-      method: "get",
-      headers: setAuthorizationToken(),
-    })
-      .then((res) => {
-        console.log(res.data);
-        // setQuestionId(res.data.questions[0].id);
-        // setInt(int+1);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const [openContent, setOpenContent] = useState(false);
-
-  const AddQuestion = (event) => {
-    event.preventDefault();
+  const AddQuestion = () => {
+    if(title === "") return;
     AddSurveyQuest(surveyId, questionType, title); //서베이에 질문 추가
     getQuestions();
     getQuestions();
     swal("질문이 등록되었습니다", "이제 문항을 등록해주세요");
     setOpenContent(true);
+    setContentList([]);
   };
 
-  const AddNumContent = () => {
-    // getSurvey(surveyId);
-    // getQuestions(); //얘가 있어서 안되나?
+  const AddNumContent = (event) => {
+    event.preventDefault();
+    if(content === "") return;
     AddSurveyNum();
     setContentList([...contentList, content]);
-    // console.log(contentList);
     setContent("");
   };
+
+  const enterkey = () => {
+    if (window.event.keyCode === 13) AddQuestion();
+  };
+
+  //적용이 안됨ㅠ
+  const enterkey2 = () => {
+    if (window.event.keyCode === 13) AddNumContent();
+  }
 
   console.log();
   return (
     <div>
-      <p onClick={getQuestions}>test</p>
       <SurveyNumLabel>[ 객관식 질문 등록 ]</SurveyNumLabel>
       <form onSubmit={handleSubmit(onQuestionValid)}>
         <SurveyNumInput>
           <input
             required
             placeholder="객관식 질문을 입력하고 질문 등록을 눌러주세요"
+            onKeyUp={enterkey}
             onChange={(e) => {
               setTitle(e.target.value);
             }}
@@ -183,14 +159,13 @@ function SurveyNum({ surveyId, AddSurveyQuest }) {
                 required
                 placeholder="객관식 문항을 등록하고 등록 버튼을 눌러주세요"
                 value={content}
+                onKeyUp={enterkey2}
                 onChange={(e) => {
                   setContent(e.target.value);
                 }}
               />
             </SurveyNumInput>
-            <MyBtn1 type="submit" onClick={AddNumContent}>
-              문항 추가
-            </MyBtn1>
+            <MyBtn onClick={AddNumContent}>문항 추가</MyBtn>
           </form>
 
           <ContentListBox>

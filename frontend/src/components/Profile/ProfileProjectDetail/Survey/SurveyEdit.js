@@ -211,7 +211,7 @@ function SurveyEdit({ survey, onRemove, Survey }) {
                                     })}
                                   </QList>
                                 )
-                                : <ShortAns>주관식 질문입니다</ShortAns>
+                                : null
                               }
 
                               <br/>
