@@ -8,10 +8,12 @@ import com.ssafy.momofunding.global.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -34,9 +36,8 @@ public class PayApiController {
             summary = "결제 서비스 동작",
             description = "카카오 페이 소셜 결제를 진행 할 수 있음 "
     )
-
     @PostMapping("/kakao")
-    public ResponseEntity selectSocial(@RequestBody RewardPayRequestDto rewardPayRequestDto) throws IOException {
+    public ResponseEntity<Map<String, Object>> selectSocial(@RequestBody RewardPayRequestDto rewardPayRequestDto) throws IOException {
         Map<String, Object> responseMap = new HashMap<>();
 
         Long rewardId = rewardOrderService.saveRewardOrder(rewardPayRequestDto);
@@ -61,7 +62,7 @@ public class PayApiController {
                 "approval_url=http://localhost:3000/pay/success/" +projectId+ "&"+
                 "fail_url=http://localhost:3000/pay/fail/" + val2 + "&" +
                 "cancel_url=http://localhost:3000/pay/cancel/" + val2;
-//                "approval_url=https://i6a202.p.ssafy.io/pay/success/" +projectId+ "&"+
+//                "approval_url=https://i6a202.p.ssafy.io/pay/success/" + projectId + "&" +
 //                "fail_url=https://i6a202.p.ssafy.io/pay/fail/" + val2 + "&" +
 //                "cancel_url=https://i6a202.p.ssafy.io/pay/cancel/" + val2;
 
