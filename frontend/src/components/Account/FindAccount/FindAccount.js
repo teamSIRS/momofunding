@@ -16,7 +16,7 @@ const Tab = styled.span`
   margin: auto;
   margin-top: 30px;
   border-radius: 5px;
-  background-color: ${(props) => (props.isActive ? "#6c6db5" : "white")};
+  background-color: ${(props) => (props.isActive ? "#6c6db5" : "#f2f2f2")};
 `;
 
 const FindAccountTitle = styled.div`
@@ -42,6 +42,7 @@ const FindAccountMain = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 900px;
 `;
 
 const styles = {

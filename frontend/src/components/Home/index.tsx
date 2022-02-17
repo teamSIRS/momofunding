@@ -21,7 +21,7 @@ const StyledStack = styled(ListGroup)`
 const HomeMain = styled.div``;
 
 const Icon = styled.span`
-  margin-left: 20px;
+  margin-left: 5px;
 `;
 
 const ProjectEntranceSeparateLine = styled.hr`
