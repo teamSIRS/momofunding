@@ -219,7 +219,7 @@ const Survey = ({ show }: ChatProps) => {
                 {surveyApi?.questions?.map((question, idx) => (
                   <div key={idx}>
                     <SurveyCreatorMsgBox>
-                      Q{question.id}. {question.title}
+                      Q{idx + 1}. {question.title}
                     </SurveyCreatorMsgBox>
                     <SurveyMessageBox
                       className={
