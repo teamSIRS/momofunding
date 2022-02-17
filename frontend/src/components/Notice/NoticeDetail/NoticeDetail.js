@@ -11,12 +11,13 @@ import { baseUrl } from "../../../App";
 const NoticeDetailMain = styled.div`
   background-color: whitesmoke;
   width: 100%;
-  height: 550px;
+  min-height: 750px;
   padding: 60px 0px;
   position: relative;
 `;
 const NoticeDetailMainTitle = styled.div`
-  margin: 50px;
+  padding: 60px;
+  margin-top: 60px;
   font-size: 30px;
   font-weight: bold;
 `;
@@ -145,15 +146,14 @@ function NoticeDetail() {
   }, []);
   return (
     <div>
-      {isAdmin ? (
-        <NoticeDetailMainTitle>글 수정, 삭제하기</NoticeDetailMainTitle>
-      ) : (
-        <NoticeDetailMainTitle>글 보기</NoticeDetailMainTitle>
-      )}
-
       <Container>
         <Row style={styles.row}>
           <Col style={styles.col}>
+            {isAdmin ? (
+              <NoticeDetailMainTitle>글 수정, 삭제하기</NoticeDetailMainTitle>
+            ) : (
+              <NoticeDetailMainTitle>글 보기</NoticeDetailMainTitle>
+            )}
             <NoticeDetailMain>
               <NoticeDetailForm>
                 <NoticeDetailInputBox>

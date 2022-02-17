@@ -178,8 +178,8 @@ function ProjectList() {
           <div className="container">
             <div className="row">
               {isExist ? (
-                projects.map((project) => (
-                  <ProjectCard project={project} key={project.id} />
+                projects.map((project, index) => (
+                  <ProjectCard project={project} key={index} />
                 ))
               ) : (
                 <NonExist ment="검색결과" />

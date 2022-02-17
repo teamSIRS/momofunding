@@ -1,2 +1,2 @@
-import { HomeBanner } from "./HomeBanner";
+import HomeBanner from "./HomeBanner";
 export default HomeBanner;

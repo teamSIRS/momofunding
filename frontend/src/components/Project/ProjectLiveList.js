@@ -194,6 +194,7 @@ function ProjectLiveList() {
                   <Col sm={6}>
                     <ProjectLiveLink
                       to={`/lives/${live.sessionId}/${live.projectId}`}
+                      key={live.id}
                     >
                       <ProjectLiveCard live={live} key={live.id} />
                     </ProjectLiveLink>

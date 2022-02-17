@@ -13,6 +13,7 @@ import NonExist from "../../Project/NonExist";
 
 const Body = styled.div`
   padding: 80px 100px;
+  min-height: 900px;
 `;
 
 const Container = styled.div`

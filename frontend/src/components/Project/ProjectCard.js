@@ -29,21 +29,14 @@ const TitleDetail = styled.div`
 `;
 
 const ProjectTitle = styled.p`
-  /* border: 1px solid orange; */
-  /* width: 70%; */
   font-size: 18px;
   font-weight: bold;
   margin: 0;
 `;
 const ProjectCreator = styled.p`
-  /* border: 1px solid red; */
-  /* text-align: right; */
-  /* float: right; */
-  /* width: 30%; */
   font-size: 16px;
 `;
 
-///////////////////////////////////////
 const FundDetail = styled.div`
   display: inline-block;
   margin: 5px;
@@ -80,6 +73,7 @@ function ProjectCard({ project }) {
         onClick={() => {
           goToProjct(project.id);
         }}
+        key={project.id}
       >
         <div
           className="position-absolute top-0 end-0"

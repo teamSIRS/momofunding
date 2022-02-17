@@ -3,69 +3,70 @@ import FundingCard from "./FundingCard/FundingCard";
 import RewardCard from "./RewardCard/RewardCard";
 import { Sidebar } from "./styles";
 
-import Data from './data';
-import {useEffect, useState} from'react';
-import {useParams} from 'react-router-dom';
+import Data from "./data";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import {baseUrl} from '../../../App';
+import { baseUrl } from "../../../App";
 
-const ProjectSidebar = ({project}) => {
+const ProjectSidebar = ({ project }) => {
   const { id } = useParams();
   const [creator, setCreator] = useState("");
   // const [rewards, setRewards] = useState(Data);
-  const [rewards, setRewards] = useState([{id:0, title:"test"}]);
+  const [rewards, setRewards] = useState([{ id: 0, title: "test" }]);
   const [isReward, setIsReward] = useState(false);
 
-  const getCreator = async() =>{
+  const getCreator = async () => {
     await axios
-    .get(baseUrl + '/creators/' + id)
-    .then((res) => {
-      setCreator(res.data);
-    })
-    .catch((err) => { 
-      console.log(err);
-    })
-  }
+      .get(baseUrl + "/creators/" + id)
+      .then((res) => {
+        setCreator(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  const getReward = async() =>{
+  const getReward = async () => {
     await axios
-    .get(baseUrl + "/rewards/projects/" + id)
-    .then((res) =>{
-      setRewards([...res.data]);
-      if(rewards.length === 0) setIsReward(false);
-      else setIsReward(true);
-    })
-    .catch((err) =>{
-      console.log(err);
-    })
-  }
+      .get(baseUrl + "/rewards/projects/" + id)
+      .then((res) => {
+        setRewards([...res.data]);
+        if (rewards.length === 0) setIsReward(false);
+        else setIsReward(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     getCreator();
   }, []);
-  
-  useEffect(() =>{
+
+  useEffect(() => {
     getReward();
   }, [isReward]);
-  
 
-  return(
+  return (
     <Sidebar className="col-4">
-      <CreatorCard creator={creator}/>
-      <FundingCard project={project}/>
+      <CreatorCard creator={creator} />
+      <FundingCard project={project} />
 
-      {
-        isReward
-        ? (
-          rewards.map((a, i) =>{
-            return <RewardCard rewards={rewards[i]} i={i} key={i} project={project}/>
+      {isReward
+        ? rewards.map((a, i) => {
+            return (
+              <RewardCard
+                rewards={rewards[i]}
+                i={i}
+                key={i}
+                project={project}
+              />
+            );
           })
-        )
-        : null
-      }
+        : null}
     </Sidebar>
   );
-  
-}
+};
 
 export default ProjectSidebar;
