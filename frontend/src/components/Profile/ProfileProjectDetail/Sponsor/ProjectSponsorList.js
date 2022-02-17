@@ -39,36 +39,33 @@ function ProjectSponsorList() {
       });
   };
 
+  const excelDownload = (columns) => {
+    if(sponsors.length===0) return;
+    const ws = xlsx.utils.json_to_sheet(columns);
+    const wb = xlsx.utils.book_new();
+    
+    //수량 결제금액 이름 연락처 주소 배송요청사항 선택옵션
+    [
+      "주문번호",
+      "수량",
+      "결제금액",
+      "이름",
+      "연락처",
+      "주소",
+      "배송요청사항",
+      "선택옵션",
+    ].forEach((x, idx) => {
+      const cellAdd = xlsx.utils.encode_cell({ c: idx, r: 0 });
+      ws[cellAdd].v = x;
+    });
+          
+    xlsx.utils.book_append_sheet(wb, ws, "Sheet1");
+    xlsx.writeFile(wb, "상품 주문 정보.xlsx");
+  };
+
   useEffect(() => {
     getSponsors();
   }, []);
-
-
-    const excelDownload = (columns) => {
-      if(sponsors.length===0) return;
-      const ws = xlsx.utils.json_to_sheet(columns);
-      const wb = xlsx.utils.book_new();
-      
-      //수량 결제금액 이름 연락처 주소 배송요청사항 선택옵션
-      [
-        "주문번호",
-        "수량",
-        "결제금액",
-        "이름",
-        "연락처",
-        "주소",
-        "배송요청사항",
-        "선택옵션",
-      ].forEach((x, idx) => {
-        const cellAdd = xlsx.utils.encode_cell({ c: idx, r: 0 });
-        ws[cellAdd].v = x;
-      });
-            
-      xlsx.utils.book_append_sheet(wb, ws, "Sheet1");
-      xlsx.writeFile(wb, "상품 주문 정보.xlsx");
-    };
-
-    console.log(sponsors);
 
   return (
     <Container>
