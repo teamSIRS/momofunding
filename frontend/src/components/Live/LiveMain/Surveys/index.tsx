@@ -111,7 +111,6 @@ const Survey = ({ show }: ChatProps) => {
     })
       .then((res) => {
         const data: apiForm = res.data;
-        console.log("data:", data);
         setSurveyApi(data);
         setQstates(
           data?.questions?.map((question, idx) => {
@@ -125,9 +124,7 @@ const Survey = ({ show }: ChatProps) => {
 
   const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    console.log(questionStates);
     questionStates.map((answer, idx) => {
-      console.log(answer);
       axios({
         url: `/survey-answers`,
         method: "post",
@@ -136,8 +133,8 @@ const Survey = ({ show }: ChatProps) => {
         data: answer,
       })
         .then((response) => {
-          console.log("submit done!");
-          console.log(response.data);
+          // console.log("submit done!");
+          // console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -148,14 +145,11 @@ const Survey = ({ show }: ChatProps) => {
   const isSurveyEmpty = () => curSurvey === -1;
 
   useEffect(() => {
-    console.log("survey now:", curSurvey);
-    console.log("survey state:", surveyState);
     if (curSurvey != 0) getSurveyInfo();
-    console.log(surveyApi);
   }, [curSurvey]);
 
   useEffect(() => {
-    console.log(questionStates);
+    // console.log(questionStates);
   }, [questionStates]);
 
   return (

@@ -130,7 +130,7 @@ export const RTCRenderer = () => {
   };
 
   const createSession = (sessionId) => {
-    console.log("create session. id:", sessionId);
+    // console.log("create session. id:", sessionId);
     return new Promise((resolve, reject) => {
       var data = JSON.stringify({ customSessionId: sessionId });
       axios
@@ -197,7 +197,7 @@ export const RTCRenderer = () => {
           }
         )
         .then((response) => {
-          console.log("TOKEN", response);
+          // console.log("TOKEN", response);
           resolve(response.data.token);
         })
         .catch((error) => reject(error));
@@ -215,7 +215,7 @@ export const RTCRenderer = () => {
     session = OV.initSession();
 
     session.on("streamCreated", function (event) {
-      console.log("stream started");
+      // console.log("stream started");
       const subscriber = session.subscribe(event.stream, "creatorVideo");
       setSubscriber(subscriber);
     });
@@ -234,7 +234,7 @@ export const RTCRenderer = () => {
         .connect(token)
         .then(() => {
           if (!isCreated) {
-            console.log("publishing...");
+            // console.log("publishing...");
             const host = OV.initPublisher("creatorVideo", {
               resolution: "1280x720",
               publishVideo: camOn,
@@ -252,7 +252,7 @@ export const RTCRenderer = () => {
   };
 
   const leaveSession = () => {
-    console.log("leaving live session", session, publisher);
+    // console.log("leaving live session", session, publisher);
     session.disconnect();
   };
 
@@ -327,8 +327,8 @@ export const RTCRenderer = () => {
       headers: setAuthorizationToken(),
     })
       .then((response) => {
-        console.log("end request successfully done.");
-        console.log(response.data);
+        // console.log("end request successfully done.");
+        // console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -388,7 +388,6 @@ export const RTCRenderer = () => {
       },
     })
       .then((response) => {
-        console.log(response.data);
         setViewerCnt(response.data.numberOfElements);
       })
       .catch((err) => {

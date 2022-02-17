@@ -164,7 +164,6 @@ function MyProjectManagementContentReward(props) {
   }
   //////////////////////////////////////////////////////////////////////
   function saveRewards(data) {
-    console.log(data);
     const saveRewards = async () => {
       await axios({
         url: `/rewards`,
@@ -183,7 +182,6 @@ function MyProjectManagementContentReward(props) {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
           setRewardId(response.data.id);
         })
         .catch((error) => {
@@ -217,7 +215,7 @@ function MyProjectManagementContentReward(props) {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
+          // console.log('ok');
         })
         .catch((error) => {
           console.log("에러발생");
@@ -250,7 +248,6 @@ function MyProjectManagementContentReward(props) {
   const navigate = useNavigate();
 
   function deleteRewards() {
-    console.log(rewardId);
     const deleteRewards = async () => {
       await axios({
         url: `/rewards/${props.reward.id}`,
@@ -259,7 +256,7 @@ function MyProjectManagementContentReward(props) {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
+          console.log('ok');
         })
         .catch((error) => {
           console.log(error);

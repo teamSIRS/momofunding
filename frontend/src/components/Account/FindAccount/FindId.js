@@ -45,7 +45,7 @@ function FindId() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           setShow(true);
           if (response.data.isExist) {
             setIsExist(true);
@@ -75,7 +75,7 @@ function FindId() {
           navigate("/findAccount/findId");
         })
         .catch((error) => {
-          console.log("에러발생");
+          // console.log("에러발생");
           console.log(error);
         });
     };

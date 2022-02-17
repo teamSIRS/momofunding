@@ -76,8 +76,8 @@ function ChangePw() {
 
   function changePassword(data) {
     const changePassword = async () => {
-      console.log(token);
-      console.log(data);
+      // console.log(token);
+      // console.log(data);
       await axios({
         url: "/users/password",
         method: "PUT",
@@ -89,8 +89,8 @@ function ChangePw() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log("성공");
-          console.log(response.data);
+          // console.log("성공");
+          // console.log(response.data);
         })
         .catch((error) => {
           console.log("실패");

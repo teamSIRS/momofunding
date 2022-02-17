@@ -166,7 +166,6 @@ function MyProjectManagement() {
       baseURL: baseUrl,
     })
       .then((response) => {
-        console.log(response.data.length);
         if(response.data.length >= 1) setIsUpdateRewards(true);
         else setIsUpdateRewards(false);
       })
@@ -209,8 +208,7 @@ function MyProjectManagement() {
         baseURL: baseUrl,
       })
         .then((response) => {
-          console.log("프로젝트 시작");
-          console.log(response.data);
+          // console.log("프로젝트 시작");
           navigate(`/`);
         })
         .catch((error) => {

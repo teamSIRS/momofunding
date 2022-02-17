@@ -128,7 +128,6 @@ function SurveyNum({ surveyId, AddSurveyQuest }) {
     if (window.event.keyCode === 13) AddNumContent();
   }
 
-  console.log();
   return (
     <div>
       <SurveyNumLabel>[ 객관식 질문 등록 ]</SurveyNumLabel>
