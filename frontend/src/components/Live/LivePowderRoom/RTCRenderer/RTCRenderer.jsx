@@ -25,6 +25,7 @@ import { OpenVidu } from "openvidu-browser";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
+  audioState,
   camState,
   micState,
   msgsState,
@@ -65,6 +66,10 @@ const sessionType = {
   on: () => {},
 };
 
+const subType = {
+  subscribeToAudio: () => {},
+};
+
 const pubType = {
   publishVideo: () => true,
   publishAudio: () => true,
@@ -77,9 +82,10 @@ const msgType = {
 
 export const RTCRenderer = () => {
   const [isStaff, setIsStaff] = useRecoilState(authorizationState);
-  const [camActive, setCamActive] = useRecoilState(camState);
-  const [micActive, setMicActive] = useRecoilState(micState);
+  const [camOn, setCamActive] = useRecoilState(camState);
+  const [micOn, setMicActive] = useRecoilState(micState);
   const [publisher, setPublisher] = useState(pubType);
+  const [subscriber, setSubscriber] = useState(subType);
   const [message, setMessage] = useState(msgType);
   const setSession = useSetRecoilState(sessionState);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -92,6 +98,7 @@ export const RTCRenderer = () => {
   const setSurveySubmit = useSetRecoilState(surveySubmitState);
   const [liveId, setLiveID] = useState("default");
   const [viewersCnt, setViewerCnt] = useRecoilState(viewrsCntState);
+  const [audioOn, setAudio] = useRecoilState(audioState);
   let session = sessionType;
   let isCreated = false;
   let sessionId;
@@ -103,27 +110,29 @@ export const RTCRenderer = () => {
 
   const onCamClick = () => {
     setCamActive((now) => !now);
-    console.log(camActive);
   };
 
   const toggleCam = () => {
-    publisher.publishVideo(camActive);
+    publisher.publishVideo(camOn);
   };
 
   const toggleMic = () => {
-    publisher.publishAudio(micActive);
+    publisher.publishAudio(micOn);
+  };
+
+  const toggleAudio = () => {
+    subscriber.subscribeToAudio(audioOn);
   };
 
   const onMicClick = () => {
     setMicActive((now) => !now);
-    publisher.publishAudio(micActive);
+    publisher.publishAudio(micOn);
   };
 
   const createSession = (sessionId) => {
     console.log("create session. id:", sessionId);
     return new Promise((resolve, reject) => {
       var data = JSON.stringify({ customSessionId: sessionId });
-      console.log("promise");
       axios
         .post(OPENVIDU_SERVER_URL + "/openvidu/api/sessions", data, {
           headers: {
@@ -133,15 +142,12 @@ export const RTCRenderer = () => {
           },
         })
         .then((response) => {
-          console.log("CREATE SESION", response);
           setSurveySubmit(true);
           resolve(response.data.id);
         })
         .catch((response) => {
-          console.log(response);
           var error = Object.assign({}, response);
           if (error?.response?.status === 409) {
-            console.log(409, "handled");
             isCreated = true;
             setIsStaff(false);
             setIsSubmitted(true);
@@ -173,7 +179,6 @@ export const RTCRenderer = () => {
 
   const createToken = (sessionId) => {
     const jsonBody = {};
-    console.log("createtoken");
     return new Promise((resolve, reject) => {
       var data = {};
       axios
@@ -211,19 +216,16 @@ export const RTCRenderer = () => {
 
     session.on("streamCreated", function (event) {
       console.log("stream started");
-      session.subscribe(event.stream, "creatorVideo");
+      const subscriber = session.subscribe(event.stream, "creatorVideo");
+      setSubscriber(subscriber);
     });
 
     session.on("signal:momo-chat", (event) => {
-      console.log(event.data, "수신 성공");
-      console.log("curMsgs:", messages);
       const data = JSON.parse(event.data);
-      console.log("tobeMsgs:", [...messages, data]);
       setMessage(data);
     });
 
     session.on("signal:survey-id", (event) => {
-      console.log("received this:", event.data);
       setCurSurvey(Number(event.data));
     });
 
@@ -235,8 +237,8 @@ export const RTCRenderer = () => {
             console.log("publishing...");
             const host = OV.initPublisher("creatorVideo", {
               resolution: "1280x720",
-              publishVideo: camActive,
-              publishAudio: micActive,
+              publishVideo: camOn,
+              publishAudio: micOn,
             });
             setPublisher(host);
             session.publish(host);
@@ -261,26 +263,22 @@ export const RTCRenderer = () => {
     setPublisher(pubType);
   };
 
-  useEffect(() => {
-    console.log("isStaff changed to:", isStaff);
-    console.log("isCreated:", isCreated);
-  }, [isStaff]);
+  const isPublisher = () => {
+    return userSideSessionId === "new";
+  };
 
   // 컴포넌트 생성시
   useEffect(() => {
     sessionId = userSideSessionId;
-    if (userSideSessionId === "new") {
+    if (isPublisher()) {
       sessionId = staffSideSessionId;
     } else {
-      console.log("나는 참여자~~~");
       setIsSubmitted(true);
       setIsStaff(false);
     }
     setProjectId(projectId);
     setSessionId(sessionId);
-    console.log("session id: ", sessionId);
     setTimeout(() => {
-      console.log("시작 : " + isStaff);
       joinSession();
     }, 2000);
 
@@ -292,26 +290,22 @@ export const RTCRenderer = () => {
   // toggle 관련
   useEffect(() => {
     toggleCam();
-  }, [camActive]);
+  }, [camOn]);
   useEffect(() => {
     toggleMic();
-  }, [micActive]);
+  }, [micOn]);
+  useEffect(() => {
+    toggleAudio();
+  }, [audioOn]);
 
   // chat 메시지 관련
   useEffect(() => {
     if (message.message) {
-      console.log(message, " updated!");
       setMessages([...messages, message]);
     }
   }, [message]);
 
-  // survey 관련
   useEffect(() => {
-    console.log("curSurvey changed to:", curSurvey);
-  }, [curSurvey]);
-
-  useEffect(() => {
-    console.log("LIVE ID", liveId);
     if (userSideSessionId === "new") {
       return () => putEndLiveToServer();
     }
@@ -350,7 +344,6 @@ export const RTCRenderer = () => {
       baseURL: baseUrl,
     })
       .then((response) => {
-        console.log("PJT DATA:", response.data);
         category = response.data.projectCategoryId;
       })
       .catch((err) => {
@@ -364,7 +357,6 @@ export const RTCRenderer = () => {
       projectCategoryId: category,
       sessionId: sessionIdToServer,
     };
-    console.log("data sending:", data);
 
     await axios({
       url: `/lives`,
@@ -374,7 +366,6 @@ export const RTCRenderer = () => {
       data: data,
     })
       .then((response) => {
-        console.log(response.data);
         setLiveID(response.data.liveId);
         setIsSubmitted(true);
       })
@@ -397,9 +388,7 @@ export const RTCRenderer = () => {
       },
     })
       .then((response) => {
-        console.log("call connections");
         console.log(response.data);
-        console.log("인원수: " + response.data.numberOfElements);
         setViewerCnt(response.data.numberOfElements);
       })
       .catch((err) => {
@@ -409,7 +398,6 @@ export const RTCRenderer = () => {
 
   useEffect(() => {
     setInterval(() => {
-      console.log("================================connections");
       getConnections();
     }, 10000);
   }, []);
@@ -448,7 +436,7 @@ export const RTCRenderer = () => {
               <ImageUploader />
             </DashboardContent>
             <DashBoardFooter>
-              {camActive ? (
+              {camOn ? (
                 <WeakSwitch onClick={onCamClick}>
                   <ButtonIconActive icon={videocamOutline}></ButtonIconActive>
                 </WeakSwitch>
@@ -459,7 +447,7 @@ export const RTCRenderer = () => {
                   ></ButtonIconInactive>
                 </Switch>
               )}
-              {micActive ? (
+              {micOn ? (
                 <WeakSwitch onClick={onMicClick}>
                   <ButtonIconActive icon={micOutline}></ButtonIconActive>
                 </WeakSwitch>

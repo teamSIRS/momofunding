@@ -71,7 +71,6 @@ const Chat = ({ show }: ChatProps) => {
         type: "momo-chat",
       })
       .then(() => {
-        console.log("발신 성공");
         setMessage("");
         setMessages([...messages, data]);
       });
@@ -91,7 +90,6 @@ const Chat = ({ show }: ChatProps) => {
         type: "momo-chat",
       })
       .then(() => {
-        console.log("발신 성공");
         setMessage("");
         setMessages([...messages, data]);
       });
@@ -104,7 +102,6 @@ const Chat = ({ show }: ChatProps) => {
       baseURL: baseUrl,
     })
       .then((response) => {
-        console.log("PJT DATA:", response.data);
         setProject(response.data);
       })
       .catch((err) => {
@@ -117,7 +114,6 @@ const Chat = ({ show }: ChatProps) => {
   }, []);
 
   useEffect(() => {
-    console.log("프로젝트 아디 바뀜!!!!!!!!!!", pjtId);
     onLoad(pjtId);
   }, [pjtId]);
 
