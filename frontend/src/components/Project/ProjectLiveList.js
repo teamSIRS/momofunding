@@ -126,8 +126,8 @@ function ProjectLiveList() {
           <Category>
             <span id="category">카테고리</span>
             <SelectCategory onChange={handleSelect} value={selected}>
-              {categories.map((category) => (
-                <option value={category.id} key={category.id}>
+              {categories.map((category, index) => (
+                <option value={category.id} key={index}>
                   {category.name}
                 </option>
               ))}
@@ -189,13 +189,13 @@ function ProjectLiveList() {
           <div className="container">
             <div className="row">
               {isExist ? (
-                lives.map((live) => (
+                lives.map((live, index) => (
                   <Col sm={6}>
                     <ProjectLiveLink
                       to={`/lives/${live.sessionId}/${live.projectId}`}
-                      key={live.id}
+                      key={index}
                     >
-                      <ProjectLiveCard live={live} key={live.id} />
+                      <ProjectLiveCard live={live} key={index} />
                     </ProjectLiveLink>
                   </Col>
                 ))
