@@ -79,19 +79,24 @@ const LiveFooter = () => {
             </ControlBtn>
           </>
         ) : (
-          <Link to="/">
-            <LiveBtnRoundDanger>
-              <ChatIcon icon={exitOutline} />
-            </LiveBtnRoundDanger>
-          </Link>
+          <>
+            <Link to="/">
+              <LiveBtnRoundDanger>
+                <ChatIcon icon={exitOutline} />
+              </LiveBtnRoundDanger>
+            </Link>
+            <ControlBtn
+              onClick={onAudioClick}
+              className={audioOn ? "on" : "off"}
+            >
+              {audioOn ? (
+                <ChatIcon icon={volumeHighOutline} className="survey" />
+              ) : (
+                <ChatIcon icon={volumeMuteOutline} />
+              )}
+            </ControlBtn>
+          </>
         )}
-        <ControlBtn onClick={onAudioClick} className={audioOn ? "on" : "off"}>
-          {audioOn ? (
-            <ChatIcon icon={volumeHighOutline} className="survey" />
-          ) : (
-            <ChatIcon icon={volumeMuteOutline} />
-          )}
-        </ControlBtn>
       </LiveController>
       <LiveToggle className={show ? "" : "survey"} onClick={onClick}>
         <ToggleBtn className={show ? "" : surveyDone()}>
