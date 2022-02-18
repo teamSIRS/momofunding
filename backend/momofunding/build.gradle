@@ -1,0 +1,93 @@
+//Querydsl
+buildscript {
+	ext {
+		queryDslVersion = "5.0.0"
+	}
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.6.2'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	//Querydsl
+	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
+}
+
+group = 'com.ssafy'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	implementation group: 'com.h2database', name: 'h2', version: '1.3.148'
+
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.mariadb.jdbc:mariadb-java-client'
+
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//swagger
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.3'
+
+	//security
+//	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.6.2'
+
+	//jwt
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+
+//	//validation
+//	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.6.2'
+
+//	//jsonparser
+//	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+	//java mail sender
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.6.3'
+
+	// QueryDSL
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+	annotationProcessor 'javax.annotation:javax.annotation-api:1.3.2'
+	annotationProcessor 'javax.persistence:javax.persistence-api:2.2'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+//Querydsl
+def querydslSrcDir = "$buildDir/generated/querydsl"
+
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslSrcDir
+}
+sourceSets {
+	main.java.srcDirs querydslSrcDir
+}
+compileQuerydsl{
+	options.annotationProcessorPath = configurations.querydsl
+}
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	querydsl.extendsFrom compileClasspath
+}

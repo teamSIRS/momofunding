@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfrontend=self.webpackChunkfrontend||[]).push([[6066],{6066:function(n,e,r){r.r(e),r.d(e,{ion_spinner:function(){return t.S}});var t=r(3314);r(4039),r(323),r(5716)}}]);
