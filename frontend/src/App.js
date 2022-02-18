@@ -32,11 +32,11 @@ import MyProjectManagement from "./components/Profile/ProfileProjectDetail/MyPro
 import PayFail from "./components/Funding/FundingSidebar/PayFail";
 import PayCancel from "./components/Funding/FundingSidebar/PayCancel";
 
-//서버용
+// 서버용
 // export const baseUrl = "https://i6a202.p.ssafy.io/api";
 // export const baseUrlNoApi = "https://i6a202.p.ssafy.io";
 
-//로컬용
+// 로컬용
 export const baseUrl = "http://localhost:8080/api";
 export const baseUrlNoApi = "http://localhost:3000";
 
