@@ -174,7 +174,6 @@ const Survey = ({ show }: ChatProps) => {
   useEffect(() => {
     if (isStaff) {
       // 오직 참여자만 서베이 제출 여부를 재검사해야함
-      console.log("ur staff not checking survey submit");
       return;
     }
     getSurveySubmitted();
