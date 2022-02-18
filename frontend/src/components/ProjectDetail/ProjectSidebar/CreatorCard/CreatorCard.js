@@ -28,21 +28,26 @@ const Contact = styled(CreatorName)`
   font-size: 18px;
 `;
 
-function CreatorCard({creator}) {
+function CreatorCard({ creator }) {
   return (
     <>
       <CardTitle>상품 정보</CardTitle>
       <InfoCard>
-        <CreatorPic src={creator.creatorImageUrl}/>
+        <CreatorPic src={creator.creatorImageUrl} />
         <CreatorInfo>
           <CreatorName>{creator.creatorName}</CreatorName>
           <SemiTitle>
-              {
-                String(creator.creatorContent).split('. ').map(line => {
-                  return (<span>{line}<br/></span>)
-                })
-              }
-              {/* {creator.creatorContent} */}
+            {String(creator.creatorContent)
+              .split(". ")
+              .map((line, index) => {
+                return (
+                  <span key={index}>
+                    {line}
+                    <br />
+                  </span>
+                );
+              })}
+            {/* {creator.creatorContent} */}
           </SemiTitle>
           <Contact>{creator.email}</Contact>
         </CreatorInfo>

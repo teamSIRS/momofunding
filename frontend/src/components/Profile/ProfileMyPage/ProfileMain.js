@@ -217,8 +217,8 @@ function ProfileMain() {
                   <div className="container">
                     <div className="row">
                       {isExist ? (
-                        projects.map((project) => (
-                          <MyProject project={project} key={project.id} />
+                        projects.map((project, index) => (
+                          <MyProject project={project} key={index} />
                         ))
                       ) : (
                         <NonExist ment="창작한 프로젝트" />
@@ -233,8 +233,8 @@ function ProfileMain() {
                   <div className="container">
                     <div className="row">
                       {isExist ? (
-                        projects.map((project) => (
-                          <MyProject project={project} key={project.id} />
+                        projects.map((project, index) => (
+                          <MyProject project={project} key={index} />
                         ))
                       ) : (
                         <NonExist ment="후원한 프로젝트" />
