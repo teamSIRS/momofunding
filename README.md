@@ -1,7 +1,7 @@
 ![waving](https://capsule-render.vercel.app/api?type=waving&height=200&text=✨모모펀딩✨&fontAlign=50&fontAlignY=40&color=gradient)
 
 
-Team : 선생님들 / Member : 팀장 - 안영진, 팀원 - 김윤하, 백승윤, 임건호, 송지호, 정지민
+#### Team : 선생님들 / Member : 팀장 - 안영진, 팀원 - 김윤하, 백승윤, 임건호, 송지호, 정지민
 
 ### 모모펀딩은 WebRTC기술을 활용한 실시간 라이브 크라우드 펀딩 서비스입니다.
 
@@ -100,6 +100,9 @@ Team : 선생님들 / Member : 팀장 - 안영진, 팀원 - 김윤하, 백승윤
 ---
 
 ## **6. 공지사항**
+- USER, ADMIN 역할 구분
+  - USER: 조회만 가능
+  - ADMIN: 등록, 수정, 삭제 가능
 ![image](/uploads/03a2b16549dec8204303e3481f0bc01f/image.png)
 ![image](/uploads/86af2cc800c8ca3a6487832b0e4064f9/image.png)
 ![image](/uploads/8a098dc8d0c92211aab424211b62f0b6/image.png)
