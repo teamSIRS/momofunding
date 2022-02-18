@@ -99,6 +99,9 @@
 ---
 
 ## **6. 공지사항**
+- USER, ADMIN 역할 구분
+  - USER: 조회만 가능
+  - ADMIN: 등록, 수정, 삭제 가능
 ![image](/uploads/03a2b16549dec8204303e3481f0bc01f/image.png)
 ![image](/uploads/86af2cc800c8ca3a6487832b0e4064f9/image.png)
 ![image](/uploads/8a098dc8d0c92211aab424211b62f0b6/image.png)
