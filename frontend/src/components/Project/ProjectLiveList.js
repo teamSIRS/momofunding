@@ -32,6 +32,12 @@ const SelectCategory = styled.select`
 const ProjectLiveListMain = styled.div`
   margin-bottom: 60px;
 `;
+const ProjectLiveLink = styled(Link)`
+  color: black;
+  :hover {
+    color: ${MomoStrongColor};
+  }
+`;
 
 function ProjectLiveList() {
   const [isDate, setIsDate] = useState(true);
@@ -56,13 +62,6 @@ function ProjectLiveList() {
     setSelected(Number(e.target.value));
     setSearch("");
   };
-
-  const ProjectLiveLink = styled(Link)`
-    color: black;
-    :hover {
-      color: ${MomoStrongColor};
-    }
-  `;
 
   const Categories = async () => {
     await axios({
