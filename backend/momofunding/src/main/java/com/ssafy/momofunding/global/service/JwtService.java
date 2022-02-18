@@ -54,6 +54,8 @@ public class JwtService {
         return key;
     }
 
+
+
     //	전달 받은 토큰이 제대로 생성된것인지 확인 하고 문제가 있다면 UnauthorizedException을 발생.
     public boolean isUsable(String jwt) {
         try {
