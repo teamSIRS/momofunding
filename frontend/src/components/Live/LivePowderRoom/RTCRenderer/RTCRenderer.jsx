@@ -93,7 +93,7 @@ export const RTCRenderer = () => {
   const [sessionIdToServer, setSessionId] = useState("");
   const [pjtId, setProjectId] = useRecoilState(pjtIdState);
   const [liveId, setLiveID] = useState("default");
-  const [audioOn, _] = useRecoilState(audioState);
+  const [audioOn, setAudioActive] = useRecoilState(audioState);
   const setIsStaff = useSetRecoilState(authorizationState);
   const setSession = useSetRecoilState(sessionState);
   const setCurSurvey = useSetRecoilState(SelectedSurveyState);
@@ -272,10 +272,11 @@ export const RTCRenderer = () => {
   }, [message]);
 
   useEffect(() => {
-    console.log("LIVE ID:", liveId);
-    if (isPublisher()) {
-      return () => putEndLiveToServer(liveId);
-    }
+    return () => {
+      if (liveId !== "default") {
+        putEndLiveToServer(liveId);
+      }
+    };
   }, [liveId]);
 
   const onTitleChange = (event) => {
@@ -376,16 +377,22 @@ export const RTCRenderer = () => {
   };
 
   useEffect(() => {
-    putViewerCntToServer(liveId);
+    if (liveId !== "default") {
+      putViewerCntToServer(liveId);
+    }
   }, [viewerCnt]);
 
   const cleanUp = () => {
+    setCamActive(true);
+    setMicActive(true);
+    setAudioActive(true);
     setTitle("");
     setContent("");
-    leaveSession();
     setPublisher(pubType);
     setLiveID(-1);
     setProjectId(-1);
+    setMessages([]);
+    leaveSession();
   };
 
   const isPublisher = () => {
@@ -446,8 +453,8 @@ export const RTCRenderer = () => {
                   placeholder="시청자에게 라이브에 대해 설명해주세요"
                 ></DashBoardTextArea>
               </DashBoardInputBox>
-              <h5>썸네일 이미지 등록</h5>
-              <ImageUploader />
+              {/* <h5>썸네일 이미지 등록</h5>
+              <ImageUploader /> */}
             </DashboardContent>
             <DashBoardFooter>
               {camOn ? (

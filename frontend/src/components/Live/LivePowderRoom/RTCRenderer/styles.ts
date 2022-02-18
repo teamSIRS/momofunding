@@ -49,7 +49,9 @@ export const DashboardContent = styled.article`
   padding: 10px 24px;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   color: white;
+  height: 300px;
 `;
 
 export const DashboardInput = styled.input`
