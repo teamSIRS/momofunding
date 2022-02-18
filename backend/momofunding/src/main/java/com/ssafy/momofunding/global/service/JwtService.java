@@ -20,7 +20,7 @@ public class JwtService {
 
     @Value("${jwt.secret}")
     private String SALT;
-    private static final int EXPIRE_MINUTES = 9999;
+    private static final int EXPIRE_MINUTES = 120;
 
 
     public <T> String create(String key, T data, String subject) {
@@ -39,7 +39,7 @@ public class JwtService {
         String jwt = Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam("regDate", System.currentTimeMillis())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
                 .setSubject(subject)
                 .claim(key, data)
                 .signWith(this.generateKey(), SignatureAlgorithm.HS256)
@@ -53,6 +53,8 @@ public class JwtService {
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SALT));
         return key;
     }
+
+
 
     //	전달 받은 토큰이 제대로 생성된것인지 확인 하고 문제가 있다면 UnauthorizedException을 발생.
     public boolean isUsable(String jwt) {
