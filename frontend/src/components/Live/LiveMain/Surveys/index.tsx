@@ -172,6 +172,11 @@ const Survey = ({ show }: ChatProps) => {
   };
 
   useEffect(() => {
+    if (isStaff) {
+      // 오직 참여자만 서베이 제출 여부를 재검사해야함
+      console.log("ur staff not checking survey submit");
+      return;
+    }
     getSurveySubmitted();
     if (curSurvey != 0) getSurveyInfo();
   }, [curSurvey]);
@@ -205,9 +210,7 @@ const Survey = ({ show }: ChatProps) => {
         className={isSurveySubmitted || isSurveyEmpty() ? "done" : ""}
       >
         {isSurveySubmitted ? (
-          <>
-            <h4>{isStaff ? <SurveyList /> : thankYouMessage}</h4>
-          </>
+          <>{isStaff ? <SurveyList /> : <h4>thankYouMessage</h4>}</>
         ) : (
           <>
             {isSurveyEmpty() ? (
