@@ -51,7 +51,7 @@ public class PayApiController {
         URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
         HttpURLConnection serverConnection = (HttpURLConnection) url.openConnection();
         serverConnection.setRequestMethod("POST");
-        serverConnection.setRequestProperty("Authorization", "KakaoAK 4f50566635ad0cb48f2cbc0f0df35a4d");
+        serverConnection.setRequestProperty("Authorization", "KakaoAK "+ "ADMIN키 입력하여합니다");
         serverConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=euc-kr");
         serverConnection.setDoOutput(true);
 
