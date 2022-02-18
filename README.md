@@ -84,7 +84,8 @@ Team : 선생님들 / Member : 팀장 - 안영진, 팀원 - 김윤하, 백승윤
 
 ## **4. 라이브 페이지**
 ![image](/uploads/fedd3282c65ba31be83000dff00d1398/image.png)
-![image](/uploads/fbb48187854c3e2899207209b8ba600d/image.png)
+<!-- ![image](/uploads/fbb48187854c3e2899207209b8ba600d/image.png) -->
+![image](/uploads/54e37f200e4ab6dae098c99a41be03e9/image.png)
 ![image](/uploads/3fe68d7d1197279d71e66f786e000f1a/image.png)
 ![image](/uploads/c19a04a276e7f73a058fa7bbfbb64f28/image.png)
 
