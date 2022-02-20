@@ -9,8 +9,8 @@ const Container = styled.div`
   text-align: center;
 `;
 const StoryImage = styled.img`
-  width: 80%;
-  height: 350px;
+  width: 100%;
+  height: 400px;
   border-radius: 5px;
 `;
 
