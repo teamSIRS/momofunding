@@ -97,7 +97,7 @@ const Chat = ({ show, project }: ChatProps) => {
   };
 
   const onLoad = async (pjtId: number) => {
-    console.log("loading.....");
+    // console.log("loading.....");
     await axios({
       url: `/projects/${pjtId}`,
       method: "get",
