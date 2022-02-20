@@ -1,15 +1,18 @@
-import { MouseEventHandler, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { StyledLogo } from "./styles";
+import { StyledMenus } from "../Menus/styles";
+import { LogoBox, LogoImage, StyledLogo } from "./styles";
 const Logo = () => {
   const navigate = useNavigate();
   const onHomeClick = () => {
     navigate("/");
   };
   return (
-    <div>
-      <StyledLogo onClick={onHomeClick}>모모펀딩</StyledLogo>
-    </div>
+    <LogoBox>
+      <StyledLogo onClick={onHomeClick}>
+        <LogoImage src="/Logos/MainLogo.png" />
+        모모펀딩
+      </StyledLogo>
+    </LogoBox>
   );
 };
 

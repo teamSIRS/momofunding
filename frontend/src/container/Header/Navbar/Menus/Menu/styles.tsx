@@ -5,10 +5,8 @@ import { Nav } from "react-bootstrap";
 
 export const StyledNavLink = styled(NavLink)`
   color: white;
-  text-decoration: none;
-  list-style-type: none;
 `;
 
 export const StyledNavItems = styled(Nav.Item)`
-  margin: 10px;
+  margin: 0px 10px;
 `;
