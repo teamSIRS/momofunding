@@ -487,7 +487,8 @@ export const RTCRenderer = () => {
           </Dashboard>
         </>
       ) : (
-        <LiveMain />
+        <LiveMain
+          projectId = {projectId} />
       )}
     </RendererWrapper>
   );
