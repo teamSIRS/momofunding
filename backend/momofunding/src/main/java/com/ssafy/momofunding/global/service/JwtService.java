@@ -39,7 +39,7 @@ public class JwtService {
         String jwt = Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam("regDate", System.currentTimeMillis())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 00* 3))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 300))
                 .setSubject(subject)
                 .claim(key, data)
                 .signWith(this.generateKey(), SignatureAlgorithm.HS256)
