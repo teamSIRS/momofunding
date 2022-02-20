@@ -24,6 +24,7 @@ import SurveyChoice from "./SurveyChoice";
 import SurveyList from "./SurveyList";
 import { SelectedSurveyState } from "./SurveyList/SurveyList";
 import SurveyNarrative from "./SurveyNarrative";
+import Swal from "sweetalert2";
 
 const thankYouMessage = "설문에 참여해주셔서 감사합니다 🥰";
 
@@ -113,7 +114,6 @@ const Survey = ({ show }: ChatProps) => {
   const [questionStates, setQstates] = useRecoilState(surveySubmitStates);
   const submitAllDone = useRecoilValue(submitConfirm);
   const [surveyApi, setSurveyApi] = useRecoilState(surveyApiState);
-  const [recoilSession, setSession] = useRecoilState(sessionState);
   const [curSurvey, setCurSurvey] = useRecoilState(SelectedSurveyState);
   const [userId, _2] = useRecoilState(userIdState);
 
@@ -135,6 +135,13 @@ const Survey = ({ show }: ChatProps) => {
       })
       .catch((error) => console.log(error));
   };
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-right",
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+  });
 
   const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
@@ -152,6 +159,10 @@ const Survey = ({ show }: ChatProps) => {
           getSurveySubmitted();
         })
         .catch((error) => {
+          Toast.fire({
+            icon: "error",
+            title: `회원만 설문을 제출할 수 있습니다`,
+          });
           console.log(error);
         });
     });
