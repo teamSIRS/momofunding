@@ -35,7 +35,6 @@ export const LiveMain = () => {
 
   return (
     <>
-      {/* <VideoWrapper id="creatorVideo"></VideoWrapper> */}
       <Chat show={show} />
       <Survey show={!show} />
 

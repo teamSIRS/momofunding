@@ -209,7 +209,7 @@ const Survey = ({ show }: ChatProps) => {
         className={isSurveySubmitted || isSurveyEmpty() ? "done" : ""}
       >
         {isSurveySubmitted ? (
-          <>{isStaff ? <SurveyList /> : <h4>thankYouMessage</h4>}</>
+          <>{isStaff ? <SurveyList /> : <h4>{thankYouMessage}</h4>}</>
         ) : (
           <>
             {isSurveyEmpty() ? (
