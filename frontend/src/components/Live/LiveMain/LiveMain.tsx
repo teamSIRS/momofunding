@@ -60,7 +60,6 @@ export const LiveMain = ({projectId}: ProjectProps) => {
 
   return (
     <>
-      {/* <VideoWrapper id="creatorVideo"></VideoWrapper> */}
       <Chat show={show}
         project={project} />
       <Survey show={!show} />
