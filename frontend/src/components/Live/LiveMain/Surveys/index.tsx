@@ -17,6 +17,7 @@ import {
   SurveyTitle,
   SurveyWrapper,
   SurveySubmitBtn,
+  ThankYouBox,
 } from "./styles";
 import { SurveysNotExists, SurveyListWrapper } from "./SurveyList/styles";
 import SurveyChoice from "./SurveyChoice";
@@ -24,7 +25,7 @@ import SurveyList from "./SurveyList";
 import { SelectedSurveyState } from "./SurveyList/SurveyList";
 import SurveyNarrative from "./SurveyNarrative";
 
-const thankYouMessage = "설문에 참여해주셔서 감사합니다";
+const thankYouMessage = "설문에 참여해주셔서 감사합니다 🥰";
 
 type questionForm = {
   id: number;
@@ -213,13 +214,17 @@ const Survey = ({ show }: ChatProps) => {
         className={isSurveySubmitted || isSurveyEmpty() ? "done" : ""}
       >
         {isSurveySubmitted ? (
-          <>{isStaff ? <SurveyList /> : <h4>{thankYouMessage}</h4>}</>
+          <>
+            {isStaff ? (
+              <SurveyList />
+            ) : (
+              <ThankYouBox>{thankYouMessage}</ThankYouBox>
+            )}
+          </>
         ) : (
           <>
             {isSurveyEmpty() ? (
-              <SurveyBody className={"done"}>
-                <SurveysNotExists>진행 중인 설문이 없습니다.</SurveysNotExists>
-              </SurveyBody>
+              <SurveysNotExists>진행 중인 설문이 없습니다 😭</SurveysNotExists>
             ) : (
               <div>
                 {surveyApi?.questions?.map((question, idx) => (
