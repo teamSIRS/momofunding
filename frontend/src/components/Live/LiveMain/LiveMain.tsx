@@ -18,7 +18,7 @@ const api = {
 
 export const sidebarState = atom({
   key: "sidebarState",
-  default: true,
+  default: false,
 });
 
 export const authorizationState = atom({
@@ -35,7 +35,7 @@ export type ProjectProps = {
   projectId: number;
 };
 
-export const LiveMain = ({projectId}: ProjectProps) => {
+export const LiveMain = ({ projectId }: ProjectProps) => {
   const [show, setShow] = useRecoilState(sidebarState);
   const [viewrsCnt, _] = useRecoilState(viewrsCntState);
   const [project, setProject] = useState("");
@@ -54,14 +54,13 @@ export const LiveMain = ({projectId}: ProjectProps) => {
       });
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     onLoad();
-  }, [])
+  }, []);
 
   return (
     <>
-      <Chat show={show}
-        project={project} />
+      <Chat show={show} project={project} />
       <Survey show={!show} />
 
       <Viewers viewers={viewrsCnt}></Viewers>
