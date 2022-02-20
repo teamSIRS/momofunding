@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { baseUrl } from "../../App";
 
-export const ProjectDetail = () => {
+function ProjectDetail() {
   const { id } = useParams();
   const [project, setProject] = useState("");
   const [sessionId, setSessionId] = useState("");
@@ -66,11 +66,7 @@ export const ProjectDetail = () => {
 
   return (
     <ProjectDetailWrapper>
-      <ProjectBanner 
-      project={project}
-      onAir = {onAir}
-      sessionId = {sessionId}
-      />
+      <ProjectBanner project={project} onAir={onAir} sessionId={sessionId} />
       <Container>
         <Row>
           <SetCenter>
@@ -81,4 +77,5 @@ export const ProjectDetail = () => {
       </Container>
     </ProjectDetailWrapper>
   );
-};
+}
+export default ProjectDetail;

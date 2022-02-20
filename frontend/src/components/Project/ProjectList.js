@@ -116,8 +116,8 @@ function ProjectList() {
           <Category>
             <span id="category">카테고리</span>
             <SelectCategory onChange={handleSelect} value={selected}>
-              {categories.map((category, index) => (
-                <option value={category.id} key={index}>
+              {categories.map((category) => (
+                <option value={category.id} key={category.id}>
                   {category.name}
                 </option>
               ))}

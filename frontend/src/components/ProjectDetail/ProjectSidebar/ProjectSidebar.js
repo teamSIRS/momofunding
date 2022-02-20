@@ -12,7 +12,6 @@ import { baseUrl } from "../../../App";
 const ProjectSidebar = ({ project }) => {
   const { id } = useParams();
   const [creator, setCreator] = useState("");
-  // const [rewards, setRewards] = useState(Data);
   const [rewards, setRewards] = useState([{ id: 0, title: "test" }]);
   const [isReward, setIsReward] = useState(false);
 
@@ -59,7 +58,7 @@ const ProjectSidebar = ({ project }) => {
               <RewardCard
                 rewards={rewards[i]}
                 i={i}
-                key={i}
+                key={a.id}
                 project={project}
               />
             );
