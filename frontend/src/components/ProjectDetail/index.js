@@ -1,2 +1,3 @@
-import { ProjectDetail } from "./ProjectDetail";
+import ProjectDetail from "./ProjectDetail";
+
 export default ProjectDetail;

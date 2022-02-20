@@ -6,6 +6,7 @@ import com.ssafy.momofunding.domain.project.dto.ProjectUpdateRequestDto;
 import com.ssafy.momofunding.domain.projectcategory.domain.ProjectCategory;
 import com.ssafy.momofunding.domain.projectstate.domain.ProjectState;
 import com.ssafy.momofunding.domain.reward.domain.Reward;
+import com.ssafy.momofunding.domain.survey.domain.Survey;
 import com.ssafy.momofunding.domain.user.domain.User;
 import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
@@ -48,6 +49,8 @@ public class Project extends AuditBaseEntity {
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     List<Reward> rewards = new ArrayList<>();
 
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    List<Survey> surveys = new ArrayList<>();
 
     @Column(columnDefinition = "varchar(150) default ''")
     String projectName;
