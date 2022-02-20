@@ -104,6 +104,8 @@ const Title = styled.h3`
 `;
 
 function ProjectEntrance() {
+  window.scrollTo(0, 0); //페이지 위로 가게하기
+
   const userId = useRecoilValue(userIdState);
   const [createPjt, setCreatePjtId] = useRecoilState(createProjectIdState);
   const nickname = useRecoilValue(nicknameState);

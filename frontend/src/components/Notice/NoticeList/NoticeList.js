@@ -101,7 +101,7 @@ function NoticeList() {
               ? data.map((notice, index) => (
                   <NoticeListContent key={notice.id}>
                     <CustomCol sm={1}>
-                      <NoticeListNumber>{index + 1}</NoticeListNumber>
+                      <NoticeListNumber>{data.length - index}</NoticeListNumber>
                     </CustomCol>
                     <CustomCol sm={6}>
                       <Link to={`/notices/${notice.id}`}>
