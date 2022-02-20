@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { Content } from "./styles";
+import swal from "sweetalert";
 
 // content 전체 설정
 const FundingContentBox = styled.div`
