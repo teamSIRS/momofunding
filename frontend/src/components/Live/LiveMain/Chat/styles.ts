@@ -1,3 +1,4 @@
+import { Dashboard, DashboardInput } from './../../LivePowderRoom/RTCRenderer/styles';
 import { IonIcon } from "@ionic/react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -30,6 +31,9 @@ export const ChatWrapper = styled.div`
   }
 `;
 
+export const ChatInput = styled(DashboardInput)`
+  ::placeholder {color : white;}
+`
 export const ChatBody = styled.div`
   overflow: scroll;
   width: 100%;

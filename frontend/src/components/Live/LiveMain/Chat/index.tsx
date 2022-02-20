@@ -24,6 +24,7 @@ import {
   ProjectDesc,
   ProjectLink,
   ProjectGo,
+  ChatInput,
 } from "./styles";
 
 export type ChatProps = {
@@ -120,7 +121,7 @@ const Chat = ({ show, project }: ChatProps) => {
 
       <ChatFooter onSubmit={sendChat}>
         <ChatTypingArea>
-          <DashboardInput
+          <ChatInput
             type="text"
             value={message}
             onChange={onChange}
