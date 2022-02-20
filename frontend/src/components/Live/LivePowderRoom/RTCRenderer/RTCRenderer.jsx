@@ -64,6 +64,7 @@ const sessionIdSelector = selector({
 
 const sessionType = {
   on: () => {},
+  disconnect: () => {},
 };
 
 const subType = {
@@ -389,6 +390,7 @@ export const RTCRenderer = () => {
     setTitle("");
     setContent("");
     setPublisher(pubType);
+
     setLiveID(-1);
     setProjectId(-1);
     setMessages([]);
@@ -487,8 +489,7 @@ export const RTCRenderer = () => {
           </Dashboard>
         </>
       ) : (
-        <LiveMain
-          projectId = {projectId} />
+        <LiveMain projectId={projectId} />
       )}
     </RendererWrapper>
   );

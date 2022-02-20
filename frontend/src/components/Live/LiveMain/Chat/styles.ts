@@ -175,10 +175,25 @@ export const ProjectLink = styled(Link)`
   }
 `;
 
-export const ProjectText = styled.span`
-  width: 60%;
+export const ProjectGo = styled.span`
+  width: 100%;
+  height: 30px;
   text-align: center;
-  flex-direction: column;
+  display: inline-block;
+  white-space: nowrap;
+
+  @keyframes scroll-left {
+    0% {
+      -webkit-transform: translateX(100%);
+    }
+    100% {
+      -webkit-transform: translateX(-100%);
+    }
+  }
+
+  &.title {
+    animation: scroll-left 9s linear infinite;
+  }
 `;
 
 export const LiveBtnRoundDangerSmall = styled(LiveBtnRoundDanger)`
@@ -189,7 +204,6 @@ export const LiveBtnRoundDangerSmall = styled(LiveBtnRoundDanger)`
 `;
 
 export const ProjectClose = styled(ProjectLink)`
-  width: 55%;
   font-size: 16px;
   background: ${MomoWeakColor};
   align-self: flex-end;
@@ -200,4 +214,13 @@ export const ProjectClose = styled(ProjectLink)`
       background: pink;
     }
   }
+`;
+
+export const ProjectDesc = styled.div`
+  width: 55%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
