@@ -43,9 +43,9 @@ export const SurveyCreatorMsgBox = styled(SurveyMessageBox)`
 export const SurveyBody = styled(ChatBody)`
   &.done {
     font-size: 20px;
-    justify-content: center;
     padding: 15px 15px;
     color: ${MomoColor};
+    justify-content: center;
   }
 `;
 
