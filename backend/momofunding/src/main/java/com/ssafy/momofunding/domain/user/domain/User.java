@@ -1,5 +1,6 @@
 package com.ssafy.momofunding.domain.user.domain;
 
+import com.ssafy.momofunding.domain.project.domain.Project;
 import com.ssafy.momofunding.domain.user.dto.UserInfoUpdateRequestDto;
 import com.ssafy.momofunding.global.config.AuditBaseEntity;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,6 +30,9 @@ public class User extends AuditBaseEntity {
 
     @Column
     private String role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+    private List<Project> projects;
 
     @PrePersist
     public void initializer() {
