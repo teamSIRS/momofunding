@@ -27,8 +27,8 @@ const FooterContent = styled.span`
 `;
 
 const FooterLogo = styled.img`
-  width: 100px;
-  height: 50px;
+  width: 70px;
+  height: 65px;
   margin-bottom: 10px;
   border-radius: 5px;
 `;
@@ -77,10 +77,7 @@ function Footer() {
           </Col>
           <Col style={styles.col} xs={4}>
             <FooterContentForm>
-              <FooterLogo
-                src="/Logos/momo_funding_logo.png"
-                alt="momo-funding"
-              />
+              <FooterLogo src="/Logos/FooterLogo.png" alt="momo-funding" />
               <FooterContentTitle>모모펀딩(주)</FooterContentTitle>
               <FooterContentTitle>
                 서울시 강남구 테헤란로 212

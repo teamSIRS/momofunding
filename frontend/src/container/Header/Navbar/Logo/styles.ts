@@ -13,12 +13,14 @@ export const StyledLogo = styled(Navbar.Brand)`
     color: ${MomoWeakColor} !important;
     cursor: pointer;
   }
+  
 `;
 
 export const LogoImage = styled.img`
-  margin-right: 15px;
-  width: 53px;
-  height: 49px;
+  margin-right: 13px;
+  width: 45px;
+  height: 41px;
+  
 `;
 
 export const LogoBox = styled(Nav)`
