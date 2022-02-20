@@ -103,6 +103,7 @@ const ProfileEditBtn = styled.button`
 `;
 
 function ProfileMain() {
+  window.scrollTo(0, 0);
   const navigate = useNavigate();
   const userId = useRecoilValue(userIdState);
   const [user, setUser] = useState([""]);

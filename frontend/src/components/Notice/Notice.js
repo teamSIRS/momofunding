@@ -40,6 +40,7 @@ const styles = {
 };
 
 function Notice() {
+  window.scrollTo(0, 0);
   const navigate = useNavigate();
   const role = useRecoilValue(roleState);
   const isAdmin = role === "ADMIN";
