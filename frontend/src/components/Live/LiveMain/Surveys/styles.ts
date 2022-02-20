@@ -42,11 +42,17 @@ export const SurveyCreatorMsgBox = styled(SurveyMessageBox)`
 
 export const SurveyBody = styled(ChatBody)`
   &.done {
+    justify-content: center;
     font-size: 20px;
     padding: 15px 15px;
     color: ${MomoColor};
-    background: var(--successGradient);
   }
+`;
+
+export const ThankYouBox = styled.div`
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
 `;
 
 export const SurveyFooter = styled(ChatFooter)`

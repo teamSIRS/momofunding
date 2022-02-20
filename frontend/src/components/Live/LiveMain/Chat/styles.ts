@@ -44,7 +44,7 @@ export const ChatBody = styled.div`
   display: flex;
   flex-direction: column;
   scroll-behavior: smooth;
-  background: rgba(212, 212, 212, 10%);
+  background: rgba(212, 212, 212, 15%);
   ::-webkit-scrollbar {
     display: none;
   }
@@ -177,8 +177,9 @@ export const ProjectLink = styled(Link)`
 
 export const ProjectGo = styled.span`
   width: 100%;
-  height: 30px;
+  /* height: 30px; */
   text-align: center;
+  align-self: center;
   display: inline-block;
   white-space: nowrap;
 
@@ -206,8 +207,10 @@ export const LiveBtnRoundDangerSmall = styled(LiveBtnRoundDanger)`
 export const ProjectClose = styled(ProjectLink)`
   font-size: 16px;
   background: ${MomoWeakColor};
-  align-self: flex-end;
+  align-self: center;
   color: ${MomoStrongColor};
+  display: flex;
+  align-items: center;
   :hover {
     background: tomato;
     ${LiveBtnRoundDangerSmall} {

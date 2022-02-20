@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { atom, useRecoilState } from "recoil";
+import Swal from "sweetalert2";
 import { baseUrl } from "../../../../../App";
 import { pjtIdState, sessionState } from "../../../LiveAtoms";
 import {
@@ -47,6 +48,14 @@ export const SurveyList = () => {
     return surveys.length !== 0;
   };
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-right",
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+  });
+
   return (
     <SurveyListWrapper>
       {isSurveyExists() ? (
@@ -55,6 +64,10 @@ export const SurveyList = () => {
             <SurveyItemWrapper
               key={idx}
               onClick={() => {
+                Toast.fire({
+                  icon: "success",
+                  title: `${idx + 1}번 설문이 정상적으로 전송되었습니다.`,
+                });
                 session.signal({
                   data: `${survey.id}`,
                   to: [],
