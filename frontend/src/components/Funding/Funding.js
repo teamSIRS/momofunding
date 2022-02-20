@@ -8,7 +8,8 @@ import { FundingContainer, Body, Content, Side } from "../ProjectDetail/styles";
 import styled from "styled-components";
 
 const FundingBody = styled(Body)`
-  margin: 0px 200px;
+  display: flex;
+  margin: 0px 420px;
 `;
 
 function Funding() {

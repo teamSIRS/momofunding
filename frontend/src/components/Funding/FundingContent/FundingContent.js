@@ -6,38 +6,38 @@ import { Content } from "./styles";
 const FundingContentBox = styled.div`
   margin-top: 20px;
   padding-left: 0px;
-  width: 120%;
 `;
 
 // content - 후원금 추가
 const FundingContentAddBox = styled.div`
   display: flex;
   flex-direction: column;
-  width: 120%;
   height: auto;
 `;
 const FundingContentAddTitle = styled.div`
-  font-size: 20px;
+  font-size: 25px;
   font-weight: bold;
   text-decoration: underline 5px;
   text-decoration-color: #6667ab;
   margin-top: 80px;
 `;
 const FundingContentAddInputBox = styled.label`
+  display: flex;
   margin: 30px 0px;
+  width: 90%;
 `;
 const FundingContentAddLabel = styled.div`
-  font-size: 15px;
+  font-size: 18px;
   font-weight: bold;
   margin: 0px 20px;
-  width: 65px;
+  width: 80px;
 `;
 const FundingContentAddInput = styled.input`
   width: 300px;
-
   border-radius: 5px;
   border-color: transparent;
   background-color: #e3e3ef;
+  font-size: 20px;
   &:focus {
     outline: 1px solid #6667ab;
   }
@@ -47,7 +47,6 @@ const FundingContentAddInput = styled.input`
 const FundingContentInfoBox = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
   height: auto;
 `;
 const FundingContentInfoTitle = styled(FundingContentAddTitle)``;
@@ -55,9 +54,7 @@ const FundingContentInfoInputBox = styled(FundingContentAddInputBox)`
   display: flex;
 `;
 const FundingContentInfoLabel = styled(FundingContentAddLabel)``;
-const FundingContentInfoInput = styled(FundingContentAddInput)`
-  width: 300px;
-`;
+const FundingContentInfoInput = styled(FundingContentAddInput)``;
 
 // content - 결제 정보
 const FundingContentPayBox = styled.div``;
@@ -67,7 +64,7 @@ const FundingContentPayInputBox = styled(FundingContentAddInputBox)`
   align-items: center;
 `;
 const FundingContentPayLabel = styled.div`
-  font-size: 15px;
+  font-size: 18px;
   font-weight: bold;
   :selected {
     color: red;
