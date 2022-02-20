@@ -115,6 +115,15 @@ function PayCard({ props }) {
         return false;
       }
 
+      if(props.extra < 0){
+        swal(
+          "후원할 수 없습니다!",
+          "추가 후원 금액은 0원보다 적을 수 없습니다.",
+          "warning"
+        );
+        return false;
+      }
+
       return true;
     };
 
