@@ -29,31 +29,32 @@ import {
 
 export type ChatProps = {
   show: boolean;
+  project: any;
 };
 
-const Chat = ({ show }: ChatProps) => {
+const Chat = ({ show, project }: ChatProps) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useRecoilState(msgsState);
   const [isStaff, _1] = useRecoilState(authorizationState);
   const [recoilSession, setSession] = useRecoilState(sessionState);
   const [nickname, setNickname] = useRecoilState(nicknameState);
   const [pjtId, _] = useRecoilState(pjtIdState);
-  const [project, setProject] = useState({
-    id: -1,
-    projectStateId: -1,
-    projectCategoryId: -1,
-    userId: -1,
-    projectName: "default pjt name",
-    fundingGoal: -1,
-    mainImageUrl: "#",
-    subImageUrl: "#",
-    summary: "default summary",
-    projectContent: "default content",
-    currentAmount: -1,
-    popularity: -1,
-    expirationDate: "2022-03-05T00:00:00",
-    isLivePlaying: false,
-  });
+  // const [project, setProject] = useState({
+  //   id: -1,
+  //   projectStateId: -1,
+  //   projectCategoryId: -1,
+  //   userId: -1,
+  //   projectName: "default pjt name",
+  //   fundingGoal: -1,
+  //   mainImageUrl: "#",
+  //   subImageUrl: "#",
+  //   summary: "default summary",
+  //   projectContent: "default content",
+  //   currentAmount: -1,
+  //   popularity: -1,
+  //   expirationDate: "2022-03-05T00:00:00",
+  //   isLivePlaying: false,
+  // });
 
   // 시그널 보내기
   const sendChat: FormEventHandler<HTMLFormElement> = (event) => {
@@ -102,7 +103,7 @@ const Chat = ({ show }: ChatProps) => {
       baseURL: baseUrl,
     })
       .then((response) => {
-        setProject(response.data);
+        //setProject(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -110,12 +111,12 @@ const Chat = ({ show }: ChatProps) => {
   };
 
   useEffect(() => {
-    onLoad(pjtId);
+    //onLoad(pjtId);
   }, []);
 
-  useEffect(() => {
-    onLoad(pjtId);
-  }, [pjtId]);
+  // useEffect(() => {
+  //   onLoad(pjtId);
+  // }, [pjtId]);
 
   useEffect(() => {
     setTimeout(() => {
