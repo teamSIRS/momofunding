@@ -34,7 +34,7 @@ const FundingContentAddLabel = styled.div`
   width: 80px;
 `;
 const FundingContentAddInput = styled.input`
-  width: 300px;
+  width: 310px;
   border-radius: 5px;
   border-color: transparent;
   background-color: #e3e3ef;
