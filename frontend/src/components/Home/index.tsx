@@ -35,6 +35,7 @@ const MiniText = styled.span`
 `;
 
 const Home = () => {
+  window.scrollTo(0, 0);
   const [lives, setLives] = useState<any[]>([""]);
   const [isExist, setIsExist] = useState<boolean>(true);
 
