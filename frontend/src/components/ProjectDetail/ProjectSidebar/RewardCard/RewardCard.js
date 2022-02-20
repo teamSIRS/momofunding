@@ -121,8 +121,14 @@ function RewardCard(props) {
       reward: props.rewards,
       amount: amount,
     };
-    if(amount > props.rewards.limitedQuantity || props.rewards.limitedQuantity <= 0) {swal("남은 수량을 확인해주세요", {icon: "warning"}); return;}
-    
+    if (
+      amount > props.rewards.limitedQuantity ||
+      props.rewards.limitedQuantity <= 0
+    ) {
+      swal("남은 수량을 확인해주세요", { icon: "warning" });
+      return;
+    }
+
     navigate(`/funding`, { state: { data: data } });
     window.scrollTo(0, 0);
   };
@@ -137,13 +143,7 @@ function RewardCard(props) {
         <Text>
           <RewardTitle>{props.rewards.name}</RewardTitle>
           <Price>{comma(props.rewards.price)}원</Price>
-          {/* <p>
-            {
-              String(props.rewards.content).split('. ').map(line => {
-                return (<span>{line}<br/></span>)
-              })
-            }
-          </p> */}
+
           <p>{props.rewards.content}</p>
         </Text>
         <Space />
