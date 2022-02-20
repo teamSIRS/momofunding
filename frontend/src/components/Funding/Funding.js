@@ -10,7 +10,7 @@ import styled from "styled-components";
 const SetCenter = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0 100px;
+  padding: 0 150px;
 `;
 
 function Funding() {
