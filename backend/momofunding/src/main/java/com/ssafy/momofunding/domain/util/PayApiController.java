@@ -32,6 +32,9 @@ public class PayApiController {
     private final RewardOrderService rewardOrderService;
     private final JwtService jwtService;
 
+    @Value("${kakao.admin}")
+    private String kakaoAdmin;
+
     @Value("${serverFrontUrl}")
     private String serverFrontUrl;
 
@@ -51,7 +54,7 @@ public class PayApiController {
         URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
         HttpURLConnection serverConnection = (HttpURLConnection) url.openConnection();
         serverConnection.setRequestMethod("POST");
-        serverConnection.setRequestProperty("Authorization", "KakaoAK "+ "ADMIN키 입력하여합니다");
+        serverConnection.setRequestProperty("Authorization", "KakaoAK "+ kakaoAdmin);
         serverConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=euc-kr");
         serverConnection.setDoOutput(true);
 

@@ -31,6 +31,7 @@ export const Dashboard = styled.form`
   position: absolute;
   color: rgba(221, 222, 237, 40%);
   overflow-y: scroll;
+  ::-webkit-scrollbar { display: none; }
 `;
 
 export const DashboardHeader = styled.header`
