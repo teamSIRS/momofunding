@@ -177,7 +177,6 @@ export const ProjectLink = styled(Link)`
 
 export const ProjectGo = styled.span`
   width: 100%;
-  /* height: 30px; */
   text-align: center;
   align-self: center;
   display: inline-block;
