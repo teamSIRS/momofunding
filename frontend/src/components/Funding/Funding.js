@@ -7,9 +7,10 @@ import FundingSidebar from "./FundingSidebar";
 import { FundingContainer, Body, Content, Side } from "../ProjectDetail/styles";
 import styled from "styled-components";
 
-const FundingBody = styled(Body)`
+const SetCenter = styled.div`
   display: flex;
-  margin: 0px 420px;
+  justify-content: space-between;
+  padding: 0 100px;
 `;
 
 function Funding() {
@@ -54,50 +55,47 @@ function Funding() {
         project={location.state.data.project}
         amount={total}
       />
-      <FundingBody>
-        <Container>
-          <Row>
-            <Col md={8}>
-              <Content>
-                <FundingContent
-                  isDeliver={location.state.data.reward.isDeliver}
-                  extra={extra}
-                  name={name}
-                  tel={tel}
-                  shippingAddr={shippingAddr}
-                  email={email}
-                  getExtra={getExtra}
-                  getName={getName}
-                  getTel={getTel}
-                  getShippingAddr={getShippingAddr}
-                  getRequest={getRequest}
-                  getEmail={getEmail}
-                  getPaySort={getPaySort}
-                />
-              </Content>
-            </Col>
-            <Col md={4}>
-              <Side>
-                <FundingSidebar
-                  reward={location.state.data.reward}
-                  amount={location.state.data.amount}
-                  projectId={location.state.data.project.id}
-                  fund={total}
-                  extra={extra}
-                  lastTotal={Number(total) + Number(extra)}
-                  name={name}
-                  tel={tel}
-                  shippingAddr={shippingAddr}
-                  request={request}
-                  email={email}
-                  paySort={paySort}
-                />
-              </Side>
-            </Col>
-          </Row>
-        </Container>
-      </FundingBody>
+      <Container>
+        <Row>
+          <SetCenter>
+            <Content>
+              <FundingContent className="col-8"
+                isDeliver={location.state.data.reward.isDeliver}
+                extra={extra}
+                name={name}
+                tel={tel}
+                shippingAddr={shippingAddr}
+                email={email}
+                getExtra={getExtra}
+                getName={getName}
+                getTel={getTel}
+                getShippingAddr={getShippingAddr}
+                getRequest={getRequest}
+                getEmail={getEmail}
+                getPaySort={getPaySort}
+              />
+            </Content>
+            <Side>
+              <FundingSidebar className="col-4"
+                reward={location.state.data.reward}
+                amount={location.state.data.amount}
+                projectId={location.state.data.project.id}
+                fund={total}
+                extra={extra}
+                lastTotal={Number(total) + Number(extra)}
+                name={name}
+                tel={tel}
+                shippingAddr={shippingAddr}
+                request={request}
+                email={email}
+                paySort={paySort}
+              />
+            </Side>
+          </SetCenter>
+        </Row>
+      </Container>
     </FundingContainer>
+
   );
 }
 
