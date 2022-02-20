@@ -4,7 +4,7 @@ import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import { baseUrl } from "../../../../App";
 import setAuthorizationToken, { userIdState } from "../../../../atoms";
 import { sessionState } from "../../LiveAtoms";
-import { ChatProps } from "../Chat";
+//import { ChatProps } from "../Chat";
 import { ChatTop } from "../Chat/styles";
 import { authorizationState, surveySubmitState } from "../LiveMain";
 import {
@@ -93,6 +93,10 @@ const submitConfirm = selector({
     return allConfirmed;
   },
 });
+
+export type ChatProps = {
+  show: boolean;
+};
 
 const Survey = ({ show }: ChatProps) => {
   // isSurveySubmitted: 유저의 제출 여부를 저장하는 state.
