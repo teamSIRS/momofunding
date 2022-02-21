@@ -4,7 +4,7 @@ import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import { baseUrl } from "../../../../App";
 import setAuthorizationToken, { userIdState } from "../../../../atoms";
 import { sessionState } from "../../LiveAtoms";
-import { ChatProps } from "../Chat";
+//import { ChatProps } from "../Chat";
 import { ChatTop } from "../Chat/styles";
 import { authorizationState, surveySubmitState } from "../LiveMain";
 import {
@@ -17,14 +17,16 @@ import {
   SurveyTitle,
   SurveyWrapper,
   SurveySubmitBtn,
+  ThankYouBox,
 } from "./styles";
 import { SurveysNotExists, SurveyListWrapper } from "./SurveyList/styles";
 import SurveyChoice from "./SurveyChoice";
 import SurveyList from "./SurveyList";
 import { SelectedSurveyState } from "./SurveyList/SurveyList";
 import SurveyNarrative from "./SurveyNarrative";
+import Swal from "sweetalert2";
 
-const thankYouMessage = "설문에 참여해주셔서 감사합니다";
+const thankYouMessage = "설문에 참여해주셔서 감사합니다 🥰";
 
 type questionForm = {
   id: number;
@@ -94,6 +96,10 @@ const submitConfirm = selector({
   },
 });
 
+export type ChatProps = {
+  show: boolean;
+};
+
 const Survey = ({ show }: ChatProps) => {
   // isSurveySubmitted: 유저의 제출 여부를 저장하는 state.
   // 디폴트는 false이고, 창작자가 서베이 아이디를 세션을 통해 보내면
@@ -108,7 +114,6 @@ const Survey = ({ show }: ChatProps) => {
   const [questionStates, setQstates] = useRecoilState(surveySubmitStates);
   const submitAllDone = useRecoilValue(submitConfirm);
   const [surveyApi, setSurveyApi] = useRecoilState(surveyApiState);
-  const [recoilSession, setSession] = useRecoilState(sessionState);
   const [curSurvey, setCurSurvey] = useRecoilState(SelectedSurveyState);
   const [userId, _2] = useRecoilState(userIdState);
 
@@ -130,6 +135,13 @@ const Survey = ({ show }: ChatProps) => {
       })
       .catch((error) => console.log(error));
   };
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-right",
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+  });
 
   const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
@@ -147,6 +159,10 @@ const Survey = ({ show }: ChatProps) => {
           getSurveySubmitted();
         })
         .catch((error) => {
+          Toast.fire({
+            icon: "error",
+            title: `회원만 설문을 제출할 수 있습니다`,
+          });
           console.log(error);
         });
     });
@@ -209,13 +225,17 @@ const Survey = ({ show }: ChatProps) => {
         className={isSurveySubmitted || isSurveyEmpty() ? "done" : ""}
       >
         {isSurveySubmitted ? (
-          <>{isStaff ? <SurveyList /> : <h4>thankYouMessage</h4>}</>
+          <>
+            {isStaff ? (
+              <SurveyList />
+            ) : (
+              <ThankYouBox>{thankYouMessage}</ThankYouBox>
+            )}
+          </>
         ) : (
           <>
             {isSurveyEmpty() ? (
-              <SurveyBody className={"done"}>
-                <SurveysNotExists>진행 중인 설문이 없습니다.</SurveysNotExists>
-              </SurveyBody>
+              <SurveysNotExists>진행 중인 설문이 없습니다 😭</SurveysNotExists>
             ) : (
               <div>
                 {surveyApi?.questions?.map((question, idx) => (

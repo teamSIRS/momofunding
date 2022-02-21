@@ -20,7 +20,7 @@ public class JwtService {
 
     @Value("${jwt.secret}")
     private String SALT;
-    private static final int EXPIRE_MINUTES = 120;
+    private static final int EXPIRE_MINUTES = 1200;
 
 
     public <T> String create(String key, T data, String subject) {
@@ -39,7 +39,7 @@ public class JwtService {
         String jwt = Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam("regDate", System.currentTimeMillis())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 300))
                 .setSubject(subject)
                 .claim(key, data)
                 .signWith(this.generateKey(), SignatureAlgorithm.HS256)

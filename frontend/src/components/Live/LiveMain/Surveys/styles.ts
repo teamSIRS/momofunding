@@ -45,8 +45,14 @@ export const SurveyBody = styled(ChatBody)`
     font-size: 20px;
     padding: 15px 15px;
     color: ${MomoColor};
-    background: var(--successGradient);
+    justify-content: center;
   }
+`;
+
+export const ThankYouBox = styled.div`
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
 `;
 
 export const SurveyFooter = styled(ChatFooter)`

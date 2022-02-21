@@ -1,4 +1,9 @@
 import styled from "styled-components";
+import {
+  MomoColor,
+  MomoStrongColor,
+  MomoWeakColor,
+} from "../../../../../shared/global";
 
 export const SurveyListWrapper = styled.div`
   height: 100%;
@@ -9,7 +14,7 @@ export const SurveyListWrapper = styled.div`
 `;
 
 export const SurveyItemWrapper = styled.div`
-  background: rgba(255, 255, 255, 45%);
+  background: ${MomoWeakColor};
   box-shadow: var(--secondaryBoxShadow);
   width: 100%;
   padding: 20px 20px;
@@ -18,13 +23,17 @@ export const SurveyItemWrapper = styled.div`
   font-size: 18px;
   transition: ease-in-out;
   :hover {
-    background: var(--successGradientStrong);
+    background: ${MomoColor};
     color: whitesmoke;
+  }
+  &.sent {
+    background: var(--successStrong);
+    color: white;
   }
 `;
 
 export const SurveysNotExists = styled.div`
-  font-size: 20px;
-  position: absolute;
-  top: 50%;
+  font-size: 24px;
+  text-align: center;
+  font-weight: 600;
 `;

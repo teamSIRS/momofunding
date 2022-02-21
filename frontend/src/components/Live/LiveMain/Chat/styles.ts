@@ -1,3 +1,4 @@
+import { Dashboard, DashboardInput } from './../../LivePowderRoom/RTCRenderer/styles';
 import { IonIcon } from "@ionic/react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -30,6 +31,9 @@ export const ChatWrapper = styled.div`
   }
 `;
 
+export const ChatInput = styled(DashboardInput)`
+  ::placeholder {color : white;}
+`
 export const ChatBody = styled.div`
   overflow: scroll;
   width: 100%;
@@ -44,7 +48,7 @@ export const ChatBody = styled.div`
   display: flex;
   flex-direction: column;
   scroll-behavior: smooth;
-  background: rgba(212, 212, 212, 10%);
+  background: rgba(212, 212, 212, 15%);
   ::-webkit-scrollbar {
     display: none;
   }
@@ -175,10 +179,25 @@ export const ProjectLink = styled(Link)`
   }
 `;
 
-export const ProjectText = styled.span`
-  width: 60%;
+export const ProjectGo = styled.span`
+  width: 100%;
   text-align: center;
-  flex-direction: column;
+  align-self: center;
+  display: inline-block;
+  white-space: nowrap;
+
+  @keyframes scroll-left {
+    0% {
+      -webkit-transform: translateX(100%);
+    }
+    100% {
+      -webkit-transform: translateX(-100%);
+    }
+  }
+
+  &.title {
+    animation: scroll-left 9s linear infinite;
+  }
 `;
 
 export const LiveBtnRoundDangerSmall = styled(LiveBtnRoundDanger)`
@@ -189,15 +208,25 @@ export const LiveBtnRoundDangerSmall = styled(LiveBtnRoundDanger)`
 `;
 
 export const ProjectClose = styled(ProjectLink)`
-  width: 55%;
   font-size: 16px;
   background: ${MomoWeakColor};
-  align-self: flex-end;
+  align-self: center;
   color: ${MomoStrongColor};
+  display: flex;
+  align-items: center;
   :hover {
     background: tomato;
     ${LiveBtnRoundDangerSmall} {
       background: pink;
     }
   }
+`;
+
+export const ProjectDesc = styled.div`
+  width: 55%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;

@@ -1,9 +1,7 @@
-import axios from "axios";
 import { closeOutline, sendOutline } from "ionicons/icons";
 import { ChangeEventHandler, MouseEventHandler, useEffect } from "react";
 import { FormEventHandler, useState } from "react";
 import { useRecoilState } from "recoil";
-import { baseUrl } from "../../../../App";
 import { nicknameState } from "../../../../atoms";
 import { msgsState, pjtIdState, sessionState } from "../../LiveAtoms";
 import { DashboardInput } from "../../LivePowderRoom/RTCRenderer/styles";
@@ -23,37 +21,24 @@ import {
   NickName,
   ProjectBtn,
   ProjectClose,
+  ProjectDesc,
   ProjectLink,
-  ProjectText,
+  ProjectGo,
+  ChatInput,
 } from "./styles";
 
 export type ChatProps = {
   show: boolean;
+  project: any;
 };
 
-const Chat = ({ show }: ChatProps) => {
+const Chat = ({ show, project }: ChatProps) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useRecoilState(msgsState);
   const [isStaff, _1] = useRecoilState(authorizationState);
   const [recoilSession, setSession] = useRecoilState(sessionState);
   const [nickname, setNickname] = useRecoilState(nicknameState);
   const [pjtId, _] = useRecoilState(pjtIdState);
-  const [project, setProject] = useState({
-    id: -1,
-    projectStateId: -1,
-    projectCategoryId: -1,
-    userId: -1,
-    projectName: "default pjt name",
-    fundingGoal: -1,
-    mainImageUrl: "#",
-    subImageUrl: "#",
-    summary: "default summary",
-    projectContent: "default content",
-    currentAmount: -1,
-    popularity: -1,
-    expirationDate: "2022-03-05T00:00:00",
-    isLivePlaying: false,
-  });
 
   // 시그널 보내기
   const sendChat: FormEventHandler<HTMLFormElement> = (event) => {
@@ -95,28 +80,6 @@ const Chat = ({ show }: ChatProps) => {
       });
   };
 
-  const onLoad = async (pjtId: number) => {
-    await axios({
-      url: `/projects/${pjtId}`,
-      method: "get",
-      baseURL: baseUrl,
-    })
-      .then((response) => {
-        setProject(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    onLoad(pjtId);
-  }, []);
-
-  useEffect(() => {
-    onLoad(pjtId);
-  }, [pjtId]);
-
   useEffect(() => {
     setTimeout(() => {
       const element = document.getElementById("chatBody") as HTMLElement;
@@ -133,18 +96,17 @@ const Chat = ({ show }: ChatProps) => {
             <LiveBtnRoundDangerSmall>
               <ChatIcon icon={closeOutline}></ChatIcon>
             </LiveBtnRoundDangerSmall>
-            <ProjectText>스트림 끝내기</ProjectText>
+            <ProjectGo>스트림 끝내기</ProjectGo>
           </ProjectClose>
         ) : (
           <ProjectLink to={`/projects/${project.id}`}>
             <ProjectBtn>
               <ImageForBg src={project.mainImageUrl} />
             </ProjectBtn>
-            <ProjectText>
-              {project.projectName}
-              <br />
-              {"후원하러 가기"}
-            </ProjectText>
+            <ProjectDesc>
+              <ProjectGo className="title">{project.projectName}</ProjectGo>
+              <ProjectGo>후원하러 가기</ProjectGo>
+            </ProjectDesc>
           </ProjectLink>
         )}
       </ChatHeader>
@@ -159,7 +121,7 @@ const Chat = ({ show }: ChatProps) => {
 
       <ChatFooter onSubmit={sendChat}>
         <ChatTypingArea>
-          <DashboardInput
+          <ChatInput
             type="text"
             value={message}
             onChange={onChange}

@@ -31,6 +31,9 @@ export const Dashboard = styled.form`
   position: absolute;
   color: rgba(221, 222, 237, 40%);
   overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const DashboardHeader = styled.header`
@@ -155,8 +158,10 @@ export const TestVideoWrapper = styled.div`
   &.main {
     position: absolute;
     margin-left: 15px;
-    margin-bottom: 45px;
+    margin-bottom: 15px;
     margin-right: 430px;
+    height: 100%;
+
     video {
       filter: none;
     }

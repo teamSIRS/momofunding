@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { MomoColor } from "../../../../shared/global";
 
+export const BannerCoverBox = styled.div`
+  position: relative;
+  margin-right: 200px;
+`;
+
 export const BannerTitle = styled.h2`
   color: dark;
   position: absolute;

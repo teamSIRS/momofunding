@@ -17,7 +17,8 @@ const CreateNoticeMain = styled.div`
   position: relative;
 `;
 const CreateNoticeMainTitle = styled.div`
-  margin: 50px;
+  margin: 60px 0 0;
+  padding: 60px;
   font-size: 30px;
   font-weight: bold;
 `;
@@ -113,10 +114,10 @@ function CreateNotice() {
 
   return (
     <div>
-      <CreateNoticeMainTitle>글 작성하기</CreateNoticeMainTitle>
       <Container>
         <Row style={styles.row}>
           <Col style={styles.col}>
+            <CreateNoticeMainTitle>글 작성하기</CreateNoticeMainTitle>
             <CreateNoticeMain>
               <CreateNoticeForm onSubmit={handleSubmit(onValid)}>
                 <CreateNoticeInputBox>
