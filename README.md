@@ -121,6 +121,7 @@
 ## **9. 변경사항**
 ![image](/uploads/c68724fbce3f9cbd7f42f98cad81bd07/image.png)
 ![image](/uploads/6f0545e85c5ae7643bb9d0dfd30e4e25/image.png)
+<br/>
 모모펀딩 상단부와 하단부의 로고가 변경되었습니다.
 
 
