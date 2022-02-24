@@ -117,3 +117,10 @@
 ![image](/uploads/7197e6b83cdb5a71a91eabb292136683/image.png)
 ![image](/uploads/427664c32e8d60017862e7fc302183fd/image.png)
 ![image](/uploads/1f641e4de2000b88392f3754a84f0b1a/image.png)
+
+## **9. 변경사항**
+![image](/uploads/c68724fbce3f9cbd7f42f98cad81bd07/image.png)
+![image](/uploads/6f0545e85c5ae7643bb9d0dfd30e4e25/image.png)
+모모펀딩 상단부와 하단부의 로고가 변경되었습니다.
+
+
