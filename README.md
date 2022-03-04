@@ -1,11 +1,12 @@
 ![waving](https://capsule-render.vercel.app/api?type=waving&height=200&text=✨모모펀딩✨&fontAlign=50&fontAlignY=40&color=gradient)
 
 
-#### Team : 선생님들 / Member : 팀장 - 안영진, 팀원 - 김윤하, 백승윤, 임건호, 송지호, 정지민
+#### Team : 선생님들 / Member : 팀장 - 안영진, 팀원 - 김윤하, 백승윤, 임건호, 송지호, 정지민                  
+[발표회 영상](https://youtu.be/oX-1kP-MaEo)
 
-### 모모펀딩은 WebRTC기술을 활용한 실시간 라이브 크라우드 펀딩 서비스입니다.
+## 모모펀딩은 WebRTC기술을 활용한 실시간 라이브 크라우드 펀딩 서비스입니다.
 
-## 사용한 JVM ,웹서버, WAS 제품 등의 종류와 설정값, 버전(IDE 버전 포함)
+### 사용한 JVM ,웹서버, WAS 제품 등의 종류와 설정값, 버전(IDE 버전 포함)
 | Name               | Version       | Description                |
 | ------------------ | ------------- | -------------------------- |
 | Docker             | 20.10.12      |                            |
@@ -68,34 +69,35 @@
 
 ## 실행 화면 일부
 ## **1. 메인 페이지**
-![image](/uploads/5771f1569f1c02fbef7133e6def3d6d4/image.png)
+![image](https://user-images.githubusercontent.com/31895069/156505923-c3aed3a1-fa23-48ba-bdc3-9b674dbe308a.png)
 
 ## **2. 회원관리**
-![image](/uploads/9fbac695f3c14f82d465f93e339ee206/image.png)
-![image](/uploads/c9226c5dd66e07d64b33a4fa055f1325/image.png)
+![image](https://user-images.githubusercontent.com/31895069/156505968-d1c6b8de-b355-4350-b1b6-f1e7a441a4cc.png)
+![image](https://user-images.githubusercontent.com/31895069/156505971-4556644b-ac6c-41ab-bc34-57fd35509ecb.png)
+
 
 ## **3. 펀딩하기 페이지**
-![image](/uploads/10e538e42279264e08a8a5f8b40e1ca9/image.png)
-![image](/uploads/93a72b3934295bd964477bd084cc0908/image.png)
-![image](/uploads/75503a689b79c4dd535414828f3ec30b/image.png)
-![image](/uploads/9fb93e9c3a78f7db163f5cc2858ef523/image.png)
+![image](https://user-images.githubusercontent.com/31895069/156506013-b49729a6-7d17-4ff2-91d5-fa41e781af08.png)
+![image](https://user-images.githubusercontent.com/31895069/156506019-b24e0362-b595-4457-951e-5a4641559ff1.png)
+![image](https://user-images.githubusercontent.com/31895069/156506026-e3e3ac31-5632-4e87-a89a-ef954c2b3744.png)
+![image](https://user-images.githubusercontent.com/31895069/156506030-4ccd79ee-8664-4bdb-9cb9-fa73f6d4adaa.png)
+
 
 ---
 
 ## **4. 라이브 페이지**
-![image](/uploads/fedd3282c65ba31be83000dff00d1398/image.png)
-<!-- ![image](/uploads/fbb48187854c3e2899207209b8ba600d/image.png) -->
-![image](/uploads/54e37f200e4ab6dae098c99a41be03e9/image.png)
-![image](/uploads/3fe68d7d1197279d71e66f786e000f1a/image.png)
-![image](/uploads/c19a04a276e7f73a058fa7bbfbb64f28/image.png)
+![image](https://user-images.githubusercontent.com/31895069/156506068-f03d64e5-6107-4996-9956-a74ac06c81af.png)
+![image](https://user-images.githubusercontent.com/31895069/156506074-c3598536-6c30-44df-8bd3-46fa265eeebc.png)
+![image](https://user-images.githubusercontent.com/31895069/156506085-a8ebd4e4-0a98-4bf6-8f7e-08eba2f84f8d.png)
+![image](https://user-images.githubusercontent.com/31895069/156506088-1a4384c1-45fb-48fa-a577-4c2ac319de8c.png)
 
 ---
 
 ## **5. 프로젝트 만들기**
-![image](/uploads/66e71ec640e1eef3b7b566e7057a55c5/image.png)
-![image](/uploads/73a63da0561146aff6fb9f7813fd525f/image.png)
-![image](/uploads/b28b684faabd097cbe6558ef23c1dbc4/image.png)
-![image](/uploads/03e9019fa818a5733bea266e7ba53f07/image.png)
+![image](https://user-images.githubusercontent.com/31895069/156506108-dd15e66f-4fdb-4b1b-966f-bc7a9af750b7.png)
+![image](https://user-images.githubusercontent.com/31895069/156506111-65cb5977-96cb-4084-a783-0483bc688318.png)
+![image](https://user-images.githubusercontent.com/31895069/156506121-f3872963-fae2-465f-ae87-f4c0d36a7875.png)
+![image](https://user-images.githubusercontent.com/31895069/156506125-6cfd151e-f809-4a8c-80dd-dc9892458398.png)
 
 ---
 
@@ -103,24 +105,27 @@
 - USER, ADMIN 역할 구분
   - USER: 조회만 가능
   - ADMIN: 등록, 수정, 삭제 가능
-![image](/uploads/03a2b16549dec8204303e3481f0bc01f/image.png)
-![image](/uploads/86af2cc800c8ca3a6487832b0e4064f9/image.png)
-![image](/uploads/8a098dc8d0c92211aab424211b62f0b6/image.png)
+![image](https://user-images.githubusercontent.com/31895069/156506139-31b092e1-12ab-4277-a1d7-382f1294e238.png)
+![image](https://user-images.githubusercontent.com/31895069/156506141-d6e0b74b-4890-4e3d-8848-9055d40db6b9.png)
+![image](https://user-images.githubusercontent.com/31895069/156506146-374c1750-e3ff-458a-a3ab-927eb6fcdf6f.png)
+
 ---
 
 ## **7. 프로필 페이지**
-![image](/uploads/2e9fd79302e285a035a35f0af25766c7/image.png)
+![image](https://user-images.githubusercontent.com/31895069/156506157-4d51f467-67b3-48c6-857a-98f39ca13151.png)
 
 ---
 
 ## **8. 프로젝트 관리 페이지**
-![image](/uploads/7197e6b83cdb5a71a91eabb292136683/image.png)
-![image](/uploads/427664c32e8d60017862e7fc302183fd/image.png)
-![image](/uploads/1f641e4de2000b88392f3754a84f0b1a/image.png)
+![image](https://user-images.githubusercontent.com/31895069/156506175-da8df9d3-8dfd-452d-b225-24c20eddae5a.png)
+![image](https://user-images.githubusercontent.com/31895069/156506182-208e0b04-e99a-4c1c-a73c-651d90a39188.png)
+![image](https://user-images.githubusercontent.com/31895069/156506184-69051e43-b7d8-461c-9857-aaf95c552aa0.png)
+
 
 ## **9. 변경사항**
-![image](/uploads/c68724fbce3f9cbd7f42f98cad81bd07/image.png)
-![image](/uploads/6f0545e85c5ae7643bb9d0dfd30e4e25/image.png)
+![image](https://user-images.githubusercontent.com/31895069/156506194-2dc4a815-9d86-4393-b9a0-660ba7d91302.png)
+![image](https://user-images.githubusercontent.com/31895069/156506200-872ca968-3398-42e2-b790-8a5d5d3ce5a6.png)
+
 <br/>
 모모펀딩 상단부와 하단부의 로고가 변경되었습니다.
 
