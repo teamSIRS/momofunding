@@ -2,7 +2,7 @@
 
 
 #### Team : 선생님들 / Member : 팀장 - 안영진, 팀원 - 김윤하, 백승윤, 임건호, 송지호, 정지민                  
-[발표회 영상](https://youtu.be/oX-1kP-MaEo)
+## [발표회 영상](https://youtu.be/oX-1kP-MaEo)
 
 ## 모모펀딩은 WebRTC기술을 활용한 실시간 라이브 크라우드 펀딩 서비스입니다.
 
